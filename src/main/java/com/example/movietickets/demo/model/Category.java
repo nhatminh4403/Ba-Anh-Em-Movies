@@ -1,9 +1,8 @@
 package com.example.movietickets.demo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Set;
 
 public class Category {
     @Id
@@ -13,4 +12,7 @@ public class Category {
 
     @Column(name = "NAME_CATEGORY", nullable = false)
     private String name;
+
+    @OneToMany(mappedBy = "category")
+    private Set<Film> films;
 }
