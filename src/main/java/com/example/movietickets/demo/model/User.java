@@ -1,9 +1,14 @@
 package com.example.movietickets.demo.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.Set;
 
+
+@Data
+@Entity
+@Table(name = "User")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +31,5 @@ public class User {
     private String phone;
 
     @OneToMany(mappedBy = "user")
-    private Set<Cart> carts;
-
+    private Set<CartItem> carts;
 }

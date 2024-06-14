@@ -1,26 +1,31 @@
 package com.example.movietickets.demo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
 
+
+@Data
+@Entity
+@Table(name = "Ticket")
 public class Ticket {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_TICKET")
     private int id;
 
-    @Column(name = "ID_FILM", nullable = false)
-    private String film_id;
+    @ManyToOne
+    @JoinColumn(name = "ID_FILM", referencedColumnName = "ID_FILM")
+    private Film film;
 
-    @Column(name = "ID_ROOM", nullable = false)
-    private String room_id;
+    @ManyToOne
+    @JoinColumn(name = "ID_ROOM", referencedColumnName = "ID_ROOM")
+    private Room room;
 
-    @Column(name = "ID_SCHEDULE", nullable = false)
-    private String schedule_id;
+    @ManyToOne
+    @JoinColumn(name = "ID_SCHEDULE", referencedColumnName = "ID_SCHEDULE")
+    private Schedule schedule;
 
-    @Column(name = "ID_CINEMA", nullable = false)
-    private String cinema_id;
+    @ManyToOne
+    @JoinColumn(name = "ID_CINEMA", referencedColumnName = "ID_CINEMA")
+    private Cinema cinema;
 }

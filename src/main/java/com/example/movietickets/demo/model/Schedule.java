@@ -1,30 +1,33 @@
 package com.example.movietickets.demo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+
+@Data
+@Entity
+@Table(name = "Schedule")
 public class Schedule {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_SCHEDULE")
     private int id;
 
-    @Column(name = "ROOM_FILM", nullable = false)
-    private String film_id;
+    @ManyToOne
+    @JoinColumn(name = "ID_FILM", referencedColumnName = "ID_FILM")
+    private Film film;
 
-    @Column(name = "ID_CINEMA", nullable = false)
-    private String cinema_id;
+    @ManyToOne
+    @JoinColumn(name = "ID_CINEMA", referencedColumnName = "ID_CINEMA")
+    private Cinema cinema;
 
-    @Column(name = "ID_ROOM", nullable = false)
-    private List<Room> rooms_id;
+    @ManyToOne
+    @JoinColumn(name = "ID_ROOM", referencedColumnName = "ID_ROOM")
+    private Room room;
 
     @Column(name = "START_TIME", nullable = false)
-    private String start_time;
-
+    private LocalDateTime startTime;
 }

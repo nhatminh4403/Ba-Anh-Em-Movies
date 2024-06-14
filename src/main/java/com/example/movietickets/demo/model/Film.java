@@ -1,26 +1,31 @@
 package com.example.movietickets.demo.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+
+@Data
+@Entity
+@Table(name = "Film")
 public class Film {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_PRO")
+    @Column(name = "ID_FILM")
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "ID_CAT", referencedColumnName = "ID_CAT")
+    @JoinColumn(name = "ID_CATEGORY", referencedColumnName = "ID_CATEGORY")
     private Category category;
 
-    @Column(name = "NAME_PRO", nullable = false)
+    @Column(name = "NAME_FILM", nullable = false)
     private String name;
 
     @Column(name = "TRAILER", nullable = false)
-    private int trailer;
+    private String trailer;  // Changed to String based on assumption
 
     @Column(name = "DESCRIPTION", nullable = false)
-    private int description;
+    private String description;  // Changed to String based on assumption
 
     @Column(name = "POSTER", nullable = false)
     private String poster;
@@ -29,14 +34,15 @@ public class Film {
     private String actor;
 
     @Column(name = "OPENING_DAY", nullable = false)
-    private String opening_day;
+    private String openingDay;  // Changed to camelCase
 
     @Column(name = "DURATION", nullable = false)
     private int duration;
 
     @Column(name = "COUNTRY_ID", nullable = false)
-    private int country_id;
+    private int countryId;  // Changed to camelCase
 
-   @Column(name = "RATE_ID", nullable = false)
-    private Rate rate_id;
+    @ManyToOne
+    @JoinColumn(name = "ID_RATE", referencedColumnName = "ID_RATE")
+    private Rate rate;
 }

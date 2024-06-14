@@ -1,18 +1,20 @@
 package com.example.movietickets.demo.model;
 
+
 import jakarta.persistence.*;
 import lombok.Data;
 
-
 @Data
 @Entity
-@Table(name = "Country")
-public class Country {
+@Table(name = "CartItem")
+public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_COUNTRY")
+    @Column(name = "ID_CARTITEM")
     private int id;
 
-    @Column(name = "NAME_COUNTRY", nullable = false)
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "ID_USERS", referencedColumnName = "ID_USERS")
+    private User user;
+
 }
