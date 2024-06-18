@@ -1,5 +1,6 @@
 package com.example.movietickets.demo;
 
+import com.example.movietickets.demo.service.OauthService;
 import com.example.movietickets.demo.service.UserService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class SecurityConfig {
 
 
     private final UserService userService; // Tiêm UserService vào lớp cấu hình này.
+    private final OauthService oauthService;
 
 
     @Bean // Đánh dấu phương thức trả về một bean được quản lý bởi Spring Context.
@@ -50,10 +52,10 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/assets/**","/css/**", "/js/**", "/", "/oauth/**",
-                                "/register", "/error", "/films", "/cart", "/cart/**", "/blog", "blog/details", "/popcorn")
+                                "/register", "/error", "/films", "/cart", "/cart/**", "/blog", "blog/details", "/popcorn","/movie/details", "/movie/seat-plan")
                         .permitAll() // Cho phép truy cập không cần xác thực.
-                        .requestMatchers("/films/edit/**", "/films/add",
-                                "/films/delete", "categories/add", "categories", "categories/update", "categories/edit", "blog/add", "blog/delete", "blog/update")
+                        .requestMatchers("/movie/edit/**", "/movie/add",
+                                "/movie/delete", "categories/add", "categories", "categories/update", "categories/edit", "blog/add", "blog/delete", "blog/update")
                         .hasAnyAuthority("ADMIN") // Chỉ cho phép ADMIN truy cập.
                         .requestMatchers("/api/**")
                         .permitAll() // API mở cho mọi người dùng.

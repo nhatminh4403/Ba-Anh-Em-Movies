@@ -1,5 +1,6 @@
 package com.example.movietickets.demo.service;
 
+import com.example.movietickets.demo.Provider;
 import com.example.movietickets.demo.Role;
 import com.example.movietickets.demo.model.User;
 import com.example.movietickets.demo.repository.IRoleRepository;
@@ -68,4 +69,17 @@ public class UserService implements UserDetailsService {
             UsernameNotFoundException {
         return userRepository.findByUsername(username);
     }
+
+    public void saveOauthUser(String email, @NotNull String username) {
+        if (userRepository.findByUsername(username).isPresent())
+            return;
+        var user = new User();
+        user.setUsername(username);
+
+        user.setEmail(email);
+        user.setPassword(new BCryptPasswordEncoder().encode(username)); user.setProvider (Provider.GOOGLE.value);
+        user.getRoles().add(roleRepository.findRoleById(Role.USER.value));
+        userRepository.save(user);
+    }
+
 }
