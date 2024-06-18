@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:sec="http://www.thymeleaf.org/extras/spring-security5"
+       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -170,9 +171,19 @@
                 <li>
                     <a thref="contact.html">liên hệ</a>
                 </li>
-                <li class="header-button pr-0">
-                    <a thref="sign-up.html">join us</a>
+
+                <li class="header-button pr-0" sec:authorize="isAuthenticated()">
+                    <a thref="sign-up.html" th:href="@{/login}">Đăng xuất</a>
                 </li>
+
+
+                <li class="header-button pr-0" sec:authorize="!isAuthenticated()">
+                    <form th:action="@{/logout}" method="post">
+                        <a thref="sign-up.html" th:href="@{/login}">Đăng ký</a>
+                    </form>
+
+                </li>
+
             </ul>
             <div class="header-bar d-lg-none">
                 <span></span>
