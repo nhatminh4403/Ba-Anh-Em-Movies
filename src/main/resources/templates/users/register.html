@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,25 +8,26 @@
     <!-- FontAwesome 6.2.0 CSS -->
     <link
             rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+            th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css}"
             integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
             crossorigin="anonymous"
             referrerpolicy="no-referrer"
     />
-    <link rel="stylesheet" th:href="assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" th:href="assets/css/all.min.css" />
-    <link rel="stylesheet" th:href="assets/css/animate.css" />
-    <link rel="stylesheet" href="assets/css/flaticon.css" />
-    <link rel="stylesheet" href="assets/css/magnific-popup.css" />
-    <link rel="stylesheet" href="assets/css/odometer.css" />
-    <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
-    <link rel="stylesheet" href="assets/css/owl.theme.default.min.css" />
-    <link rel="stylesheet" href="assets/css/nice-select.css" />
-    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" th:href="@{/static/assets/css/bootstrap.min.css}"} />
+    <link rel="stylesheet" th:href="@{/static/assets/css/all.min.css}" />
+    <link rel="stylesheet" th:href="@{/static/assets/css/animate.css}" />
+    <link rel="stylesheet" th:href="@{/static/assets/css/flaticon.css}" />
+    <link rel="stylesheet" th:href="@{/static/assets/css/magnific-popup.css}" />
+    <link rel="stylesheet" th:href="@{/static/assets/css/odometer.css}" />
+    <link rel="stylesheet" th:href="@{/static/assets/css/owl.carousel.min.css}" />
+    <link rel="stylesheet" th:href="@{/static/assets/css/owl.theme.default.min.css}" />
+    <link rel="stylesheet" th:href="@{/static/assets/css/nice-select.css}" />
+    <link rel="stylesheet" th:href="@{/static/assets/css/jquery.animatedheadline.css}" />
+    <link rel="stylesheet" th:href="@{/static/assets/css/main.css}" />
 
     <link
             rel="shortcut icon"
-            href="assets/img/favicon.png"
+            th:href=@{"assets/img/favicon.png}"
             type="image/x-icon"
     />
 
@@ -136,18 +135,19 @@
 </section>
 <!-- ==========Sign-In-Section========== -->
 
-<script src="assets/js/jquery-3.3.1.min.js"></script>
-<script src="assets/js/modernizr-3.6.0.min.js"></script>
-<script src="assets/js/plugins.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/isotope.pkgd.min.js"></script>
-<script src="assets/js/magnific-popup.min.js"></script>
-<script src="assets/js/owl.carousel.min.js"></script>
-<script src="assets/js/wow.min.js"></script>
-<script src="assets/js/countdown.min.js"></script>
-<script src="assets/js/odometer.min.js"></script>
-<script src="assets/js/viewport.jquery.js"></script>
-<script src="assets/js/nice-select.js"></script>
-<script src="assets/js/main.js"></script>
+<script th:src="@{/static/assets/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/static/assets/js/modernizr-3.6.0.min.js}"></script>
+<script th:src="@{/static/assets/js/plugins.js}"></script>
+<script th:src="@{/static/assets/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/assets/js/heandline.js}"></script>
+<script th:src="@{/static/assets/js/isotope.pkgd.min.js}"></script>
+<script th:src="@{/static/assets/js/magnific-popup.min.js}"></script>
+<script th:src="@{/static/assets/js/owl.carousel.min.js}"></script>
+<script th:src="@{/static/assets/js/wow.min.js}"></script>
+<script th:src="@{/static/assets/js/countdown.min.js}"></script>
+<script th:src="@{/static/assets/js/odometer.min.js}"></script>
+<script th:src="@{/static/assets/js/viewport.jquery.js}"></script>
+<script th:src="@{/static/assets/js/nice-select.js}"></script>
+<script th:src="@{/static/assets/js/main.js}"></script>
 </body>
 </html>

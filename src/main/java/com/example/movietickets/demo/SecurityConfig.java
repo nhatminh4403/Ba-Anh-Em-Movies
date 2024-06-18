@@ -7,8 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import
-        org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,7 +22,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
 
-    private final UserService userService; // Tiêm UserService vào lớp cấu hìnhnày.
+    private final UserService userService; // Tiêm UserService vào lớp cấu hình này.
 
 
     @Bean // Đánh dấu phương thức trả về một bean được quản lý bởi Spring Context.
@@ -50,11 +49,11 @@ public class SecurityConfig {
             throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/", "/oauth/**",
-                                "/register", "/error", "/products", "/cart", "/cart/**", "/", "/assets")
+                        .requestMatchers("/assets/**","/css/**", "/js/**", "/", "/oauth/**",
+                                "/register", "/error", "/films", "/cart", "/cart/**")
                         .permitAll() // Cho phép truy cập không cần xác thực.
-                        .requestMatchers("/products/edit/**", "/products/add",
-                                "/products/delete", "categories/add", "categories", "categories/update", "categories/edit")
+                        .requestMatchers("/films/edit/**", "/films/add",
+                                "/films/delete", "categories/add", "categories", "categories/update", "categories/edit")
                         .hasAnyAuthority("ADMIN") // Chỉ cho phép ADMIN truy cập.
                         .requestMatchers("/api/**")
                         .permitAll() // API mở cho mọi người dùng.
@@ -76,20 +75,20 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .rememberMe(rememberMe -> rememberMe
-                        .key("hutech")
-                        .rememberMeCookieName("hutech")
+                        .key("3anhem")
+                        .rememberMeCookieName("3anhem")
                         .tokenValiditySeconds(24 * 60 * 60) // Thời gian nhớ đăng nhập.
                         .userDetailsService(userDetailsService())
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .accessDeniedPage("/403") // Trang báo lỗi khi truy cập không được phép.
+                        .accessDeniedPage("/404") // Trang báo lỗi khi truy cập không được phép.
                 )
                 .sessionManagement(sessionManagement -> sessionManagement
                         .maximumSessions(1) // Giới hạn số phiên đăng nhập.
                         .expiredUrl("/login") // Trang khi phiên hết hạn.
                 )
                 .httpBasic(httpBasic -> httpBasic
-                        .realmName("hutech") // Tên miền cho xác thực cơ bản.
+                        .realmName("3anhem") // Tên miền cho xác thực cơ bản.
                 )
                 .build(); // Xây dựng và trả về chuỗi lọc bảo mật.
     }
