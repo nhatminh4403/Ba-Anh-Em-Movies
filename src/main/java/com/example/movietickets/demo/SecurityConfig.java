@@ -70,13 +70,13 @@ public class SecurityConfig {
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login") // Trang đăng nhập.
                         .loginProcessingUrl("/login") // URL xử lý đăng nhập.
-                        .defaultSuccessUrl("/") // Trang sau đăng nhập thành công.
+                        .defaultSuccessUrl("/blogs") // Trang sau đăng nhập thành công.
                         .failureUrl("/login?error") // Trang đăng nhập thất bại.
                         .permitAll()
                 )
                 .rememberMe(rememberMe -> rememberMe
-                        .key("3anhem")
-                        .rememberMeCookieName("3anhem")
+                        .key("hutech")
+                        .rememberMeCookieName("hutech")
                         .tokenValiditySeconds(24 * 60 * 60) // Thời gian nhớ đăng nhập.
                         .userDetailsService(userDetailsService())
                 )
@@ -88,7 +88,7 @@ public class SecurityConfig {
                         .expiredUrl("/login") // Trang khi phiên hết hạn.
                 )
                 .httpBasic(httpBasic -> httpBasic
-                        .realmName("3anhem") // Tên miền cho xác thực cơ bản.
+                        .realmName("hutech") // Tên miền cho xác thực cơ bản.
                 )
                 .build(); // Xây dựng và trả về chuỗi lọc bảo mật.
     }

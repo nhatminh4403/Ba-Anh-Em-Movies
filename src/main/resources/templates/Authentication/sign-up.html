@@ -34,15 +34,16 @@
 </head>
 
 <body>
-    <!-- ==========Preloader========== -->
-    <div class="preloader">
-        <div class="preloader-inner">
-            <div class="preloader-icon">
-                <span></span>
-                <span></span>
-            </div>
+<!-- ==========Preloader========== -->
+<div class="preloader">
+    <div class="preloader-inner">
+        <div class="preloader-icon">
+            <span></span>
+            <span></span>
         </div>
     </div>
+</div>
+<!-- ==========Preloader========== -->
 
     <section
             class="account-section bg_img"
@@ -52,12 +53,12 @@
             <div class="padding-top padding-bottom">
                 <div class="account-area">
                     <div class="section-header-3">
-                        <span class="cate">welcome</span>
+                        <span class="cate">Chào mừng</span>
                         <h2 class="title">to Boleto</h2>
                     </div>
                     <form class="account-form"  th:action="@{/register}" th:object="${user}" method="post">
                         <div class="form-group">
-                            <label for="username">Email<span>*</span></label>
+                            <label for="username">Tên tài khoản<span>*</span></label>
                             <input
                                     type="text"
                                     placeholder="Enter Your Name"
@@ -66,7 +67,7 @@
                                     th:field="*{username}"
                             />
                             <div th:if="${#fields.hasErrors('username')}" class="text-danger">
-                                <p th:errors="*{username}">Username Error</p>
+                                <p th:errors="*{username}">Tên tài khoản đã được đăng kí</p>
                             </div>
                         </div>
 
@@ -80,12 +81,12 @@
                                     th:field="*{email}"
                             />
                             <div th:if="${#fields.hasErrors('email')}" class="text-danger">
-                                <p th:errors="*{email}">Email Error</p>
+                                <p th:errors="*{email}">Email chưa đúng hoặc đã được đăng kí</p>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="pass1"
-                            >Password<span>*</span></label
+                            >Mật khẩu<span>*</span></label
                             >
                             <input
                                     type="password"
@@ -95,11 +96,11 @@
                                     th:field="*{password}"
                             />
                             <div th:if="${#fields.hasErrors('password')}" class="text-danger">
-                                <p th:errors="*{password}">Password Error</p>
+                                <p th:errors="*{password}">Nhập lại mật khẩu khác</p>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="phonenumber">Confirm Password<span>*</span></label>
+                            <label for="phonenumber">Số điện thoại<span>*</span></label>
                             <input
                                     type="tel"
                                     placeholder="Enter your phone"
@@ -108,7 +109,7 @@
                                     th:field="*{phone}"
                             />
                             <div th:if="${#fields.hasErrors('phone')}" class="text-danger">
-                            <p th:errors="*{phone}">Phone Error</p>
+                            <p th:errors="*{phone}">Số điện chưa đúng hoặc đã được đăng kí</p>
                         </div>
                         </div>
                         <div class="form-group checkgroup">
@@ -130,7 +131,7 @@
                     </form>
                     <div class="option">
                         Already have an account?
-                        <a href="sign-in.html">Login</a>
+                        <a href="sign-in.html" th:href="@{/login}">Login</a>
                     </div>
                     <div class="or"><span>Or</span></div>
                     <ul class="social-icons">
