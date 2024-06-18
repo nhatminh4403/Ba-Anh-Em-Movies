@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 package com.example.movietickets.demo.model;
 
 import jakarta.persistence.*;
@@ -45,4 +46,7 @@ public class Film {
     @ManyToOne
     @JoinColumn(name = "ID_RATE", referencedColumnName = "ID_RATE")
     private Rate rate;
+=======
+package com.example.movietickets.demo.model;public class Film {
+>>>>>>> Stashed changes
 }
