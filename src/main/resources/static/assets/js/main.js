@@ -397,10 +397,10 @@
         var bookTwo = 1;
         $(".seat-free-two img").on("click", function (e) {
             if (bookTwo == 0) {
-                $(this).attr("src", "./assets/img/movie/seat02-free.png");
+                $(this).attr("src", "/assets/img/movie/seat02-free.png");
                 bookTwo = 1;
             } else if (bookTwo == 1) {
-                $(this).attr("src", "./assets/img/movie/seat02-booked.png");
+                $(this).attr("src", "/assets/img/movie/seat02-booked.png");
                 bookTwo = 0;
             }
         });

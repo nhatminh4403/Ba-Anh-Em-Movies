@@ -50,10 +50,10 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/assets/**","/css/**", "/js/**", "/", "/oauth/**",
-                                "/register", "/error", "/films", "/cart", "/cart/**")
+                                "/register", "/error", "/films", "/cart", "/cart/**", "/blog", "blog/details", "/popcorn")
                         .permitAll() // Cho phép truy cập không cần xác thực.
                         .requestMatchers("/films/edit/**", "/films/add",
-                                "/films/delete", "categories/add", "categories", "categories/update", "categories/edit")
+                                "/films/delete", "categories/add", "categories", "categories/update", "categories/edit", "blog/add", "blog/delete", "blog/update")
                         .hasAnyAuthority("ADMIN") // Chỉ cho phép ADMIN truy cập.
                         .requestMatchers("/api/**")
                         .permitAll() // API mở cho mọi người dùng.
