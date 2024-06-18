@@ -13,8 +13,17 @@ public class CartItem {
     @Column(name = "ID_CARTITEM")
     private int id;
 
+
     @ManyToOne
-    @JoinColumn(name = "ID_USERS", referencedColumnName = "ID_USERS")
-    private User user;
+    @JoinColumn(name = "ID_FILM", referencedColumnName = "ID_FILM")
+    private Film film;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_ROOM", referencedColumnName = "ID_ROOM")
+    private Room room;
+
+    @ManyToOne
+    @JoinColumn(name = "ID_SCHEDULE", referencedColumnName = "ID_SCHEDULE")
+    private Schedule schedule;
 
 }
