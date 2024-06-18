@@ -15,7 +15,7 @@ public class CartItem {
 
 
     @ManyToOne
-    @JoinColumn(name = "ID_FILM", referencedColumnName = "ID_FILM")
+    @JoinColumn(name = "FILM_ID", referencedColumnName = "ID_FILM")
     private Film film;
 
     @ManyToOne
