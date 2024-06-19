@@ -16,6 +16,9 @@ public class ComboFood {
     @Column(name = "COMBO_NAME", nullable = false)
     private String comboName;
 
+    @Column(name = "COMBO_PRICE", nullable = false)
+    private Long price;
+
     @Column(name = "DESCRIPTION")
     private String description;
 }
