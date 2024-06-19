@@ -22,13 +22,13 @@ public class CategoryController {
     @GetMapping("/categories/add")
     public String showAddForm(Model model) {
         model.addAttribute("category", new Category());
-        return "/category/category-add";
+        return "/admin/category/category-add";
     }
 
     @PostMapping("/categories/add")
     public String addCategory(@Valid Category category, BindingResult result) {
         if (result.hasErrors()) {
-            return "/category/category-add";
+            return "/admin/category/category-add";
         }
         categoryService.addCategory(category);
         return "redirect:/categories";
@@ -38,7 +38,7 @@ public class CategoryController {
     public String listCategories(Model model) {
         List<Category> categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
-        return "/category/category-list";
+        return "/admin/category/category-list";
     }
     // GET request to show category edit form
     @GetMapping("/categories/edit/{id}")
@@ -46,7 +46,7 @@ public class CategoryController {
         Category category = categoryService.getCategoryById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category Id:" + id));
         model.addAttribute("category", category);
-        return "/category/category-edit";
+        return "/admin/category/category-edit";
     }
 
     // POST request to update category

@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.web.SecurityFilterChain;
 
 
@@ -58,11 +59,12 @@ public class SecurityConfig {
                         .permitAll() // Cho phép truy cập không cần xác thực.
                         .requestMatchers("/movie/edit/**", "/movie/add",
                                 "/movie/delete", "categories/add", "categories", "categories/update", "categories/edit", "blog/add", "blog/delete", "blog/update")
-                        .hasAnyAuthority("ADMIN") // Chỉ cho phép ADMIN truy cập.
+                        .hasAnyAuthority("admin") // Chỉ cho phép ADMIN truy cập.
                         .requestMatchers("/api/**")
                         .permitAll() // API mở cho mọi người dùng.
                         .anyRequest().authenticated() // Bất kỳ yêu cầu nào khác cần xác thực.
                 )
+                //
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login") // Trang chuyển hướng sau khi đăng xuất.
@@ -78,6 +80,26 @@ public class SecurityConfig {
                         .failureUrl("/login?error") // Trang đăng nhập thất bại.
                         .permitAll()
                 )
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .loginPage("/login")
+                        .failureUrl("/login?error")
+                        .userInfoEndpoint (userInfoEndpoint ->userInfoEndpoint
+                                .userService (oauthService))
+
+                        .successHandler(
+                                (request, response,authentication) -> {
+                                    var oidcUser =
+                                            (DefaultOidcUser) authentication.getPrincipal();
+                                    userService.saveOauthUser (oidcUser.getEmail(), oidcUser.getName());
+                                    response.sendRedirect("/");
+                                }
+
+
+                        ).permitAll()
+
+                )
+
+
                 .rememberMe(rememberMe -> rememberMe
                         .key("3anhem")
                         .rememberMeCookieName("3anhem")

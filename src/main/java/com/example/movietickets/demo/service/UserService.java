@@ -96,4 +96,16 @@ public class UserService implements UserDetailsService {
         return userRepository.existsByPhone(phone);
     }
 
+    public void saveOauthUser(String email, @NotNull String username) {
+        if (userRepository.findByUsername(username).isPresent())
+            return;
+        var user = new User();
+        user.setUsername(username);
+
+        user.setEmail(email);
+        user.setPassword(new BCryptPasswordEncoder().encode(username)); user.setProvider (Provider.GOOGLE.value);
+        user.getRoles().add(roleRepository.findRoleById(Role.USER.value));
+        userRepository.save(user);
+    }
+
 }

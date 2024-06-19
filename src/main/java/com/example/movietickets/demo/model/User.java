@@ -28,10 +28,12 @@ public class User implements UserDetails { // Implement UserDetails
     @Size(min = 1, max = 50, message = "Username must be between 1 and 50 characters")
     private String username;
 
-    @Column(name = "fullname", length = 10, unique = true)
-    @NotBlank(message = "Fullname is required")
+    @Column(name = "provider", length = 50)
+    private String provider;
+
+    @Column(name = "fullname", nullable = true, unique = false)
     @Size(min = 1, max = 100, message = "Username must be between 1 and 100 characters")
-    private String FullName;
+    private String fullname;
 
     @Column(name = "password", length = 250)
     @NotBlank(message = "Password is required")
