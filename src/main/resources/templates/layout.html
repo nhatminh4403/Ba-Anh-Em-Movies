@@ -35,6 +35,26 @@
     />
 
     <title>Ba Anh Em - Online Ticket Booking Website</title>
+
+    <style>
+        .btn__logout{
+            background-image: -webkit-linear-gradient(169deg, #5560ff 17%, #aa52a1 63%, #ff4343 100%);
+            padding: 10px 49px;
+            font-weight: 600;
+            border-radius: 25px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn__logout:hover {
+            box-shadow: 0px 10px 15px 0px rgba(59, 55, 188, 0.5);
+        }
+
+        .btn__logout:focus, .btn__logout:active {
+            border:none;
+            outline: none;
+        }
+    </style>
 </head>
 <body>
 <header class="header-section">
@@ -173,16 +193,16 @@
                 </li>
 
                 <li class="header-button pr-0" sec:authorize="isAuthenticated()">
-                    <a thref="sign-up.html" th:href="@{/login}">Đăng xuất</a>
-                </li>
-
-
-                <li class="header-button pr-0" sec:authorize="!isAuthenticated()">
                     <form th:action="@{/logout}" method="post">
-                        <a thref="sign-up.html" th:href="@{/login}">Đăng ký</a>
+                        <button class="btn__logout" type="submit">Đăng xuất</button>
                     </form>
                 </li>
 
+                <li class="header-button pr-0" sec:authorize="!isAuthenticated()">
+                    <form th:action="@{/logout}" method="post">
+                        <a thref="sign-up.html" th:href="@{/login}">Đăng nhập</a>
+                    </form>
+                </li>
             </ul>
             <div class="header-bar d-lg-none">
                 <span></span>

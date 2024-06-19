@@ -65,21 +65,35 @@ public class UserService implements UserDetailsService {
 
 
     // Tìm kiếm người dùng dựa trên tên đăng nhập.
-    public Optional<User> findByUsername(String username) throws
-            UsernameNotFoundException {
+    public Optional<User> findByUsername(String username)  {
         return userRepository.findByUsername(username);
     }
 
-    public void saveOauthUser(String email, @NotNull String username) {
+   /* public void saveOauthUser(String email, @NotNull String username) {
         if (userRepository.findByUsername(username).isPresent())
             return;
         var user = new User();
         user.setUsername(username);
 
         user.setEmail(email);
-        user.setPassword(new BCryptPasswordEncoder().encode(username)); user.setProvider (Provider.GOOGLE.value);
+        user.setPassword(new BCryptPasswordEncoder().encode(username)); user.setProvider(Provider.GOOGLE.value);
         user.getRoles().add(roleRepository.findRoleById(Role.USER.value));
         userRepository.save(user);
+    }*/
+
+    // Kiểm tra sự tồn tại của username.
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    // Kiểm tra sự tồn tại của email.
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    // Kiểm tra sự tồn tại của phone.
+    public boolean existsByPhone(String phone) {
+        return userRepository.existsByPhone(phone);
     }
 
 }

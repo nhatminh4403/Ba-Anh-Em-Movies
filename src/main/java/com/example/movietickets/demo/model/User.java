@@ -43,9 +43,6 @@ public class User implements UserDetails { // Implement UserDetails
     @Pattern(regexp = "^[0-9]*$", message = "Phone must be number")
     private String phone;
 
-    @Column(name = "provider", length = 50)
-    private String provider;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -60,6 +57,16 @@ public class User implements UserDetails { // Implement UserDetails
         return userRoles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .toList();
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
     }
 
     @Override
