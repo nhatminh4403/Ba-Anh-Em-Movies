@@ -65,10 +65,24 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="fullname">Họ và Tên<span>*</span></label>
+                            <input
+                                    type="text"
+                                    placeholder="Nhập tên đầy đủ"
+                                    id="fullname"
+                                    required
+                                    th:field="*{FullName}"
+                            />
+                            <div th:if="${#fields.hasErrors('username')}" class="text-danger">
+                                <p th:errors="*{username}">Tên tài khoản đã được đăng kí</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label for="username">Tên tài khoản<span>*</span></label>
                             <input
                                     type="text"
-                                    placeholder="Enter Your Name"
+                                    placeholder="Nhập tên tài khoản"
                                     id="username"
                                     required
                                     th:field="*{username}"
@@ -82,7 +96,7 @@
                             <label for="email1">Email<span>*</span></label>
                             <input
                                     type="text"
-                                    placeholder="Enter Your Email"
+                                    placeholder="Nhập Email của bạn"
                                     id="email1"
                                     required
                                     th:field="*{email}"
@@ -97,7 +111,7 @@
                             >
                             <input
                                     type="password"
-                                    placeholder="Password"
+                                    placeholder="Nhập mật khẩu"
                                     id="pass1"
                                     required
                                     th:field="*{password}"
@@ -110,7 +124,7 @@
                             <label for="phonenumber">Số điện thoại<span>*</span></label>
                             <input
                                     type="tel"
-                                    placeholder="Enter your phone"
+                                    placeholder="Nhập số điện thoại"
                                     id="phonenumber"
                                     required
                                     th:field="*{phone}"

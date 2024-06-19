@@ -20,10 +20,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 //khởi tạo constructor tự động
 
-@Transactional
 
 public class CategoryService {
+
     private final CategoryRepository categoryRepository;
+
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
@@ -48,5 +49,4 @@ public class CategoryService {
         }
         categoryRepository.deleteById(id);
     }
-
 }
