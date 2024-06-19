@@ -55,8 +55,9 @@ public class AuthenticationController {
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
                     .toArray(String[]::new);
             model.addAttribute("errors", errors);
-            return "/authentication/register"; // Trả về lại view "register" nếu có lỗi
+            return "/authentication/sign-up"; // Trả về lại view "register" nếu có lỗi
         }
+
         userService.save(user); // Lưu người dùng vào cơ sở dữ liệu
         userService.setDefaultRole(user.getUsername()); // Gán vai trò mặc định cho người dùng
         return "redirect:/login"; // Chuyển hướng người dùng tới trang "login"

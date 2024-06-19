@@ -31,6 +31,12 @@
     />
 
     <title>Ba Anh Em - Online Ticket Booking Website</title>
+
+    <style>
+        .text-danger{
+            margin-top: 16px;
+        }
+    </style>
 </head>
 
 <body>
@@ -73,9 +79,6 @@
                                     required
                                     th:field="*{FullName}"
                             />
-                            <div th:if="${#fields.hasErrors('username')}" class="text-danger">
-                                <p th:errors="*{username}">Tên tài khoản đã được đăng kí</p>
-                            </div>
                         </div>
 
                         <div class="form-group">
