@@ -53,7 +53,7 @@ public class SecurityConfig {
                                 "/register", "/error", "/films", "/cart", "/cart/**")
                         .permitAll() // Cho phép truy cập không cần xác thực.
                         .requestMatchers("/films/edit/**", "/films/add",
-                                "/films/delete", "categories/add", "categories", "categories/update", "categories/edit")
+                                "/films/delete", "category/add", "categories", "category/update", "categories/edit")
                         .hasAnyAuthority("ADMIN") // Chỉ cho phép ADMIN truy cập.
                         .requestMatchers("/api/**")
                         .permitAll() // API mở cho mọi người dùng.
