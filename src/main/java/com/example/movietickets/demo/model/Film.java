@@ -12,38 +12,45 @@ public class Film {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_FILM")
-    private int id;
+    @Column(name = "FILM_ID")
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "ID_CATEGORY", referencedColumnName = "ID_CATEGORY")
-    private Category category;
-
-    @Column(name = "NAME_FILM", nullable = false)
+    @Column(name = "FILM_NAME", nullable = false)
     private String name;
 
-    @Column(name = "TRAILER", nullable = false)
+    @Column(name = "TRAILER")
     private String trailer;  // Changed to String based on assumption
 
-    @Column(name = "DESCRIPTION", nullable = false)
+    @Column(name = "DESCRIPTION")
     private String description;  // Changed to String based on assumption
 
-    @Column(name = "POSTER", nullable = false)
+    @Column(name = "POSTER")
     private String poster;
 
-    @Column(name = "ACTOR", nullable = false)
+    @Column(name = "DIRECTOR")
+    private String director;
+
+    @Column(name = "ACTOR")
     private String actor;
 
     @Column(name = "OPENING_DAY", nullable = false)
     private String openingDay;  // Changed to camelCase
 
+    @Column(name = "SUBTITLE")
+    private String subtitle;
+
     @Column(name = "DURATION", nullable = false)
     private int duration;
 
-    @Column(name = "COUNTRY_ID", nullable = false)
-    private int countryId;  // Changed to camelCase
+    @Column(name = "LIMIT_AGE")
+    private String limit_age;
 
     @ManyToOne
-    @JoinColumn(name = "ID_RATE", referencedColumnName = "ID_RATE")
-    private Rate rate;
+    @JoinColumn(name = "COUNTRY_ID")
+    private Country country;
+
+    @ManyToOne
+    @JoinColumn(name = "CATEGORY_ID")
+    private Category category;
+
 }

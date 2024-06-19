@@ -1,6 +1,8 @@
 package com.example.movietickets.demo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.Set;
@@ -12,13 +14,11 @@ import java.util.Set;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_CATEGORY")
-    private int id;
+    @Column(name = "CATEGORY_ID")
+    private Long id;
 
-    @Column(name = "NAME_CATEGORY", nullable = false)
+    @Column(name = "CATEGORY_NAME", nullable = false)
+    @NotBlank(message = "Tên thể loại là bắt buộc")
+    @Size(max = 100)
     private String name;
-
-    @OneToMany(mappedBy = "category")
-    private Set<Film> films;
-
 }

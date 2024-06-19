@@ -10,21 +10,21 @@ import java.time.LocalDateTime;
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_SCHEDULE")
-    private int id;
+    @Column(name = "SCHEDULE_ID")
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "ID_FILM", referencedColumnName = "ID_FILM")
+    @JoinColumn(name = "FILM_ID")
     private Film film;
 
     @ManyToOne
-    @JoinColumn(name = "ID_CINEMA", referencedColumnName = "ID_CINEMA")
+    @JoinColumn(name = "CINEMA_ID")
     private Cinema cinema;
 
     @ManyToOne
-    @JoinColumn(name = "ID_ROOM", referencedColumnName = "ID_ROOM")
+    @JoinColumn(name = "ROOM_ID")
     private Room room;
 
-    @Column(name = "START_TIME", nullable = false)
+    @Column(name = "START_TIME")
     private LocalDateTime startTime;
 }

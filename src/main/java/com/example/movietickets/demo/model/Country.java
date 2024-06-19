@@ -1,7 +1,9 @@
 package com.example.movietickets.demo.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 
 
 @Data
@@ -10,9 +12,13 @@ import lombok.Data;
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_COUNTRY")
-    private int id;
+    @Column(name = "COUNTRY_ID")
+    private Long id;
 
-    @Column(name = "NAME_COUNTRY", nullable = false)
+    @Column(name = "COUNTRY_NAME", nullable = false)
+    @NotBlank(message = "Tên quốc gia là bắt buộc")
+    @Size(max = 50)
     private String name;
 }
+
+

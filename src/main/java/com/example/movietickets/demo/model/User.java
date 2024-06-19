@@ -20,13 +20,18 @@ import java.util.Set;
 public class User implements UserDetails { // Implement UserDetails
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")  // Change to match your database column name for user_id
+    @Column(name = "USER_ID")  // Change to match your database column name for user_id
     private Long id;
 
     @Column(name = "username", length = 50, unique = true)
     @NotBlank(message = "Username is required")
     @Size(min = 1, max = 50, message = "Username must be between 1 and 50 characters")
     private String username;
+
+    @Column(name = "fullname", length = 10, unique = true)
+    @NotBlank(message = "Fullname is required")
+    @Size(min = 1, max = 100, message = "Username must be between 1 and 100 characters")
+    private String FullName;
 
     @Column(name = "password", length = 250)
     @NotBlank(message = "Password is required")

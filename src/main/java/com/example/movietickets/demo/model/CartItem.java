@@ -10,20 +10,22 @@ import lombok.Data;
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_CARTITEM")
+    @Column(name = "CARTITEM_ID")
     private int id;
 
+    private int quantity;
+    private  long price;
 
     @ManyToOne
-    @JoinColumn(name = "ID_FILM", referencedColumnName = "ID_FILM")
+    @JoinColumn(name = "FILM_ID")
     private Film film;
 
     @ManyToOne
-    @JoinColumn(name = "ID_ROOM", referencedColumnName = "ID_ROOM")
+    @JoinColumn(name = "ROOM_ID")
     private Room room;
 
     @ManyToOne
-    @JoinColumn(name = "ID_SCHEDULE", referencedColumnName = "ID_SCHEDULE")
+    @JoinColumn(name = "SCHEDULE_ID")
     private Schedule schedule;
 
 }
