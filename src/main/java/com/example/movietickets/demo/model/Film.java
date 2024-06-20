@@ -3,6 +3,10 @@ package com.example.movietickets.demo.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -33,8 +37,9 @@ public class Film {
     @Column(name = "ACTOR")
     private String actor;
 
-    @Column(name = "OPENING_DAY", nullable = false)
-    private String openingDay;  // Changed to camelCase
+
+    @Column(name = "OPENING_DAY")
+    private LocalDate openingday;  // Changed to camelCase
 
     @Column(name = "SUBTITLE")
     private String subtitle;
@@ -52,5 +57,8 @@ public class Film {
     @ManyToOne
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
+
+
+
 
 }

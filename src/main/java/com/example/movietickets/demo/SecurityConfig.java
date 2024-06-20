@@ -58,6 +58,7 @@ public class SecurityConfig {
                                 "/register", "/error", "/films", "/cart", "/cart/**", "/blog", "blog/details", "/popcorn","/movie/details", "/movie/seat-plan")
                         .permitAll() // Cho phép truy cập không cần xác thực.
                         .requestMatchers("/movie/edit/**", "/movie/add",
+                                "countries", "countries/add","countries/edit",
                                 "/movie/delete", "categories/add", "categories", "categories/update", "categories/edit", "blog/add", "blog/delete", "blog/update")
                         .hasAnyAuthority("admin") // Chỉ cho phép ADMIN truy cập.
                         .requestMatchers("/api/**")

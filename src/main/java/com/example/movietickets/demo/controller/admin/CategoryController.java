@@ -19,12 +19,14 @@ public class CategoryController {
     @Autowired
     private final CategoryService categoryService;
 
+
+    //gửi response ra view add
     @GetMapping("/categories/add")
     public String showAddForm(Model model) {
         model.addAttribute("category", new Category());
         return "/admin/category/category-add";
     }
-
+    //gọi phương thức mapp tới form add
     @PostMapping("/categories/add")
     public String addCategory(@Valid Category category, BindingResult result) {
         if (result.hasErrors()) {
@@ -38,6 +40,7 @@ public class CategoryController {
     public String listCategories(Model model) {
         List<Category> categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
+        model.addAttribute("title", "Danh sách thể loại");
         return "/admin/category/category-list";
     }
     // GET request to show category edit form
@@ -50,11 +53,11 @@ public class CategoryController {
     }
 
     // POST request to update category
-    @PostMapping("/categories/update/{id}")
+    @PostMapping("/categories/edit/{id}")
     public String updateCategory(@PathVariable("id") Long id, @Valid Category category, BindingResult result, Model model) {
         if (result.hasErrors()) {
             category.setId(id);
-            return "/category/category-edit";
+            return "/admin/category/category-edit";
         }
 
         categoryService.updateCategory(category);
