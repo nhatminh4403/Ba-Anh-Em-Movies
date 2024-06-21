@@ -59,6 +59,4 @@ public class Film {
     private Category category;
 
 
-
-
 }

@@ -24,7 +24,7 @@
     <!-- Header End -->
     <!-- /BREADCRUMB -->
 <!--    form thêm phim tương ứng với model FIlm-->
-    <form th:action="@{/films/add}" th:object="${film}" method="post" enctype="multipart/form-data">
+    <form th:action="@{/admin/films/add}" th:object="${film}" method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="name" class="form-label">Tên phim:</label>
             <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="Film Name" required/>

@@ -33,7 +33,7 @@ public class FilmController {
     @Autowired
     private final CategoryService categoryService;
     // Hiển thị danh sách danh mục
-    @GetMapping("/films")
+    @GetMapping("/admin/films")
     public String listFilms(Model model) {
         List<Film> films = filmService.getAllFilms();
         model.addAttribute("films", films);
@@ -42,14 +42,14 @@ public class FilmController {
     }
 
     //add film
-    @GetMapping("/films/add")
+    @GetMapping("/admin/films/add")
     public String showAddFilm(Model model){
         model.addAttribute("film", new Film());
         model.addAttribute("countries", countryService.getAllCountries()); // Thêm danh sách quốc gia
         model.addAttribute("categories", categoryService.getAllCategories()); // Thêm danh sách thể loại
         return "/admin/film/film-add";
     }
-    @PostMapping("/films/add")
+    @PostMapping("/admin/films/add")
     public String addFilm(@Valid @ModelAttribute Film film,  BindingResult result,@RequestParam("poster") MultipartFile poster) throws IOException {
 
         if (!poster.isEmpty()) {
@@ -61,7 +61,7 @@ public class FilmController {
             }
         }
         filmService.addFilm(film);
-        return "redirect:/films";
+        return "redirect:/admin/films";
     }
 
     private String saveImageStatic(MultipartFile image) throws IOException {
@@ -79,7 +79,7 @@ public class FilmController {
     }
 
     // Hiển thị form sửa phim
-    @GetMapping("/films/edit/{id}")
+    @GetMapping("/admin/films/edit/{id}")
     public String showEditFilmForm(@PathVariable("id") Long id, Model model) {
         Film film = filmService.getFilmById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid film Id: " + id));
@@ -90,7 +90,7 @@ public class FilmController {
     }
 
     // Cập nhật thông tin phim
-    @PostMapping("/films/edit/{id}")
+    @PostMapping("/admin/films/edit/{id}")
     public String updateFilm(@PathVariable("id") Long id, @Valid @ModelAttribute Film film, BindingResult result, @RequestParam("poster") MultipartFile poster, Model model) throws IOException {
 //        if (result.hasErrors()) {
 //            return "/admin/film/film-edit";
@@ -117,14 +117,14 @@ public class FilmController {
         existingFilm.setCountry(film.getCountry());
         existingFilm.setCategory(film.getCategory());
         filmService.updateFilm(existingFilm);
-        return "redirect:/films";
+        return "redirect:/admin/films";
     }
 
     // Xóa phim
-    @GetMapping("/films/delete/{id}")
+    @GetMapping("/admin/films/delete/{id}")
     public String deleteFilm(@PathVariable("id") Long id) {
         filmService.deleteFilm(id);
-        return "redirect:/films";
+        return "redirect:/admin/films";
     }
 
 }

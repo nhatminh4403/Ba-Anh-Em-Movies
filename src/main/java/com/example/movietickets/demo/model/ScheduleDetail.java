@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "Booking_Detail")
-public class BookingDetail {
+@Table(name = "Schedule_Detail")
+public class ScheduleDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,8 +16,8 @@ public class BookingDetail {
     private Booking booking;
 
     @ManyToOne
-    @JoinColumn(name = "FILM_ID")
-    private Film film;
+    @JoinColumn(name = "SCHEDULE_ID")
+    private Schedule schedule;
 
     @Column(name = "TOTAL_PRICE")
     private Long price;
@@ -25,6 +25,5 @@ public class BookingDetail {
     @Column(name = "SOLUONGVE")
     private int soLuong;
 
-    @Column(name = "COMBO_NAME")
-    private String comboName;
+
 }

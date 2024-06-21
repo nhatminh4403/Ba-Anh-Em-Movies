@@ -26,7 +26,7 @@
     <!--    <h1 class="mb-4">Update Category</h1>-->
     <h1>Sửa Phim</h1>
 
-        <form th:action="@{/films/edit/{id}(id=${film.id})}" th:object="${film}" method="post" enctype="multipart/form-data">
+        <form th:action="@{/admin/films/edit/{id}(id=${film.id})}" th:object="${film}" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="name" class="form-label">Tên Phim:</label>
                 <input type="text" th:field="*{name}" class="form-control" id="name" required>
@@ -85,7 +85,7 @@
                 </select>
             </div>
             <button type="submit" class="custom-button">Cập Nhật</button>
-            <a th:href="@{/films}" class="btn btn-danger">Hủy</a>
+            <a th:href="@{/admin/films}" class="btn btn-danger">Hủy</a>
         </form>
 
 </section>

@@ -24,7 +24,7 @@
     <!--    <h1>Categories List</h1>-->
     <div class="container">
     <div>
-        <a th:href="@{/categories/add}" class="btn btn-primary mb-3">Thêm loại mới</a>
+        <a th:href="@{/admin/categories/add}" class="btn btn-primary mb-3">Thêm loại mới</a>
     </div>
     <table class="table table-bordered table-hover">
         <thead class="table-primary">
@@ -39,8 +39,8 @@
             <td class="text-white" th:text="${item.id}"></td>
             <td class="text-white" th:text="${item.name}"></td>
             <td>
-                <a th:href="@{/categories/edit/{id}(id=${item.id})}" class="btn btn-success btn-sm">Sửa</a>
-                <a th:href="@{/categories/delete/{id}(id=${item.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không ?')">Xóa</a>
+                <a th:href="@{/admin/categories/edit/{id}(id=${item.id})}" class="btn btn-success btn-sm">Sửa</a>
+                <a th:href="@{/admin/categories/delete/{id}(id=${item.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không ?')">Xóa</a>
             </td>
         </tr>
         </tbody>

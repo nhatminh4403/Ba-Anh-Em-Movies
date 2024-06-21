@@ -23,7 +23,7 @@ public class CountryController {
     private final CountryService countryService;
 
     // Hiển thị danh sách danh mục
-    @GetMapping("/countries")
+    @GetMapping("/admin/countries")
     public String listCountries(Model model) {
         List<Country> countries = countryService.getAllCountries();
         model.addAttribute("countries", countries);
@@ -32,23 +32,23 @@ public class CountryController {
     }
 
     //gửi response ra view add
-    @GetMapping("/countries/add")
+    @GetMapping("/admin/countries/add")
     public String showAddForm(Model model) {
         model.addAttribute("country", new Country());
         return "/admin/country/country-add";
     }
     //gọi phương thức mapp tới form add
-    @PostMapping("/countries/add")
+    @PostMapping("/admin/countries/add")
     public String addCountries(@Valid Country country, BindingResult result) {
         if (result.hasErrors()) {
             return "/admin/country/country-add";
         }
         countryService.addCountry(country);
-        return "redirect:/countries";
+        return "redirect:/admin/countries";
     }
 
     // GET request to show category edit form
-    @GetMapping("/countries/edit/{id}")
+    @GetMapping("/admin/countries/edit/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         Country country = countryService.getCountryById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid country Id:" + id));
@@ -57,7 +57,7 @@ public class CountryController {
     }
 
     // POST request to update category
-    @PostMapping("/countries/edit/{id}")
+    @PostMapping("/admin/countries/edit/{id}")
     public String updateCategory(@PathVariable("id") Long id, @Valid Country country, BindingResult result, Model model) {
         if (result.hasErrors()) {
             country.setId(id);
@@ -66,17 +66,17 @@ public class CountryController {
 
         countryService.updateCountry(country);
         model.addAttribute("countries", countryService.getAllCountries());
-        return "redirect:/countries";
+        return "redirect:/admin/countries";
     }
 
     // GET request for deleting category
-    @GetMapping("/countries/delete/{id}")
+    @GetMapping("/admin/countries/delete/{id}")
     public String deleteCategory(@PathVariable("id") Long id, Model model) {
         Country country = countryService.getCountryById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Quốc gia Id:" + id));
 
         countryService.deleteCountry(id);
         model.addAttribute("countries", countryService.getAllCountries());
-        return "redirect:/countries";
+        return "redirect:/admin/countries";
     }
 }
