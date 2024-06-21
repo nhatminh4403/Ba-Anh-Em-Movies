@@ -14,9 +14,11 @@ public class Cinema {
     @Column(name = "CINEMA_ID")
     private Long id;
 
-    @Column(name = "NAME_CINEMA", nullable = false)
+    @Column(name = "CINEMA_NAME", nullable = false)
     private String name;
 
-    @Column(name = "NAME_ADDRESS", nullable = false)
+    @Column(name = "ADDRESS", nullable = false)
     private String address;
+
+
 }

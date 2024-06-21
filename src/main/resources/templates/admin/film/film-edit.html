@@ -74,13 +74,13 @@
             </div>
             <div class="mb-3">
                 <label for="country" class="form-label">Quốc Gia:</label>
-                <select th:field="*{country.id}" class="form-select" id="country">
+                <select th:field="*{country}" class="form-select" id="country">
                     <option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.name}" th:selected="${country.id} == ${film.country.id}">Chọn quốc gia</option>
                 </select>
             </div>
             <div class="mb-3">
                 <label for="category" class="form-label">Thể Loại:</label>
-                <select th:field="*{category.id}" class="form-select" id="category">
+                <select th:field="*{category}" class="form-select" id="category">
                     <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" th:selected="${category.id} == ${film.category.id}">Chọn thể loại</option>
                 </select>
             </div>

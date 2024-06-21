@@ -16,9 +16,13 @@ public class Room {
     @Column(name = "ROOM_ID")
     private Long id;
 
-    @Column(name = "NAME_ROOM", nullable = false)
+    @Column(name = "ROOM_NAME", nullable = false)
     private String name;
 
     @Column(name = "DESCRIPTION")
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "CINEMA_ID")
+    private Cinema cinema;
 }

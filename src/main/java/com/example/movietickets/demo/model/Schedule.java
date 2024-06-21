@@ -2,6 +2,7 @@ package com.example.movietickets.demo.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.time.LocalDateTime;
 
 @Data
@@ -18,13 +19,12 @@ public class Schedule {
     private Film film;
 
     @ManyToOne
-    @JoinColumn(name = "CINEMA_ID")
-    private Cinema cinema;
-
-    @ManyToOne
     @JoinColumn(name = "ROOM_ID")
     private Room room;
 
     @Column(name = "START_TIME")
     private LocalDateTime startTime;
+
+
+
 }
