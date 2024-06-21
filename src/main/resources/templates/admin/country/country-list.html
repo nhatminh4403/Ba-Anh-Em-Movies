@@ -41,8 +41,8 @@
             <td class="text-white" th:text="${item.id}"></td>
             <td class="text-white" th:text="${item.name}"></td>
             <td>
-                <a th:href="@{/countries/edit/{id}(id=${item.id})}" class="btn btn-success btn-sm">Sửa</a>
-                <a th:href="@{/countries/delete/{id}(id=${item.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không ?')">Xóa</a>
+                <a th:href="@{/admin/countries/edit/{id}(id=${item.id})}" class="btn btn-success btn-sm">Sửa</a>
+                <a th:href="@{/admin/countries/delete/{id}(id=${item.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không ?')">Xóa</a>
             </td>
         </tr>
         </tbody>

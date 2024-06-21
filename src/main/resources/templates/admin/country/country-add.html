@@ -24,7 +24,7 @@
     <!-- Header End -->
     <!-- /BREADCRUMB -->
     <!--    <h1 class="mb-4">Form Category</h1>-->
-    <form th:action="@{/countries/add}" th:object="${country}" method="post" enctype="multipart/form-data">
+    <form th:action="@{/admin/countries/add}" th:object="${country}" method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="name" class="form-label">Quốc gia:</label>
             <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="Nation Name"/>
