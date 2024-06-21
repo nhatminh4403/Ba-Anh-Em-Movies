@@ -37,7 +37,6 @@ public class Film {
     @Column(name = "ACTOR")
     private String actor;
 
-
     @Column(name = "OPENING_DAY")
     private LocalDate openingday;  // Changed to camelCase
 

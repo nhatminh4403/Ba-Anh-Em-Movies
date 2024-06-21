@@ -8,7 +8,5 @@ import org.springframework.stereotype.Controller;
 @AllArgsConstructor
 public class CinemaController {
     private  final CinemaService cinemaService;
-
     //show Thoong tin rap
-
 }

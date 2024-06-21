@@ -21,4 +21,7 @@ public class ComboFood {
 
     @Column(name = "DESCRIPTION")
     private String description;
+
+    @Column(name = "COMBO_POSTER")
+    private String poster;
 }

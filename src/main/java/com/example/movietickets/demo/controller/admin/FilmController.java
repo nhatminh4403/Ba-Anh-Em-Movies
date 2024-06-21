@@ -32,6 +32,7 @@ public class FilmController {
     private  final CountryService countryService;
     @Autowired
     private final CategoryService categoryService;
+
     // Hiển thị danh sách danh mục
     @GetMapping("/admin/films")
     public String listFilms(Model model) {
@@ -49,6 +50,8 @@ public class FilmController {
         model.addAttribute("categories", categoryService.getAllCategories()); // Thêm danh sách thể loại
         return "/admin/film/film-add";
     }
+
+
     @PostMapping("/admin/films/add")
     public String addFilm(@Valid @ModelAttribute Film film,  BindingResult result,@RequestParam("poster") MultipartFile poster) throws IOException {
 

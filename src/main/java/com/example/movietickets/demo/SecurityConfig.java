@@ -57,9 +57,9 @@ public class SecurityConfig {
                         .requestMatchers("/assets/**","/css/**", "/js/**", "/", "/oauth/**",
                                 "/register", "/error", "/films", "/cart", "/cart/**", "/blog", "blog/details", "/popcorn","/movie/details", "/movie/seat-plan")
                         .permitAll() // Cho phép truy cập không cần xác thực.
-                        .requestMatchers("/movie/edit/**", "/movie/add", "/admin/films","/admin/films/edit", "/admin/films/add",
+                        .requestMatchers("admin/movie/edit/**", "/admin/movie/add", "/admin/films","/admin/films/edit", "/admin/films/add",
                                 "/admin/countries", "/admin/countries/add","/admin/countries/edit",
-                              "/admin/categories/add", "/admin/categories", "/admin/categories/edit", "blog/add", "blog/delete", "blog/update")
+                              "/admin/categories/add", "/admin/categories", "/admin/categories/edit", "/admin/blog/add", "/admin/blog/delete", "/admin/blog/update", "/admin/comboFood/delete", "/admin/comboFood/update")
                         .hasAnyAuthority("admin") // Chỉ cho phép ADMIN truy cập.
                         .requestMatchers("/api/**")
                         .permitAll() // API mở cho mọi người dùng.
@@ -99,7 +99,6 @@ public class SecurityConfig {
                         ).permitAll()
 
                 )
-
 
                 .rememberMe(rememberMe -> rememberMe
                         .key("3anhem")

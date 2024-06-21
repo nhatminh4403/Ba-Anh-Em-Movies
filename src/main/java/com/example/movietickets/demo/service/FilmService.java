@@ -33,18 +33,18 @@ public class FilmService {
         return filmRepository.save(film);
     }
 
-//    public Film updateFilm(Film film) {
-//        if (film.getId() == null) {
-//            throw new IllegalArgumentException("Film ID cannot be null for update");
-//        }
-//        return filmRepository.save(film);
-//    }
-public Film updateFilm(Film film) {
-    if (film.getId() == null) {
-        throw new IllegalArgumentException("Film ID cannot be null for update");
+    //    public Film updateFilm(Film film) {
+    //        if (film.getId() == null) {
+    //            throw new IllegalArgumentException("Film ID cannot be null for update");
+    //        }
+    //        return filmRepository.save(film);
+    //    }
+    public Film updateFilm(Film film) {
+        if (film.getId() == null) {
+            throw new IllegalArgumentException("Film ID cannot be null for update");
+        }
+        return filmRepository.save(film);
     }
-    return filmRepository.save(film);
-}
 
     // Sửa phim
 //    public Film updateFilm(Film film) {
