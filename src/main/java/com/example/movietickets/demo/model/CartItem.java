@@ -12,7 +12,6 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CARTITEM_ID")
     private int id;
-
     private int quantity;
     private  long price;
 
