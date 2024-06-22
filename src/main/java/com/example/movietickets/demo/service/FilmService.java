@@ -23,6 +23,7 @@ public class FilmService {
     }
 
     // Lấy film theo id
+
     public Optional<Film> getFilmById(Long id) {
         return filmRepository.findById(id);
     }
@@ -33,12 +34,7 @@ public class FilmService {
         return filmRepository.save(film);
     }
 
-//    public Film updateFilm(Film film) {
-//        if (film.getId() == null) {
-//            throw new IllegalArgumentException("Film ID cannot be null for update");
-//        }
-//        return filmRepository.save(film);
-//    }
+
 public Film updateFilm(Film film) {
     if (film.getId() == null) {
         throw new IllegalArgumentException("Film ID cannot be null for update");

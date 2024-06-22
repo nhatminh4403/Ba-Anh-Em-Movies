@@ -11,4 +11,6 @@ import java.util.List;
 public interface ScheduleRepository  extends JpaRepository<Schedule, Long> {
     @Query("SELECT s FROM Schedule s JOIN FETCH s.room r JOIN FETCH r.cinema c")
     List<Schedule> findAllWithRoomAndCinema();
+
+    void deleteByFilmId(Long filmId);
 }

@@ -34,5 +34,8 @@ public class ScheduleService {
     public void deleteScheduleById(Long id) {
         scheduleRepository.deleteById(id);
     }
+    public void deleteByFilmId(Long filmId) {
+        scheduleRepository.deleteByFilmId(filmId);
+    }
 }
 

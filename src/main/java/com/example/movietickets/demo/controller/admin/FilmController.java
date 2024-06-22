@@ -4,6 +4,8 @@ import com.example.movietickets.demo.model.Film;
 import com.example.movietickets.demo.service.CategoryService;
 import com.example.movietickets.demo.service.CountryService;
 import com.example.movietickets.demo.service.FilmService;
+import com.example.movietickets.demo.service.ScheduleService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.UUID;
 
-@Controller
+@Controller("adminFilmController")
 @AllArgsConstructor
 public class FilmController {
     @Autowired
@@ -32,6 +34,9 @@ public class FilmController {
     private  final CountryService countryService;
     @Autowired
     private final CategoryService categoryService;
+
+    @Autowired
+    private final ScheduleService scheduleService;
     // Hiển thị danh sách danh mục
     @GetMapping("/admin/films")
     public String listFilms(Model model) {
@@ -121,8 +126,10 @@ public class FilmController {
     }
 
     // Xóa phim
+    @Transactional
     @GetMapping("/admin/films/delete/{id}")
     public String deleteFilm(@PathVariable("id") Long id) {
+        scheduleService.deleteByFilmId(id);
         filmService.deleteFilm(id);
         return "redirect:/admin/films";
     }

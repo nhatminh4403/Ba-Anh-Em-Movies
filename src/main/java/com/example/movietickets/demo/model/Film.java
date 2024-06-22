@@ -16,7 +16,7 @@ import java.util.Date;
 @Entity
 @Table(name = "Film")
 public class Film {
-
+    //@OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "FILM_ID")
