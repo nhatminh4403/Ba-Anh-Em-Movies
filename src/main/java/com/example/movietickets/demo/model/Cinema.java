@@ -20,5 +20,7 @@ public class Cinema {
     @Column(name = "ADDRESS", nullable = false)
     private String address;
 
+    @Column(name = "MAP", nullable = true)
+    private String map;
 
 }

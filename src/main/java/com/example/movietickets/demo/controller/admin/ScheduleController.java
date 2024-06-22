@@ -6,6 +6,7 @@ import com.example.movietickets.demo.model.Schedule;
 import com.example.movietickets.demo.service.FilmService;
 import com.example.movietickets.demo.service.RoomService;
 import com.example.movietickets.demo.service.ScheduleService;
+import com.example.movietickets.demo.repository.ScheduleRepository;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class ScheduleController {
         List<Schedule> schedules = scheduleService.getAllSchedules();
         model.addAttribute("schedules", schedules);
         model.addAttribute("title", "Danh sách lịch chiếu");
-        return "admin/schedule/schedule-list";
+        return "/admin/schedule/schedule-list";
     }
 
     @GetMapping("/admin/schedules/add")

@@ -15,7 +15,8 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
 
     public List<Schedule> getAllSchedules() {
-        return scheduleRepository.findAll();
+//        return scheduleRepository.findAll();
+        return scheduleRepository.findAllWithRoomAndCinema();
     }
 
     public Optional<Schedule> getScheduleById(Long id) {

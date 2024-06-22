@@ -3,10 +3,13 @@ package com.example.movietickets.demo.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @Data
@@ -39,7 +42,7 @@ public class Film {
 
 
     @Column(name = "OPENING_DAY")
-    private LocalDate openingday;  // Changed to camelCase
+    private Date openingday;  // Changed to camelCase
 
     @Column(name = "SUBTITLE")
     private String subtitle;

@@ -24,7 +24,7 @@
     <!-- Header End -->
     <!-- /BREADCRUMB -->
     <!--    <h1>Categories List</h1>-->
-    <div class="container">
+    <div class="container-fluid">
         <div>
             <a th:href="@{/admin/films/add}" class="btn btn-primary mb-3">Thêm phim mới</a>
         </div>
@@ -57,8 +57,9 @@
                 <td><img th:src="@{${film.poster}}" alt="Film Poster" style="max-width: 100px;"></td>
                 <td class="text-white" th:text="${film.director}"></td>
                 <td  class="text-white" th:text="${film.actor}"></td>
-<!--                film.openingday != null ? #dates.format(film.openingday, 'dd/MM/yyyy') : 'Chưa có ngày chiếu'-->
-                <td class="text-white" th:text="${film.openingday}"></td>
+<!--                <td class="text-white" th:text="${film.openingday}"></td>-->
+                <td class="text-white" th:text="${film.openingday != null ? #dates.format(film.openingday, 'dd/MM/yyyy') : 'Chưa có ngày chiếu'}"></td>
+
                 <td class="text-white" th:text="${film.subtitle}"></td>
                 <td class="text-white" th:text="${film.duration + ' phút'}"></td>
                 <td class="text-white" th:text="${film.limit_age}"></td>

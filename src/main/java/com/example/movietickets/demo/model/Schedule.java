@@ -2,8 +2,10 @@ package com.example.movietickets.demo.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Entity
@@ -23,8 +25,13 @@ public class Schedule {
     private Room room;
 
     @Column(name = "START_TIME")
-    private LocalDateTime startTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private Date startTime;
 
+    // add FK cinema_id ref CINEMA
+//    @ManyToOne
+//    @JoinColumn(name = "CINEMA_ID")
+//    private Cinema cinema;
 
 
 }

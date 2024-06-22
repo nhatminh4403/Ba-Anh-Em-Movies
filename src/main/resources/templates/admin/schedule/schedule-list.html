@@ -32,16 +32,21 @@
                 <th>ID</th>
                 <th>Phim</th>
                 <th>Phòng</th>
+                <th>Rạp</th>
+                <th>Địa điểm</th>
                 <th>Bắt đầu</th>
                 <th>Options</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="item : ${schedules}">
-                <td th:text="${item.id}"></td>
-                <td th:text="${item.film.name}"></td>
-                <td th:text="${item.room.name}"></td>
-                <td th:text="${#dates.format(item.startTime, 'dd-MM-yyyy HH:mm')}"></td>
+                <td class="text-white" th:text="${item.id}"></td>
+                <td class="text-white" th:text="${item.film.name}"></td>
+                <td class="text-white" th:text="${item.room.name}"></td>
+                <td class="text-white" th:text="${item.room.cinema.name}"></td>
+                <td class="text-white" th:text="${item.room.cinema.address}"></td>
+<!--                <td class="text-white" th:text="${item.startTime}"></td>-->
+                <td class="text-white" th:text="${#dates.format(item.startTime, 'HH:mm')}"></td>
                 <td>
                     <a th:href="@{/admin/schedules/edit/{id}(id=${item.id})}" class="btn btn-success btn-sm">Sửa</a>
                     <a th:href="@{/admin/schedules/delete/{id}(id=${item.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không ?')">Xóa</a>
