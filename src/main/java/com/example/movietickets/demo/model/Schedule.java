@@ -30,10 +30,5 @@ public class Schedule {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date startTime;
 
-    // add FK cinema_id ref CINEMA
-//    @ManyToOne
-//    @JoinColumn(name = "CINEMA_ID")
-//    private Cinema cinema;
-
 
 }

@@ -14,4 +14,7 @@ public interface ScheduleRepository  extends JpaRepository<Schedule, Long> {
     List<Schedule> findAllWithRoomAndCinema();
 
     void deleteByFilmId(Long filmId);
+
+    List<Schedule> findByFilmId(Long filmId);
+    //void getScheduleByFilmId(Long filmId);
 }

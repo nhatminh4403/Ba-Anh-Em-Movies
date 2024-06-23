@@ -1,15 +1,11 @@
 package com.example.movietickets.demo.controller.admin;
 
 import com.example.movietickets.demo.model.Film;
-import com.example.movietickets.demo.service.CategoryService;
-import com.example.movietickets.demo.service.CountryService;
-import com.example.movietickets.demo.service.FilmService;
-import com.example.movietickets.demo.service.ScheduleService;
+import com.example.movietickets.demo.service.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,7 +31,7 @@ public class FilmController {
     private final CategoryService categoryService;
 
     @Autowired
-    private final ScheduleService scheduleService;
+    private final ScheduleServiceImpl scheduleService;
     // Hiển thị danh sách danh mục
     @GetMapping("/admin/films")
     public String listFilms(Model model) {
@@ -119,6 +114,7 @@ public class FilmController {
         existingFilm.setSubtitle(film.getSubtitle());
         existingFilm.setDuration(film.getDuration());
         existingFilm.setLimit_age(film.getLimit_age());
+        existingFilm.setQuanlity(film.getQuanlity());
         existingFilm.setCountry(film.getCountry());
         existingFilm.setCategory(film.getCategory());
         filmService.updateFilm(existingFilm);

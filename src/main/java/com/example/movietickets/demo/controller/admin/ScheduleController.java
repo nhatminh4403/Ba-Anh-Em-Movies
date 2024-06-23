@@ -6,7 +6,7 @@ import com.example.movietickets.demo.model.Schedule;
 import com.example.movietickets.demo.service.FilmService;
 import com.example.movietickets.demo.service.RoomService;
 import com.example.movietickets.demo.service.ScheduleService;
-import com.example.movietickets.demo.repository.ScheduleRepository;
+import com.example.movietickets.demo.service.ScheduleServiceImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +19,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.ui.Model;
 import java.util.List;
-import java.util.UUID;
-
-import java.util.List;
 
 @Controller("adminScheduleController")
 @AllArgsConstructor
 public class ScheduleController {
     @Autowired
-    private final ScheduleService scheduleService;
+    private final ScheduleServiceImpl scheduleService;
     @Autowired
     private final FilmService filmService;
     @Autowired

@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 
 @Data
@@ -41,7 +42,6 @@ public class Film {
     private String actor;
 
     @Column(name = "OPENING_DAY")
-
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date openingday;  // Changed to camelCase
 
@@ -54,13 +54,18 @@ public class Film {
     @Column(name = "LIMIT_AGE")
     private String limit_age;
 
+    @Column(name = "QUANLITY")
+    private String quanlity;
+
     @ManyToOne
-    @JoinColumn(name = "COUNTRY_ID")
+    @JoinColumn(name = "COUNTRY_ID" )
     private Country country;
 
     @ManyToOne
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
 
+    @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Schedule> schedules;
 
 }

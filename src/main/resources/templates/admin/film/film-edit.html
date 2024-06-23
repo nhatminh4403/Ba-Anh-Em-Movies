@@ -56,17 +56,22 @@
             </div>
             <div class="mb-3">
                 <label for="openingday" class="form-label">Ngày Khởi Chiếu:</label>
-                <input type="date" th:field="*{openingday}" class="form-control" id="openingday" required>
+                <input type="datetime-local" th:field="*{openingday}" class="form-control" id="openingday" required>
                 <div class="invalid-feedback" th:if="${#fields.hasErrors('openingday')}" th:errors="*{openingday}">Ngày khởi chiếu là bắt buộc.</div>
             </div>
             <div class="mb-3">
                 <label for="subtitle" class="form-label">Phụ Đề:</label>
                 <input type="text" th:field="*{subtitle}" class="form-control" id="subtitle">
             </div>
+
             <div class="mb-3">
                 <label for="duration" class="form-label">Thời Lượng (phút):</label>
                 <input type="number" th:field="*{duration}" class="form-control" id="duration" required>
                 <div class="invalid-feedback" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}">Thời lượng là bắt buộc.</div>
+            </div>
+            <div class="mb-3">
+                <label for="quanlity" class="form-label">Chất lượng:</label>
+                <input type="text" th:field="*{quanlity}" class="form-control" id="quanlity">
             </div>
             <div class="mb-3">
                 <label for="limit_age" class="form-label">Giới Hạn Tuổi:</label>

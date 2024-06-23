@@ -63,7 +63,7 @@
 
         <div class="mb-3">
             <label for="openingday" class="form-label">Ngày khởi chiếu:</label>
-            <input type="date" id="openingday" th:field="*{openingday}" class="form-control"/>
+            <input type="datetime-local" id="openingday" th:field="*{openingday}" class="form-control"/>
             <div class="text-danger" th:if="${#fields.hasErrors('openingday')}" th:errors="*{openingday}"></div>
         </div>
 
@@ -80,10 +80,16 @@
         </div>
 
         <div class="mb-3">
+            <label for="quanlity" class="form-label">Chất lượng:</label>
+            <input type="text" id="quanlity" th:field="*{quanlity}" class="form-control" placeholder="chất lượng hình ảnh"/>
+            <div class="text-danger" th:if="${#fields.hasErrors('quanlity')}" th:errors="*{quanlity}"></div>
+        </div>
+        <div class="mb-3">
             <label for="limitAge" class="form-label">Giới hạn độ tuổi:</label>
-            <input type="text" id="limitAge" th:field="*{limit_age}" class="form-control" placeholder="Limit Age"/>
+            <input type="text" id="limitAge" th:field="*{limit_age}" class="form-control" placeholder="P: everone; C + agelimit"/>
             <div class="text-danger" th:if="${#fields.hasErrors('limit_age')}" th:errors="*{limit_age}"></div>
         </div>
+
 
         <div class="mb-3">
             <label for="country" class="form-label">Quốc gia:</label>
