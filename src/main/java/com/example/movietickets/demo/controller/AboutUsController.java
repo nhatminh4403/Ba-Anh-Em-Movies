@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class AboutUsController {
 
     @GetMapping("/about")
-    public String error() {
+    public String about() {
         return "/about/about-us";
     }
 }
