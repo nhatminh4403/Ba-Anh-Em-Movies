@@ -30,7 +30,7 @@
             <input type="text" th:field="*{name}" class="form-control" id="name" required>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Valid name is required.</div>
         </div>
-        <button type="submit" class="primary-btn">Update</button>
+        <button type="submit" class="custom-button">Update</button>
         <a th:href="@{/admin/categories}" class="btn btn-outline-danger">Cancel</a>
     </form>
 </section>

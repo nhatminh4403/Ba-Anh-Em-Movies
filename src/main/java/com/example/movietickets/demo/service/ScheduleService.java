@@ -1,8 +1,14 @@
 package com.example.movietickets.demo.service;
 
-
+import com.example.movietickets.demo.model.Schedule;
+import com.example.movietickets.demo.repository.ScheduleRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
-public class ScheduleService {
+import java.util.List;
+import java.util.Optional;
+
+
+public interface ScheduleService {
+    List<Schedule> getSchedulesByFilmId(Long filmId);
 }

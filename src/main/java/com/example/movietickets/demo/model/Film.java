@@ -3,17 +3,21 @@ package com.example.movietickets.demo.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
 
 
 @Data
 @Entity
 @Table(name = "Film")
 public class Film {
-
+    //@OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "FILM_ID")
@@ -38,7 +42,8 @@ public class Film {
     private String actor;
 
     @Column(name = "OPENING_DAY")
-    private LocalDate openingday;  // Changed to camelCase
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private Date openingday;  // Changed to camelCase
 
     @Column(name = "SUBTITLE")
     private String subtitle;
@@ -49,13 +54,18 @@ public class Film {
     @Column(name = "LIMIT_AGE")
     private String limit_age;
 
+    @Column(name = "QUANLITY")
+    private String quanlity;
+
     @ManyToOne
-    @JoinColumn(name = "COUNTRY_ID")
+    @JoinColumn(name = "COUNTRY_ID" )
     private Country country;
 
     @ManyToOne
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
 
+    @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Schedule> schedules;
 
 }

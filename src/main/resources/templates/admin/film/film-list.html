@@ -24,7 +24,7 @@
     <!-- Header End -->
     <!-- /BREADCRUMB -->
     <!--    <h1>Categories List</h1>-->
-    <div class="container">
+    <div class="container-fluid">
         <div>
             <a th:href="@{/admin/films/add}" class="btn btn-primary mb-3">Thêm phim mới</a>
         </div>
@@ -41,6 +41,7 @@
                 <th>Ngày khởi chiếu</th>
                 <th>Phụ đề</th>
                 <th>Thời lượng</th>
+                <th>Chất lượng</th>
                 <th>Giới hạn độ tuổi</th>
                 <th>Quốc gia</th>
                 <th>Thể loại</th>
@@ -57,10 +58,13 @@
                 <td><img th:src="@{${film.poster}}" alt="Film Poster" style="max-width: 100px;"></td>
                 <td class="text-white" th:text="${film.director}"></td>
                 <td  class="text-white" th:text="${film.actor}"></td>
-<!--                film.openingday != null ? #dates.format(film.openingday, 'dd/MM/yyyy') : 'Chưa có ngày chiếu'-->
-                <td class="text-white" th:text="${film.openingday}"></td>
+<!--                <td class="text-white" th:text="${film.openingday}"></td>-->
+                <td class="text-white" th:text="@{${film.openingday != null ? #dates.format(film.openingday,'dd/MM/yyyy') : 'Chưa có ngày chiếu'}}"></td>
+<!--                <td class="text-white" th:text="${film.openingday != null ? #dates.format(film.openingday, 'yyyy-MM-dd') : 'Chưa có ngày chiếu'}"></td>-->
+<!--                <td class="text-white" th:text="${#dates.format(film.opneningday, 'dd/MM/yyyy HH:mm')}"></td>-->
                 <td class="text-white" th:text="${film.subtitle}"></td>
                 <td class="text-white" th:text="${film.duration + ' phút'}"></td>
+                <td class="text-white" th:text="${film.quanlity}"></td>
                 <td class="text-white" th:text="${film.limit_age}"></td>
                 <td class="text-white" th:text="${film.country.name}"></td>
                 <td class="text-white" th:text="${film.category.name}"></td>
