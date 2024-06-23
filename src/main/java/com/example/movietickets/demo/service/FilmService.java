@@ -3,6 +3,7 @@ package com.example.movietickets.demo.service;
 
 import com.example.movietickets.demo.model.Film;
 import com.example.movietickets.demo.repository.FilmRepository;
+import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,7 @@ public class FilmService {
     }
 
 
-public Film updateFilm(Film film) {
+    public void updateFilm(@NotNull Film film) {
 
     if (film.getId() == null) {
         throw new IllegalArgumentException("Film ID cannot be null for update");
@@ -68,8 +69,13 @@ public Film updateFilm(Film film) {
 //        } else {
 //            throw new IllegalArgumentException("Film with ID " + film.getId() + " does not exist");
 //        }
-//    }
+
+
+    }
+
+
     // Xóa phim
+
     public void deleteFilm(Long filmId) {
         filmRepository.deleteById(filmId);
     }

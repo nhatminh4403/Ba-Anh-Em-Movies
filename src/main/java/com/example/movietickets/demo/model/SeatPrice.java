@@ -3,13 +3,11 @@ package com.example.movietickets.demo.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.awt.print.Book;
-
 
 @Data
 @Entity
-@Table(name = "Ticket")
-public class Ticket {
+@Table(name = "SeatPrice")
+public class SeatPrice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_TICKET")
@@ -21,14 +19,8 @@ public class Ticket {
     @Column(name = "PRICE")
     private Long price;
 
-    @Column(name = "SEAT")
-    private String seat;
-
     @ManyToOne
     @JoinColumn(name = "BOOKING_ID")
     private Booking booking;
 
-    @ManyToOne
-    @JoinColumn(name = "USER_ID")
-    private User user;
 }

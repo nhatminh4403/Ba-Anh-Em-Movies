@@ -44,9 +44,9 @@ public class ComboFoodCotroller {
     @PostMapping("/admin/comboFood/add")
     public String addComboFood(@Valid @ModelAttribute ComboFood comboFood, BindingResult result, @RequestParam("poster") MultipartFile poster) throws IOException {
 
-       /* if (result.hasErrors()) {
+        if (result.hasErrors()) {
             return "/admin/combofood/food-add";
-        }*/
+        }
 
         if (!poster.isEmpty()) {
             try {
@@ -88,9 +88,9 @@ public class ComboFoodCotroller {
     // Cập nhật thông tin combofood
     @PostMapping("/admin/comboFood/edit/{id}")
     public String updateComboFood(@PathVariable("id") Long id, @Valid @ModelAttribute ComboFood comboFood, BindingResult result, @RequestParam("poster") MultipartFile poster, Model model) throws IOException {
-        /*if (result.hasErrors()) {
+        if (result.hasErrors()) {
             return "/admin/combofood/food-update";
-        }*/
+        }
 
         ComboFood existingComboFood = comboFoodService.getComboFoodById(id).orElseThrow(() -> new IllegalArgumentException("Invalid film Id:" + id));
 
