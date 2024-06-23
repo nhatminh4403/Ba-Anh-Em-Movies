@@ -23,23 +23,19 @@ import org.springframework.security.web.SecurityFilterChain;
 
 public class SecurityConfig {
 
-
     private final UserService userService; // Tiêm UserService vào lớp cấu hình này.
     private final OauthService oauthService;
-
 
     @Bean // Đánh dấu phương thức trả về một bean được quản lý bởi Spring Context.
     public UserDetailsService userDetailsService() {
         return userService;
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); // Bean mã hóa mật khẩu sử dụng BCrypt.
     }
-
-
+    
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         var auth = new DaoAuthenticationProvider(); // Tạo nhà cung cấp xác thực.
@@ -47,7 +43,6 @@ public class SecurityConfig {
         auth.setPasswordEncoder(passwordEncoder()); // Thiết lập cơ chế mã hóa mật khẩu.
         return auth; // Trả về nhà cung cấp xác thực.
     }
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http)
@@ -59,7 +54,7 @@ public class SecurityConfig {
                         .permitAll() // Cho phép truy cập không cần xác thực.
                         .requestMatchers("admin/movie/edit/**", "/admin/movie/add", "/admin/films","/admin/films/edit", "/admin/films/add",
                                 "/admin/countries", "/admin/countries/add","/admin/countries/edit",
-                              "/admin/categories/add", "/admin/categories", "/admin/categories/edit", "/admin/blog/add", "/admin/blog/delete", "/admin/blog/update", "/admin/comboFood/delete", "/admin/comboFood/update")
+                              "/admin/categories/add", "/admin/categories", "/admin/categories/edit", "/admin/blog/add", "/admin/blog/delete", "/admin/blog/update", "/admin/comboFood/delete", "/admin/comboFood/update", "/admin/comboFood","/admin/comboFood/add")
                         .hasAnyAuthority("admin") // Chỉ cho phép ADMIN truy cập.
                         .requestMatchers("/api/**")
                         .permitAll() // API mở cho mọi người dùng.
