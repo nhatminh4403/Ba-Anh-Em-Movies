@@ -126,10 +126,10 @@ public class FilmController {
     }
 
     // Xóa phim
-    @Transactional
+    @Transactional//phương thức để liên hệ với bảng con => xóa lịch chiếu
     @GetMapping("/admin/films/delete/{id}")
     public String deleteFilm(@PathVariable("id") Long id) {
-        scheduleService.deleteByFilmId(id);
+        scheduleService.deleteByFilmId(id); //xóa suất chiếu của phim trước
         filmService.deleteFilm(id);
         return "redirect:/admin/films";
     }

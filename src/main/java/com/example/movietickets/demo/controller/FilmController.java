@@ -1,9 +1,11 @@
 package com.example.movietickets.demo.controller;
 
 import com.example.movietickets.demo.model.Film;
+import com.example.movietickets.demo.model.Schedule;
 import com.example.movietickets.demo.service.CategoryService;
 import com.example.movietickets.demo.service.CountryService;
 import com.example.movietickets.demo.service.FilmService;
+import com.example.movietickets.demo.service.ScheduleService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,8 @@ public class FilmController {
     private  final CountryService countryService;
     @Autowired
     private final CategoryService categoryService;
+    @Autowired
+    private final ScheduleService scheduleService;
     // Hiển thị danh sách danh mục
     @GetMapping("/films")
     public String listFilms(Model model) {
@@ -51,90 +55,14 @@ public class FilmController {
         model.addAttribute("countries", countryService.getAllCountries());
         return "film/film-detail";
     }
-//    //add film
-//    @GetMapping("/admin/films/add")
-//    public String showAddFilm(Model model){
-//        model.addAttribute("film", new Film());
-//        model.addAttribute("countries", countryService.getAllCountries()); // Thêm danh sách quốc gia
-//        model.addAttribute("categories", categoryService.getAllCategories()); // Thêm danh sách thể loại
-//        return "/admin/film/film-add";
+//    @GetMapping("/films/schedules/{id}")
+//    public String listSchedules(Model model) {
+//        List<Schedule> schedules = scheduleService.getAllSchedules();
+//        model.addAttribute("schedules", schedules);
+//        model.addAttribute("title", "Danh sách lịch chiếu");
+//        return "/schedule/schedule-list";
 //    }
-//    @PostMapping("/admin/films/add")
-//    public String addFilm(@Valid @ModelAttribute Film film,  BindingResult result,@RequestParam("poster") MultipartFile poster) throws IOException {
-//
-//        if (!poster.isEmpty()) {
-//            try {
-//                String imageName = saveImageStatic(poster);
-//                film.setPoster("/assets/img/movie/" + imageName); //lưu đường dẫn vào database
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        filmService.addFilm(film);
-//        return "redirect:/admin/films";
-//    }
-//
-//    private String saveImageStatic(MultipartFile image) throws IOException {
-//        Path dirImages = Paths.get("target/classes/static/assets/img/movie");
-//        if (!Files.exists(dirImages)) {
-//            Files.createDirectories(dirImages);
-//        }
-//
-//        String newFileName = UUID.randomUUID()+ "." + StringUtils.getFilenameExtension(image.getOriginalFilename());
-//
-//        Path pathFileUpload = dirImages.resolve(newFileName);
-//        Files.copy(image.getInputStream(), pathFileUpload,
-//                StandardCopyOption.REPLACE_EXISTING);
-//        return newFileName;
-//    }
-//
-//    // Hiển thị form sửa phim
-//    @GetMapping("/admin/films/edit/{id}")
-//    public String showEditFilmForm(@PathVariable("id") Long id, Model model) {
-//        Film film = filmService.getFilmById(id)
-//                .orElseThrow(() -> new IllegalArgumentException("Invalid film Id: " + id));
-//        model.addAttribute("film", film);
-//        model.addAttribute("countries", countryService.getAllCountries());
-//        model.addAttribute("categories", categoryService.getAllCategories());
-//        return "/admin/film/film-edit";
-//    }
-//
-//    // Cập nhật thông tin phim
-//    @PostMapping("/admin/films/edit/{id}")
-//    public String updateFilm(@PathVariable("id") Long id, @Valid @ModelAttribute Film film, BindingResult result, @RequestParam("poster") MultipartFile poster, Model model) throws IOException {
-////        if (result.hasErrors()) {
-////            return "/admin/film/film-edit";
-////        }
-//        Film existingFilm = filmService.getFilmById(id).orElseThrow(() -> new IllegalArgumentException("Invalid film Id:" + id));
-//
-//        if (!poster.isEmpty()) {
-//            String imageName = saveImageStatic(poster);
-//            existingFilm.setPoster("/assets/img/movie/" + imageName);}
-////        } else {
-////            // Giữ nguyên poster hiện tại nếu không upload hình ảnh mới
-////            film.setPoster(filmService.getFilmById(id).get().getPoster());
-////        }
-//        existingFilm.setName(film.getName());
-//        existingFilm.setTrailer(film.getTrailer());
-//        existingFilm.setDescription(film.getDescription());
-//        existingFilm.setDirector(film.getDirector());
-//        existingFilm.setActor(film.getActor());
-//        existingFilm.setOpeningday(film.getOpeningday());
-//        existingFilm.setSubtitle(film.getSubtitle());
-//        existingFilm.setDuration(film.getDuration());
-//        existingFilm.setLimit_age(film.getLimit_age());
-//        existingFilm.setCountry(film.getCountry());
-//        existingFilm.setCategory(film.getCategory());
-//        filmService.updateFilm(existingFilm);
-//        return "redirect:/admin/films";
-//    }
-//
-//    // Xóa phim
-//    @GetMapping("/admin/films/delete/{id}")
-//    public String deleteFilm(@PathVariable("id") Long id) {
-//        filmService.deleteFilm(id);
-//        return "redirect:/admin/films";
-//    }
+
 
 }
 

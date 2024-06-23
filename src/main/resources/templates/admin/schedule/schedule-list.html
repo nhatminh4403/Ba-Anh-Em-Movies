@@ -22,7 +22,7 @@
     </div>
     <!-- Header End -->
     <!-- /BREADCRUMB -->
-    <div class="container">
+    <div class="container-fluid">
         <div>
             <a th:href="@{/admin/schedules/add}" class="btn btn-primary mb-3">Thêm lịch chiếu</a>
         </div>
@@ -34,7 +34,8 @@
                 <th>Phòng</th>
                 <th>Rạp</th>
                 <th>Địa điểm</th>
-                <th>Bắt đầu</th>
+                <th>Suất chiếu</th>
+                <th>Bản đồ</th>
                 <th>Options</th>
             </tr>
             </thead>
@@ -47,6 +48,7 @@
                 <td class="text-white" th:text="${item.room.cinema.address}"></td>
 <!--                <td class="text-white" th:text="${item.startTime}"></td>-->
                 <td class="text-white" th:text="${#dates.format(item.startTime, 'HH:mm')}"></td>
+                <td class="text-white" th:text="${item.room.cinema.map}"></td>
                 <td>
                     <a th:href="@{/admin/schedules/edit/{id}(id=${item.id})}" class="btn btn-success btn-sm">Sửa</a>
                     <a th:href="@{/admin/schedules/delete/{id}(id=${item.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không ?')">Xóa</a>

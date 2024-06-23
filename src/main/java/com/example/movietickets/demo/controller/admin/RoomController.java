@@ -82,7 +82,7 @@ public class RoomController {
     }
 
     // GET request for deleting room
-    @GetMapping("/admin/room/delete/{id}")
+    @GetMapping("/admin/rooms/delete/{id}")
     public String deleteRoom(@PathVariable("id") Long id, Model model) {
         Room room = roomService.getRoomById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Phong chieu Id:" + id));

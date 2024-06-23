@@ -1,6 +1,7 @@
 package com.example.movietickets.demo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,6 +23,7 @@ public class Schedule {
 
     @ManyToOne
     @JoinColumn(name = "ROOM_ID")
+
     private Room room;
 
     @Column(name = "START_TIME")

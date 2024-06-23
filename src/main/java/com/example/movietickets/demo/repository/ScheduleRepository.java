@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface ScheduleRepository  extends JpaRepository<Schedule, Long> {
+    //truy vấn ngược lại bảng cha băằng JPSQL
     @Query("SELECT s FROM Schedule s JOIN FETCH s.room r JOIN FETCH r.cinema c")
     List<Schedule> findAllWithRoomAndCinema();
 

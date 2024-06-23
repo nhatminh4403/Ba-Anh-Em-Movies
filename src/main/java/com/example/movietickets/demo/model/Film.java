@@ -40,8 +40,9 @@ public class Film {
     @Column(name = "ACTOR")
     private String actor;
 
-
     @Column(name = "OPENING_DAY")
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date openingday;  // Changed to camelCase
 
     @Column(name = "SUBTITLE")

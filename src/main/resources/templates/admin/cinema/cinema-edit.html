@@ -35,8 +35,13 @@
             <input type="text" th:field="*{address}" class="form-control" id="address" required>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Valid address is required.</div>
         </div>
+        <div class="mb-3">
+            <label for="map" class="form-label">Map:</label>
+            <input type="text" th:field="*{map}" class="form-control" id="map" required>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('map')}" th:errors="*{map}">Valid map is required.</div>
+        </div>
         <button type="submit" class="custom-button">Cập nhật</button>
-        <a th:href="@{/admin/cinemas}" class="btn btn-outline-danger">Cancel</a>
+        <a th:href="@{/admin/cinemas}" class="btn btn-outline-danger">Hủy</a>
     </form>
 </section>
 </body>

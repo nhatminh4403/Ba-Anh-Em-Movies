@@ -35,6 +35,8 @@ public class CinemaService {
         Cinema existingCinema = cinemaRepository.findById(cinema.getId())
                 .orElseThrow(() -> new IllegalStateException("Cinema with ID " + cinema.getId() + " does not exist."));
         existingCinema.setName(cinema.getName());
+        existingCinema.setAddress(cinema.getAddress());
+        existingCinema.setMap(cinema.getMap());
         cinemaRepository.save(existingCinema);
     }
 

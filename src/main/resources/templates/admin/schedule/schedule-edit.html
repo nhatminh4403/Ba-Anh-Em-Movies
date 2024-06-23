@@ -34,7 +34,7 @@
             <div class="text-danger" th:if="${#fields.hasErrors('room')}" th:errors="*{room}"></div>
         </div>
         <div class="mb-3">
-            <label for="startTime" class="form-label">Bắt đầu:</label>
+            <label for="startTime" class="form-label">Suất chiếu:</label>
             <input type="datetime-local" id="startTime" th:field="*{startTime}" class="form-control"/>
             <div class="text-danger" th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}"></div>
         </div>

@@ -23,7 +23,7 @@ import java.util.UUID;
 
 import java.util.List;
 
-@Controller
+@Controller("adminScheduleController")
 @AllArgsConstructor
 public class ScheduleController {
     @Autowired

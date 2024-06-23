@@ -3,10 +3,13 @@ package com.example.movietickets.demo.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
 @Table(name = "Cinema")
+
 public class Cinema {
 
     @Id
@@ -22,5 +25,8 @@ public class Cinema {
 
     @Column(name = "MAP", nullable = true)
     private String map;
+
+    @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Room> rooms = new ArrayList<>();
 
 }

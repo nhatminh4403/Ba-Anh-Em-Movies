@@ -3,6 +3,7 @@ package com.example.movietickets.demo.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -11,6 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "Room")
 public class Room {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ROOM_ID")
@@ -25,4 +27,7 @@ public class Room {
     @ManyToOne
     @JoinColumn(name = "CINEMA_ID")
     private Cinema cinema;
+
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Schedule> schedules = new ArrayList<>();
 }

@@ -32,6 +32,7 @@
                 <th>ID</th>
                 <th>Tên rạp</th>
                 <th>Địa chỉ</th>
+                <th>Vị trí</th>
                 <th>Options</th>
             </tr>
             </thead>
@@ -40,6 +41,7 @@
                 <td class="text-white" th:text="${item.id}"></td>
                 <td class="text-white" th:text="${item.name}"></td>
                 <td class="text-white" th:text="${item.address}"></td>
+                <td class="text-white" th:text="${item.map}"></td>
                 <td>
                     <a th:href="@{/admin/cinemas/edit/{id}(id=${item.id})}" class="btn btn-success btn-sm">Sửa</a>
                     <a th:href="@{/admin/cinemas/delete/{id}(id=${item.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không ?')">Xóa</a>
