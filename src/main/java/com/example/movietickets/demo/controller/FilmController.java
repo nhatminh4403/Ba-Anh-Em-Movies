@@ -38,7 +38,9 @@ public class FilmController {
     @GetMapping("/films/film-details/{id}")
     public String getFilmDetail(@PathVariable Long id, Model model) {
         Film film = filmService.findFilmById(id);
+        List<String> actors = film.getActorList();
         model.addAttribute("film", film);
+        model.addAttribute("actors", actors);
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("countries", countryService.getAllCountries());
         return "film/film-detail";

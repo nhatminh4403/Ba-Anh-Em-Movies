@@ -289,8 +289,13 @@
       nav: false,
       dots: false,
       margin: 100,
+       lazyLoad: true,
+        smartSpeed: 500, // Điều chỉnh giá trị này để có hiệu ứng mượt mà hơn
+      autoplaySpeed: 500, // Đồng bộ với smartSpeed
+        animateOut: 'fadeOut',
+         animateIn: 'fadeIn',
       autoplay: true,
-      autoplayTimeout: 2000,
+     // autoplayTimeout: 2000,
       autoplayHoverPause: true,
       responsive: {
         0: {
@@ -327,8 +332,12 @@
       dots: false,
       margin: 100,
       autoplay: true,
-      autoplayTimeout: 2000,
+        smartSpeed: 500, // Điều chỉnh giá trị này để có hiệu ứng mượt mà hơn
+        autoplaySpeed: 500, // Đồng bộ với smartSpeed
+     // autoplayTimeout: 2000,
       autoplayHoverPause: true,
+       animateOut: 'fadeOut',
+        animateIn: 'fadeIn',
       responsive: {
         0: {
           items: 1,
@@ -357,32 +366,32 @@
     $(".cast-prev-2").on("click", function () {
       owlTT.trigger("prev.owl.carousel", [300]);
     });
-    $(".details-photos").owlCarousel({
-      // loop:true,
-      dots: false,
-      autoplay: true,
-      autoplayTimeout: 5000,
-      smartSpeed: 1000,
-      margin: 30,
-      nav: false,
-      responsive: {
-        0: {
-          items: 1,
-        },
-        576: {
-          items: 2,
-        },
-        768: {
-          items: 3,
-        },
-        1024: {
-          items: 3,
-        },
-        1200: {
-          items: 3,
-        },
-      },
-    });
+//    $(".details-photos").owlCarousel({
+//      // loop:true,
+//      dots: false,
+//      autoplay: true,
+//      autoplayTimeout: 5000,
+//      smartSpeed: 1000,
+//      margin: 30,
+//      nav: false,
+//      responsive: {
+//        0: {
+//          items: 1,
+//        },
+//        576: {
+//          items: 2,
+//        },
+//        768: {
+//          items: 3,
+//        },
+//        1024: {
+//          items: 3,
+//        },
+//        1200: {
+//          items: 3,
+//        },
+//      },
+//    });
     var book = 0;
     $(".seat-free img").on("click", function (e) {
       if (book == 0) {

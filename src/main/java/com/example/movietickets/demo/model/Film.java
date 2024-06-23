@@ -9,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -68,4 +70,10 @@ public class Film {
     @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Schedule> schedules;
 
+    public List<String> getActorList() {
+        if (actor == null || actor.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return Arrays.asList(actor.split("\\s*,\\s*")); // loại bỏ khoảng trắng thua và tách theo dấu phẩy
+    }
 }
