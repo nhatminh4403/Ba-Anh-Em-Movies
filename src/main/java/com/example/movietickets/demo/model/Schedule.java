@@ -1,12 +1,11 @@
 package com.example.movietickets.demo.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -23,12 +22,21 @@ public class Schedule {
 
     @ManyToOne
     @JoinColumn(name = "ROOM_ID")
-
     private Room room;
 
     @Column(name = "START_TIME")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date startTime;
 
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
+    private List<SeatReservation> seatReservations;
+
+    // Constructor without parameters
+    public Schedule() {}
+
+    // Constructor with schedule ID
+    public Schedule(Long id) {
+        this.id = id;
+    }
 
 }

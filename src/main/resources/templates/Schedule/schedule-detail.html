@@ -15,7 +15,7 @@
             <div class="thumb">
                 <img src="/assets/img/movie/seat-plan.png" alt="movie">
             </div>
-            <a th:href="@{'/bookings/' + ${id}}" class="custom-button seatPlanButton">Chọn ghế<i
+            <a th:href="@{/seats/schedules/{id}}" class="custom-button seatPlanButton">Chọn ghế<i
                     class="fas fa-angle-right"></i></a>
         </div>
     </section>
@@ -169,7 +169,9 @@
                             </div>
                             <div class="movie-schedule">
                                 <div th:each="schedule : ${entry.value}">
-                                    <div class="item" th:text="${#dates.format(schedule.startTime, 'HH:mm')}"></div>
+                                    <div class="item" th:text="${#dates.format(schedule.startTime, 'HH:mm')}">
+                                        <a th:href="@{/seats/schedules/{id}(id=${schedule.id})}" class="btn btn-primary">Chọn ghế</a>
+                                    </div>
                                 </div>
                             </div>
                         </li>

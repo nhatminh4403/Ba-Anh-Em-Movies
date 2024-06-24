@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Danh sách ghế</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+<!--<h1>Danh sách ghế</h1>-->
+<!--<div class="seat-map">-->
+<!--    <div th:each="seat : ${seats}" class="seat">-->
+<!--        <img th:src="@{'/assets/img/seats/' + ${seat.type} + '.png'}" alt="Ghế" width="50" height="50"-->
+<!--             th:classappend="${seat.status == 'Booked'} ? 'booked' : ''">-->
+<!--        <div th:text="${seat.seatNumber}"></div>-->
+<!--        <div th:text="${seat.price}"></div>-->
+<!--    </div>-->
+<!--</div>-->
+<section layout:fragment="content">
+    <div>
+        <h2 th:text="'Chọn ghế cho phim: ' + ${schedule.film.name}"></h2>
+        <div>
+            <h3>Phòng: <span th:text="${schedule.room.name}"></span></h3>
+            <h3>Thời gian bắt đầu: <span th:text="${#dates.format(schedule.startTime, 'yyyy-MM-dd HH:mm')}"></span></h3>
+        </div>
+        <div th:each="seat : ${seats}">
+            <div>
+                <img th:src="@{/images/seats/}" + ${seat.image}" alt="Seat Image"/>
+                <span th:text="${seat.type}"></span>
+                <span th:text="${seat.seatNumber}"></span>
+                <span th:text="${seat.price}"></span>
+                <button th:if="${#lists.contains(seatReservations, #list.findFirst(seatReservations, {'seat': seat}).get().reserved)}" disabled>Đã chọn</button>
+                <button th:if="${!#lists.contains(seatReservations, #list.findFirst(seatReservations, {'seat': seat}).get().reserved)}" th:onclick="'reserveSeat(' + ${seat.id} + ',' + ${schedule.id} + ');'">Chọn ghế</button>
+            </div>
+        </div>
+    </div>
+</section>
+<a th:href="@{/seats/create(scheduleId=${#lists.first(seats).schedule.id})}">Thêm ghế mới</a>
+</body>
+</html>

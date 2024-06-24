@@ -5,7 +5,6 @@ package com.example.movietickets.demo.controller.admin;
 import com.example.movietickets.demo.model.Schedule;
 import com.example.movietickets.demo.service.FilmService;
 import com.example.movietickets.demo.service.RoomService;
-import com.example.movietickets.demo.service.ScheduleService;
 import com.example.movietickets.demo.service.ScheduleServiceImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Quản lý Ghế</title>
+</head>
+<body>
+<h2 th:if="${seat.id == null}">Thêm Ghế Mới</h2>
+<h2 th:if="${seat.id != null}">Chỉnh Sửa Ghế</h2>
+<form th:action="@{${seat.id == null} ? '/seats/add' : '/seats/edit/' + ${seat.id}}" th:object="${seat}" method="post">
+    <div>
+        <label>Số Ghế:</label>
+        <input type="text" th:field="*{seatNumber}" required />
+    </div>
+    <div>
+        <label>Loại Ghế:</label>
+        <input type="text" th:field="*{type}" required />
+    </div>
+    <div>
+        <label>Giá:</label>
+        <input type="number" th:field="*{price}" required />
+    </div>
+    <div>
+        <label>Hình ảnh:</label>
+        <input type="text" th:field="*{image}" required />
+    </div>
+    <div>
+        <label>Phòng:</label>
+        <select th:field="*{room.id}">
+            <option th:each="room : ${rooms}" th:value="${room.id}" th:text="${room.name}"></option>
+        </select>
+    </div>
+    <div>
+        <button type="submit">Lưu</button>
+    </div>
+</form>
+<a th:href="@{/seats/room/{roomId}(roomId=${seat.room.id})}">Quay lại danh sách ghế</a>
+</body>
+</html>
