@@ -27,7 +27,7 @@ public class Booking {
     private LocalDateTime startTime;
 
     @Column(name = "CREAT_AT")
-   private LocalDateTime createAt;
+    private LocalDateTime createAt;
 
     @Column(name = "UPDATE_AT")
     private LocalDateTime updateAT;

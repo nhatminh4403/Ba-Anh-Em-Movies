@@ -1,6 +1,5 @@
 package com.example.movietickets.demo.controller.admin;
 
-import com.example.movietickets.demo.model.ComboFood;
 import com.example.movietickets.demo.model.SeatPrice;
 import com.example.movietickets.demo.service.SeatPriceService;
 import jakarta.validation.Valid;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -57,7 +58,7 @@ public class SeatPriceController {
     }
 
     @PostMapping("/admin/seatPrice/edit/{id}")
-    public String updateSeatPrice(@PathVariable("id") Long id, @Valid @ModelAttribute("seatprice") SeatPrice seatprice, BindingResult result, Model model) {
+    public String updateSeatPrice(@PathVariable("id") Long id, @Valid @ModelAttribute("seatprice") SeatPrice seatprice, BindingResult result, Model model) throws IOException {
         if (result.hasErrors()) {
             seatprice.setId(id);
             return "/admin/seatprice/seatprice-edit";
