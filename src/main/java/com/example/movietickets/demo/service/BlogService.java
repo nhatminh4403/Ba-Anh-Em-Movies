@@ -49,4 +49,10 @@ public class BlogService {
         Optional<Blog> product = blogRepository.findById(id);
         return product.orElseThrow(() -> new FileSystemNotFoundException("Product not found with id: " + id));
     }
+
+    // tính số lượng comment trong 1 trang blog
+    public long getCommentCount(Long blogId) {
+        Blog blog = blogRepository.findById(blogId).orElseThrow(() -> new IllegalArgumentException("Invalid blog Id:" + blogId));
+        return blog.getComments().size();
+    }
 }

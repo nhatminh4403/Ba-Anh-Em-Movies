@@ -24,7 +24,7 @@
     <!-- Header End -->
     <!-- /BREADCRUMB -->
     <!--    <h1 class="mb-4">Update Category</h1>-->
-    <form th:action="@{/admin/blog/edit/{id}(id=${comboFood.id})}" enctype="multipart/form-data" th:object="${blog}" method="post" class="needs-validation" >
+    <form th:action="@{/admin/blog/edit/{id}(id=${blog.id})}" enctype="multipart/form-data" th:object="${blog}" method="post" class="needs-validation" >
 
         <div class="mb-3">
             <label for="name" class="form-label">Tiêu đề:</label>
@@ -33,8 +33,8 @@
         </div>
 
         <div class="mb-3">
-            <label for="price" class="form-label">Nội dung</label>
-            <input type="text" th:field="*{content}" class="form-control" id="price" required>
+            <label for="content" class="form-label">Nội dung</label>
+            <input type="text" th:field="*{content}" class="form-control" id="content" required>
             <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Lỗi</div>
         </div>
 

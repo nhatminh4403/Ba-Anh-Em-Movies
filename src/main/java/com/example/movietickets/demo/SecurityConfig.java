@@ -50,11 +50,11 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/assets/**","/css/**", "/js/**", "/", "/oauth/**",
-                                "/register", "/error", "/films", "/cart", "/cart/**", "/blog", "blog/details", "/popcorn","/movie/details", "/movie/seat-plan" ,"/feedback", "/about")
+                                "/register", "/error", "/films", "/cart", "/cart/**", "/blog", "/blog/blog-details", "/popcorn","/movie/details", "/movie/seat-plan" ,"/feedback", "/about", "blog//blog-details/{id}/comment")
                         .permitAll() // Cho phép truy cập không cần xác thực.
                         .requestMatchers("admin/movie/edit/**", "/admin/movie/add", "/admin/films","/admin/films/edit", "/admin/films/add",
                                 "/admin/countries", "/admin/countries/add","/admin/countries/edit",
-                              "/admin/categories/add", "/admin/categories", "/admin/categories/edit", "/admin/blog/add", "/admin/blog/delete", "/admin/blog/update", "/admin/comboFood/delete", "/admin/comboFood/update", "/admin/comboFood","/admin/comboFood/add", "/admin/seatPrice", "/admin/seatPrice/add", "/admin/seatPrice/edit", "/admin/seatPrice/delete")
+                              "/admin/categories/add", "/admin/categories", "/admin/categories/edit", "/admin/blog/add", "/admin/blog/delete", "/admin/blog/update", "/admin/comboFood/delete", "/admin/comboFood/update", "/admin/comboFood","/admin/comboFood/add", "/admin/seatPrice", "/admin/seatPrice/add", "/admin/seatPrice/edit", "/admin/seatPrice/delete", "blog/blog-details/{id}/delete")
                         .hasAnyAuthority("admin") // Chỉ cho phép ADMIN truy cập.
                         .requestMatchers("/api/**")
                         .permitAll() // API mở cho mọi người dùng.

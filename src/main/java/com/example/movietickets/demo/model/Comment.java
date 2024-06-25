@@ -17,9 +17,7 @@ public class Comment {
     @Column(name = "COMMENT_ID")
     private Long id;
 
-
     @Column(name = "COMMENT_CONTENT")
-
     private String content;
 
     @Column(name = "COMMENT_DAYCREAT")
@@ -28,5 +26,9 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "BLOG_ID")
     private Blog blog;
+
+    @ManyToOne
+    @JoinColumn(name = "USER_ID", nullable = false)
+    private User user;
 
 }

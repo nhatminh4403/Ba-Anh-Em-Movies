@@ -1,6 +1,7 @@
 package com.example.movietickets.demo.controller.admin;
 
 import com.example.movietickets.demo.model.Blog;
+import com.example.movietickets.demo.model.Comment;
 import com.example.movietickets.demo.model.Film;
 import com.example.movietickets.demo.service.BlogService;
 import com.example.movietickets.demo.service.CommentService;
@@ -18,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -44,17 +46,20 @@ public class BlogController {
     public String listBlogUser(Model model) {
         List<Blog> blog = blogService.getAllPosts();
         model.addAttribute("blog", blog);
-        model.addAttribute("title", "Danh sách blog ");
         return "/blog/blog-list";
     }
 
     @GetMapping("/blog/blog-details/{id}")
     public String getBlogDetail(@PathVariable Long id, Model model) {
         Blog blog = blogService.findBlogWithId(id);
-        model.addAttribute("blog", blog);
-        model.addAttribute("categories", commentService.getAllCommentsByPostId(id));
+        List<Comment> comments = commentService.getAllCommentsByBlogId(id);
 
-        return "blog/blog-detail";
+        model.addAttribute("blog", blog);
+        model.addAttribute("comments", comments);
+        model.addAttribute("comment", new Comment());
+        model.addAttribute("formattedDate", blog.getFormattedDate());
+
+        return "blog/blog-details";
     }
 
     //add blog
@@ -104,7 +109,7 @@ public class BlogController {
     @GetMapping("/admin/blog/edit/{id}")
     public String showEditBlogForm(@PathVariable("id") Long id, Model model) {
         Blog blog = blogService.getPostById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid ComboFood Id: " + id));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid blog Id: " + id));
         model.addAttribute("blog", blog);
         return "/admin/blog/blog-update";
     }
@@ -120,12 +125,11 @@ public class BlogController {
 
         if (!poster.isEmpty()) {
             String imageName = saveImageStatic(poster);
-            existingBlog.setPoster("/assets/img/comboFood/" + imageName);}
-
+            existingBlog.setPoster("/assets/img/adminblog/" + imageName);
+        }
 
         existingBlog.setTitle(blog.getTitle());
         existingBlog.setContent(blog.getContent());
-        existingBlog.setPoster(blog.getPoster());
 
         blogService.updateBlog(existingBlog);
         return "redirect:/admin/blog";

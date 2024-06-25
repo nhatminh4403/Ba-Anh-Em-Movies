@@ -16,12 +16,11 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
 
-    public List<Comment> getAllCommentsByPostId(Long BlogId) {
-        return commentRepository.findByBlogId(BlogId);
+    public List<Comment> getAllCommentsByBlogId(Long BlogId) {
+        return commentRepository.findAllByBlogId(BlogId);
     }
 
-
-    public void addComment(Comment comment) {
+    public void saveComment(Comment comment) {
         commentRepository.save(comment);
     }
 
@@ -31,4 +30,5 @@ public class CommentService {
         }
         commentRepository.deleteById(id);
     }
+
 }

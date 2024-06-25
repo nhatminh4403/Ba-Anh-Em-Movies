@@ -14,11 +14,11 @@
     <div class="container-fluid bg-breadcrumb">
         <div class="container text-center py-5" style="max-width: 900px;">
             <h3 class="display-3 mb-4 fw-bolder">
-                Danh sách ComboFood
+                Danh sách blog
             </h3>
             <ol class="breadcrumb justify-content-center mb-0">
                 <li class="breadcrumb-item"><a href="/home/index">Trang chủ</a></li>
-                <li class="breadcrumb-item active ">ComboFood</li>
+                <li class="breadcrumb-item active ">blog</li>
             </ol>
         </div>
     </div>
@@ -47,8 +47,8 @@
                 <td class="text-white" th:text="${item.date}"></td>
                 <td><img th:src="@{${item.poster}}" alt="Film Poster" style="max-width: 100px;"></td>
                 <td>
-                    <a th:href="@{/admin/comboFood/edit/{id}(id=${item.id})}" class="btn btn-success btn-sm">Sửa</a>
-                    <a th:href="@{/admin/comboFood/delete/{id}(id=${item.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không ?')">Xóa</a>
+                    <a th:href="@{/admin/blog/edit/{id}(id=${item.id})}" class="btn btn-success btn-sm">Sửa</a>
+                    <a th:href="@{/admin/blog/delete/{id}(id=${item.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không ?')">Xóa</a>
                 </td>
             </tr>
             </tbody>
