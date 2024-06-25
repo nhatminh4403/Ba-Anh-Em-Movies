@@ -173,10 +173,10 @@
                                     <p>Chưa có comment nào.</p>
                                 </div>
 
-                                <!--<ul class="comment-area" th:if="${not #lists.isEmpty(blog.comments)}">
+                                <ul class="comment-area" th:unless="${blog.comments.empty}">
                                     <li th:each="comment : ${blog.comments}">
                                         <div class="blog-thumb-info">
-                                            <span th:text="${#dates.format(comment.date, 'MMMM dd, yyyy')}"></span>
+                                            <span th:text="${comment.getFormattedDate()}"></span>
                                             <h6 class="title">
                                                 <a href="#0" th:text="${comment.user.fullname}"></a>
                                             </h6>
@@ -185,7 +185,7 @@
                                             <p th:text="${comment.content}"></p>
                                         </div>
                                     </li>
-                                </ul>-->
+                                </ul>
 
                                 <div sec:authorize="isAuthenticated()" >
                                     <div class="leave-comment">

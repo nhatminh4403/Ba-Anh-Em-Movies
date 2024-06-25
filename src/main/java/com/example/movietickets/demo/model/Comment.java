@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 @Data
@@ -30,5 +31,11 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
+
+
+    public String getFormattedDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+        return date.format(formatter);
+    }
 
 }
