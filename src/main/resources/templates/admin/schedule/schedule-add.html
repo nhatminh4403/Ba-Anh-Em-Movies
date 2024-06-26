@@ -32,8 +32,8 @@
                                 <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                     <div class="profile__group">
                                         <label class="profile__label" for="film_id">ID phim</label>
-                                        <input type="hidden" name="film_id" th:value="${filmId}"/>
-                                        <input id="film_id" type="text" class="profile__input" th:value="${filmId}"
+                                        <input type="hidden" name="film_id" th:value="${id}"/>
+                                        <input id="film_id" type="text" class="profile__input" th:value="${id}"
                                                disabled/>
                                     </div>
                                 </div>
@@ -42,8 +42,8 @@
                                         <label class="profile__label" for="cinema">Rạp</label>
                                         <select class="js-example-basic-single" id="cinema"
                                                 name="cinema_id">
-                                            <option th:each="item: ${cinemas}" th:value="${item.id}"
-                                                    th:text="${item.name}"></option>
+                                            <option th:each="item: ${rooms}" th:value="${item.cinema.id}"
+                                                    th:text="${item.cinema.name}"></option>
                                         </select>
                                     </div>
                                 </div>

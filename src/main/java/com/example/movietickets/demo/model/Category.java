@@ -25,4 +25,9 @@ public class Category {
 
     @ManyToMany(mappedBy = "categories")
     private List<Film> films;
+
+    @Override
+    public String toString() {
+        return "Category{id=" + id + ", name='" + name + "'}";
+    }
 }

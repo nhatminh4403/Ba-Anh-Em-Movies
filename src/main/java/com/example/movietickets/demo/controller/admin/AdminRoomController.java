@@ -14,19 +14,30 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @Controller
 @AllArgsConstructor
+@RequestMapping("/admin")
 public class AdminRoomController {
     @Autowired
     private final RoomService roomService;
     @Autowired
     private final CinemaService cinemaService;
 
+    // Hiển thị danh sách danh mục
+    @GetMapping("/rooms")
+    public String listRooms(Model model) {
+        List<Room> listRoom = roomService.getAllRooms();
+        model.addAttribute("rooms", listRoom);
+        model.addAttribute("title", "Danh sách phòng chiếu");
+        return "/admin/room/room-list";
+    }
+
     //gửi response ra view add
-    @GetMapping("/admin/rooms/add")
+    @GetMapping("/rooms/add")
     public String showAddForm(Model model) {
         model.addAttribute("room", new Room());
         model.addAttribute("cinemas", cinemaService.getAllCinemas());
@@ -34,26 +45,14 @@ public class AdminRoomController {
     }
 
     //gọi phương thức mapp tới form add
-    @PostMapping("/admin/rooms/add")
+    @PostMapping("/rooms/add")
     public String addRoom(@Valid Room room, BindingResult result) {
-        if (result.hasErrors()) {
-            return "/admin/room/room-add";
-        }
         roomService.addRoom(room);
         return "redirect:/admin/rooms";
     }
 
-    // Hiển thị danh sách danh mục
-    @GetMapping("/admin/rooms")
-    public String listRooms(Model model) {
-        List<Room> listRoom = roomService.getAllRooms();
-        model.addAttribute("roomss", listRoom);
-        model.addAttribute("title", "Danh sách phòng chiếu");
-        return "/admin/room/room-list";
-    }
-
     // GET request to show room edit form
-    @GetMapping("/admin/rooms/edit/{id}")
+    @GetMapping("/rooms/edit/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         Room room = roomService.getRoomById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid room Id:" + id));
@@ -63,7 +62,7 @@ public class AdminRoomController {
     }
 
     // POST request to update room
-    @PostMapping("/admin/rooms/edit/{id}")
+    @PostMapping("/rooms/edit/{id}")
     public String updateRoom(@PathVariable("id") Long id, @Valid Room room, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("cinemas", cinemaService.getAllCinemas());
@@ -84,7 +83,7 @@ public class AdminRoomController {
     }
 
     // GET request for deleting room
-    @GetMapping("/admin/rooms/delete/{id}")
+    @GetMapping("/rooms/delete/{id}")
     public String deleteRoom(@PathVariable("id") Long id, Model model) {
         Room room = roomService.getRoomById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Phong chieu Id:" + id));

@@ -34,32 +34,32 @@ public class AdminScheduleController {
     public String listSchedules(Model model) {
         List<Schedule> schedules = scheduleService.getAllSchedules();
         model.addAttribute("schedules", schedules);
+        System.out.println(schedules);
         model.addAttribute("title", "Danh sách lịch chiếu");
         return "/admin/schedule/schedule-list";
     }
 
-    @GetMapping("/schedules/add/{filmId}")
-    public String showAddForm(@PathVariable("filmId") Long filmId, Model model) {
+    @GetMapping("/schedules/add/{id}")
+    public String showAddForm(@PathVariable("id") Long id, Model model) {
         Schedule schedule = new Schedule();
-        schedule.setFilm(filmService.getFilmById(filmId).orElseThrow(() -> new IllegalArgumentException("Invalid film Id: " + filmId)));
+        schedule.setFilm(filmService.getFilmById(id).orElseThrow(() -> new IllegalArgumentException("Invalid film Id: " + id)));
 
         model.addAttribute("title", "Thêm mới Lịch chiếu phim #" + schedule.getFilm().getName());
         model.addAttribute("schedule", schedule);
-        model.addAttribute("filmId", filmId);
+        model.addAttribute("id", id);
         model.addAttribute("films", filmService.getAllFilms());
         model.addAttribute("rooms", roomService.getAllRooms());
-        model.addAttribute("cinemas", cinemaService.getAllCinemas());
         return "/admin/schedule/schedule-add";
     }
 
     @PostMapping("/schedules/add")
-    public String addSchedule(@Valid Schedule schedule, BindingResult result, @RequestParam("film_id") Long filmId, Model model) {
+    public String addSchedule(@Valid Schedule schedule, BindingResult result, @RequestParam("film_id") Long id, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("films", filmService.getAllFilms());
             model.addAttribute("rooms", roomService.getAllRooms());
             return "/schedule/schedule-add";
         }
-        schedule.setFilm(filmService.getFilmById(filmId).orElseThrow(() -> new IllegalArgumentException("Invalid film Id: " + filmId)));
+        schedule.setFilm(filmService.getFilmById(id).orElseThrow(() -> new IllegalArgumentException("Invalid film Id: " + id)));
         scheduleService.addSchedule(schedule);
         return "redirect:/admin/schedules";
     }
@@ -68,10 +68,11 @@ public class AdminScheduleController {
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         Schedule schedule = scheduleService.getScheduleById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid film Id: " + id));
+        model.addAttribute("title", "Chỉnh sửa Lịch chiếu #" + schedule.getId());
         model.addAttribute("schedule", schedule);
         model.addAttribute("films", filmService.getAllFilms());
         model.addAttribute("rooms", roomService.getAllRooms());
-        return "/admin/schedule/schedule-edit";
+        return "/admin/schedule/schedule-add";
     }
 
     @PostMapping("/schedules/edit/{id}")
@@ -79,7 +80,7 @@ public class AdminScheduleController {
         if (result.hasErrors()) {
             model.addAttribute("films", filmService.getAllFilms());
             model.addAttribute("rooms", roomService.getAllRooms());
-            return "/admin/schedule/schedule-edit";
+            return "/admin/schedule/schedule-add";
         }
         scheduleService.updateSchedule(schedule);
         return "redirect:/admin/schedules";
