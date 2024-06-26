@@ -97,6 +97,7 @@ public class FilmController {
 //        }
         Film existingFilm = filmService.getFilmById(id).orElseThrow(() -> new IllegalArgumentException("Invalid film Id:" + id));
 
+
         if (!poster.isEmpty()) {
             String imageName = saveImageStatic(poster);
             existingFilm.setPoster("/assets/img/movie/" + imageName);}
