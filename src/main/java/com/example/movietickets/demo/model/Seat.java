@@ -24,10 +24,6 @@ public class Seat {
     @Column(name = "STATUS")
     private String status;
 
-//    @ManyToOne
-//    @JoinColumn(name = "SCHEDULE_ID")
-//    private Schedule schedule;
-
     @ManyToOne
     @JoinColumn(name = "ROOM_ID")
     private Room room;
