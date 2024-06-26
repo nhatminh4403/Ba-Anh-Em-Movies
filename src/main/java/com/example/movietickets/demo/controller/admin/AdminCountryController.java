@@ -1,7 +1,6 @@
 package com.example.movietickets.demo.controller.admin;
 
 
-import com.example.movietickets.demo.model.Category;
 import com.example.movietickets.demo.model.Country;
 import com.example.movietickets.demo.service.CountryService;
 import jakarta.validation.Valid;
@@ -13,17 +12,19 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class CountryController {
+@RequestMapping("/admin")
+public class AdminCountryController {
     @Autowired
     private final CountryService countryService;
 
     // Hiển thị danh sách danh mục
-    @GetMapping("/admin/countries")
+    @GetMapping("/countries")
     public String listCountries(Model model) {
         List<Country> countries = countryService.getAllCountries();
         model.addAttribute("countries", countries);
@@ -32,13 +33,15 @@ public class CountryController {
     }
 
     //gửi response ra view add
-    @GetMapping("/admin/countries/add")
+    @GetMapping("/countries/add")
     public String showAddForm(Model model) {
         model.addAttribute("country", new Country());
+        model.addAttribute("title", "Thêm mới Quốc gia");
         return "/admin/country/country-add";
     }
+
     //gọi phương thức mapp tới form add
-    @PostMapping("/admin/countries/add")
+    @PostMapping("/countries/add")
     public String addCountries(@Valid Country country, BindingResult result) {
         if (result.hasErrors()) {
             return "/admin/country/country-add";
@@ -48,20 +51,21 @@ public class CountryController {
     }
 
     // GET request to show category edit form
-    @GetMapping("/admin/countries/edit/{id}")
+    @GetMapping("/countries/edit/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         Country country = countryService.getCountryById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid country Id:" + id));
         model.addAttribute("country", country);
-        return "/admin/country/country-edit";
+        model.addAttribute("title", "Chỉnh sửa Quốc gia #" + country.getId());
+        return "/admin/country/country-add";
     }
 
     // POST request to update category
-    @PostMapping("/admin/countries/edit/{id}")
+    @PostMapping("/countries/edit/{id}")
     public String updateCategory(@PathVariable("id") Long id, @Valid Country country, BindingResult result, Model model) {
         if (result.hasErrors()) {
             country.setId(id);
-            return "/admin/country/country-edit";
+            return "/admin/country/country-add";
         }
 
         countryService.updateCountry(country);
@@ -70,7 +74,7 @@ public class CountryController {
     }
 
     // GET request for deleting category
-    @GetMapping("/admin/countries/delete/{id}")
+    @GetMapping("/countries/delete/{id}")
     public String deleteCategory(@PathVariable("id") Long id, Model model) {
         Country country = countryService.getCountryById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Quốc gia Id:" + id));

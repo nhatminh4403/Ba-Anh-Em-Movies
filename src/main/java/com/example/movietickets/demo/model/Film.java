@@ -3,10 +3,12 @@ package com.example.movietickets.demo.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.*;
 
 
 @Data
@@ -37,9 +39,9 @@ public class Film {
     @Column(name = "ACTOR")
     private String actor;
 
-
     @Column(name = "OPENING_DAY")
-    private LocalDate openingday;  // Changed to camelCase
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private Date openingday;
 
     @Column(name = "SUBTITLE")
     private String subtitle;
@@ -50,13 +52,31 @@ public class Film {
     @Column(name = "LIMIT_AGE")
     private String limit_age;
 
+    @Column(name = "QUANLITY")
+    private String quanlity;
+
     @ManyToOne
     @JoinColumn(name = "COUNTRY_ID")
     private Country country;
 
-    @ManyToOne
-    @JoinColumn(name = "CATEGORY_ID")
-    private Category category;
+    @ManyToMany
+    @JoinTable(
+            name = "Film_Category",
+            joinColumns = @JoinColumn(name = "FILM_ID"),
+            inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID")
+    )
+    private List<Category> categories;
 
+    @Transient
+    private List<Long> categoryIds = new ArrayList<>(); // Khởi tạo danh sách rỗng
 
+    @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Schedule> schedules;
+
+    public List<String> getActorList() {
+        if (actor == null || actor.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return Arrays.asList(actor.split("\\s*,\\s*")); // loại bỏ khoảng trắng thua và tách theo dấu phẩy
+    }
 }

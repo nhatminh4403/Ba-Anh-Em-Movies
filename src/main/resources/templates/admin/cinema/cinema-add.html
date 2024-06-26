@@ -1,10 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<section layout:fragment="content">
+    <main class="main">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- main title -->
+                <div class="col-12">
+                    <div class="main__title">
+                        <h2 th:text="${title}"></h2>
+                    </div>
+                </div>
+                <!-- end main title -->
 
+                <!-- form -->
+                <div class="col-12">
+                    <form th:action="@{/admin/cinemas/add}" th:object="${cinema}" method="POST" class="form">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="hidden" th:field="*{id}" name="id"/>
+                                        <input type="text" class="form__input" placeholder="Tên rạp" th:field="*{name}"
+                                               name="name" required/>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="text" class="form__input" placeholder="Địa chỉ"
+                                               th:field="*{address}" name="address" required/>
+                                    </div>
+                                    <div class="col-12">
+                                        <input type="text" class="form__input" placeholder="Bản đồ hiển thị"
+                                               th:field="*{map}" name="map" required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button type="submit" class="form__btn">thực hiện</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- end form -->
+            </div>
+        </div>
+    </main>
+</section>
 </body>
 </html>

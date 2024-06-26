@@ -29,6 +29,10 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
+    public List<Category> findAllById(List<Long> ids) {
+        return categoryRepository.findAllById(ids);
+    }
+
     public Optional<Category> getCategoryById(Long id) {
         return categoryRepository.findById(id);
     }
@@ -43,6 +47,7 @@ public class CategoryService {
         existingCategory.setName(category.getName());
         categoryRepository.save(existingCategory);
     }
+
     public void deleteCategoryById(Long id) {
         if (!categoryRepository.existsById(id)) {
             throw new IllegalStateException("Category with ID " + id + " does not exist.");

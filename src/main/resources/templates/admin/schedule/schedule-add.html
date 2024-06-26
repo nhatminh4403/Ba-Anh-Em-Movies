@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <main class="main">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- main title -->
+                <div class="col-12">
+                    <div class="main__title">
+                        <h2 th:text="${title}"></h2>
+                    </div>
+                </div>
+                <!-- end main title -->
+
+                <!-- form -->
+                <div class="col-12">
+                    <div class="row">
+                        <form th:action="@{/admin/schedules/add}" th:object="${schedule}" method="POST"
+                              class="profile__form">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4 class="profile__title">Thông tin</h4>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                    <div class="profile__group">
+                                        <label class="profile__label" for="film_id">ID phim</label>
+                                        <input type="hidden" name="film_id" th:value="${filmId}"/>
+                                        <input id="film_id" type="text" class="profile__input" th:value="${filmId}"
+                                               disabled/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                    <div class="profile__group">
+                                        <label class="profile__label" for="cinema">Rạp</label>
+                                        <select class="js-example-basic-single" id="cinema"
+                                                name="cinema_id">
+                                            <option th:each="item: ${cinemas}" th:value="${item.id}"
+                                                    th:text="${item.name}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                    <div class="profile__group">
+                                        <label class="profile__label" for="room">Phòng</label>
+                                        <select class="js-example-basic-single" id="room" th:field="*{room.id}"
+                                                name="room_id">
+                                            <option th:each="item: ${rooms}" th:value="${item.id}"
+                                                    th:text="${item.name}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-12 col-xl-3">
+                                    <div class="profile__group">
+                                        <label class="profile__label" for="date">Ngày và giờ bắt đầu</label>
+                                        <input id="date" type="datetime-local" name="date" class="profile__input"
+                                               th:field="*{startTime}"/>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button class="profile__btn" type="submit">Thực hiện</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- end form -->
+            </div>
+        </div>
+    </main>
+</section>
+</body>
+</html>

@@ -50,48 +50,30 @@ public class SecurityConfig {
 
 
     @Bean
-    public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http)
-            throws Exception {
-        return http
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/assets/**","/css/**", "/js/**", "/", "/oauth/**",
-                                "/register", "/error", "/films", "/cart", "/cart/**", "/blog", "blog/details", "/popcorn","/movie/details", "/movie/seat-plan")
-                        .permitAll() // Cho phép truy cập không cần xác thực.
-                        .requestMatchers("/movie/edit/**", "/movie/add", "/admin/films","/admin/films/edit", "/admin/films/add",
-                                "/admin/countries", "/admin/countries/add","/admin/countries/edit",
-                              "/admin/categories/add", "/admin/categories", "/admin/categories/edit", "blog/add", "blog/delete", "blog/update")
-                        .hasAnyAuthority("admin") // Chỉ cho phép ADMIN truy cập.
-                        .requestMatchers("/api/**")
-                        .permitAll() // API mở cho mọi người dùng.
+    public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http) throws Exception {
+        return http.authorizeHttpRequests(auth -> auth.requestMatchers("/assets/**", "/css/**", "/js/**", "/", "/oauth/**", "/register", "/error", "/films", "/cart", "/cart/**", "/blog", "blog/details", "/popcorn", "/movie/details", "/movie/seat-plan").permitAll() // Cho phép truy cập không cần xác thực.
+                        .requestMatchers("/movie/edit/**", "/movie/add", "/admin", "/admin/films", "/admin/films/edit", "/admin/films/add",
+                                "/admin/countries", "/admin/countries/add", "/admin/countries/edit",
+                                "/admin/categories/add", "/admin/categories", "/admin/categories/edit",
+                                "/admin/schedules", "/admin/schedules/add", "/admin/schedules/edit",
+                                "blog/add", "blog/delete", "blog/update").hasAnyAuthority("admin") // Chỉ cho phép ADMIN truy cập.
+                        .requestMatchers("/api/**").permitAll() // API mở cho mọi người dùng.
                         .anyRequest().authenticated() // Bất kỳ yêu cầu nào khác cần xác thực.
                 )
                 //
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login") // Trang chuyển hướng sau khi đăng xuất.
+                .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/login") // Trang chuyển hướng sau khi đăng xuất.
                         .deleteCookies("JSESSIONID") // Xóa cookie.
                         .invalidateHttpSession(true) // Hủy phiên làm việc.
                         .clearAuthentication(true) // Xóa xác thực.
-                        .permitAll()
-                )
-                .formLogin(formLogin -> formLogin
-                        .loginPage("/login") // Trang đăng nhập.
+                        .permitAll()).formLogin(formLogin -> formLogin.loginPage("/login") // Trang đăng nhập.
                         .loginProcessingUrl("/login") // URL xử lý đăng nhập.
                         .defaultSuccessUrl("/") // Trang sau đăng nhập thành công.
                         .failureUrl("/login?error") // Trang đăng nhập thất bại.
-                        .permitAll()
-                )
-                .oauth2Login(oauth2Login -> oauth2Login
-                        .loginPage("/login")
-                        .failureUrl("/login?error")
-                        .userInfoEndpoint (userInfoEndpoint ->userInfoEndpoint
-                                .userService (oauthService))
+                        .permitAll()).oauth2Login(oauth2Login -> oauth2Login.loginPage("/login").failureUrl("/login?error").userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(oauthService))
 
-                        .successHandler(
-                                (request, response,authentication) -> {
-                                    var oidcUser =
-                                            (DefaultOidcUser) authentication.getPrincipal();
-                                    userService.saveOauthUser (oidcUser.getEmail(), oidcUser.getName());
+                        .successHandler((request, response, authentication) -> {
+                                    var oidcUser = (DefaultOidcUser) authentication.getPrincipal();
+                                    userService.saveOauthUser(oidcUser.getEmail(), oidcUser.getFullName());
                                     response.sendRedirect("/");
                                 }
 
@@ -101,22 +83,11 @@ public class SecurityConfig {
                 )
 
 
-                .rememberMe(rememberMe -> rememberMe
-                        .key("3anhem")
-                        .rememberMeCookieName("3anhem")
-                        .tokenValiditySeconds(24 * 60 * 60) // Thời gian nhớ đăng nhập.
-                        .userDetailsService(userDetailsService())
-                )
-                .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .accessDeniedPage("/404") // Trang báo lỗi khi truy cập không được phép.
-                )
-                .sessionManagement(sessionManagement -> sessionManagement
-                        .maximumSessions(1) // Giới hạn số phiên đăng nhập.
+                .rememberMe(rememberMe -> rememberMe.key("3anhem").rememberMeCookieName("3anhem").tokenValiditySeconds(24 * 60 * 60) // Thời gian nhớ đăng nhập.
+                        .userDetailsService(userDetailsService())).exceptionHandling(exceptionHandling -> exceptionHandling.accessDeniedPage("/404") // Trang báo lỗi khi truy cập không được phép.
+                ).sessionManagement(sessionManagement -> sessionManagement.maximumSessions(1) // Giới hạn số phiên đăng nhập.
                         .expiredUrl("/login") // Trang khi phiên hết hạn.
-                )
-                .httpBasic(httpBasic -> httpBasic
-                        .realmName("3anhem") // Tên miền cho xác thực cơ bản.
-                )
-                .build(); // Xây dựng và trả về chuỗi lọc bảo mật.
+                ).httpBasic(httpBasic -> httpBasic.realmName("3anhem") // Tên miền cho xác thực cơ bản.
+                ).build(); // Xây dựng và trả về chuỗi lọc bảo mật.
     }
 }
