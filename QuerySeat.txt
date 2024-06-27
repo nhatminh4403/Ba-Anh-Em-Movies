@@ -1,0 +1,71 @@
+INSERT INTO Seat (image, status, seat_number, room_id, seat_type_id) VALUES 
+('/assets/img/seat/regular.png', 'empty', 'A1', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'A2', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'A3', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'A4', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'A5', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'A6', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'A7', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'A8', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'A9', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'A10', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'A11', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'A12', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'B1', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'B2', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'B3', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'B4', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'B5', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'B6', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'B7', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'B8', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'B9', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'B10', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'B11', 1, 1),
+('/assets/img/seat/regular.png', 'empty', 'B12', 1, 1);
+
+
+
+
+
+//VIP
+INSERT INTO Seat (image, status, seat_number, room_id, seat_type_id) VALUES 
+('/assets/img/seat/VIP.png', 'empty', 'E1', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'E2', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'E3', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'E4', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'E5', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'E6', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'E7', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'E8', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'E9', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'E10', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'E11', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'E12', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'F1', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'F2', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'F3', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'F4', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'F5', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'F6', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'F7', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'F8', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'F9', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'F10', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'F11', 1, 2),
+('/assets/img/seat/VIP.png', 'empty', 'F12', 1, 2);
+
+//Couple Seat
+
+INSERT INTO Seat (image, status, seat_number, room_id, seat_type_id) VALUES 
+( '/assets/img/seat/couple.png','empty', 'J1', 1, 4),
+( '/assets/img/seat/couple.png','empty', 'J2', 1, 4),
+( '/assets/img/seat/couple.png','empty', 'J3', 1, 4),
+( '/assets/img/seat/couple.png','empty', 'J4', 1, 4),
+( '/assets/img/seat/couple.png','empty', 'J5', 1, 4),
+( '/assets/img/seat/couple.png','empty', 'J6', 1, 4);
+( '/assets/img/seat/couple.png','empty', 'J7', 1, 4),
+( '/assets/img/seat/couple.png','empty', 'J8', 1, 4);
+
+
+

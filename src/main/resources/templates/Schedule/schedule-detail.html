@@ -169,6 +169,7 @@
                             </div>
                             <div class="movie-schedule">
                                 <div th:each="schedule : ${entry.value}">
+<!--                                    Action go to Seat List to choose Seat-->
                                     <a th:href="@{/seats/schedules/{id}(id=${schedule.id})}" class="d-block">
                                         <p class="item" th:text="${#dates.format(schedule.startTime, 'HH:mm')}"> </p>
                                     </a>

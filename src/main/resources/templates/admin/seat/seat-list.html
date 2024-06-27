@@ -20,7 +20,7 @@
             </ol>
         </div>
     </div>
-
+    <!-- BREADCRUMB -->
 
 
 <div class="container">
@@ -40,6 +40,7 @@
             <th>ID</th>
             <th>Seat Number</th>
             <th>Seat Type</th>
+            <th>Seat Price</th>
             <th>Seat Image</th>
             <th>Status</th>
             <th>Room</th>
@@ -51,6 +52,7 @@
             <td th:text="${seat.id}"></td>
             <td th:text="${seat.symbol}"></td>
             <td th:text="${seat.seattype.type}"></td>
+            <td th:text="${seat.seattype.price}"></td>
             <td>
                 <img th:src="${seat.image}" alt="" style="max-width:100px">
             </td>
