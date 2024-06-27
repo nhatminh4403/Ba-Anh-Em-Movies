@@ -18,7 +18,8 @@
     </style>
 </head>
 <body>
-<section layout:fragment="content">
+
+    <section layout:fragment="content">
     <section class="details-banner hero-area bg_img seat-plan-banner" th:if="${film != null}" th:attr="data-background=${film.poster}"
              style="background-image: url(&quot;/assets/img/banner/banner04.jpg&quot;);">
         <div class="container">
@@ -85,8 +86,8 @@
                             <ul class="format_seat">
                                 <li class="front-seat">
                                     <ul>
-                                        <li class="single-seat" th:each="seat : ${seatsByType['regular']}">
-                                            <img th:src="${seat.image}" alt="seat">
+                                        <li class="single-seat seat-free" th:each="seat : ${seatsByType['regular']}">
+                                            <img  class="seat-img" alt="seat"  th:attr="src=${seat.image}, data-src2='/assets/img/seat/regularchoose.png', data-src=${seat.image}" >
                                             <span class="sit-num" th:text="${seat.symbol}"></span>
                                         </li>
 
@@ -107,8 +108,8 @@
                             <ul class="format_seat" >
                                 <li class="front-seat">
                                     <ul >
-                                        <li class="single-seat" th:each="seat : ${seatsByType['VIP']}" >
-                                            <img th:src="${seat.image}" alt="seat">
+                                        <li class="single-seat seat-free" th:each="seat : ${seatsByType['VIP']}" >
+                                            <img class="seat-img" alt="seat"  th:attr="src=${seat.image}, data-src2='/assets/img/seat/VIPchoose.png', data-src=${seat.image}">
                                             <span class="sit-num" th:text="${seat.symbol}"></span>
                                         </li>
 
@@ -129,7 +130,7 @@
                                 <li class="front-seat">
                                     <ul style="margin-left: 60px">
                                         <li class="single-seat seat-free-two" th:each="seat : ${seatsByType['couple']}">
-                                            <img th:src="${seat.image}" alt="seat">
+                                            <img class="seat-img" alt="seat"  th:attr="src=${seat.image}, data-src2='/assets/img/seat/couplechoose.png', data-src=${seat.image}" >
                                             <span class="sit-num" th:text="${seat.symbol}"></span>
                                         </li>
                                     </ul>
@@ -159,5 +160,20 @@
         </div>
     </div>
 </section>
-<script th:src="@{/assets/js/jquery-3.3.1.min.js}"></script>
+<!--    <script>-->
+<!--        window.onload = function() {-->
+<!--            var seatImages = document.getElementsByClassName('seat-img');-->
+<!--            for (var i = 0; i < seatImages.length; i++) {-->
+<!--                seatImages[i].addEventListener('mouseover', function() {-->
+<!--                    this.src = this.getAttribute('data-src');-->
+<!--                    this.style.height = "42px";-->
+<!--                    this.style.width = "42px";-->
+<!--                    console.log("tôi là sự kiện on over ");-->
+<!--                });-->
+<!--            }-->
+<!--        }-->
+<!--    </script>-->
+<!--    <script th:src="@{/assets/js/jquery-3.3.1.min.js}"></script>-->
+
 </body>
+</html>
