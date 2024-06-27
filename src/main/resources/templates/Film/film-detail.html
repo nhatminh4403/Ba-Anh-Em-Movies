@@ -1,10 +1,49 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chi tiết phim</title>
+
+    <style>
+        .rating-stars {
+            display: flex;
+        }
+
+        .rating-stars i {
+            font-size: 24px;
+            color: #223c6e;
+            cursor: pointer;
+        }
+
+        .rating-stars .selected {
+            color: #f1481f;
+        }
+
+        .star-flex{
+            display:flex;
+            gap: 5px;
+        }
+
+        .movie-review-item{
+            display: flex;
+            gap: 5px;
+            flex-direction: column;
+        }
+
+        .flex-rating{
+            display:flex;
+            gap:10px;
+        }
+
+        .review{
+            display:flex;
+            gap:3px;
+        }
+    </style>
 </head>
 <body>
 <section layout:fragment="content">
@@ -102,30 +141,14 @@
                     </div>
                     <div class="item">
                         <div class="item-header">
-                            <h5 class="title">4.5</h5>
-                            <div class="rated">
-                                <i class="fas fa-heart"></i>
-                                <i class="fas fa-heart"></i>
-                                <i class="fas fa-heart"></i>
-                                <i class="fas fa-heart"></i>
+                            <h5 class="title" th:text="${averageRating}"></h5>
+                            <div class="rated" th:each="i : ${#numbers.sequence(1, averageRating)}">
                                 <i class="fas fa-heart"></i>
                             </div>
                         </div>
                         <p>Users Rating</p>
                     </div>
-                    <div class="item">
-                        <div class="item-header">
-                            <div class="rated rate-it">
-                                <i class="fas fa-heart"></i>
-                                <i class="fas fa-heart"></i>
-                                <i class="fas fa-heart"></i>
-                                <i class="fas fa-heart"></i>
-                                <i class="fas fa-heart"></i>
-                            </div>
-                            <h5 class="title">0.0</h5>
-                        </div>
-                        <p><a href="#0">Rate It</a></p>
-                    </div>
+
                 </div>
                 <a th:href="@{/schedules/{id}(id=${film.id})}" class="custom-button">
                    Đặt vé
@@ -134,7 +157,7 @@
         </div>
     </section>
 
-    <section class="movie-details-section padding-top padding-bottom">
+    <section class="movie-details-section padding-top padding-bottom" th:object="${film}">
         <div class="container">
             <div class="row justify-content-center flex-wrap-reverse mb--50">
                 <div class="col-lg-3 col-sm-10 col-md-6 mb-50">
@@ -536,8 +559,6 @@
                                             </div>
                                         </div>
                                         <div class="casting-slider-two owl-carousel owl-loaded owl-drag">
-
-
                                             <div class="owl-stage-outer">
                                                 <div class="owl-stage"
                                                      style="transform: translate3d(-1184px, 0px, 0px); transition: all 0.25s ease 0s; width: 2843px;">
@@ -749,205 +770,67 @@
                                     </div>
                                 </div>
                                 <div class="tab-item">
-                                    <div class="movie-review-item">
-                                        <div class="author">
-                                            <div class="thumb">
-                                                <a href="#0">
-                                                    <img src="/assets/img/cast/cast02.jpg" alt="cast">
-                                                </a>
-                                            </div>
-                                            <div class="movie-review-info">
-                                                <span class="reply-date">13 Days Ago</span>
-                                                <h6 class="subtitle">
-                                                    <a href="#0">minkuk seo</a>
-                                                </h6>
-                                                <span><i class="fas fa-check"></i>
-                                                        verified review</span>
-                                            </div>
-                                        </div>
-                                        <div class="movie-review-content">
-                                            <div class="review">
-                                                <i class="flaticon-favorite-heart-button"></i>
-                                                <i class="flaticon-favorite-heart-button"></i>
-                                                <i class="flaticon-favorite-heart-button"></i>
-                                                <i class="flaticon-favorite-heart-button"></i>
-                                                <i class="flaticon-favorite-heart-button"></i>
-                                            </div>
-                                            <h6 class="cont-title">
-                                                Awesome Movie
-                                            </h6>
-                                            <p>
-                                                Lorem ipsum dolor sit amet,
-                                                consectetur adipiscing elit.
-                                                Integer volutpat enim non
-                                                ante egestas vehicula.
-                                                Suspendisse potenti. Fusce
-                                                malesuada fringilla lectus
-                                                venenatis porttitor.
-                                            </p>
-                                            <div class="review-meta">
-                                                <a href="#0">
-                                                    <i class="flaticon-hand"></i><span>8</span>
-                                                </a>
-                                                <a href="#0" class="dislike">
-                                                    <i class="flaticon-dont-like-symbol"></i><span>0</span>
-                                                </a>
-                                                <a href="#0">
-                                                    Report Abuse
-                                                </a>
+
+                                    <div sec:authorize="isAuthenticated()" >
+                                        <div th:if="${!hasRated}">
+                                            <div class="leave-comment">
+                                                <h5 class="title">Leave a comment</h5>
+                                                <form class="rating-form" method="post" th:action="@{/films/film-details/{id}/rating(id=${film.id})}" th:object="${rating}" enctype="multipart/form-data">
+                                                    <input type="hidden" th:value="${film.id}" name="filmId" /> <!-- Trường ẩn để lưu id của film -->
+                                                    <div class="form-group">
+                                                        <div class="rating-stars star-flex">
+                                                            <i class="fas fa-heart" id="star1" onclick="rate(1)"></i>
+                                                            <i class="fas fa-heart" id="star2" onclick="rate(2)"></i>
+                                                            <i class="fas fa-heart" id="star3" onclick="rate(3)"></i>
+                                                            <i class="fas fa-heart" id="star4" onclick="rate(4)"></i>
+                                                            <i class="fas fa-heart" id="star5" onclick="rate(5)"></i>
+                                                        </div>
+                                                        <input type="hidden" id="rating" name="rating" th:field="*{star}" /> <!-- Trường ẩn để lưu giá trị đánh giá sao -->
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <textarea placeholder="Viết cảm nghĩ của bạn" name="content" th:field="*{content}" required></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="submit" value="Comment" onclick="return validateForm()">
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
+                                        <div th:if="${hasRated}">BẠN ĐÃ ĐÁNH GIÁ BỘ PHIM NÀY</div>
                                     </div>
-                                    <div class="movie-review-item">
-                                        <div class="author">
-                                            <div class="thumb">
-                                                <a href="#0">
-                                                    <img src="/assets/img/cast/cast04.jpg" alt="cast">
-                                                </a>
-                                            </div>
-                                            <div class="movie-review-info">
-                                                <span class="reply-date">13 Days Ago</span>
-                                                <h6 class="subtitle">
-                                                    <a href="#0">rudra rai</a>
-                                                </h6>
-                                                <span><i class="fas fa-check"></i>
-                                                        verified review</span>
-                                            </div>
-                                        </div>
-                                        <div class="movie-review-content">
-                                            <div class="review">
-                                                <i class="flaticon-favorite-heart-button"></i>
-                                                <i class="flaticon-favorite-heart-button"></i>
-                                                <i class="flaticon-favorite-heart-button"></i>
-                                                <i class="flaticon-favorite-heart-button"></i>
-                                                <i class="flaticon-favorite-heart-button"></i>
-                                            </div>
-                                            <h6 class="cont-title">
-                                                Awesome Movie
-                                            </h6>
-                                            <p>
-                                                Lorem ipsum dolor sit amet,
-                                                consectetur adipiscing elit.
-                                                Integer volutpat enim non
-                                                ante egestas vehicula.
-                                                Suspendisse potenti. Fusce
-                                                malesuada fringilla lectus
-                                                venenatis porttitor.
-                                            </p>
-                                            <div class="review-meta">
-                                                <a href="#0">
-                                                    <i class="flaticon-hand"></i><span>8</span>
-                                                </a>
-                                                <a href="#0" class="dislike">
-                                                    <i class="flaticon-dont-like-symbol"></i><span>0</span>
-                                                </a>
-                                                <a href="#0">
-                                                    Report Abuse
-                                                </a>
-                                            </div>
-                                        </div>
+
+                                    <div sec:authorize="!isAuthenticated()">
+                                        <h3>Bạn cần đăng nhập để có thể bình luận.</h3>
                                     </div>
-                                    <div class="movie-review-item">
-                                        <div class="author">
-                                            <div class="thumb">
-                                                <a href="#0">
-                                                    <img src="/assets/img/cast/cast01.jpg" alt="cast">
-                                                </a>
-                                            </div>
+
+
+                                    <div class="movie-review-item" th:each="rating : ${ratings}" >
+                                        <div class="flex-rating">
                                             <div class="movie-review-info">
-                                                <span class="reply-date">13 Days Ago</span>
+                                                <div>
+                                                    <span class="reply-date" th:text="${rating.getFormattedDate()}"></span>
+                                                </div>
+
                                                 <h6 class="subtitle">
-                                                    <a href="#0">rafuj</a>
+                                                    <a href="#0"  th:text="${rating.user.fullname}"></a>
                                                 </h6>
-                                                <span><i class="fas fa-check"></i>
-                                                        verified review</span>
+                                            </div>
+
+                                            <div class="movie-review-content">
+                                                <div class="review">
+                                                   <span th:each="star : ${#numbers.sequence(1, rating.star)}">
+                                                        <i class="flaticon-favorite-heart-button"></i>
+                                                   </span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="movie-review-content">
-                                            <div class="review">
-                                                <i class="flaticon-favorite-heart-button"></i>
-                                                <i class="flaticon-favorite-heart-button"></i>
-                                                <i class="flaticon-favorite-heart-button"></i>
-                                                <i class="flaticon-favorite-heart-button"></i>
-                                                <i class="flaticon-favorite-heart-button"></i>
-                                            </div>
-                                            <h6 class="cont-title">
-                                                Awesome Movie
-                                            </h6>
-                                            <p>
-                                                Lorem ipsum dolor sit amet,
-                                                consectetur adipiscing elit.
-                                                Integer volutpat enim non
-                                                ante egestas vehicula.
-                                                Suspendisse potenti. Fusce
-                                                malesuada fringilla lectus
-                                                venenatis porttitor.
-                                            </p>
-                                            <div class="review-meta">
-                                                <a href="#0">
-                                                    <i class="flaticon-hand"></i><span>8</span>
-                                                </a>
-                                                <a href="#0" class="dislike">
-                                                    <i class="flaticon-dont-like-symbol"></i><span>0</span>
-                                                </a>
-                                                <a href="#0">
-                                                    Report Abuse
-                                                </a>
-                                            </div>
-                                        </div>
+
+                                        <p class="rating-content" th:text="${rating.content}"></p>
                                     </div>
-                                    <div class="movie-review-item">
-                                        <div class="author">
-                                            <div class="thumb">
-                                                <a href="#0">
-                                                    <img src="/assets/img/cast/cast03.jpg" alt="cast">
-                                                </a>
-                                            </div>
-                                            <div class="movie-review-info">
-                                                <span class="reply-date">13 Days Ago</span>
-                                                <h6 class="subtitle">
-                                                    <a href="#0">bela bose</a>
-                                                </h6>
-                                                <span><i class="fas fa-check"></i>
-                                                        verified review</span>
-                                            </div>
-                                        </div>
-                                        <div class="movie-review-content">
-                                            <div class="review">
-                                                <i class="flaticon-favorite-heart-button"></i>
-                                                <i class="flaticon-favorite-heart-button"></i>
-                                                <i class="flaticon-favorite-heart-button"></i>
-                                                <i class="flaticon-favorite-heart-button"></i>
-                                                <i class="flaticon-favorite-heart-button"></i>
-                                            </div>
-                                            <h6 class="cont-title">
-                                                Awesome Movie
-                                            </h6>
-                                            <p>
-                                                Lorem ipsum dolor sit amet,
-                                                consectetur adipiscing elit.
-                                                Integer volutpat enim non
-                                                ante egestas vehicula.
-                                                Suspendisse potenti. Fusce
-                                                malesuada fringilla lectus
-                                                venenatis porttitor.
-                                            </p>
-                                            <div class="review-meta">
-                                                <a href="#0">
-                                                    <i class="flaticon-hand"></i><span>8</span>
-                                                </a>
-                                                <a href="#0" class="dislike">
-                                                    <i class="flaticon-dont-like-symbol"></i><span>0</span>
-                                                </a>
-                                                <a href="#0">
-                                                    Report Abuse
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="load-more text-center">
+
+                                   <!-- <div class="load-more text-center">
                                         <a href="#0" class="custom-button transparent">load more</a>
-                                    </div>
+                                    </div>-->
                                 </div>
                             </div>
                         </div>
@@ -957,4 +840,7 @@
         </div>
     </section>
 </section>
+
+
 </body>
+</html>

@@ -1,7 +1,9 @@
 package com.example.movietickets.demo.service;
 
 
+import com.example.movietickets.demo.model.Blog;
 import com.example.movietickets.demo.model.Film;
+import com.example.movietickets.demo.model.Rating;
 import com.example.movietickets.demo.repository.FilmRepository;
 import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import lombok.AllArgsConstructor;
@@ -27,6 +29,11 @@ public class FilmService {
 
     public Optional<Film> getFilmById(Long id) {
         return filmRepository.findById(id);
+    }
+
+    public Film getFilmByIdFilm(Long id) {
+        return filmRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Film not found with id " + id));
     }
 
     // Thêm film
@@ -84,6 +91,12 @@ public class FilmService {
     public Film findFilmById(Long id) {
         Optional<Film> product = filmRepository.findById(id);
         return product.orElseThrow(() -> new FileSystemNotFoundException("Product not found with id: " + id));
+    }
+
+    // tính số lượng comment trong 1 trang film
+    public long getCommentCount(Long filmId) {
+        Film film = filmRepository.findById(filmId).orElseThrow(() -> new IllegalArgumentException("Invalid blog Id:" + filmId));
+        return film.getRatings().size();
     }
 
 }

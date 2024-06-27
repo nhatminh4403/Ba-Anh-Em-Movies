@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
@@ -77,16 +78,16 @@
                                         <p  th:text="${blog.content}">
 
                                         </p>
-                                       <!-- <blockquote>
-                                            Modi perferendis ipsa, dolorum
-                                            eaque accusantium! Velitlibero
-                                            fugit dolores repellendus
-                                            consequatur nisi, deserunt
-                                            aperiam a ea ex hic, iusto
-                                            atque, quas. Aliquam rerum
-                                            dolores saepe sunt, assumenda
-                                            voluptas.
-                                        </blockquote>-->
+                                        <!-- <blockquote>
+                                             Modi perferendis ipsa, dolorum
+                                             eaque accusantium! Velitlibero
+                                             fugit dolores repellendus
+                                             consequatur nisi, deserunt
+                                             aperiam a ea ex hic, iusto
+                                             atque, quas. Aliquam rerum
+                                             dolores saepe sunt, assumenda
+                                             voluptas.
+                                         </blockquote>-->
                                         <!--<p>
                                             Lorem ipsum dolor sit amet,
                                             consectetur adipiscing elit, sed
@@ -165,52 +166,52 @@
                             </div>
                         </div>
 
-                            <div class="blog-comment" th:object="${comments}">
-                                <h5 class="title">comments</h5>
+                        <div class="blog-comment" th:object="${comments}">
+                            <h5 class="title">comments</h5>
 
-                                <!-- Kiểm tra nếu blog.comments rỗng -->
-                                <div th:if="${blog.comments.empty}">
-                                    <p>Chưa có comment nào.</p>
-                                </div>
-
-                                <ul class="comment-area" th:unless="${blog.comments.empty}">
-                                    <li th:each="comment : ${blog.comments}">
-                                        <div class="blog-thumb-info">
-                                            <span th:text="${comment.getFormattedDate()}"></span>
-                                            <h6 class="title">
-                                                <a href="#0" th:text="${comment.user.fullname}"></a>
-                                            </h6>
-                                        </div>
-                                        <div class="blog-content">
-                                            <p th:text="${comment.content}"></p>
-                                        </div>
-                                    </li>
-                                </ul>
-
-                                <div sec:authorize="isAuthenticated()" >
-                                    <div class="leave-comment">
-                                        <h5 class="title">Leave a comment</h5>
-                                        <form class="blog-form" method="post" th:action="@{/blog/blog-details/{id}/comment(id=${blog.id})}" th:object="${comment}" enctype="multipart/form-data">
-                                            <input type="hidden" th:value="${blog.id}" name="blogId" /> <!-- Trường ẩn để lưu id của blog -->
-                                            <!--<div class="form-group">
-                                                <input type="text" placeholder="Enter Your Full Name" th:value="${fullname}" readonly>
-                                            </div>-->
-                                            <div class="form-group">
-                                                <textarea placeholder="Viết cảm nghĩ của bạn" name="content" th:field="*{content}" required></textarea>
-                                                <!-- th:field="*{content}" sẽ binding dữ liệu với thuộc tính content của đối tượng newComment trong model -->
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="submit" value="Comment">
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-
-                                <div sec:authorize="!isAuthenticated()">
-                                    <h3>Bạn cần đăng nhập để có thể bình luận.</h3>
-                                </div>
-
+                            <!-- Kiểm tra nếu blog.comments rỗng -->
+                            <div th:if="${blog.comments.empty}">
+                                <p>Chưa có comment nào.</p>
                             </div>
+
+                            <ul class="comment-area" th:unless="${blog.comments.empty}">
+                                <li th:each="comment : ${blog.comments}">
+                                    <div class="blog-thumb-info">
+                                        <span th:text="${comment.getFormattedDate()}"></span>
+                                        <h6 class="title">
+                                            <a href="#0" th:text="${comment.user.fullname}"></a>
+                                        </h6>
+                                    </div>
+                                    <div class="blog-content">
+                                        <p th:text="${comment.content}"></p>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <div sec:authorize="isAuthenticated()" >
+                                <div class="leave-comment">
+                                    <h5 class="title">Leave a comment</h5>
+                                    <form class="blog-form" method="post" th:action="@{/blog/blog-details/{id}/comment(id=${blog.id})}" th:object="${comment}" enctype="multipart/form-data">
+                                        <input type="hidden" th:value="${blog.id}" name="blogId" /> <!-- Trường ẩn để lưu id của blog -->
+                                        <!--<div class="form-group">
+                                            <input type="text" placeholder="Enter Your Full Name" th:value="${fullname}" readonly>
+                                        </div>-->
+                                        <div class="form-group">
+                                            <textarea placeholder="Viết cảm nghĩ của bạn" name="content" th:field="*{content}" required></textarea>
+                                            <!-- th:field="*{content}" sẽ binding dữ liệu với thuộc tính content của đối tượng newComment trong model -->
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="submit" value="Comment">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div sec:authorize="!isAuthenticated()">
+                                <h3>Bạn cần đăng nhập để có thể bình luận.</h3>
+                            </div>
+
+                        </div>
                     </article>
                 </div>
                 <div class="col-lg-4 col-sm-10 col-md-8">
