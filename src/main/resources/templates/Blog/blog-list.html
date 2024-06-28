@@ -30,12 +30,14 @@
              style="background-image: url(&quot;/assets/img/banner/banner07.jpg&quot;);">
         <div class="container">
             <div class="speaker-banner-content">
-                <h2 class="title">blog - 01</h2>
+                <h2 class="title">blog</h2>
                 <ul class="breadcrumb">
                     <li>
-                        <a href="index.html"> Home </a>
+                        <a th:href="@{/}"> Home </a>
                     </li>
-                    <li>blog</li>
+                    <li>
+                        <a th:href="@{/blog}"> Blog </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -87,8 +89,8 @@
                     <aside>
                         <div class="widget widget-search">
                             <h5 class="title">search</h5>
-                            <form class="search-form">
-                                <input type="text" placeholder="Enter your Search Content" required="">
+                            <form class="search-form" th:action="@{/blog/search}" method="get">
+                                <input type="text" name="keyword" th:value="${keyword}" placeholder="Enter your Search Blog" required="">
                                 <button type="submit">
                                     <i class="flaticon-loupe"></i>Search
                                 </button>

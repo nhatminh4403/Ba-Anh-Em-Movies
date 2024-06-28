@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
-    <title>blog-details</title>
+    <title>blog</title>
 
     <style>
         .img-poster {
             width: 750px;
-            height: 361px;
-            object-fit:cover;
+            height: 360.61px;
+            object-fit: cover;
+        }
 
+        .search-nothing{
+            margin-top: 1px;
+            padding: 20px;
+            text-align: center;
         }
     </style>
 </head>
@@ -32,187 +36,72 @@
              style="background-image: url(&quot;/assets/img/banner/banner07.jpg&quot;);">
         <div class="container">
             <div class="speaker-banner-content">
-                <h2 class="title">blog single</h2>
+                <h2 class="title">blog</h2>
                 <ul class="breadcrumb">
                     <li>
                         <a th:href="@{/}"> Home </a>
                     </li>
                     <li>
-                        <a th:href="@{/blog}"> blog </a>
+                        <a th:href="@{/blog}"> Blog </a>
                     </li>
-                    <li>blog single</li>
                 </ul>
             </div>
         </div>
     </section>
 
-    <section class="blog-section padding-top padding-bottom" th:object="${blog}">
+    <section class="blog-section padding-top padding-bottom">
         <div class="container">
-            <div class="row justify-content-center mb-30-none">
+            <div class="row justify-content-center">
                 <div class="col-lg-8 mb-50 mb-lg-0">
                     <article>
-                        <div class="post-item post-details">
-                            <div class="post-thumb">
-                                <img class="img-poster" th:src="@{${blog.poster}}" alt="blog">
-                            </div>
-                            <div class="post-content">
-                                <div class="post-meta text-center">
-                                    <div class="item">
-                                        <a href="#0">
-                                            <i class="flaticon-conversation"></i>
-                                            <span th:text="${blog.comments.size()}"></span>
-                                        </a>
-                                    </div>
+                        <div th:each="blog : ${blogs}" class="post-item">
+
+                            <div th:if="${not #lists.isEmpty(blogs)}">
+                                <div class="post-thumb">
+                                    <a th:href="@{/blog/blog-details/{id}(id=${blog.id})}">
+                                        <img class="img-poster" th:src="@{${blog.poster}}" alt="blog" />
+                                    </a>
                                 </div>
-                                <div class="content">
-                                    <div class="entry-content p-0">
-                                        <div class="left">
-                                                <span class="date" th:text="${blog.getFormattedDate()}">
-                                                </span>
-                                        </div>
-                                    </div>
+
+                                <div class="post-content">
                                     <div class="post-header">
-                                        <h4 class="m-title"  th:text="${blog.title}">
-
-                                        </h4>
-                                        <p  th:text="${blog.content}">
-
-                                        </p>
-                                        <!-- <blockquote>
-                                             Modi perferendis ipsa, dolorum
-                                             eaque accusantium! Velitlibero
-                                             fugit dolores repellendus
-                                             consequatur nisi, deserunt
-                                             aperiam a ea ex hic, iusto
-                                             atque, quas. Aliquam rerum
-                                             dolores saepe sunt, assumenda
-                                             voluptas.
-                                         </blockquote>-->
-                                        <!--<p>
-                                            Lorem ipsum dolor sit amet,
-                                            consectetur adipiscing elit, sed
-                                            do eiusmod tempor dunt ut labore
-                                            et dolore magna aliqua.Quis
-                                            ipsum suspendisse ultrices
-                                            gravida. Risus do viverra
-                                            maecenas accumsan lacus vel
-                                            facilisis.
-                                        </p>
                                         <h4 class="title">
-                                            Bring Your Loved Ones to See New
-                                            Releases
+                                            <a th:href="@{/blog/blog-details/{id}(id=${blog.id})}" th:text="${blog.title}"></a>
                                         </h4>
-                                        <p>
-                                            Lorem ipsum dolor sit amet,
-                                            consectetur adipiscing elit, sed
-                                            do eiusmod tempor dunt ut labore
-                                            et dolore magna aliqua.Quis
-                                            ipsum suspendisse ultrices
-                                            gravida. Risus do viverra
-                                            maecenas accumsan lacus vel
-                                            facilisis.
-                                        </p>
-                                        <p>
-                                            Lorem ipsum dolor sit amet,
-                                            consectetur adipiscing elit, sed
-                                            do eiusmod tempor dunt ut labore
-                                            et dolore magna aliqua.Quis
-                                            ipsum suspendisse ultrices
-                                            gravida. Risus do viverra
-                                            maecenas accumsan lacus vel
-                                            facilisis.
-                                        </p>-->
-                                    </div>
-                                    <div class="tags-area">
-                                        <div class="tags">
-                                            <span> Tags : </span>
-                                            <div class="tags-item">
-                                                <a href="#0"> Tickets </a>
-                                                <a href="#0">
-                                                    Coming Soon
-                                                </a>
-                                                <a href="#0"> Movies </a>
-                                            </div>
+                                        <div class="meta-post">
+                                            <a href="#0" class="mr-4">
+                                                <i class="flaticon-conversation"></i>
+                                                <span th:text="${blog.comments.size()}"></span> Comments
+                                            </a>
                                         </div>
-                                        <ul class="social-icons">
-                                            <li>
-                                                <a href="#0">
-                                                    <i class="fab fa-facebook-f"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#0" class="active">
-                                                    <i class="fab fa-twitter"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#0">
-                                                    <i class="fab fa-instagram"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#0">
-                                                    <i class="fab fa-pinterest"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#0">
-                                                    <i class="fab fa-google"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                    </div>
+                                    <div class="entry-content">
+                                        <div class="left">
+                                            <span class="date" th:text="${blog.getFormattedDate()}"></span>
+                                        </div>
+                                        <a th:href="@{/blog/blog-details/{id}(id=${blog.id})}" class="buttons">Read More <i class="flaticon-right"></i></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="blog-comment" th:object="${comments}">
-                            <h5 class="title">comments</h5>
-
-                            <!-- Kiểm tra nếu blog.comments rỗng -->
-                            <div th:if="${blog.comments.empty}">
-                                <p>Chưa có comment nào.</p>
-                            </div>
-
-                            <ul class="comment-area" th:unless="${blog.comments.empty}">
-                                <li th:each="comment : ${blog.comments}">
-                                    <div class="blog-thumb-info">
-                                        <span th:text="${comment.getFormattedDate()}"></span>
-                                        <h6 class="title">
-                                            <a href="#0" th:text="${comment.user.fullname}"></a>
-                                        </h6>
-                                    </div>
-                                    <div class="blog-content">
-                                        <p th:text="${comment.content}"></p>
-                                    </div>
-                                </li>
-                            </ul>
-
-                            <div sec:authorize="isAuthenticated()" >
-                                <div class="leave-comment">
-                                    <h5 class="title">Leave a comment</h5>
-                                    <form class="blog-form" method="post" th:action="@{/blog/blog-details/{id}/comment(id=${blog.id})}" th:object="${comment}" enctype="multipart/form-data">
-                                        <input type="hidden" th:value="${blog.id}" name="blogId" /> <!-- Trường ẩn để lưu id của blog -->
-                                        <!--<div class="form-group">
-                                            <input type="text" placeholder="Enter Your Full Name" th:value="${fullname}" readonly>
-                                        </div>-->
-                                        <div class="form-group">
-                                            <textarea placeholder="Viết cảm nghĩ của bạn" name="content" th:field="*{content}" required></textarea>
-                                            <!-- th:field="*{content}" sẽ binding dữ liệu với thuộc tính content của đối tượng newComment trong model -->
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="submit" value="Comment">
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-
-                            <div sec:authorize="!isAuthenticated()">
-                                <h3>Bạn cần đăng nhập để có thể bình luận.</h3>
-                            </div>
-
+                        <div  th:if="${#lists.isEmpty(blogs)}" class="post-item search-nothing" >
+                            <h2>Blog mà bạn đang tìm kiếm hiện không có</h2>
                         </div>
                     </article>
+
+                    <div th:if="${not #lists.isEmpty(blogs)}">
+                        <div class="pagination-area text-center">
+                            <a href="#0"><i class="fas fa-angle-double-left"></i><span>Prev</span></a>
+                            <a href="#0">1</a>
+                            <a href="#0">2</a>
+                            <a href="#0" class="active">3</a>
+                            <a href="#0">4</a>
+                            <a href="#0">5</a>
+                            <a href="#0"><span>Next</span><i class="fas fa-angle-double-right"></i></a>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="col-lg-4 col-sm-10 col-md-8">
                     <aside>
@@ -236,7 +125,7 @@
 
                                 <div class="owl-stage-outer">
                                     <div class="owl-stage"
-                                         style="transform: translate3d(-990px, 0px, 0px); transition: all 0.25s ease 0s; width: 1980px;">
+                                         style="transform: translate3d(-660px, 0px, 0px); transition: all 0.25s ease 0s; width: 1980px;">
                                         <div class="owl-item cloned" style="width: 300px; margin-right: 30px;">
                                             <div class="item">
                                                 <div class="thumb">
@@ -258,26 +147,6 @@
                                             </div>
                                         </div>
                                         <div class="owl-item cloned" style="width: 300px; margin-right: 30px;">
-                                            <div class="item">
-                                                <div class="thumb">
-                                                    <a href="#0">
-                                                        <img src="/assets/img/blog/slider01.jpg" alt="blog">
-                                                    </a>
-                                                </div>
-                                                <div class="content">
-                                                    <h6 class="p-title">
-                                                        <a href="#0">Three Ways to Book Sporting
-                                                            Event Tickets</a>
-                                                    </h6>
-                                                    <div class="meta-post">
-                                                        <a href="#0" class="mr-4"><i class="flaticon-loupe"></i>20
-                                                            Comments</a>
-                                                        <a href="#0"><i class="flaticon-loupe"></i>466 View</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="owl-item" style="width: 300px; margin-right: 30px;">
                                             <div class="item">
                                                 <div class="thumb">
                                                     <a href="#0">
@@ -298,6 +167,26 @@
                                             </div>
                                         </div>
                                         <div class="owl-item active" style="width: 300px; margin-right: 30px;">
+                                            <div class="item">
+                                                <div class="thumb">
+                                                    <a href="#0">
+                                                        <img src="/assets/img/blog/slider01.jpg" alt="blog">
+                                                    </a>
+                                                </div>
+                                                <div class="content">
+                                                    <h6 class="p-title">
+                                                        <a href="#0">Three Ways to Book Sporting
+                                                            Event Tickets</a>
+                                                    </h6>
+                                                    <div class="meta-post">
+                                                        <a href="#0" class="mr-4"><i class="flaticon-loupe"></i>20
+                                                            Comments</a>
+                                                        <a href="#0"><i class="flaticon-loupe"></i>466 View</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="owl-item" style="width: 300px; margin-right: 30px;">
                                             <div class="item">
                                                 <div class="thumb">
                                                     <a href="#0">

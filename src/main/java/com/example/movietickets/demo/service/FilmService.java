@@ -99,4 +99,19 @@ public class FilmService {
         return film.getRatings().size();
     }
 
+    // find film
+    public List<Film> searchFilmsByName(String keyword) {
+        return filmRepository.searchFilmByName(keyword);
+    }
+
+    // tìm theo id country
+    public List<Film> getFilmsByCountryId(Long countryId) {
+        return filmRepository.findByCountry_Id(countryId);
+    }
+
+    // tìm theo id category
+    public List<Film> getFilmsByCategoryId(Long categoryId) {
+        return filmRepository.findByCategoryId(categoryId);
+    }
+
 }

@@ -42,6 +42,8 @@ public class BlogController {
         return "/admin/blog/blog-list";
     }
 
+
+    // blog for user
     @GetMapping("/blog")
     public String listBlogUser(Model model) {
         List<Blog> blog = blogService.getAllPosts();
@@ -61,6 +63,16 @@ public class BlogController {
 
         return "blog/blog-details";
     }
+
+    @GetMapping("/blog/search")
+    public String searchBlogs(Model model, @RequestParam(value = "keyword", required = false) String keyword) {
+        List<Blog> blogs = blogService.searchBlogsByTitle(keyword);
+        model.addAttribute("blogs", blogs);
+        model.addAttribute("keyword", keyword);
+        return "blog/blog-search";
+    }
+
+    // end blog for user
 
     //add blog
     @GetMapping("/admin/blog/add")

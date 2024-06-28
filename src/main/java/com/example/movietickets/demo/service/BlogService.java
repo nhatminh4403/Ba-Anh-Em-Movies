@@ -55,4 +55,10 @@ public class BlogService {
         Blog blog = blogRepository.findById(blogId).orElseThrow(() -> new IllegalArgumentException("Invalid blog Id:" + blogId));
         return blog.getComments().size();
     }
+
+
+    // search title
+    public List<Blog> searchBlogsByTitle(String keyword) {
+        return blogRepository.searchBlogsByTitle(keyword);
+    }
 }
