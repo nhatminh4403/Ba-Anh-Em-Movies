@@ -803,7 +803,6 @@
                                         <h3>Bạn cần đăng nhập để có thể bình luận.</h3>
                                     </div>
 
-
                                     <div class="movie-review-item" th:each="rating : ${ratings}" >
                                         <div class="flex-rating">
                                             <div class="movie-review-info">
@@ -822,6 +821,14 @@
                                                         <i class="flaticon-favorite-heart-button"></i>
                                                    </span>
                                                 </div>
+                                            </div>
+
+                                            <div sec:authorize="hasAuthority('admin')" style="margin-left:85px;">
+                                                <form th:action="@{/films/film-details/{filmId}/delete-rating/{ratingId}(filmId=${film.id}, ratingId=${rating.id})}" method="post" style="display: inline;">
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không ?')">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
 

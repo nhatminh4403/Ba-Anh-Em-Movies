@@ -64,4 +64,11 @@ public class RatingController {
         return "redirect:/films/film-details/" + id;
     }
 
+    @PostMapping("/film-details/{filmId}/delete-rating/{ratingId}")
+    public String deleteRating(@PathVariable("filmId") Long filmId, @PathVariable("ratingId") Long ratingId, RedirectAttributes redirectAttributes) {
+        ratingService.deleteRating(ratingId);
+        redirectAttributes.addFlashAttribute("message", "Đánh giá đã được xóa thành công.");
+        return "redirect:/films/film-details/" + filmId;
+    }
+
 }

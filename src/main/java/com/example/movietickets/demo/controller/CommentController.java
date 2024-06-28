@@ -69,7 +69,7 @@ public class CommentController {
     }
 
 
-    @DeleteMapping("/blog-details/{id}/delete/{commentId}")
+    @PostMapping("/blog-details/{id}/delete/{commentId}")
     public String deleteComment(@PathVariable("commentId") Long commentId, @PathVariable("id") Long blogId, RedirectAttributes redirectAttributes) {
         commentService.deleteComment(commentId);
         redirectAttributes.addFlashAttribute("message", "Comment đã được xóa thành công.");
