@@ -32,6 +32,8 @@ public class Seat {
     @JoinColumn(name = "SEAT_TYPE_ID")
     private SeatType seattype;
 
+    @OneToMany(mappedBy = "seat", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BookingDetail> bookingDetails;
 
     // Constructor without parameters
     public Seat() {}

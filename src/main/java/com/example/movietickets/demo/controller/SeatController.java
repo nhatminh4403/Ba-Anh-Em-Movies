@@ -61,9 +61,10 @@ public class SeatController {
             Schedule schedule = optionalSchedule.get();
             Long roomId = schedule.getRoom().getId();
             List<Seat> seats = seatService.getSeatsByRoomIdDistinct(roomId);
-            List<String> seatRegular= Arrays.asList("A", "B");
-            List<String> seatVIP = Arrays.asList("E", "F");
-
+            // Add information
+            String cinemaName = schedule.getRoom().getCinema().getName();
+            String cinemaAddress = schedule.getRoom().getCinema().getAddress();
+            String roomName = schedule.getRoom().getName();
             // Group seats theo type
             Map<String, List<Seat>> seatsByType = seats.stream().collect(Collectors.groupingBy(seat -> seat.getSeattype().getType()));
 
@@ -73,8 +74,9 @@ public class SeatController {
             model.addAttribute("selectedScheduleId", scheduleId);
             model.addAttribute("selectedRoomId", roomId);
             model.addAttribute("seatsByType", seatsByType);
-            model.addAttribute("seatRegular", seatRegular);
-            model.addAttribute("seatVIP", seatVIP);
+            model.addAttribute("cinemaName", cinemaName);
+            model.addAttribute("cinemaAddress", cinemaAddress);
+            model.addAttribute("roomName", roomName);
             return "/seat/seat-choose"; // chuyen den trang chon ghe
         } else {
             // neu khong tim thay schedule
