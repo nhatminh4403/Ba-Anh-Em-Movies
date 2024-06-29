@@ -55,7 +55,8 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/assets/**","/css/**", "/js/**", "/", "/oauth/**",
-                                "/register", "/error", "/films", "/cart", "/cart/**", "/blog", "blog/details", "/popcorn","/movie/details", "/movie/seat-plan")
+                                "/register", "/error", "/purchase","/films","/films/film-details/**" , "/schedules/**",
+                               "/cart", "/cart/**", "/blog", "blog/details", "/popcorn","/movie/details", "/movie/seat-plan")
                         .permitAll() // Cho phép truy cập không cần xác thực.
                         .requestMatchers("/movie/edit/**", "/movie/add", "/admin/films","/admin/films/edit", "/admin/films/add",
                                 "/admin/countries", "/admin/countries/add","/admin/countries/edit",
