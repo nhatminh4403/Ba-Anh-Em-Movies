@@ -1,6 +1,5 @@
 package com.example.movietickets.demo.service;
 
-
 import com.example.movietickets.demo.model.Feedback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;

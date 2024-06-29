@@ -1,21 +1,20 @@
-        function rate(star) {
-                    var i;
-                    for (i = 1; i <= 5; i++) {
-                        var starElement = document.getElementById('star' + i);
-                        if (i <= star) {
-                            starElement.classList.add('selected');
-                        } else {
-                            starElement.classList.remove('selected');
-                        }
-                    }
-                    document.getElementById('rating').value = star;
+        function rate(value) {
+            var stars = document.querySelectorAll('.rating-stars i');
+            for (var i = 0; i < stars.length; i++) {
+                if (i < value) {
+                    stars[i].classList.add('selected');
+                } else {
+                    stars[i].classList.remove('selected');
+                }
+            }
+            document.getElementById('rating').value = value;
         }
 
         function validateForm() {
             var rating = document.getElementById('rating').value;
             var content = document.getElementsByName('content')[0].value;
 
-            if (!rating) {
+            if (!rating || rating == 0) {
                 alert("Vui lòng chọn số sao để đánh giá.");
                 return false;
             }
