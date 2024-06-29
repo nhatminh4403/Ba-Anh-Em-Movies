@@ -45,6 +45,23 @@ public class FilmController {
     @GetMapping("/films/film-details/{id}")
     public String getFilmDetail(@PathVariable Long id, Model model) {
         Film film = filmService.findFilmById(id);
+        List<Rating> ratings = ratingService.getAllRatingByFilmId(id);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+
+        // kiểm tra xem người dùng đó comment chưa
+        boolean hasRated = ratingService.hasUserRatedFilm(currentUsername, film.getId());
+        model.addAttribute("hasRated", hasRated);
+
+        // tính số lượng trung bình star
+        Double averageRating = ratingService.getAverageRating(film.getId());
+        int averageRatingInteger = (int) Math.floor(averageRating != null ? averageRating : 0);
+        model.addAttribute("averageRating", averageRatingInteger);
+
+        model.addAttribute("film", film);
+        model.addAttribute("ratings", ratings);
+        model.addAttribute("rating", new Rating());
         List<String> actors = film.getActorList();
         model.addAttribute("film", film);
         model.addAttribute("actors", actors);

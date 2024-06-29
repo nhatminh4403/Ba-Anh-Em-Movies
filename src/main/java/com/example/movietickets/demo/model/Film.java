@@ -68,6 +68,9 @@ public class Film {
     private Category category;
 
     @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Rating> ratings;
+
+    @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Schedule> schedules;
 
     public List<String> getActorList() {
