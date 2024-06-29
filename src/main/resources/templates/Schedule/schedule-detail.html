@@ -7,6 +7,7 @@
 </head>
 <body>
 <section layout:fragment="content">
+
     <section class="window-warning inActive">
         <div class="lay"></div>
         <div class="warning-item">
@@ -15,7 +16,7 @@
             <div class="thumb">
                 <img src="/assets/img/movie/seat-plan.png" alt="movie">
             </div>
-            <a th:href="@{'/bookings/' + ${id}}" class="custom-button seatPlanButton">Chọn ghế<i
+            <a  href="" class="custom-button seatPlanButton">Chọn ghế<i
                     class="fas fa-angle-right"></i></a>
         </div>
     </section>
@@ -169,8 +170,17 @@
                             </div>
                             <div class="movie-schedule">
                                 <div th:each="schedule : ${entry.value}">
-                                    <div class="item" th:text="${#dates.format(schedule.startTime, 'HH:mm')}"></div>
+<!--                                    Action go to Seat List to choose Seat-->
+<!--                                    <a th:href="@{/seats/schedules/{id}(id=${schedule.id})}" class="d-block">-->
+<!--                                        -->
+<!--                                    </a>-->
+
+                                        <p class="item chonViTri" th:attr="data-id = ${schedule.id}"  th:text="${#dates.format(schedule.startTime, 'HH:mm')}"> </p>
+
+
+
                                 </div>
+
                             </div>
                         </li>
                     </ul>

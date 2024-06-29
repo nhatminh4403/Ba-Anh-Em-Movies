@@ -47,6 +47,7 @@
                 <td class="text-white" th:text="${item.cinema.address}"></td>
                 <td class="text-white" th:text="${item.description}"></td>
                 <td>
+                    <a th:href="@{/admin/rooms/detail/{id}(id=${item.id})}" class="btn btn-warning btn-sm">Chi tiết</a>
                     <a th:href="@{/admin/rooms/edit/{id}(id=${item.id})}" class="btn btn-success btn-sm">Sửa</a>
                     <a th:href="@{/admin/rooms/delete/{id}(id=${item.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không ?')">Xóa</a>
                 </td>

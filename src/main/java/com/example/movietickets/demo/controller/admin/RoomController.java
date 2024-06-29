@@ -3,9 +3,11 @@ package com.example.movietickets.demo.controller.admin;
 
 import com.example.movietickets.demo.model.Room;
 import com.example.movietickets.demo.model.Cinema;
+import com.example.movietickets.demo.model.Seat;
 import com.example.movietickets.demo.service.CategoryService;
 import com.example.movietickets.demo.service.CinemaService;
 import com.example.movietickets.demo.service.RoomService;
+import com.example.movietickets.demo.service.SeatService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
@@ -25,7 +28,8 @@ public class RoomController {
     private final RoomService roomService;
     @Autowired
     private final CinemaService cinemaService;
-
+    @Autowired
+    private final SeatService seatService;
     //gửi response ra view add
     @GetMapping("/admin/rooms/add")
     public String showAddForm(Model model) {
@@ -51,6 +55,17 @@ public class RoomController {
         model.addAttribute("roomss", listRoom);
         model.addAttribute("title", "Danh sách phòng chiếu");
         return "/admin/room/room-list";
+    }
+
+    // Hiển thị danh sách danh mục
+    @GetMapping("/admin/rooms/detail/{id}")
+    public String detailRoom(Model model,@PathVariable("id") Long id) {
+        Optional<Room> room = roomService.getRoomById(id);
+        List<Seat> seats = seatService.getSeatsByRoomId(id);
+        model.addAttribute("rooms", room);
+        model.addAttribute("seats", seats);
+        model.addAttribute("title", "Chi tiet phòng chiếu");
+        return "/admin/room/room-detail";
     }
     // GET request to show room edit form
     @GetMapping("/admin/rooms/edit/{id}")

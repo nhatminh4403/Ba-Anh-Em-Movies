@@ -18,10 +18,17 @@ public class ScheduleServiceImpl implements ScheduleService {
 //        return scheduleRepository.findAll();
         return scheduleRepository.findAllWithRoomAndCinema();
     }
-
+//    public Optional<Schedule> getScheduleById(Long scheduleId) {
+//        return scheduleRepository.findById(scheduleId);
+//    }
+//
     public Optional<Schedule> getScheduleById(Long id) {
         return scheduleRepository.findById(id);
     }
+
+//    public Optional<Schedule> getScheduleId(Long id) {
+//        return scheduleRepository.findById(id);
+//    }
 
     public void addSchedule(Schedule schedule) {
         scheduleRepository.save(schedule);
