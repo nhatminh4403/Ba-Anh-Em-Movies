@@ -1,10 +1,10 @@
 package com.example.movietickets.demo.controller.admin;
 
-import com.example.movietickets.demo.model.Blog;
-import com.example.movietickets.demo.model.Comment;
-import com.example.movietickets.demo.model.Film;
+import com.example.movietickets.demo.model.*;
 import com.example.movietickets.demo.service.BlogService;
+import com.example.movietickets.demo.service.CategoryService;
 import com.example.movietickets.demo.service.CommentService;
+import com.example.movietickets.demo.service.CountryService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +34,9 @@ public class BlogController {
     @Autowired
     private final CommentService commentService;
 
+    @Autowired
+    private final CategoryService categoryService;
+
     @GetMapping("/admin/blog")
     public String listBlog(Model model) {
         List<Blog> blog = blogService.getAllPosts();
@@ -55,7 +58,9 @@ public class BlogController {
     public String getBlogDetail(@PathVariable Long id, Model model) {
         Blog blog = blogService.findBlogWithId(id);
         List<Comment> comments = commentService.getAllCommentsByBlogId(id);
+        List<Category> categories = categoryService.getAllCategories();
 
+        model.addAttribute("categories", categories);
         model.addAttribute("blog", blog);
         model.addAttribute("comments", comments);
         model.addAttribute("comment", new Comment());
