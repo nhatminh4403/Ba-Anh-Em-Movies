@@ -59,6 +59,10 @@ public class FilmController {
         int averageRatingInteger = (int) Math.floor(averageRating != null ? averageRating : 0);
         model.addAttribute("averageRating", averageRatingInteger);
 
+        // Tính số lượng rating
+        int numberOfRatings = ratings.size();
+
+        model.addAttribute("numberOfRatings", numberOfRatings);
         model.addAttribute("film", film);
         model.addAttribute("ratings", ratings);
         model.addAttribute("rating", new Rating());

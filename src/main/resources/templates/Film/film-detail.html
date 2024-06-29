@@ -199,11 +199,17 @@
               <div class="item">
                 <div class="item-header">
                   <h5 class="title" th:text="${averageRating}"></h5>
-                  <div
-                    class="rated"
-                    th:each="i : ${#numbers.sequence(1, averageRating)}"
-                  >
-                    <i class="fas fa-heart"></i>
+
+                  <div class="rated" th:if="${averageRating > 0}">
+                        <i style="margin-left:3px;" class="fas fa-heart" th:each="i : ${#numbers.sequence(1, averageRating)}"></i>
+                  </div>
+
+                  <div class="rated rate-it" th:if="${averageRating <= 0}" style="margin-left:10px;">
+                    <i class="fas fa-heart" ></i>
+                    <i class="fas fa-heart" ></i>
+                    <i class="fas fa-heart" ></i>
+                    <i class="fas fa-heart" ></i>
+                    <i class="fas fa-heart" ></i>
                   </div>
                 </div>
                 <p>Users Rating</p>
@@ -312,7 +318,7 @@
                 <div class="tab summery-review">
                   <ul class="tab-menu">
                     <li class="active">tóm tắt</li>
-                    <li>đánh giá <span>147</span></li>
+                    <li>đánh giá <span th:text="${numberOfRatings}"></span></li>
                   </ul>
                   <div class="tab-area">
                     <div class="tab-item active">
@@ -360,307 +366,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="item">
-                        <div class="header">
-                          <h5 class="sub-title">crew</h5>
-                          <div class="navigation">
-                            <div class="cast-prev-2">
-                              <i
-                                class="flaticon-double-right-arrows-angles"
-                              ></i>
-                            </div>
-                            <div class="cast-next-2">
-                              <i
-                                class="flaticon-double-right-arrows-angles"
-                              ></i>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="casting-slider-two owl-carousel owl-loaded owl-drag"
-                        >
-                          <div class="owl-stage-outer">
-                            <div
-                              class="owl-stage"
-                              style="
-                                transform: translate3d(-1184px, 0px, 0px);
-                                transition: all 0.25s ease 0s;
-                                width: 2843px;
-                              "
-                            >
-                              <div
-                                class="owl-item cloned"
-                                style="width: 136.875px; margin-right: 100px"
-                              >
-                                <div class="cast-item">
-                                  <div class="cast-thumb">
-                                    <a href="#0">
-                                      <img
-                                        src="/assets/img/cast/cast05.jpg"
-                                        alt="cast"
-                                      />
-                                    </a>
-                                  </div>
-                                  <div class="cast-content">
-                                    <h6 class="cast-title">
-                                      <a href="#0">pete warren</a>
-                                    </h6>
-                                    <span class="cate">actor</span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="owl-item cloned"
-                                style="width: 136.875px; margin-right: 100px"
-                              >
-                                <div class="cast-item">
-                                  <div class="cast-thumb">
-                                    <a href="#0">
-                                      <img
-                                        src="/assets/img/cast/cast06.jpg"
-                                        alt="cast"
-                                      />
-                                    </a>
-                                  </div>
-                                  <div class="cast-content">
-                                    <h6 class="cast-title">
-                                      <a href="#0">howard bass</a>
-                                    </h6>
-                                    <span class="cate">executive producer</span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="owl-item cloned"
-                                style="width: 136.875px; margin-right: 100px"
-                              >
-                                <div class="cast-item">
-                                  <div class="cast-thumb">
-                                    <a href="#0">
-                                      <img
-                                        src="/assets/img/cast/cast07.jpg"
-                                        alt="cast"
-                                      />
-                                    </a>
-                                  </div>
-                                  <div class="cast-content">
-                                    <h6 class="cast-title">
-                                      <a href="#0">naomi smith</a>
-                                    </h6>
-                                    <span class="cate">producer</span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="owl-item cloned"
-                                style="width: 136.875px; margin-right: 100px"
-                              >
-                                <div class="cast-item">
-                                  <div class="cast-thumb">
-                                    <a href="#0">
-                                      <img
-                                        src="/assets/img/cast/cast08.jpg"
-                                        alt="cast"
-                                      />
-                                    </a>
-                                  </div>
-                                  <div class="cast-content">
-                                    <h6 class="cast-title">
-                                      <a href="#0">tom martinez</a>
-                                    </h6>
-                                    <span class="cate">producer</span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="owl-item"
-                                style="width: 136.875px; margin-right: 100px"
-                              >
-                                <div class="cast-item">
-                                  <div class="cast-thumb">
-                                    <a href="#0">
-                                      <img
-                                        src="/assets/img/cast/cast05.jpg"
-                                        alt="cast"
-                                      />
-                                    </a>
-                                  </div>
-                                  <div class="cast-content">
-                                    <h6 class="cast-title">
-                                      <a href="#0">pete warren</a>
-                                    </h6>
-                                    <span class="cate">actor</span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="owl-item active"
-                                style="width: 136.875px; margin-right: 100px"
-                              >
-                                <div class="cast-item">
-                                  <div class="cast-thumb">
-                                    <a href="#0">
-                                      <img
-                                        src="/assets/img/cast/cast06.jpg"
-                                        alt="cast"
-                                      />
-                                    </a>
-                                  </div>
-                                  <div class="cast-content">
-                                    <h6 class="cast-title">
-                                      <a href="#0">howard bass</a>
-                                    </h6>
-                                    <span class="cate">executive producer</span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="owl-item active"
-                                style="width: 136.875px; margin-right: 100px"
-                              >
-                                <div class="cast-item">
-                                  <div class="cast-thumb">
-                                    <a href="#0">
-                                      <img
-                                        src="/assets/img/cast/cast07.jpg"
-                                        alt="cast"
-                                      />
-                                    </a>
-                                  </div>
-                                  <div class="cast-content">
-                                    <h6 class="cast-title">
-                                      <a href="#0">naomi smith</a>
-                                    </h6>
-                                    <span class="cate">producer</span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="owl-item active"
-                                style="width: 136.875px; margin-right: 100px"
-                              >
-                                <div class="cast-item">
-                                  <div class="cast-thumb">
-                                    <a href="#0">
-                                      <img
-                                        src="/assets/img/cast/cast08.jpg"
-                                        alt="cast"
-                                      />
-                                    </a>
-                                  </div>
-                                  <div class="cast-content">
-                                    <h6 class="cast-title">
-                                      <a href="#0">tom martinez</a>
-                                    </h6>
-                                    <span class="cate">producer</span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="owl-item cloned active"
-                                style="width: 136.875px; margin-right: 100px"
-                              >
-                                <div class="cast-item">
-                                  <div class="cast-thumb">
-                                    <a href="#0">
-                                      <img
-                                        src="/assets/img/cast/cast05.jpg"
-                                        alt="cast"
-                                      />
-                                    </a>
-                                  </div>
-                                  <div class="cast-content">
-                                    <h6 class="cast-title">
-                                      <a href="#0">pete warren</a>
-                                    </h6>
-                                    <span class="cate">actor</span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="owl-item cloned"
-                                style="width: 136.875px; margin-right: 100px"
-                              >
-                                <div class="cast-item">
-                                  <div class="cast-thumb">
-                                    <a href="#0">
-                                      <img
-                                        src="/assets/img/cast/cast06.jpg"
-                                        alt="cast"
-                                      />
-                                    </a>
-                                  </div>
-                                  <div class="cast-content">
-                                    <h6 class="cast-title">
-                                      <a href="#0">howard bass</a>
-                                    </h6>
-                                    <span class="cate">executive producer</span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="owl-item cloned"
-                                style="width: 136.875px; margin-right: 100px"
-                              >
-                                <div class="cast-item">
-                                  <div class="cast-thumb">
-                                    <a href="#0">
-                                      <img
-                                        src="/assets/img/cast/cast07.jpg"
-                                        alt="cast"
-                                      />
-                                    </a>
-                                  </div>
-                                  <div class="cast-content">
-                                    <h6 class="cast-title">
-                                      <a href="#0">naomi smith</a>
-                                    </h6>
-                                    <span class="cate">producer</span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="owl-item cloned"
-                                style="width: 136.875px; margin-right: 100px"
-                              >
-                                <div class="cast-item">
-                                  <div class="cast-thumb">
-                                    <a href="#0">
-                                      <img
-                                        src="/assets/img/cast/cast08.jpg"
-                                        alt="cast"
-                                      />
-                                    </a>
-                                  </div>
-                                  <div class="cast-content">
-                                    <h6 class="cast-title">
-                                      <a href="#0">tom martinez</a>
-                                    </h6>
-                                    <span class="cate">producer</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="owl-nav disabled">
-                            <button
-                              type="button"
-                              role="presentation"
-                              class="owl-prev"
-                            >
-                              <span aria-label="Previous">‹</span>
-                            </button>
-                            <button
-                              type="button"
-                              role="presentation"
-                              class="owl-next"
-                            >
-                              <span aria-label="Next">›</span>
-                            </button>
-                          </div>
-                          <div class="owl-dots disabled"></div>
-                        </div>
-                      </div>
+
                     </div>
                     <div class="tab-item">
                       <div sec:authorize="isAuthenticated()">
@@ -682,38 +388,13 @@
                               <!-- Trường ẩn để lưu id của film -->
                               <div class="form-group">
                                 <div class="rating-stars star-flex">
-                                  <i
-                                    class="fas fa-heart"
-                                    id="star1"
-                                    onclick="rate(1)"
-                                  ></i>
-                                  <i
-                                    class="fas fa-heart"
-                                    id="star2"
-                                    onclick="rate(2)"
-                                  ></i>
-                                  <i
-                                    class="fas fa-heart"
-                                    id="star3"
-                                    onclick="rate(3)"
-                                  ></i>
-                                  <i
-                                    class="fas fa-heart"
-                                    id="star4"
-                                    onclick="rate(4)"
-                                  ></i>
-                                  <i
-                                    class="fas fa-heart"
-                                    id="star5"
-                                    onclick="rate(5)"
-                                  ></i>
+                                  <i class="fas fa-heart" id="star1" onclick="rate(1)" ></i>
+                                  <i class="fas fa-heart" id="star2" onclick="rate(2)" ></i>
+                                  <i class="fas fa-heart" id="star3" onclick="rate(3)" ></i>
+                                  <i class="fas fa-heart"id="star4"onclick="rate(4)" ></i>
+                                  <i class="fas fa-heart" id="star5" onclick="rate(5)"></i>
                                 </div>
-                                <input
-                                  type="hidden"
-                                  id="rating"
-                                  name="rating"
-                                  th:field="*{star}"
-                                />
+                                <input type="hidden" id="rating" name="rating" th:field="*{star}">
                                 <!-- Trường ẩn để lưu giá trị đánh giá sao -->
                               </div>
                               <div class="form-group">
@@ -734,12 +415,12 @@
                             </form>
                           </div>
                         </div>
-                        <div th:if="${hasRated}">
+                        <div th:if="${hasRated}" style="font-size: 32px;font-weight: bold;">
                           BẠN ĐÃ ĐÁNH GIÁ BỘ PHIM NÀY
                         </div>
                       </div>
 
-                      <div sec:authorize="!isAuthenticated()">
+                      <div sec:authorize="!isAuthenticated()" style="font-size: 32px;font-weight: bold;">
                         <h3>Bạn cần đăng nhập để có thể bình luận.</h3>
                       </div>
 
