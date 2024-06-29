@@ -65,6 +65,7 @@ public class AuthenticationController {
 
     @GetMapping("/404")
     public String error() {
-        return "404";
+        return "/error/404";
     }
+
 }

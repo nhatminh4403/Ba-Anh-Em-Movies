@@ -1,5 +1,6 @@
 package com.example.movietickets.demo.controller.admin;
 
+import com.example.movietickets.demo.model.Country;
 import com.example.movietickets.demo.model.Film;
 import com.example.movietickets.demo.service.*;
 import jakarta.transaction.Transactional;
@@ -30,6 +31,7 @@ public class FilmController {
     @Autowired
     private final CategoryService categoryService;
 
+
     @Autowired
     private final ScheduleServiceImpl scheduleService;
     // Hiển thị danh sách danh mục
@@ -49,6 +51,8 @@ public class FilmController {
         model.addAttribute("categories", categoryService.getAllCategories()); // Thêm danh sách thể loại
         return "/admin/film/film-add";
     }
+
+
     @PostMapping("/admin/films/add")
     public String addFilm(@Valid @ModelAttribute Film film,  BindingResult result,@RequestParam("poster") MultipartFile poster) throws IOException {
 
@@ -129,6 +133,18 @@ public class FilmController {
         scheduleService.deleteByFilmId(id); //xóa suất chiếu của phim trước
         filmService.deleteFilm(id);
         return "redirect:/admin/films";
+    }
+
+    // tìm kiếm film
+    @GetMapping("/films/search")
+    public String searchFilms(Model model, @RequestParam(value = "keyword", required = false) String keyword) {
+        List<Film> films = filmService.searchFilmsByName(keyword);
+        List<Country> countries = countryService.getAllCountries();
+
+        model.addAttribute("films", films);
+        model.addAttribute("countries", countries);
+        model.addAttribute("keyword", keyword);
+        return "film/film-search";
     }
 
 }

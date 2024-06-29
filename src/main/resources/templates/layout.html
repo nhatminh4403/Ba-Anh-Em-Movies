@@ -67,10 +67,20 @@
         border: none;
         outline: none;
       }
+
+      .mt-50{
+        margin-top:50px;
+      }
     </style>
   </head>
 
   <body>
+  <!-- ==========Overlay========== -->
+  <div class="overlay"></div>
+  <a href="#0" class="scrollToTop">
+    <i class="fas fa-angle-up"></i>
+  </a>
+  <!-- ==========Overlay========== -->
   <header class="header-section">
     <div class="container">
       <div class="header-wrapper">
@@ -121,38 +131,19 @@
 
 
           <li class="menu-item-has-children">
-            <a href="#0">Trang</a>
+            <a href="#0">Thể loại</a>
             <ul class="submenu">
-              <li>
-                <a href="/about.html">về Chúng tôi</a>
-              </li>
-              <li>
-                <a href="/apps-download.html">Apps Download</a>
-              </li>
-              <li>
-                <a href="/sign-in.html">Sign In</a>
-              </li>
-              <li>
-                <a href="/sign-up.html">Sign Up</a>
-              </li>
-              <li>
-                <a href="/404.html">404</a>
+              <li th:each="category : ${categories}">
+                <a th:href="@{/films/by-category/{id}(id=${category.id})}" th:text="${category.name}"></a>
               </li>
             </ul>
           </li>
-          <li class="menu-item-has-children">
-            <a href="#">bài viết</a>
-            <ul class="submenu">
-              <li>
-                <a href="/blog.html">tất cả bài viết</a>
-              </li>
-              <li>
-                <a href="/blog-details.html">Chi tiết 1 bài viết</a>
-              </li>
-            </ul>
+
+          <li >
+            <a th:href="@{/blog}">bài viết</a>
           </li>
           <li>
-            <a thref="contact.html">liên hệ</a>
+            <a th:href="@{/feedback}" >liên hệ</a>
           </li>
 
           <li class="header-button pr-0" sec:authorize="isAuthenticated()">
@@ -178,9 +169,7 @@
 <main>
   <section layout:fragment="content"></section>
 </main>
-  <!-- ==========Newslater-Section========== -->
-  <footer class="footer-section">
-    <div class="newslater-section padding-bottom">
+  <footer class="footer-section mt-50">
       <div class="container">
         <div
                 class="newslater-container bg_img"
@@ -288,5 +277,6 @@
     <script th:src="@{/assets/js/seat.js}" ></script>
     <script type="text/javascript" th:src="@{https://cdn.jsdelivr.net/npm/toastify-js}"></script>
     <script th:src="@{/assets/js/main.js}"></script>
+    <script th:src="@{/assets/js/app.js}"></script>
   </body>
 </html>

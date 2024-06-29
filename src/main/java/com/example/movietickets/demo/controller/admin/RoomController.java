@@ -37,6 +37,8 @@ public class RoomController {
         model.addAttribute("cinemas", cinemaService.getAllCinemas());
         return "/admin/room/room-add";
     }
+
+
     //gọi phương thức mapp tới form add
     @PostMapping("/admin/rooms/add")
     public String addRoom(@Valid Room room, BindingResult result) {
