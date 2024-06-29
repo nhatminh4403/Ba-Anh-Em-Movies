@@ -56,6 +56,8 @@ public class SecurityConfig {
                                 "/admin/countries", "/admin/countries/add", "/admin/countries/edit",
                                 "/admin/categories/add", "/admin/categories", "/admin/categories/edit",
                                 "/admin/schedules", "/admin/schedules/add", "/admin/schedules/edit",
+                                "/admin/comboFoods", "/admin/comboFoods/add", "/admin/comboFoods/edit",
+                                "/admin/users", "/admin/users/detail",
                                 "blog/add", "blog/delete", "blog/update").hasAnyAuthority("admin") // Chỉ cho phép ADMIN truy cập.
                         .requestMatchers("/api/**").permitAll() // API mở cho mọi người dùng.
                         .anyRequest().authenticated() // Bất kỳ yêu cầu nào khác cần xác thực.

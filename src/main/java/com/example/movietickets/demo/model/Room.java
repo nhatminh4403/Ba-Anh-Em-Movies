@@ -25,7 +25,7 @@ public class Room {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "CINEMA_ID")
+    @JoinColumn(name = "CINEMA_ID", referencedColumnName = "CINEMA_ID")
     private Cinema cinema;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -115,19 +115,13 @@ public class AdminFilmController {
     // Cập nhật thông tin phim
     @PostMapping("/films/edit/{id}")
     public String updateFilm(@PathVariable("id") Long id, @Valid @ModelAttribute Film film, BindingResult result, @RequestParam("poster") MultipartFile poster, Model model) throws IOException {
-//        if (result.hasErrors()) {
-//            return "/admin/film/film-edit";
-//        }
+
         Film existingFilm = filmService.getFilmById(id).orElseThrow(() -> new IllegalArgumentException("Invalid film Id:" + id));
 
         if (!poster.isEmpty()) {
             String imageName = saveImageStatic(poster);
             existingFilm.setPoster("/assets/img/movie/" + imageName);
         }
-//        } else {
-//            // Giữ nguyên poster hiện tại nếu không upload hình ảnh mới
-//            film.setPoster(filmService.getFilmById(id).get().getPoster());
-//        }
 
         existingFilm.setName(film.getName());
         existingFilm.setTrailer(film.getTrailer());

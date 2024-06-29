@@ -19,7 +19,7 @@ public class RoomService {
 
 
     public List<Room> getAllRooms() {
-        return roomRepository.findAll();
+        return roomRepository.findAllByOrderByIdDesc();
     }
 
     public Optional<Room> getRoomById(Long id) {

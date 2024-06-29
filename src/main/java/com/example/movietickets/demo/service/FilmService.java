@@ -19,7 +19,7 @@ public class FilmService {
 
     // Retrieve all film from the database
     public List<Film> getAllFilms() {
-        return filmRepository.findAll();
+        return filmRepository.findAllByOrderByIdDesc();
     }
 
     // Lấy film theo id

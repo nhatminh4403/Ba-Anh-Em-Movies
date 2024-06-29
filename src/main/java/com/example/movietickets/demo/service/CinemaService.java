@@ -20,7 +20,7 @@ public class CinemaService {
     private final CinemaRepository cinemaRepository;
 
     public List<Cinema> getAllCinemas() {
-        return cinemaRepository.findAll();
+        return cinemaRepository.findAllByOrderByIdDesc();
     }
 
     public Optional<Cinema> getCinemaById(Long id) {

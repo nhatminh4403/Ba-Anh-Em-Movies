@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "ComboFood")
+@Table(name = "Combo_Food")
 public class ComboFood {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,4 +21,7 @@ public class ComboFood {
 
     @Column(name = "DESCRIPTION")
     private String description;
+
+    @Column(name = "COMBO_POSTER")
+    private String poster;
 }

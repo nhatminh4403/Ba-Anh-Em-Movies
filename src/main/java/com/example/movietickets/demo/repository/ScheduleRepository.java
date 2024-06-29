@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
-    @Query("SELECT s FROM Schedule s JOIN FETCH s.room r JOIN FETCH r.cinema c")
+    @Query("SELECT s FROM Schedule s JOIN FETCH s.room r JOIN FETCH r.cinema c ORDER BY s.id DESC")
     List<Schedule> findAllWithRoomAndCinema();
 
     void deleteByFilmId(Long filmId);
