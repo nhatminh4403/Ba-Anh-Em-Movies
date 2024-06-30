@@ -20,9 +20,11 @@ public class BookingDetail {
     @JoinColumn(name = "SEAT_ID")
     private Seat seat;
 
-    @Column(name = "TOTAL_PRICE")
+    @Column(name = "PRICE")
     private Long price;
 
-
+    @ManyToOne
+    @JoinColumn(name = "schedule_id")
+    private Schedule schedule;
 
 }

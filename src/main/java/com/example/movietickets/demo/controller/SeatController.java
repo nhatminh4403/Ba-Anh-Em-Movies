@@ -1,12 +1,10 @@
 package com.example.movietickets.demo.controller;
 
+import com.example.movietickets.demo.model.BookingDetail;
 import com.example.movietickets.demo.model.Film;
 import com.example.movietickets.demo.model.Schedule;
 import com.example.movietickets.demo.model.Seat;
-import com.example.movietickets.demo.service.RoomService;
-import com.example.movietickets.demo.service.ScheduleServiceImpl;
-import com.example.movietickets.demo.service.SeatService;
-import com.example.movietickets.demo.service.SeatTypeService;
+import com.example.movietickets.demo.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequestMapping("/seats")
@@ -39,6 +34,9 @@ public class SeatController {
 
     @Autowired
     private SeatTypeService seatTypeService;
+
+    @Autowired
+    private BookingDetailService bookingDetailService;
 
     @GetMapping
     public String getSeatsByRoomId(@RequestParam(value = "roomId", required = false) Long roomId, Model model) {
@@ -65,6 +63,22 @@ public class SeatController {
             Schedule schedule = optionalSchedule.get();
             Long roomId = schedule.getRoom().getId();
             List<Seat> seats = seatService.getSeatsByRoomIdDistinct(roomId);
+
+            // Lấy danh sách ghế đã được đặt dựa trên scheduleId
+            List<BookingDetail> bookingDetails = bookingDetailService.getBookingDetailsByScheduleId(scheduleId);
+            Set<Long> bookedSeatIds = bookingDetails.stream()
+                    .map(BookingDetail::getSeat)
+                    .map(Seat::getId)
+                    .collect(Collectors.toSet());
+
+            // Đánh dấu ghế đã được đặt
+            for (Seat seat : seats) {
+                if (bookedSeatIds.contains(seat.getId())) {
+                    seat.setStatus("booked");
+                }
+            }
+
+
             // Add information
             String cinemaName = schedule.getRoom().getCinema().getName();
             String cinemaAddress = schedule.getRoom().getCinema().getAddress();

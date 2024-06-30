@@ -25,6 +25,9 @@ public class Booking {
     @Column(name = "CINEMA_NAME")
     private String cinemaName;
 
+    @Column(name = "ROOM_NAME")
+    private String roomName;
+
     @Column(name = "CINEMA_ADDRESS")
     private String cinemaAddress;
 

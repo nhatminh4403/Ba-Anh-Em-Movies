@@ -82,13 +82,16 @@ window.onload = function() {
             document.querySelector('.selected-seats').textContent = selectedSeatSymbols;
             document.querySelector('.total-price').textContent = totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
     }
-  document.querySelector('#checkout-button').addEventListener('click', function() {
-//      const selectedSeatSymbols = selectedSeats.map(seat => seat.symbol);
-//      document.getElementById('selectedSeatsInput').value = JSON.stringify(selectedSeatSymbols);
-      document.getElementById('selectedSeatsInput').value = JSON.stringify(selectedSeats);
-      document.getElementById('totalPriceInput').value = totalPrice;
-      document.getElementById('checkout-form').submit();
-  });
+    document.querySelector('#checkout-button').addEventListener('click', function() {
+       const selectedSeatSymbols = selectedSeats.map(seat => ({
+             id: seat.id,
+             symbol: seat.symbol,
+             price: seat.price
+         }));
+         document.getElementById('selectedSeatsInput').value = JSON.stringify(selectedSeatSymbols);
+         document.getElementById('totalPriceInput').value = totalPrice;
+         document.getElementById('checkout-form').submit();
+    });
 
 //  document.querySelector(".tongTien").textContent = totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
 
