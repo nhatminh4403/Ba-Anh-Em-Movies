@@ -3,7 +3,6 @@ package com.example.movietickets.demo.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-
 @Data
 @Entity
 @Table(name = "Combo_Food")

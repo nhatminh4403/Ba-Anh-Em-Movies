@@ -1,10 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
     <title>blog-details</title>
+
+    <style>
+        .img-poster {
+            width: 750px;
+            height: 361px;
+            object-fit:cover;
+
+        }
+    </style>
 </head>
 <body>
 <section layout:fragment="content">
@@ -25,10 +35,10 @@
                 <h2 class="title">blog single</h2>
                 <ul class="breadcrumb">
                     <li>
-                        <a href="index.html"> Home </a>
+                        <a th:href="@{/}"> Home </a>
                     </li>
                     <li>
-                        <a href="blog.html"> blog </a>
+                        <a th:href="@{/blog}"> blog </a>
                     </li>
                     <li>blog single</li>
                 </ul>
@@ -36,63 +46,49 @@
         </div>
     </section>
 
-    <section class="blog-section padding-top padding-bottom">
+    <section class="blog-section padding-top padding-bottom" th:object="${blog}">
         <div class="container">
             <div class="row justify-content-center mb-30-none">
                 <div class="col-lg-8 mb-50 mb-lg-0">
                     <article>
                         <div class="post-item post-details">
                             <div class="post-thumb">
-                                <img src="/assets/img/blog/blog01.jpg" alt="blog">
+                                <img class="img-poster" th:src="@{${blog.poster}}" alt="blog">
                             </div>
                             <div class="post-content">
                                 <div class="post-meta text-center">
                                     <div class="item">
                                         <a href="#0">
                                             <i class="flaticon-conversation"></i>
-                                            <span>30</span>
-                                        </a>
-                                    </div>
-                                    <div class="item">
-                                        <a href="#0">
-                                            <i class="flaticon-share-1"></i>
-                                            <span>22</span>
+                                            <span th:text="${blog.comments.size()}"></span>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="content">
                                     <div class="entry-content p-0">
                                         <div class="left">
-                                                <span class="date">Dece 15, 2020 BY
+                                                <span class="date" th:text="${blog.getFormattedDate()}">
                                                 </span>
                                         </div>
                                     </div>
                                     <div class="post-header">
-                                        <h4 class="m-title">
-                                            Cheap Movie Tickets - Bring Your
-                                            Loved Ones to See New Releases
+                                        <h4 class="m-title"  th:text="${blog.title}">
+
                                         </h4>
-                                        <p>
-                                            Lorem ipsum dolor sit amet,
-                                            consectetur adipiscing elit, sed
-                                            do eiusmod tempor dunt ut labore
-                                            et dolore magna aliqua.Quis
-                                            ipsum suspendisse ultrices
-                                            gravida. Risus do viverra
-                                            maecenas accumsan lacus vel
-                                            facilisis.
+                                        <p  th:text="${blog.content}">
+
                                         </p>
-                                        <blockquote>
-                                            Modi perferendis ipsa, dolorum
-                                            eaque accusantium! Velitlibero
-                                            fugit dolores repellendus
-                                            consequatur nisi, deserunt
-                                            aperiam a ea ex hic, iusto
-                                            atque, quas. Aliquam rerum
-                                            dolores saepe sunt, assumenda
-                                            voluptas.
-                                        </blockquote>
-                                        <p>
+                                        <!-- <blockquote>
+                                             Modi perferendis ipsa, dolorum
+                                             eaque accusantium! Velitlibero
+                                             fugit dolores repellendus
+                                             consequatur nisi, deserunt
+                                             aperiam a ea ex hic, iusto
+                                             atque, quas. Aliquam rerum
+                                             dolores saepe sunt, assumenda
+                                             voluptas.
+                                         </blockquote>-->
+                                        <!--<p>
                                             Lorem ipsum dolor sit amet,
                                             consectetur adipiscing elit, sed
                                             do eiusmod tempor dunt ut labore
@@ -125,7 +121,7 @@
                                             gravida. Risus do viverra
                                             maecenas accumsan lacus vel
                                             facilisis.
-                                        </p>
+                                        </p>-->
                                     </div>
                                     <div class="tags-area">
                                         <div class="tags">
@@ -169,114 +165,60 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="blog-author">
-                            <div class="author-thumb">
-                                <a href="#0">
-                                    <img src="/assets/img/blog/author.jpg" alt="blog">
-                                </a>
-                            </div>
-                            <div class="author-content">
-                                <h5 class="title">
-                                    <a href="#0"> Lee Burke </a>
-                                </h5>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit, sed do eiusmod tempor
-                                    dunt ut labore et dolore magna
-                                    aliqua.Quis ipsum suspendisse .
-                                </p>
-                            </div>
-                        </div>
-                        <div class="blog-comment">
+
+                        <div class="blog-comment" th:object="${comments}">
                             <h5 class="title">comments</h5>
-                            <ul class="comment-area">
-                                <li>
-                                    <div class="blog-thumb">
-                                        <a href="#0">
-                                            <img src="/assets/img/blog/author.jpg" alt="blog">
-                                        </a>
-                                    </div>
+
+                            <!-- Kiểm tra nếu blog.comments rỗng -->
+                            <div th:if="${blog.comments.empty}">
+                                <p>Chưa có comment nào.</p>
+                            </div>
+
+                            <ul class="comment-area" th:unless="${blog.comments.empty}">
+                                <li th:each="comment : ${blog.comments}">
                                     <div class="blog-thumb-info">
-                                        <span>13 days ago</span>
+                                        <span th:text="${comment.getFormattedDate()}"></span>
                                         <h6 class="title">
-                                            <a href="#0">carl morgan</a>
+                                            <a href="#0" th:text="${comment.user.fullname}"></a>
                                         </h6>
                                     </div>
                                     <div class="blog-content">
-                                        <p>
-                                            Maecenas at velit eu erat
-                                            egestas vestibulum id ut tellus.
-                                            Sed et semper mauris. Quisque eu
-                                            lorem libero. Donec finibus
-                                            metus tellus, eget rutrum est
-                                            mattis non.
-                                        </p>
+                                        <p th:text="${comment.content}"></p>
                                     </div>
-                                </li>
-                                <li>
-                                    <div class="blog-thumb">
-                                        <a href="#0">
-                                            <img src="/assets/img/blog/author.jpg" alt="blog">
-                                        </a>
+                                    <div sec:authorize="hasAuthority('admin')" >
+                                        <form th:action="@{/blog/blog-details/{id}/delete/{commentId}(id=${blog.id}, commentId=${comment.id})}" method="post" style="display: inline;">
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc không ?')">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </form>
                                     </div>
-                                    <div class="blog-thumb-info">
-                                        <span>13 days ago</span>
-                                        <h6 class="title">
-                                            <a href="#0">john flores</a>
-                                        </h6>
-                                    </div>
-                                    <div class="blog-content">
-                                        <p>
-                                            Maecenas at velit eu erat
-                                            egestas vestibulum id ut tellus.
-                                            Sed et semper mauris. Quisque eu
-                                            lorem libero. Donec finibus
-                                            metus tellus, eget rutrum est
-                                            mattis non.
-                                        </p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="blog-thumb">
-                                        <a href="#0">
-                                            <img src="/assets/img/blog/author.jpg" alt="blog">
-                                        </a>
-                                    </div>
-                                    <div class="blog-thumb-info">
-                                        <span>13 days ago</span>
-                                        <h6 class="title">
-                                            <a href="#0">carl morgan</a>
-                                        </h6>
-                                    </div>
-                                    <div class="blog-content">
-                                        <p>
-                                            Maecenas at velit eu erat
-                                            egestas vestibulum id ut tellus.
-                                            Sed et semper mauris. Quisque eu
-                                            lorem libero. Donec finibus
-                                            metus tellus, eget rutrum est
-                                            mattis non.
-                                        </p>
-                                    </div>
+
                                 </li>
                             </ul>
-                            <div class="leave-comment">
-                                <h5 class="title">leave comment</h5>
-                                <form class="blog-form">
-                                    <div class="form-group">
-                                        <input type="text" placeholder="Enter Your Full Name" required="">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" placeholder="Enter Your Email Address" required="">
-                                    </div>
-                                    <div class="form-group">
-                                        <textarea placeholder="Write A Message" required=""></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="submit" value="Submit Now">
-                                    </div>
-                                </form>
+
+                            <div sec:authorize="isAuthenticated()" >
+                                <div class="leave-comment">
+                                    <h5 class="title">Leave a comment</h5>
+                                    <form class="blog-form" method="post" th:action="@{/blog/blog-details/{id}/comment(id=${blog.id})}" th:object="${comment}" enctype="multipart/form-data">
+                                        <input type="hidden" th:value="${blog.id}" name="blogId" /> <!-- Trường ẩn để lưu id của blog -->
+                                        <!--<div class="form-group">
+                                            <input type="text" placeholder="Enter Your Full Name" th:value="${fullname}" readonly>
+                                        </div>-->
+                                        <div class="form-group">
+                                            <textarea placeholder="Viết cảm nghĩ của bạn" name="content" th:field="*{content}" required></textarea>
+                                            <!-- th:field="*{content}" sẽ binding dữ liệu với thuộc tính content của đối tượng newComment trong model -->
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="submit" value="Comment">
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
+
+                            <div sec:authorize="!isAuthenticated()">
+                                <h3>Bạn cần đăng nhập để có thể bình luận.</h3>
+                            </div>
+
                         </div>
                     </article>
                 </div>
@@ -284,8 +226,8 @@
                     <aside>
                         <div class="widget widget-search">
                             <h5 class="title">search</h5>
-                            <form class="search-form">
-                                <input type="text" placeholder="Enter your Search Content" required="">
+                            <form class="search-form" th:action="@{/blog/search}" method="get">
+                                <input type="text" name="keyword" th:value="${keyword}" placeholder="Enter your Search Blog" required="">
                                 <button type="submit">
                                     <i class="flaticon-loupe"></i>Search
                                 </button>

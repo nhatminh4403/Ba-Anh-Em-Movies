@@ -5,6 +5,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+
+    <style>
+        .flex-form{
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .flex-center{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0;
+            gap:5px;
+
+        }
+
+        .type-country{
+           margin-right: 20px;
+           color: #31d7a9;
+        }
+
+        .list{
+            color:black;
+        }
+
+        .current{
+            color:black;
+        }
+
+        .thumb-country{
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 10px;
+            -webkit-box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .thumn-country img {
+            width:100%;
+        }
+    </style>
 </head>
 <body>
 <section layout:fragment="content">
@@ -74,224 +119,30 @@
                 </div>
                 <div class="tab-area">
                     <div class="tab-item active">
-                        <form class="ticket-search-form">
-                            <div class="form-group large">
-                                <input type="text" placeholder="Search for Movies">
-                                <button type="submit">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                            <div class="form-group">
-                                <div class="thumb">
-                                    <img src="./assets/img/ticket/city.png" alt="ticket">
+                        <div class="flex-form">
+                            <form class="ticket-search-form"  th:action="@{/films/search}" method="get">
+                                <div class="form-group large">
+                                    <div th:action="@{/films/search}" method="get">
+                                        <input type="text" name="keyword" th:value="${keyword}" placeholder="Tìm kiếm phim" required="">
+                                        <button type="submit">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <span class="type">city</span>
-                                <select class="select-bar" style="display: none;">
-                                    <option value="london">London</option>
-                                    <option value="dhaka">dhaka</option>
-                                    <option value="rosario">rosario</option>
-                                    <option value="madrid">madrid</option>
-                                    <option value="koltaka">kolkata</option>
-                                    <option value="rome">rome</option>
-                                    <option value="khoksa">khoksa</option>
-                                </select><div class="nice-select select-bar" tabindex="0"><span class="current">London</span><ul class="list"><li data-value="london" class="option selected">London</li><li data-value="dhaka" class="option">dhaka</li><li data-value="rosario" class="option">rosario</li><li data-value="madrid" class="option">madrid</li><li data-value="koltaka" class="option">kolkata</li><li data-value="rome" class="option">rome</li><li data-value="khoksa" class="option">khoksa</li></ul></div>
-                            </div>
-                            <div class="form-group">
-                                <div class="thumb">
-                                    <img src="./assets/img/ticket/date.png" alt="ticket">
+                            </form>
+                            <form>
+                                <div class="form-group flex-center">
+                                    <div class="thumb-country">
+                                        <img src="/assets/img/ticket/city.png" alt="ticket" />
+                                    </div>
+                                    <span class="type type-country">City</span>
+                                    <select class="select-bar" onchange="handleCountryChange(this)">
+                                        <option value="" disabled selected>Chọn quốc gia</option>
+                                        <option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.name}"></option>
+                                    </select>
                                 </div>
-                                <span class="type">date</span>
-                                <select class="select-bar" style="display: none;">
-                                    <option value="26-12-19">
-                                        23/10/2020
-                                    </option>
-                                    <option value="26-12-19">
-                                        24/10/2020
-                                    </option>
-                                    <option value="26-12-19">
-                                        25/10/2020
-                                    </option>
-                                    <option value="26-12-19">
-                                        26/10/2020
-                                    </option>
-                                </select><div class="nice-select select-bar" tabindex="0"><span class="current">
-                                            23/10/2020
-                                        </span><ul class="list"><li data-value="26-12-19" class="option selected">
-                                23/10/2020
-                            </li><li data-value="26-12-19" class="option">
-                                24/10/2020
-                            </li><li data-value="26-12-19" class="option">
-                                25/10/2020
-                            </li><li data-value="26-12-19" class="option">
-                                26/10/2020
-                            </li></ul></div>
-                            </div>
-                            <div class="form-group">
-                                <div class="thumb">
-                                    <img src="./assets/img/ticket/cinema.png" alt="ticket">
-                                </div>
-                                <span class="type">cinema</span>
-                                <select class="select-bar" style="display: none;">
-                                    <option value="Awaken">Awaken</option>
-                                    <option value="dhaka">dhaka</option>
-                                    <option value="rosario">rosario</option>
-                                    <option value="madrid">madrid</option>
-                                    <option value="koltaka">kolkata</option>
-                                    <option value="rome">rome</option>
-                                    <option value="khoksa">khoksa</option>
-                                </select><div class="nice-select select-bar" tabindex="0"><span class="current">Awaken</span><ul class="list"><li data-value="Awaken" class="option selected">Awaken</li><li data-value="dhaka" class="option">dhaka</li><li data-value="rosario" class="option">rosario</li><li data-value="madrid" class="option">madrid</li><li data-value="koltaka" class="option">kolkata</li><li data-value="rome" class="option">rome</li><li data-value="khoksa" class="option">khoksa</li></ul></div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="tab-item">
-                        <form class="ticket-search-form">
-                            <div class="form-group large">
-                                <input type="text" placeholder="Search for Events">
-                                <button type="submit">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                            <div class="form-group">
-                                <div class="thumb">
-                                    <img src="./assets/img/ticket/city.png" alt="ticket">
-                                </div>
-                                <span class="type">city</span>
-                                <select class="select-bar" style="display: none;">
-                                    <option value="london">London</option>
-                                    <option value="dhaka">dhaka</option>
-                                    <option value="rosario">rosario</option>
-                                    <option value="madrid">madrid</option>
-                                    <option value="koltaka">kolkata</option>
-                                    <option value="rome">rome</option>
-                                    <option value="khoksa">khoksa</option>
-                                </select><div class="nice-select select-bar" tabindex="0"><span class="current">London</span><ul class="list"><li data-value="london" class="option selected">London</li><li data-value="dhaka" class="option">dhaka</li><li data-value="rosario" class="option">rosario</li><li data-value="madrid" class="option">madrid</li><li data-value="koltaka" class="option">kolkata</li><li data-value="rome" class="option">rome</li><li data-value="khoksa" class="option">khoksa</li></ul></div>
-                            </div>
-                            <div class="form-group">
-                                <div class="thumb">
-                                    <img src="./assets/img/ticket/date.png" alt="ticket">
-                                </div>
-                                <span class="type">date</span>
-                                <select class="select-bar" style="display: none;">
-                                    <option value="26-12-19">
-                                        23/10/2020
-                                    </option>
-                                    <option value="26-12-19">
-                                        24/10/2020
-                                    </option>
-                                    <option value="26-12-19">
-                                        25/10/2020
-                                    </option>
-                                    <option value="26-12-19">
-                                        26/10/2020
-                                    </option>
-                                </select><div class="nice-select select-bar" tabindex="0"><span class="current">
-                                            23/10/2020
-                                        </span><ul class="list"><li data-value="26-12-19" class="option selected">
-                                23/10/2020
-                            </li><li data-value="26-12-19" class="option">
-                                24/10/2020
-                            </li><li data-value="26-12-19" class="option">
-                                25/10/2020
-                            </li><li data-value="26-12-19" class="option">
-                                26/10/2020
-                            </li></ul></div>
-                            </div>
-                            <div class="form-group">
-                                <div class="thumb">
-                                    <img src="./assets/img/ticket/cinema.png" alt="ticket">
-                                </div>
-                                <span class="type">event</span>
-                                <select class="select-bar" style="display: none;">
-                                    <option value="angular">angular</option>
-                                    <option value="startup">startup</option>
-                                    <option value="rosario">rosario</option>
-                                    <option value="madrid">madrid</option>
-                                    <option value="koltaka">kolkata</option>
-                                    <option value="Last-First">
-                                        Last-First
-                                    </option>
-                                    <option value="wish">wish</option>
-                                </select><div class="nice-select select-bar" tabindex="0"><span class="current">angular</span><ul class="list"><li data-value="angular" class="option selected">angular</li><li data-value="startup" class="option">startup</li><li data-value="rosario" class="option">rosario</li><li data-value="madrid" class="option">madrid</li><li data-value="koltaka" class="option">kolkata</li><li data-value="Last-First" class="option">
-                                Last-First
-                            </li><li data-value="wish" class="option">wish</li></ul></div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="tab-item">
-                        <form class="ticket-search-form">
-                            <div class="form-group large">
-                                <input type="text" placeholder="Search fo Sports">
-                                <button type="submit">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                            <div class="form-group">
-                                <div class="thumb">
-                                    <img src="./assets/img/ticket/city.png" alt="ticket">
-                                </div>
-                                <span class="type">city</span>
-                                <select class="select-bar" style="display: none;">
-                                    <option value="london">London</option>
-                                    <option value="dhaka">dhaka</option>
-                                    <option value="rosario">rosario</option>
-                                    <option value="madrid">madrid</option>
-                                    <option value="koltaka">kolkata</option>
-                                    <option value="rome">rome</option>
-                                    <option value="khoksa">khoksa</option>
-                                </select><div class="nice-select select-bar" tabindex="0"><span class="current">London</span><ul class="list"><li data-value="london" class="option selected">London</li><li data-value="dhaka" class="option">dhaka</li><li data-value="rosario" class="option">rosario</li><li data-value="madrid" class="option">madrid</li><li data-value="koltaka" class="option">kolkata</li><li data-value="rome" class="option">rome</li><li data-value="khoksa" class="option">khoksa</li></ul></div>
-                            </div>
-                            <div class="form-group">
-                                <div class="thumb">
-                                    <img src="./assets/img/ticket/date.png" alt="ticket">
-                                </div>
-                                <span class="type">date</span>
-                                <select class="select-bar" style="display: none;">
-                                    <option value="26-12-19">
-                                        23/10/2020
-                                    </option>
-                                    <option value="26-12-19">
-                                        24/10/2020
-                                    </option>
-                                    <option value="26-12-19">
-                                        25/10/2020
-                                    </option>
-                                    <option value="26-12-19">
-                                        26/10/2020
-                                    </option>
-                                </select><div class="nice-select select-bar" tabindex="0"><span class="current">
-                                            23/10/2020
-                                        </span><ul class="list"><li data-value="26-12-19" class="option selected">
-                                23/10/2020
-                            </li><li data-value="26-12-19" class="option">
-                                24/10/2020
-                            </li><li data-value="26-12-19" class="option">
-                                25/10/2020
-                            </li><li data-value="26-12-19" class="option">
-                                26/10/2020
-                            </li></ul></div>
-                            </div>
-                            <div class="form-group">
-                                <div class="thumb">
-                                    <img src="./assets/img/ticket/cinema.png" alt="ticket">
-                                </div>
-                                <span class="type">sports</span>
-                                <select class="select-bar" style="display: none;">
-                                    <option value="football">
-                                        football
-                                    </option>
-                                    <option value="cricket">cricket</option>
-                                    <option value="cabadi">cabadi</option>
-                                    <option value="madrid">madrid</option>
-                                    <option value="gadon">gadon</option>
-                                    <option value="rome">rome</option>
-                                    <option value="khoksa">khoksa</option>
-                                </select><div class="nice-select select-bar" tabindex="0"><span class="current">
-                                            football
-                                        </span><ul class="list"><li data-value="football" class="option selected">
-                                football
-                            </li><li data-value="cricket" class="option">cricket</li><li data-value="cabadi" class="option">cabadi</li><li data-value="madrid" class="option">madrid</li><li data-value="gadon" class="option">gadon</li><li data-value="rome" class="option">rome</li><li data-value="khoksa" class="option">khoksa</li></ul></div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

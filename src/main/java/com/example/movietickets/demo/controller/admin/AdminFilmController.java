@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Controller
+@Controller("adminFilmController")
 @AllArgsConstructor
 @RequestMapping("/admin")
 public class AdminFilmController {
@@ -47,7 +47,7 @@ public class AdminFilmController {
         return "/admin/film/film-list";
     }
 
-    //add film
+    // add film
     @GetMapping("/films/add")
     public String showAddFilm(Model model) {
         List<Category> selectedCategories = new ArrayList<>();
@@ -60,12 +60,13 @@ public class AdminFilmController {
     }
 
     @PostMapping("/films/add")
-    public String addFilm(@Valid @ModelAttribute Film film, BindingResult result, @RequestParam("poster") MultipartFile poster) throws IOException {
+    public String addFilm(@Valid @ModelAttribute Film film, BindingResult result,
+            @RequestParam("poster") MultipartFile poster) throws IOException {
 
         if (!poster.isEmpty()) {
             try {
                 String imageName = saveImageStatic(poster);
-                film.setPoster("/assets/img/movie/" + imageName); //lưu đường dẫn vào database
+                film.setPoster("/assets/img/movie/" + imageName); // lưu đường dẫn vào database
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -114,9 +115,11 @@ public class AdminFilmController {
 
     // Cập nhật thông tin phim
     @PostMapping("/films/edit/{id}")
-    public String updateFilm(@PathVariable("id") Long id, @Valid @ModelAttribute Film film, BindingResult result, @RequestParam("poster") MultipartFile poster, Model model) throws IOException {
+    public String updateFilm(@PathVariable("id") Long id, @Valid @ModelAttribute Film film, BindingResult result,
+            @RequestParam("poster") MultipartFile poster, Model model) throws IOException {
 
-        Film existingFilm = filmService.getFilmById(id).orElseThrow(() -> new IllegalArgumentException("Invalid film Id:" + id));
+        Film existingFilm = filmService.getFilmById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid film Id:" + id));
 
         if (!poster.isEmpty()) {
             String imageName = saveImageStatic(poster);
@@ -141,12 +144,11 @@ public class AdminFilmController {
     }
 
     // Xóa phim
-    @Transactional//phương thức để liên hệ với bảng con => xóa lịch chiếu
+    @Transactional // phương thức để liên hệ với bảng con => xóa lịch chiếu
     @GetMapping("/films/delete/{id}")
     public String deleteFilm(@PathVariable("id") Long id) {
-        scheduleService.deleteByFilmId(id); //xóa suất chiếu của phim trước
+        scheduleService.deleteByFilmId(id); // xóa suất chiếu của phim trước
         filmService.deleteFilm(id);
         return "redirect:/admin/films";
     }
 }
-

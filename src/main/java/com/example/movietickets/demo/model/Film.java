@@ -6,16 +6,20 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
 @Table(name = "Film")
 public class Film {
-
+    // @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval =
+    // true)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "FILM_ID")
@@ -25,10 +29,10 @@ public class Film {
     private String name;
 
     @Column(name = "TRAILER")
-    private String trailer;  // Changed to String based on assumption
+    private String trailer; // Changed to String based on assumption
 
     @Column(name = "DESCRIPTION")
-    private String description;  // Changed to String based on assumption
+    private String description; // Changed to String based on assumption
 
     @Column(name = "POSTER")
     private String poster;
@@ -60,15 +64,13 @@ public class Film {
     private Country country;
 
     @ManyToMany
-    @JoinTable(
-            name = "Film_Category",
-            joinColumns = @JoinColumn(name = "FILM_ID"),
-            inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID")
-    )
+    @JoinTable(name = "Film_Category", joinColumns = @JoinColumn(name = "FILM_ID"), inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID"))
     private List<Category> categories;
 
     @Transient
     private List<Long> categoryIds = new ArrayList<>(); // Khởi tạo danh sách rỗng
+    @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Rating> ratings;
 
     @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Schedule> schedules;

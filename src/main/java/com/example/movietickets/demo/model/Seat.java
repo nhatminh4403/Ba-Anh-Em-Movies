@@ -3,6 +3,7 @@ package com.example.movietickets.demo.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
 
 @Data
 @Entity
@@ -13,20 +14,26 @@ public class Seat {
     @Column(name = "SEAT_ID")
     private Long id;
 
+    @Column(name = "SEAT_NUMBER")
+    private String symbol;
+
+    @Column(name = "IMAGE")
+    private String image; // Thêm trường hình ảnh
+
+    @Column(name = "STATUS")
+    private String status;
+
     @ManyToOne
     @JoinColumn(name = "ROOM_ID")
     private Room room;
 
-    @Column(name = "SEAT_NUMBER")
-    private String seatNumber;
+    @ManyToOne
+    @JoinColumn(name = "SEAT_TYPE_ID")
+    private SeatType seattype;
 
-    @Column(name = "TYPE")
-    private String type;
+    @OneToMany(mappedBy = "seat", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BookingDetail> bookingDetails;
 
-    @Column(name = "IMAGE")
-    private String image;
-
-    // Getters and Setters
     // Constructor without parameters
     public Seat() {
     }

@@ -8,7 +8,6 @@ import lombok.Data;
 import java.util.List;
 import java.util.Set;
 
-
 @Data
 @Entity
 @Table(name = "category")
@@ -30,4 +29,7 @@ public class Category {
     public String toString() {
         return "Category{id=" + id + ", name='" + name + "'}";
     }
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Film> films;
 }

@@ -32,7 +32,8 @@ public class ComboFoodService {
 
     public void updateComboFood(@NotNull ComboFood comboFood) {
         ComboFood existingCategory = comboFoodRepository.findById(comboFood.getId())
-                .orElseThrow(() -> new IllegalStateException("Country with ID " + comboFood.getId() + " does not exist."));
+                .orElseThrow(
+                        () -> new IllegalStateException("Country with ID " + comboFood.getId() + " does not exist."));
         existingCategory.setComboName(comboFood.getComboName());
         comboFoodRepository.save(existingCategory);
     }
@@ -42,5 +43,5 @@ public class ComboFoodService {
             throw new IllegalStateException("Country with ID " + id + " does not exist.");
         }
         comboFoodRepository.deleteById(id);
-    }
-}
+    }<<<<<<<HEAD
+}=======}>>>>>>>Phát

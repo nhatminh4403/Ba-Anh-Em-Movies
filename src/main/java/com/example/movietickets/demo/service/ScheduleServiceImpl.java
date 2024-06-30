@@ -14,7 +14,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     private final ScheduleRepository scheduleRepository;
 
     public List<Schedule> getAllSchedules() {
-//        return scheduleRepository.findAll();
+        // return scheduleRepository.findAll();
         return scheduleRepository.findAllWithRoomAndCinema();
     }
 

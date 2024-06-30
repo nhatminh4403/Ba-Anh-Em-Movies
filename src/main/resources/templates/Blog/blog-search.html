@@ -5,6 +5,20 @@
 <head>
     <meta charset="UTF-8">
     <title>blog</title>
+
+    <style>
+        .img-poster {
+            width: 750px;
+            height: 360.61px;
+            object-fit: cover;
+        }
+
+        .search-nothing{
+            margin-top: 1px;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <section layout:fragment="content">
@@ -22,12 +36,14 @@
              style="background-image: url(&quot;/assets/img/banner/banner07.jpg&quot;);">
         <div class="container">
             <div class="speaker-banner-content">
-                <h2 class="title">blog - 01</h2>
+                <h2 class="title">blog</h2>
                 <ul class="breadcrumb">
                     <li>
-                        <a href="index.html"> Home </a>
+                        <a th:href="@{/}"> Home </a>
                     </li>
-                    <li>blog</li>
+                    <li>
+                        <a th:href="@{/blog}"> Blog </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -38,239 +54,61 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8 mb-50 mb-lg-0">
                     <article>
-                        <div class="post-item">
-                            <div class="post-thumb">
-                                <a href="blog-details.html">
-                                    <img src="/assets/img/blog/blog01.jpg" alt="blog">
-                                </a>
-                            </div>
-                            <div class="post-content">
-                                <div class="post-header">
-                                    <h4 class="title">
-                                        <a href="blog-details.html">
-                                            Increase Event Ticket Sales For
-                                            Film Production With the Right
-                                            Advertising Strategies
-                                        </a>
-                                    </h4>
-                                    <div class="meta-post">
-                                        <a href="#0" class="mr-4"><i class="flaticon-conversation"></i>20 Comments</a>
-                                        <a href="#0"><i class="flaticon-view"></i>466 View</a>
-                                    </div>
-                                    <p>
-                                        Lorem ipsum dolor sit amet,
-                                        consectetur adipiscing elit.
-                                        Phasellus ac cursus leo. Nullam
-                                        dolor nunc, hendrerit non velit id,
-                                        pharetra viverra elit.
-                                    </p>
-                                </div>
-                                <div class="entry-content">
-                                    <div class="left">
-                                            <span class="date">Dece 15, 2020 BY
-                                            </span>
-                                        <div class="authors">
-                                            <div class="thumb">
-                                                <a href="#0"><img src="/assets/img/blog/author.jpg" alt="#0"></a>
-                                            </div>
-                                            <h6 class="title">
-                                                <a href="#0">Alvin Mcdaniel</a>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                    <a href="#0" class="buttons">Read More
-                                        <i class="flaticon-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="post-item">
-                            <div class="post-thumb">
-                                <div class="owl-carousel owl-theme blog-slider owl-loaded owl-drag">
+                        <div th:each="blog : ${blogs}" class="post-item">
 
+                            <div th:if="${not #lists.isEmpty(blogs)}">
+                                <div class="post-thumb">
+                                    <a th:href="@{/blog/blog-details/{id}(id=${blog.id})}">
+                                        <img class="img-poster" th:src="@{${blog.poster}}" alt="blog" />
+                                    </a>
+                                </div>
 
-                                    <div class="owl-stage-outer">
-                                        <div class="owl-stage"
-                                             style="transform: translate3d(-1500px, 0px, 0px); transition: all 0.25s ease 0s; width: 6000px;">
-                                            <div class="owl-item cloned" style="width: 750px;"><img
-                                                    src="/assets/img/blog/blog04.jpg" alt="blog"></div>
-                                            <div class="owl-item cloned" style="width: 750px;"><img
-                                                    src="/assets/img/blog/blog01.jpg" alt="blog"></div>
-                                            <div class="owl-item active" style="width: 750px;"><img
-                                                    src="/assets/img/blog/blog02.jpg" alt="blog"></div>
-                                            <div class="owl-item" style="width: 750px;"><img
-                                                    src="/assets/img/blog/blog03.jpg" alt="blog"></div>
-                                            <div class="owl-item" style="width: 750px;"><img
-                                                    src="/assets/img/blog/blog04.jpg" alt="blog"></div>
-                                            <div class="owl-item" style="width: 750px;"><img
-                                                    src="/assets/img/blog/blog01.jpg" alt="blog"></div>
-                                            <div class="owl-item cloned" style="width: 750px;"><img
-                                                    src="/assets/img/blog/blog02.jpg" alt="blog"></div>
-                                            <div class="owl-item cloned" style="width: 750px;"><img
-                                                    src="/assets/img/blog/blog03.jpg" alt="blog"></div>
+                                <div class="post-content">
+                                    <div class="post-header">
+                                        <h4 class="title">
+                                            <a th:href="@{/blog/blog-details/{id}(id=${blog.id})}" th:text="${blog.title}"></a>
+                                        </h4>
+                                        <div class="meta-post">
+                                            <a href="#0" class="mr-4">
+                                                <i class="flaticon-conversation"></i>
+                                                <span th:text="${blog.comments.size()}"></span> Comments
+                                            </a>
                                         </div>
                                     </div>
-                                    <div class="owl-nav disabled">
-                                        <button type="button" role="presentation" class="owl-prev"><span
-                                                aria-label="Previous">‹</span></button>
-                                        <button type="button" role="presentation" class="owl-next"><span
-                                                aria-label="Next">›</span></button>
-                                    </div>
-                                    <div class="owl-dots disabled"></div>
-                                </div>
-                                <div class="blog-prev">
-                                    <i class="flaticon-double-right-arrows-angles"></i>
-                                </div>
-                                <div class="blog-next active">
-                                    <i class="flaticon-double-right-arrows-angles"></i>
-                                </div>
-                            </div>
-                            <div class="post-content">
-                                <div class="post-header">
-                                    <h4 class="title">
-                                        <a href="blog-details.html">
-                                            Factors To Take Into
-                                            Consideration When You Want To
-                                            Buy Tickets Online
-                                        </a>
-                                    </h4>
-                                    <div class="meta-post">
-                                        <a href="#0" class="mr-4"><i class="flaticon-conversation"></i>20 Comments</a>
-                                        <a href="#0"><i class="flaticon-view"></i>466 View</a>
-                                    </div>
-                                    <p>
-                                        Lorem ipsum dolor sit amet,
-                                        consectetur adipiscing elit.
-                                        Phasellus ac cursus leo. Nullam
-                                        dolor nunc, hendrerit non velit id,
-                                        pharetra viverra elit.
-                                    </p>
-                                </div>
-                                <div class="entry-content">
-                                    <div class="left">
-                                            <span class="date">Dece 15, 2020 BY
-                                            </span>
-                                        <div class="authors">
-                                            <div class="thumb">
-                                                <a href="#0"><img src="/assets/img/blog/author.jpg" alt="#0"></a>
-                                            </div>
-                                            <h6 class="title">
-                                                <a href="#0">Alvin Mcdaniel</a>
-                                            </h6>
+                                    <div class="entry-content">
+                                        <div class="left">
+                                            <span class="date" th:text="${blog.getFormattedDate()}"></span>
                                         </div>
+                                        <a th:href="@{/blog/blog-details/{id}(id=${blog.id})}" class="buttons">Read More <i class="flaticon-right"></i></a>
                                     </div>
-                                    <a href="#0" class="buttons">Read More
-                                        <i class="flaticon-right"></i></a>
                                 </div>
                             </div>
                         </div>
-                        <div class="post-item">
-                            <div class="post-thumb">
-                                <img src="/assets/img/blog/blog03.jpg" alt="blog">
-                                <a href="https://www.youtube.com/embed/GT6-H4BRyqQ" class="video-button video-popup">
-                                    <i class="flaticon-play-button"></i>
-                                </a>
-                            </div>
-                            <div class="post-content">
-                                <div class="post-header">
-                                    <h4 class="title">
-                                        <a href="blog-details.html">
-                                            Movie Ticket Prices: One Size
-                                            Fits All? It's Time to
-                                            Experiment
-                                        </a>
-                                    </h4>
-                                    <div class="meta-post">
-                                        <a href="#0" class="mr-4"><i class="flaticon-conversation"></i>20 Comments</a>
-                                        <a href="#0"><i class="flaticon-view"></i>466 View</a>
-                                    </div>
-                                    <p>
-                                        Lorem ipsum dolor sit amet,
-                                        consectetur adipiscing elit.
-                                        Phasellus ac cursus leo. Nullam
-                                        dolor nunc, hendrerit non velit id,
-                                        pharetra viverra elit.
-                                    </p>
-                                </div>
-                                <div class="entry-content">
-                                    <div class="left">
-                                            <span class="date">Dece 15, 2020 BY
-                                            </span>
-                                        <div class="authors">
-                                            <div class="thumb">
-                                                <a href="#0"><img src="/assets/img/blog/author.jpg" alt="#0"></a>
-                                            </div>
-                                            <h6 class="title">
-                                                <a href="#0">Alvin Mcdaniel</a>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                    <a href="#0" class="buttons">Read More
-                                        <i class="flaticon-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="post-item">
-                            <div class="post-thumb">
-                                <a href="blog-details.html">
-                                    <img src="/assets/img/blog/blog04.jpg" alt="blog">
-                                </a>
-                            </div>
-                            <div class="post-content">
-                                <div class="post-header">
-                                    <h4 class="title">
-                                        <a href="blog-details.html">
-                                            Movie Ticket Prices: One Size
-                                            Fits All? It's Time to
-                                            Experiment
-                                        </a>
-                                    </h4>
-                                    <div class="meta-post">
-                                        <a href="#0" class="mr-4"><i class="flaticon-conversation"></i>20 Comments</a>
-                                        <a href="#0"><i class="flaticon-view"></i>466 View</a>
-                                    </div>
-                                    <p>
-                                        Lorem ipsum dolor sit amet,
-                                        consectetur adipiscing elit.
-                                        Phasellus ac cursus leo. Nullam
-                                        dolor nunc, hendrerit non velit id,
-                                        pharetra viverra elit.
-                                    </p>
-                                </div>
-                                <div class="entry-content">
-                                    <div class="left">
-                                            <span class="date">Dece 15, 2020 BY
-                                            </span>
-                                        <div class="authors">
-                                            <div class="thumb">
-                                                <a href="#0"><img src="/assets/img/blog/author.jpg" alt="#0"></a>
-                                            </div>
-                                            <h6 class="title">
-                                                <a href="#0">Alvin Mcdaniel</a>
-                                            </h6>
-                                        </div>
-                                    </div>
-                                    <a href="#0" class="buttons">Read More
-                                        <i class="flaticon-right"></i></a>
-                                </div>
-                            </div>
+
+                        <div  th:if="${#lists.isEmpty(blogs)}" class="post-item search-nothing" >
+                            <h2>Blog mà bạn đang tìm kiếm hiện không có</h2>
                         </div>
                     </article>
-                    <div class="pagination-area text-center">
-                        <a href="#0"><i class="fas fa-angle-double-left"></i><span>Prev</span></a>
-                        <a href="#0">1</a>
-                        <a href="#0">2</a>
-                        <a href="#0" class="active">3</a>
-                        <a href="#0">4</a>
-                        <a href="#0">5</a>
-                        <a href="#0"><span>Next</span><i class="fas fa-angle-double-right"></i></a>
+
+                    <div th:if="${not #lists.isEmpty(blogs)}">
+                        <div class="pagination-area text-center">
+                            <a href="#0"><i class="fas fa-angle-double-left"></i><span>Prev</span></a>
+                            <a href="#0">1</a>
+                            <a href="#0">2</a>
+                            <a href="#0" class="active">3</a>
+                            <a href="#0">4</a>
+                            <a href="#0">5</a>
+                            <a href="#0"><span>Next</span><i class="fas fa-angle-double-right"></i></a>
+                        </div>
                     </div>
+
                 </div>
                 <div class="col-lg-4 col-sm-10 col-md-8">
                     <aside>
                         <div class="widget widget-search">
                             <h5 class="title">search</h5>
-                            <form class="search-form">
-                                <input type="text" placeholder="Enter your Search Content" required="">
+                            <form class="search-form" th:action="@{/blog/search}" method="get">
+                                <input type="text" name="keyword" th:value="${keyword}" placeholder="Enter your Search Blog" required="">
                                 <button type="submit">
                                     <i class="flaticon-loupe"></i>Search
                                 </button>

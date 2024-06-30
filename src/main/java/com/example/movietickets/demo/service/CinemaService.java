@@ -1,6 +1,5 @@
 package com.example.movietickets.demo.service;
 
-
 import com.example.movietickets.demo.model.Category;
 import com.example.movietickets.demo.model.Cinema;
 import com.example.movietickets.demo.model.Room;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
 
 @Service
 @AllArgsConstructor
@@ -45,5 +43,5 @@ public class CinemaService {
             throw new IllegalStateException("Cinema with ID " + id + " does not exist.");
         }
         cinemaRepository.deleteById(id);
-    }
-}
+    }<<<<<<<HEAD
+}=======}>>>>>>>Phát

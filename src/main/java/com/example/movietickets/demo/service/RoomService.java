@@ -1,6 +1,5 @@
 package com.example.movietickets.demo.service;
 
-
 import com.example.movietickets.demo.model.Category;
 import com.example.movietickets.demo.model.Room;
 import com.example.movietickets.demo.repository.CategoryRepository;
@@ -16,7 +15,6 @@ import java.util.Optional;
 @Service
 public class RoomService {
     private final RoomRepository roomRepository;
-
 
     public List<Room> getAllRooms() {
         return roomRepository.findAllByOrderByIdDesc();
