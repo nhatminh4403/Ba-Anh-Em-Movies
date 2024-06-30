@@ -2,17 +2,16 @@ package com.example.movietickets.demo.controller;
 
 import com.example.movietickets.demo.model.Purchase;
 import com.example.movietickets.demo.service.PurchaseService;
-import com.nimbusds.jose.shaded.gson.Gson;
-import com.nimbusds.jose.shaded.gson.reflect.TypeToken;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.NumberFormat;
-import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 @Controller
@@ -24,8 +23,10 @@ public class PurchaseController {
 
     @GetMapping
     public String showPurchase(Model model) {
-        if (!purchaseService.getPurchases().isEmpty()) {
-            Purchase purchase = purchaseService.getPurchases().get(0); // Lấy Purchase đầu tiên để hiển thị
+        if (purchaseService.IsExist()) {
+            Purchase purchase = purchaseService.Get();
+            System.out.println("selectedSeats: " + purchase.getSeats());
+            model.addAttribute("selectedSeats", purchase.getSeats());
             model.addAttribute("filmTitle", purchase.getFilmTitle());
             model.addAttribute("category", purchase.getCategory());
             model.addAttribute("cinemaName", purchase.getCinemaName());
@@ -33,11 +34,10 @@ public class PurchaseController {
             model.addAttribute("startTime", purchase.getStartTime());
             model.addAttribute("roomName", purchase.getRoomName());
             model.addAttribute("poster", purchase.getPoster());
-            model.addAttribute("selectedSeats", purchase.getSeatSymbols());
             //format Currency VND
             NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
             String formattedTotalPrice = currencyFormat.format(purchase.getTotalPrice());
-            model.addAttribute("totalPrice",formattedTotalPrice);
+            model.addAttribute("totalPrice", formattedTotalPrice);
         }
         return "/purchase/purchase";
     }
@@ -61,21 +61,10 @@ public class PurchaseController {
             @RequestParam("roomName") String roomName,
             Model model
     ) {
-//        System.out.println("seatSymbol: " + seatSymbol);
-//        System.out.println("totalPrice: " + totalPrice);
-//        System.out.println("startTime: " + startTime);
-//        System.out.println("filmTitle: " + filmTitle);
-//        System.out.println("poster: " + poster);
-//        System.out.println("category: " + category);
-//        System.out.println("cinemaName: " + cinemaName);
-//        System.out.println("cinemaAddress: " + cinemaAddress);
-//        System.out.println("roomName: " + roomName);
 
-        List<String> selectedSeats = new Gson().fromJson(seatSymbol, new TypeToken<List<String>>() {}.getType());
-        String selectedSeatsString = String.join(", ", selectedSeats);
-        purchaseService.addToBuy(selectedSeatsString, filmTitle, poster, category, totalPrice, cinemaName, cinemaAddress, startTime, roomName);
+        purchaseService.addToBuy(seatSymbol, filmTitle, poster, category, totalPrice, cinemaName, cinemaAddress, startTime, roomName);
 
-        model.addAttribute("selectedSeats", selectedSeatsString);
+        model.addAttribute("selectedSeats", seatSymbol);
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("startTime", startTime);
         model.addAttribute("filmTitle", filmTitle);

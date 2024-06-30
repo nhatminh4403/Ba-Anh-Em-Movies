@@ -21,6 +21,16 @@
 
 
 <section layout:fragment="content">
+    <!-- ==========Preloader========== -->
+    <div class="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <!-- ==========Preloader========== -->
     <section class="details-banner hero-area bg_img seat-plan-banner" th:if="${film != null}" th:attr="data-background=${film.poster}"
              style="background-image: url(&quot;/assets/img/banner/banner04.jpg&quot;);">
         <div class="container">

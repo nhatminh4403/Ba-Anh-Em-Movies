@@ -50,7 +50,7 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/assets/**","/css/**", "/js/**", "/", "/oauth/**",
-                                "/register", "/error", "/purchase","/films","/films/film-details/**" , "/schedules/**",
+                                "/register", "/error", "/purchase","/films","/films/film-details/**" , "/schedules/**", "/films/by-country", "/films/by-category",
                                "/cart", "/cart/**", "/blog", "blog/details", "/popcorn","/movie/details", "/movie/seat-plan","/feedback","/blog","/blog/blog-details", "/about", "blog//blog-details/{id}/comment")
                         .permitAll() // Cho phép truy cập không cần xác thực.
                         .requestMatchers("admin/movie/edit/**", "/admin/movie/add", "/admin/films","/admin/films/edit", "/admin/films/add",

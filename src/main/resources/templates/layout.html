@@ -41,7 +41,7 @@
       type="image/x-icon"
     />
 <!--    th:replace="~{::title}"-->
-    <title >Ba Anh Em - Online Ticket Booking Website</title>
+    <title >Ba Anh Em - Đặt vé xem phim online</title>
 
     <style>
       .btn__logout {
@@ -92,43 +92,10 @@
         <ul class="menu">
           <li>
             <a href="/" class="active">Trang chủ</a>
-            <!-- <ul class="submenu">
-                      <li>
-                          <a th:src="#0" class="active">Home One</a>
-                      </li>
-                      <li>
-                          <a th:src="index-2.html">Home Two</a>
-                      </li>
-                  </ul> -->
           </li>
           <li>
             <a href="/films">Phim</a>
           </li>
-<!--            <ul class="submenu">-->
-<!--              <li>-->
-<!--                <a href="/films">Tất cả phim</a>-->
-<!--              </li>-->
-<!--              &lt;!&ndash; <li>-->
-<!--                          <a th:src="movie-list.html">Movie List</a>-->
-<!--                      </li> &ndash;&gt;-->
-<!--              <li>-->
-<!--                <a href="movie-details.html">Chi tiết phim</a>-->
-<!--              </li>-->
-<!--          -->
-<!--              <li>-->
-<!--                <a href="movie-ticket-plan.html">Suất chiếu</a>-->
-<!--              </li>-->
-<!--              <li>-->
-<!--                <a href="movie-seat-plan.html">Chọn ghế</a>-->
-<!--              </li>-->
-<!--              <li>-->
-<!--                <a href="movie-checkout.html">Thanh toán</a>-->
-<!--              </li>-->
-<!--              <li>-->
-<!--                <a href="popcorn.html">Bắp và Nước</a>-->
-<!--              </li>-->
-<!--            </ul>-->
-
 
           <li class="menu-item-has-children">
             <a href="#0">Thể loại</a>
@@ -142,8 +109,21 @@
           <li >
             <a th:href="@{/blog}">bài viết</a>
           </li>
+          <li class="menu-item-has-children">
+            <a  href="#0" >
+              Trang
+            </a>
+            <ul class="submenu">
+              <li>
+                <a th:href="@{/feedback}">Liên hệ</a>
+              </li>
+              <li>
+                <a th:href="@{/about}">Về chúng tôi</a>
+              </li>
+            </ul>
+          </li>
           <li>
-            <a th:href="@{/feedback}" >liên hệ</a>
+            <a th:href="@{/booking-detail}">Vé </a>
           </li>
 
           <li class="header-button pr-0" sec:authorize="isAuthenticated()">
@@ -276,7 +256,8 @@
     <script th:src="@{/assets/js/nice-select.js}"></script>
     <script th:src="@{/assets/js/seat.js}" ></script>
     <script type="text/javascript" th:src="@{https://cdn.jsdelivr.net/npm/toastify-js}"></script>
+   <script th:src="@{/assets/js/app.js}"></script>
     <script th:src="@{/assets/js/main.js}"></script>
-    <script th:src="@{/assets/js/app.js}"></script>
+
   </body>
 </html>
