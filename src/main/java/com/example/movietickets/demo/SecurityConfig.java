@@ -8,11 +8,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 
 
@@ -49,13 +52,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/assets/**","/css/**", "/js/**", "/", "/oauth/**",
-                                "/register", "/error", "/purchase","/films","/films/film-details/**" , "/schedules/**", "/films/by-country", "/films/by-category",
-                                "/cart", "/cart/**", "/blog", "blog/details", "/popcorn","/movie/details", "/movie/seat-plan","/feedback","/blog","/blog/blog-details", "/about", "blog//blog-details/{id}/comment")
+                        .requestMatchers("/assets/**", "/css/**", "/js/**", "/", "/oauth/**",
+                                "/register", "/error", "/purchase", "/films", "/films/film-details/**", "/schedules/**", "/films/by-country", "/films/by-category", "/films/by-search", "/purchase/history",
+                                "/cart", "/cart/**", "/blog", "blog/details", "/popcorn", "/movie/details", "/movie/seat-plan", "/feedback", "/blog", "/blog/blog-details", "/about", "blog//blog-details/{id}/comment")
                         .permitAll()
-                        .requestMatchers("admin/movie/edit/**", "/admin/movie/add", "/admin/films","/admin/films/edit", "/admin/films/add",
-                                "/admin/countries", "/admin/countries/add","/admin/countries/edit",
-                                "/admin/categories/add", "/admin/categories", "/admin/categories/edit", "/admin/blog/add", "/admin/blog/delete", "/admin/blog/update", "/admin/comboFood/delete", "/admin/comboFood/update", "/admin/comboFood","/admin/comboFood/add", "/admin/seatPrice", "/admin/seatPrice/add", "/admin/seatPrice/edit", "/admin/seatPrice/delete", "blog/blog-details/{id}/delete")
+                        .requestMatchers("admin/schedules/edit/**", "/admin/schedules/add", "/admin/schedules", "/admin/seats", "/admin/films", "/admin/films/edit", "/admin/films/add",
+                                "/admin/countries", "/admin/countries/add", "/admin/countries/edit",
+                                "/admin/categories/add", "/admin/categories", "/admin/categories/edit", "/admin/blog/add", "/admin/blog/delete", "/admin/blog/update", "/admin/comboFood/delete", "/admin/comboFood/update", "/admin/comboFood", "/admin/comboFood/add", "/admin/seatPrice", "/admin/seatPrice/add", "/admin/seatPrice/edit", "/admin/seatPrice/delete", "blog/blog-details/{id}/delete")
                         .hasAnyAuthority("admin")
                         .requestMatchers("/api/**")
                         .permitAll()
@@ -76,18 +79,36 @@ public class SecurityConfig {
                         .failureUrl("/login?error")
                         .permitAll()
                 )
+
                 .oauth2Login(oauth2Login -> oauth2Login
                         .loginPage("/login")
                         .failureUrl("/login?error")
                         .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
                                 .userService(oauthService))
                         .successHandler((request, response, authentication) -> {
-                            var oidcUser = (DefaultOidcUser) authentication.getPrincipal();
-                            userService.saveOauthUser(oidcUser.getEmail(), oidcUser.getName());
+                            var oauthToken = (OAuth2AuthenticationToken) authentication;
+                            var principal = authentication.getPrincipal();
+
+                            String email = null;
+                            String username = null;
+
+                            if (principal instanceof DefaultOidcUser) {
+                                DefaultOidcUser oidcUser = (DefaultOidcUser) principal;
+                                email = oidcUser.getEmail();
+                                username = oidcUser.getName();
+                            } else if (principal instanceof DefaultOAuth2User) {
+                                DefaultOAuth2User oauth2User = (DefaultOAuth2User) principal;
+                                email = oauth2User.getAttribute("email");
+                                username = oauth2User.getAttribute("name");
+                            }
+
+                            String provider = oauthToken.getAuthorizedClientRegistrationId().toUpperCase();
+                            userService.saveOauthUser(email, username, provider);
                             response.sendRedirect("/");
                         })
                         .permitAll()
                 )
+
                 .rememberMe(rememberMe -> rememberMe
                         .key("3anhem")
                         .rememberMeCookieName("3anhem")
@@ -106,4 +127,5 @@ public class SecurityConfig {
                 )
                 .build();
     }
+
 }

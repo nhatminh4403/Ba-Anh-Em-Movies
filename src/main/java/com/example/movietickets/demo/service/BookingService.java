@@ -1,10 +1,8 @@
 package com.example.movietickets.demo.service;
 
 import com.example.movietickets.demo.model.*;
-import com.example.movietickets.demo.repository.BookingDetailRepository;
-import com.example.movietickets.demo.repository.BookingRepository;
-import com.example.movietickets.demo.repository.SeatRepository;
-import com.example.movietickets.demo.repository.UserRepository;
+import com.example.movietickets.demo.repository.*;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,11 +27,13 @@ public class BookingService {
     @Autowired
     private SeatRepository seatRepository;
 
+    private final ComboFoodRepository comboFoodRepository;
 
     private final UserRepository userRepository;
 
-    public BookingService(BookingRepository bookingRepository, UserRepository userRepository) {
+    public BookingService(BookingRepository bookingRepository, ComboFoodRepository comboFoodRepository, UserRepository userRepository) {
         this.bookingRepository = bookingRepository;
+        this.comboFoodRepository = comboFoodRepository;
         this.userRepository = userRepository;
     }
 
@@ -51,6 +51,18 @@ public class BookingService {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy User"));
         return bookingRepository.findByUser(user);
     }
+
+    public Booking saveBookingWithCombo(Long userId, Long comboFoodId, Booking booking) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        ComboFood comboFood = comboFoodRepository.findById(comboFoodId).orElseThrow(() -> new EntityNotFoundException("Combo not found"));
+
+        booking.setUser(user);
+        booking.setComboFood(comboFood);
+        booking.setPrice(booking.getPrice() + comboFood.getPrice()); // Tính tổng giá mới
+
+        return bookingRepository.save(booking);
+    }
+
 
     @Transactional
     public void saveBooking(Booking booking, List<Seat> seats, Schedule schedule) {

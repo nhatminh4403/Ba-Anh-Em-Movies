@@ -4,10 +4,7 @@ import com.example.movietickets.demo.model.*;
 import com.example.movietickets.demo.repository.RoomRepository;
 import com.example.movietickets.demo.repository.SeatRepository;
 import com.example.movietickets.demo.repository.UserRepository;
-import com.example.movietickets.demo.service.BookingService;
-import com.example.movietickets.demo.service.PurchaseService;
-import com.example.movietickets.demo.service.RoomService;
-import com.example.movietickets.demo.service.ScheduleServiceImpl;
+import com.example.movietickets.demo.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -48,6 +45,8 @@ public class PurchaseController {
     @Autowired
     private ScheduleServiceImpl scheduleService;
 
+    @Autowired
+    private ComboFoodService comboFoodService;
 
     @GetMapping
     public String showPurchase(Model model, @RequestParam(required = false) Long scheduleId) {
@@ -116,6 +115,7 @@ public class PurchaseController {
 
     @PostMapping("/checkout")
     public String checkout(
+            @RequestParam Long comboId,
             @RequestParam("payment") String payment,
             @RequestParam Long scheduleId,
             RedirectAttributes redirectAttributes
@@ -132,6 +132,8 @@ public class PurchaseController {
 
             // Lấy schedule từ scheduleId
             Schedule schedule = scheduleService.getScheduleById(scheduleId).orElseThrow(() -> new IllegalArgumentException("Invalid schedule Id"));
+
+
 
             Booking booking = new Booking();
             booking.setFilmName(purchase.getFilmTitle());
