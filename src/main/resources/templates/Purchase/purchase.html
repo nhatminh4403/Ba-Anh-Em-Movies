@@ -4,7 +4,7 @@
       layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Checkout</title>
+    <title>Ba Anh Em - Thanh toán</title>
 </head>
 <body>
 <section layout:fragment="content" th:object="${purchase}">
@@ -103,6 +103,7 @@
                                 <input type="hidden" name="cinemaName" th:value="${cinemaName}" />
                                 <input type="hidden" name="cinemaAddress" th:value="${cinemaAddress}" />
                                 <input type="hidden" name="roomName" th:value="${roomName}" />
+                                <input type="hidden" name="scheduleId" th:value="${scheduleId}">
 
                                 <label for="payment">Phương thức thanh toán:</label>
                                 <select class="form-control" name="payment" id="payment">
@@ -121,7 +122,8 @@
                         </div>
                     </div>
 
-                    </div>
+
+                </div>
 
                 <div class="col-lg-5">
                     <div class="booking-summery bg-one">

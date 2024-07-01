@@ -23,95 +23,87 @@ import org.springframework.security.web.SecurityFilterChain;
 
 public class SecurityConfig {
 
-    private final UserService userService; // Tiêm UserService vào lớp cấu hình này.
+    private final UserService userService;
     private final OauthService oauthService;
 
-    @Bean // Đánh dấu phương thức trả về một bean được quản lý bởi Spring Context.
+    @Bean
     public UserDetailsService userDetailsService() {
         return userService;
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Bean mã hóa mật khẩu sử dụng BCrypt.
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
-        var auth = new DaoAuthenticationProvider(); // Tạo nhà cung cấp xác thực.
-        auth.setUserDetailsService(userDetailsService()); // Thiết lập dịch vụ chi tiết người dùng.
-        auth.setPasswordEncoder(passwordEncoder()); // Thiết lập cơ chế mã hóa mật khẩu.
-        return auth; // Trả về nhà cung cấp xác thực.
+        var auth = new DaoAuthenticationProvider();
+        auth.setUserDetailsService(userDetailsService());
+        auth.setPasswordEncoder(passwordEncoder());
+        return auth;
     }
 
+
     @Bean
-    public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http)
-            throws Exception {
+    public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/assets/**","/css/**", "/js/**", "/", "/oauth/**",
                                 "/register", "/error", "/purchase","/films","/films/film-details/**" , "/schedules/**", "/films/by-country", "/films/by-category",
-                               "/cart", "/cart/**", "/blog", "blog/details", "/popcorn","/movie/details", "/movie/seat-plan","/feedback","/blog","/blog/blog-details", "/about", "blog//blog-details/{id}/comment")
-                        .permitAll() // Cho phép truy cập không cần xác thực.
+                                "/cart", "/cart/**", "/blog", "blog/details", "/popcorn","/movie/details", "/movie/seat-plan","/feedback","/blog","/blog/blog-details", "/about", "blog//blog-details/{id}/comment")
+                        .permitAll()
                         .requestMatchers("admin/movie/edit/**", "/admin/movie/add", "/admin/films","/admin/films/edit", "/admin/films/add",
                                 "/admin/countries", "/admin/countries/add","/admin/countries/edit",
-                              "/admin/categories/add", "/admin/categories", "/admin/categories/edit", "/admin/blog/add", "/admin/blog/delete", "/admin/blog/update", "/admin/comboFood/delete", "/admin/comboFood/update", "/admin/comboFood","/admin/comboFood/add", "/admin/seatPrice", "/admin/seatPrice/add", "/admin/seatPrice/edit", "/admin/seatPrice/delete", "blog/blog-details/{id}/delete")
-                        .hasAnyAuthority("admin") // Chỉ cho phép ADMIN truy cập.
+                                "/admin/categories/add", "/admin/categories", "/admin/categories/edit", "/admin/blog/add", "/admin/blog/delete", "/admin/blog/update", "/admin/comboFood/delete", "/admin/comboFood/update", "/admin/comboFood","/admin/comboFood/add", "/admin/seatPrice", "/admin/seatPrice/add", "/admin/seatPrice/edit", "/admin/seatPrice/delete", "blog/blog-details/{id}/delete")
+                        .hasAnyAuthority("admin")
                         .requestMatchers("/api/**")
-                        .permitAll() // API mở cho mọi người dùng.
-                        .anyRequest().authenticated() // Bất kỳ yêu cầu nào khác cần xác thực.
+                        .permitAll()
+                        .anyRequest().authenticated()
                 )
-                //
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login") // Trang chuyển hướng sau khi đăng xuất.
-                        .deleteCookies("JSESSIONID") // Xóa cookie.
-                        .invalidateHttpSession(true) // Hủy phiên làm việc.
-                        .clearAuthentication(true) // Xóa xác thực.
+                        .logoutSuccessUrl("/login")
+                        .deleteCookies("JSESSIONID")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
                         .permitAll()
                 )
                 .formLogin(formLogin -> formLogin
-                        .loginPage("/login") // Trang đăng nhập.
-                        .loginProcessingUrl("/login") // URL xử lý đăng nhập.
-                        .defaultSuccessUrl("/") // Trang sau đăng nhập thành công.
-                        .failureUrl("/login?error") // Trang đăng nhập thất bại.
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/")
+                        .failureUrl("/login?error")
                         .permitAll()
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
                         .loginPage("/login")
                         .failureUrl("/login?error")
-                        .userInfoEndpoint (userInfoEndpoint ->userInfoEndpoint
-                                .userService (oauthService))
-
-                        .successHandler(
-                                (request, response,authentication) -> {
-                                    var oidcUser =
-                                            (DefaultOidcUser) authentication.getPrincipal();
-                                    userService.saveOauthUser (oidcUser.getEmail(), oidcUser.getName());
-                                    response.sendRedirect("/");
-                                }
-
-
-                        ).permitAll()
-
+                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
+                                .userService(oauthService))
+                        .successHandler((request, response, authentication) -> {
+                            var oidcUser = (DefaultOidcUser) authentication.getPrincipal();
+                            userService.saveOauthUser(oidcUser.getEmail(), oidcUser.getName());
+                            response.sendRedirect("/");
+                        })
+                        .permitAll()
                 )
-
                 .rememberMe(rememberMe -> rememberMe
                         .key("3anhem")
                         .rememberMeCookieName("3anhem")
-                        .tokenValiditySeconds(24 * 60 * 60) // Thời gian nhớ đăng nhập.
+                        .tokenValiditySeconds(24 * 60 * 60)
                         .userDetailsService(userDetailsService())
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .accessDeniedPage("/404") // Trang báo lỗi khi truy cập không được phép.
+                        .accessDeniedPage("/404")
                 )
                 .sessionManagement(sessionManagement -> sessionManagement
-                        .maximumSessions(1) // Giới hạn số phiên đăng nhập.
-                        .expiredUrl("/login") // Trang khi phiên hết hạn.
+                        .maximumSessions(1)
+                        .expiredUrl("/login")
                 )
                 .httpBasic(httpBasic -> httpBasic
-                        .realmName("3anhem") // Tên miền cho xác thực cơ bản.
+                        .realmName("3anhem")
                 )
-                .build(); // Xây dựng và trả về chuỗi lọc bảo mật.
+                .build();
     }
 }

@@ -35,11 +35,8 @@
     />
     <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/main.css}" />
 
-    <link
-      rel="shortcut icon"
-      th:src="@{/assets/img/favicon.png}"
-      type="image/x-icon"
-    />
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/movie/cake2.png" />
+<!--    "D:\Web_VS\Ba-Anh-Em\src\main\resources\static\assets\img\movie\cake2.png"-->
 <!--    th:replace="~{::title}"-->
     <title >Ba Anh Em - Đặt vé xem phim online</title>
 
@@ -86,7 +83,7 @@
       <div class="header-wrapper">
         <div class="logo">
           <a th:href="@{/}">
-            <img th:src="@{/assets/img/logo/logo.png}" alt="logo" />
+            <img th:src="@{/assets/img/logo/logo1.png}" alt="logo" />
           </a>
         </div>
         <ul class="menu">
@@ -106,14 +103,14 @@
             </ul>
           </li>
 
-          <li >
-            <a th:href="@{/blog}">bài viết</a>
-          </li>
           <li class="menu-item-has-children">
             <a  href="#0" >
               Trang
             </a>
             <ul class="submenu">
+              <li >
+                <a th:href="@{/blog}">bài viết</a>
+              </li>
               <li>
                 <a th:href="@{/feedback}">Liên hệ</a>
               </li>
@@ -123,7 +120,7 @@
             </ul>
           </li>
           <li>
-            <a th:href="@{/booking-detail}">Vé </a>
+            <a th:href="@{/purchase/history}">Vé Đã đặt</a>
           </li>
 
           <li class="header-button pr-0" sec:authorize="isAuthenticated()">
@@ -134,7 +131,7 @@
 
           <li class="header-button pr-0" sec:authorize="!isAuthenticated()">
             <form th:action="@{/logout}" method="post">
-              <a thref="sign-up.html" th:href="@{/login}">Đăng nhập</a>
+              <a  th:href="@{/login}">Đăng nhập</a>
             </form>
           </li>
         </ul>
@@ -178,8 +175,8 @@
         <div class="logo">
           <a href="index-1.html">
             <img
-                    src="/assets/img/footer/footer-logo.png"
-                    alt="footer"
+                  src="/assets/img/logo/logo1.png" width="185px"
+                  alt="footer"
             />
           </a>
         </div>

@@ -24,7 +24,7 @@ public class BookingDetail {
     private Long price;
 
     @ManyToOne
-    @JoinColumn(name = "schedule_id")
+    @JoinColumn(name = "SCHEDULE_ID")
     private Schedule schedule;
 
 }

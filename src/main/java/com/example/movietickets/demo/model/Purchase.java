@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 @Setter
 public class Purchase {
 
-
     @AllArgsConstructor
     @Data
     public class Seat2 {
@@ -36,8 +35,6 @@ public class Purchase {
             this.symbol = symbol;
             this.price = price;
         }
-
-
     }
 
     private Long totalPrice;
@@ -58,7 +55,6 @@ public class Purchase {
             JSONObject jsonSeat = jsonSeats.getJSONObject(i);
             this.seats.add(new Seat2(jsonSeat.getInt("id"), jsonSeat.getString("symbol"), jsonSeat.getInt("price")));
         }
-
 
         this.filmTitle = filmTitle;
         this.poster = poster;

@@ -1,16 +1,18 @@
 package com.example.movietickets.demo.controller;
 
-import com.example.movietickets.demo.model.Booking;
-import com.example.movietickets.demo.model.Purchase;
-import com.example.movietickets.demo.model.Room;
-import com.example.movietickets.demo.model.Seat;
+import com.example.movietickets.demo.model.*;
 import com.example.movietickets.demo.repository.RoomRepository;
 import com.example.movietickets.demo.repository.SeatRepository;
+import com.example.movietickets.demo.repository.UserRepository;
 import com.example.movietickets.demo.service.BookingService;
 import com.example.movietickets.demo.service.PurchaseService;
 import com.example.movietickets.demo.service.RoomService;
+import com.example.movietickets.demo.service.ScheduleServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.security.core.Authentication;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -33,14 +36,24 @@ public class PurchaseController {
     @Autowired
     private BookingService bookingService;
 
+    @Autowired
     private SeatRepository seatRepository;
 
+    @Autowired
     private RoomRepository roomRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ScheduleServiceImpl scheduleService;
+
+
     @GetMapping
-    public String showPurchase(Model model) {
+    public String showPurchase(Model model, @RequestParam(required = false) Long scheduleId) {
         if (purchaseService.IsExist()) {
             Purchase purchase = purchaseService.Get();
+            System.out.println("scheduleId: " + scheduleId);
             System.out.println("selectedSeats: " + purchase.getSeats());
             model.addAttribute("selectedSeats", purchase.getSeats());
             model.addAttribute("filmTitle", purchase.getFilmTitle());
@@ -58,12 +71,12 @@ public class PurchaseController {
             Room room = roomRepository.findByName(purchase.getRoomName());
             List<Seat> seats = seatRepository.findByRoom(room);
             //lấy ra các seat booked
+            model.addAttribute("purchase", purchase);
             model.addAttribute("seats", seats);
+            model.addAttribute("scheduleId", scheduleId);
         }
         return "/purchase/purchase";
     }
-
-
 
 
 
@@ -85,15 +98,28 @@ public class PurchaseController {
             @RequestParam("cinemaName") String cinemaName,
             @RequestParam("cinemaAddress") String cinemaAddress,
             @RequestParam("roomName") String roomName,
+            @RequestParam("scheduleId") Long scheduleId,
             Model model
     ) {
-
+        System.out.println("scheduleId in addPurchase: " + scheduleId); // Debugging
         purchaseService.addToBuy(seatSymbols, filmTitle, poster, category, totalPrice, cinemaAddress, cinemaName, startTime, roomName);
-        return "redirect:/purchase";
+        model.addAttribute("scheduleId", scheduleId);
+        return "redirect:/purchase?scheduleId=" + scheduleId;
+    }
+
+    @GetMapping("/history")
+    public String showPurchaseHistory(Model model) {
+        List<Booking> bookings = bookingService.getBookingsByCurrentUser(); // phương thức này để lấy các booking của người dùng hiện tại
+        model.addAttribute("bookings", bookings);
+        return "/purchase/history";
     }
 
     @PostMapping("/checkout")
-    public String checkout(@RequestParam("payment") String payment, RedirectAttributes redirectAttributes) {
+    public String checkout(
+            @RequestParam("payment") String payment,
+            @RequestParam Long scheduleId,
+            RedirectAttributes redirectAttributes
+    ) {
         if (purchaseService.IsExist()) {
             Purchase purchase = purchaseService.Get();
             List<String> seatSymbols = new ArrayList<>();
@@ -103,6 +129,9 @@ public class PurchaseController {
 
             Room room = roomRepository.findByName(purchase.getRoomName());
             List<Seat> seats = bookingService.getSeatsFromSymbolsAndRoom(seatSymbols, room);
+
+            // Lấy schedule từ scheduleId
+            Schedule schedule = scheduleService.getScheduleById(scheduleId).orElseThrow(() -> new IllegalArgumentException("Invalid schedule Id"));
 
             Booking booking = new Booking();
             booking.setFilmName(purchase.getFilmTitle());
@@ -117,13 +146,19 @@ public class PurchaseController {
             booking.setStatus(true); // Hoặc giá trị khác tùy vào logic của bạn
             booking.setCreateAt(new Date());
 
-            bookingService.saveBooking(booking, seats);
+            // Lấy thông tin người dùng hiện tại
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            booking.setUser(user);
+
+            bookingService.saveBooking(booking, seats, schedule);
 
             redirectAttributes.addFlashAttribute("message", "Đặt vé thành công!");
         } else {
             redirectAttributes.addFlashAttribute("message", "Không có thông tin đặt vé.");
         }
-        return "redirect:/purchase"; // Chuyển hướng đến trang lịch sử mua vé
+        return "redirect:/purchase/history"; // Chuyển hướng đến trang lịch sử mua vé
     }
 
     private Date parseDate(String dateStr) {
