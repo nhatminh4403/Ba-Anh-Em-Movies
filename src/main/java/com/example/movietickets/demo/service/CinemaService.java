@@ -43,5 +43,5 @@ public class CinemaService {
             throw new IllegalStateException("Cinema with ID " + id + " does not exist.");
         }
         cinemaRepository.deleteById(id);
-    }<<<<<<<HEAD
-}=======}>>>>>>>Phát
+    }
+}

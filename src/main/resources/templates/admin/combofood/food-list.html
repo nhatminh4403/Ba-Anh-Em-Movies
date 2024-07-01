@@ -46,7 +46,9 @@
                                     <img th:src="${item.poster}" alt="ComboFood Poster" style="max-width: 100px;"/>
                                 </td>
                                 <td>
-                                    <div class="main__table-text" th:text="${item.price}"></div>
+                                    <div class="main__table-text"
+                                         th:text="${#numbers.formatDecimal(item.price, 0, 'POINT', 0, 'POINT')}"
+                                    ></div>
                                 </td>
                                 <td>
                                     <div class="main__table-text" th:text="${item.description}"></div>

@@ -63,12 +63,17 @@ public class Film {
     @JoinColumn(name = "COUNTRY_ID")
     private Country country;
 
+    @ManyToOne
+    @JoinColumn(name = "CATEGORY_ID")
+    private Category category;
+
     @ManyToMany
     @JoinTable(name = "Film_Category", joinColumns = @JoinColumn(name = "FILM_ID"), inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID"))
     private List<Category> categories;
 
     @Transient
     private List<Long> categoryIds = new ArrayList<>(); // Khởi tạo danh sách rỗng
+
     @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Rating> ratings;
 

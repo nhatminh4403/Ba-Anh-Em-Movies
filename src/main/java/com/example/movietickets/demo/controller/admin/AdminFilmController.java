@@ -43,7 +43,7 @@ public class AdminFilmController {
     public String listFilms(Model model) {
         List<Film> films = filmService.getAllFilms();
         model.addAttribute("films", films);
-        model.addAttribute("title", "Danh sách film");
+        model.addAttribute("title", "Danh sách phim sắp chiếu");
         return "/admin/film/film-list";
     }
 
@@ -61,7 +61,7 @@ public class AdminFilmController {
 
     @PostMapping("/films/add")
     public String addFilm(@Valid @ModelAttribute Film film, BindingResult result,
-            @RequestParam("poster") MultipartFile poster) throws IOException {
+                          @RequestParam("poster") MultipartFile poster) throws IOException {
 
         if (!poster.isEmpty()) {
             try {
@@ -116,7 +116,7 @@ public class AdminFilmController {
     // Cập nhật thông tin phim
     @PostMapping("/films/edit/{id}")
     public String updateFilm(@PathVariable("id") Long id, @Valid @ModelAttribute Film film, BindingResult result,
-            @RequestParam("poster") MultipartFile poster, Model model) throws IOException {
+                             @RequestParam("poster") MultipartFile poster, Model model) throws IOException {
 
         Film existingFilm = filmService.getFilmById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid film Id:" + id));

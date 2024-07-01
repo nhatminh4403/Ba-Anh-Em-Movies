@@ -53,7 +53,8 @@ public class SeatController {
         model.addAttribute("selectedRoomId", roomId);
         return "/seat/seat-list";
     }
-    // SeatController
+
+    // AdminSeatController
     @GetMapping("/schedules/{scheduleId}")
     public String getSeatsBySchedule(@PathVariable Long scheduleId, Model model) {
         Optional<Schedule> optionalSchedule = scheduleService.getScheduleById(scheduleId);

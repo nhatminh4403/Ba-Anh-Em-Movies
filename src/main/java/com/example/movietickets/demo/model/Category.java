@@ -23,7 +23,7 @@ public class Category {
     private String name;
 
     @ManyToMany(mappedBy = "categories")
-    private List<Film> films;
+    private List<Film> filmList;
 
     @Override
     public String toString() {

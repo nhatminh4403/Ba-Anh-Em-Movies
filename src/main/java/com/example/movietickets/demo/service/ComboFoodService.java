@@ -43,5 +43,5 @@ public class ComboFoodService {
             throw new IllegalStateException("Country with ID " + id + " does not exist.");
         }
         comboFoodRepository.deleteById(id);
-    }<<<<<<<HEAD
-}=======}>>>>>>>Phát
+    }
+}
