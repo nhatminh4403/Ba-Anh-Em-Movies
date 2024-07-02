@@ -73,7 +73,7 @@ $(document).ready(function () {
 		placeholder: "Choose genre / genres"
 	});
 
-	$('#category, #cinema, #room').select2();
+	$('#category, #cinema, #room, #seat_type').select2();
 
 	/*==============================
 	Upload cover

@@ -43,4 +43,8 @@ public class Seat {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "Room{id=" + id + "}";
+    }
 }

@@ -32,7 +32,7 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @Controller("adminSeatController")
-@RequestMapping("/admin/seats")
+@RequestMapping("/admin")
 public class AdminSeatController {
     @Autowired
     private SeatService seatService;
@@ -58,7 +58,8 @@ public class AdminSeatController {
 //       // model.addAttribute("rooms", rooms); // load rooms
 //        return "/admin/seat/seat-list";
 //    }
-    @GetMapping
+
+    @GetMapping("/seats")
     public String getAllSeats(@RequestParam(value = "roomId", required = false) Long roomId, Model model) {
         List<Seat> seats;
         if (roomId != null) {
@@ -66,6 +67,7 @@ public class AdminSeatController {
         } else {
             seats = seatService.getAllSeats();
         }
+        model.addAttribute("title", "Danh sách ghế trong phòng");
         model.addAttribute("seats", seats);
         model.addAttribute("rooms", roomService.getAllRooms());
         model.addAttribute("selectedRoomId", roomId);
@@ -74,8 +76,9 @@ public class AdminSeatController {
 
 
     // Create new seat form
-    @GetMapping("/add")
+    @GetMapping("/seats/add")
     public String showCreateSeatForm(Model model) {
+        model.addAttribute("title", "Thêm mới ghế");
         model.addAttribute("seat", new Seat());
         model.addAttribute("rooms", roomService.getAllRooms());
         model.addAttribute("seattypes", seatTypeService.getAllSeatTypes());
@@ -84,14 +87,8 @@ public class AdminSeatController {
 
 
     //gọi phương thức mapp tới form add
-    @PostMapping("/add")
+    @PostMapping("/seats/add")
     public String addSeat(@Valid @ModelAttribute Seat seat, BindingResult result, @RequestParam("image") MultipartFile image, Model model) throws IOException {
-
-//        if (result.hasErrors()) {
-//            model.addAttribute("rooms", roomService.getAllRooms());
-//            model.addAttribute("seattypes", seatTypeService.getAllSeatTypes());
-//            return "/admin/seat/seat-add";
-//        }
         if (!image.isEmpty()) {
             try {
                 String imageName = saveImageStatic(image);
@@ -119,10 +116,11 @@ public class AdminSeatController {
     }
 
     // Edit seat form
-    @GetMapping("/edit/{id}")
+    @GetMapping("/seats/edit/{id}")
     public String showEditSeatForm(@PathVariable("id") Long id, Model model) throws IOException {
         Seat seat = seatService.getSeatById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid seat Id: " + id));
+        model.addAttribute("title", "Chỉnh sửa ghế #" + seat.getId());
         model.addAttribute("seat", seat);
         model.addAttribute("rooms", roomService.getAllRooms());
         model.addAttribute("seattypes", seatTypeService.getAllSeatTypes());
@@ -130,7 +128,7 @@ public class AdminSeatController {
     }
 
     // Update seat
-    @PostMapping("/edit/{id}")
+    @PostMapping("/seats/edit/{id}")
     public String updateSeat(@PathVariable("id") Long id, @Valid @ModelAttribute Seat seat, BindingResult result, Model model, @RequestParam("image") MultipartFile image) throws IOException {
         Seat existingSeat = seatService.getSeatById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid seat Id: " + id));
@@ -147,7 +145,7 @@ public class AdminSeatController {
     }
 
     // Delete seat
-    @GetMapping("/delete/{id}")
+    @GetMapping("/seats/delete/{id}")
     public String deleteSeat(@PathVariable Long id, Model model) {
         Seat seat = seatService.getSeatById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Seat Id:" + id));
