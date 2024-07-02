@@ -139,6 +139,8 @@ public class PurchaseController {
                 seatSymbols.add(seat.getSymbol());
             }
 
+
+
             Room room = roomRepository.findByName(purchase.getRoomName());
             List<Seat> seats = bookingService.getSeatsFromSymbolsAndRoom(seatSymbols, room);
 
@@ -171,6 +173,12 @@ public class PurchaseController {
             if (comboFoodId != null) {
                 ComboFood comboFood = comboFoodService.getComboFoodById(comboFoodId).orElseThrow(() -> new EntityNotFoundException("Combo not found"));
                 booking.setComboFood(comboFood);
+            }
+
+            // Kiểm tra phương thức thanh toán
+            if ("vnpay".equalsIgnoreCase(payment)) {
+                //return "redirect:/api/payment/create_payment?amount=" + purchase.getTotalPrice();
+                return "redirect:/api/payment/create_payment?scheduleId=" + scheduleId + "&amount="  + booking.getPrice() + "&comboId="  + comboId ;
             }
 
             // Lấy thông tin người dùng hiện tại

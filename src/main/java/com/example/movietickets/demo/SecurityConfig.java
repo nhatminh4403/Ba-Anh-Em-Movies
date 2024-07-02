@@ -104,7 +104,7 @@ public class SecurityConfig {
 
                             String provider = oauthToken.getAuthorizedClientRegistrationId().toUpperCase();
                             userService.saveOauthUser(email, username, provider);
-                            response.sendRedirect("/purchase/history"); // Chuyển hướng đến trang lịch sử sau khi đăng nhập thành công
+                            response.sendRedirect("/"); // Chuyển hướng đến trang lịch sử sau khi đăng nhập thành công
                         })
                         .permitAll()
                 )

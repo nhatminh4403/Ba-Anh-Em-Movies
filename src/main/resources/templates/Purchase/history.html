@@ -151,7 +151,7 @@
                                                     alt="movie"
                                             />
                                         </div>
-                                        <span class="content"  th:text="${'Tổng tiền: ' + booking.price}"
+                                        <span class="content" th:text="${'Tổng tiền: ' + #numbers.formatDecimal(booking.price, 0, 'POINT', 0, 'POINT') + 'VND'}"
                                         ></span>
                                     </li>
                                     <li>
