@@ -301,7 +301,34 @@
     </div>
   </div>
    <script>!function(s,u,b,i,z){var o,t,r,y;s[i]||(s._sbzaccid=z,s[i]=function(){s[i].q.push(arguments)},s[i].q=[],s[i]("setAccount",z),r=["widget.subiz.net","storage.googleapis"+(t=".com"),"app.sbz.workers.dev",i+"a"+(o=function(k,t){var n=t<=6?5:o(k,t-1)+o(k,t-3);return k!==t?n:n.toString(32)})(20,20)+t,i+"b"+o(30,30)+t,i+"c"+o(40,40)+t],(y=function(k){var t,n;s._subiz_init_2094850928430||r[k]&&(t=u.createElement(b),n=u.getElementsByTagName(b)[0],t.async=1,t.src="https://"+r[k]+"/sbz/app.js?accid="+z,n.parentNode.insertBefore(t,n),setTimeout(y,2e3,k+1))})(0))}(window,document,"script","subiz", "acsadgnruqpvzqeqzezv")</script>
-    <script th:src="@{/assets/js/jquery-3.3.1.min.js}"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const comboFoodSelect = document.getElementById('comboFoodSelect');
+        const totalCheckoutSpan = document.querySelector('.totalCheckout');
+        let initialTotalPrice = parseFloat(totalCheckoutSpan.textContent.replace(/\D/g, ''));
+        let currentComboPrice = 0; // Giá của combo hiện tại (ban đầu là 0)
+
+        comboFoodSelect.addEventListener('change', function () {
+            const selectedOption = comboFoodSelect.options[comboFoodSelect.selectedIndex];
+            const comboDetails = selectedOption.value.split('-');
+            const comboPrice = parseFloat(comboDetails[1]) || 0;
+
+            // Tính lại tổng giá trị
+            const newTotalPrice = initialTotalPrice - currentComboPrice + comboPrice;
+
+            // Cập nhật giá trị tổng và giá combo hiện tại
+            initialTotalPrice = newTotalPrice;
+            currentComboPrice = comboPrice;
+
+            // Cập nhật tổng giá trị hiển thị
+            totalCheckoutSpan.textContent = newTotalPrice.toLocaleString('vi-VN') + ' VND';
+        });
+    });
+  </script>
+
+
+  <script th:src="@{/assets/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/assets/js/modernizr-3.6.0.min.js}"></script>
     <script th:src="@{/assets/js/plugins.js}"></script>
     <script th:src="@{/assets/js/bootstrap.min.js}"></script>

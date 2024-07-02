@@ -113,12 +113,13 @@
                                     <option value="paypal">Paypal</option>
                                     <option value="vnpay">VNPay</option>
                                 </select>
-                                <label for="combo">Chọn Combo:</label>
-                                <select name="comboId" id="combo">
-                                    <option th:each="combo : ${combos}" th:value="${combo.id}" th:text="${combo.name} + ' - ' + ${combo.price}"></option>
+                                <label for="comboFoodSelect" class="form-label mt-3">Combo Food:</label>
+                                <select name="comboId" id="comboFoodSelect" class="form-control" >
+                                    <option value="0-0">Không</option>
+                                    <option th:each="combo : ${comboFoods}"  th:value="${combo.id + '-' + combo.price}" th:text="${combo.comboName} + ' - '+ ${combo.description} + ' - ' + ${combo.price} + 'VND'"></option>
                                 </select>
 
-                                <button type="submit" class="custom-button mt-4">Thanh toán</button>
+                                <button type="submit" class="custom-button mt-5">Thanh toán</button>
                             </form>
                         </div>
                         <div th:if="${message}" class="mt-5">
@@ -171,7 +172,7 @@
                     </div>
                     <div class="proceed-area text-center">
                         <h6 class="subtitle">
-                            <span>Tổng Cộng</span><span th:text="${totalPrice}"></span>
+                            <span>Tổng Cộng</span><span class="totalCheckout" th:text="${totalPrice}"></span>
                         </h6>
 <!--                        <a href="#0" class="custom-button back-button">Thanh toán</a>-->
                     </div>
@@ -181,3 +182,4 @@
     </div>
 </section>
 </body>
+</html>
