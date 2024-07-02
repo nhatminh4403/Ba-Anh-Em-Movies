@@ -12,4 +12,6 @@ import java.util.List;
 public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query("SELECT cf FROM Room cf ORDER BY cf.id DESC")
     List<Room> findAllByOrderByIdDesc();
+
+    Room findByName(String name);
 }

@@ -38,7 +38,8 @@
         </div>
     </div>
     <!-- ==========Preloader========== -->
-    <section class="details-banner hero-area bg_img seat-plan-banner" th:if="${film != null}" th:attr="data-background=${film.poster}"
+    <section class="details-banner hero-area bg_img seat-plan-banner" th:if="${film != null}"
+             th:attr="data-background=${film.poster}"
              style="background-image: url(&quot;/assets/img/banner/banner04.jpg&quot;);">
         <div class="container">
             <div class="details-banner-wrapper">
@@ -66,7 +67,7 @@
                     <span class="date" th:text="'Thời gian chiếu: ' + ${schedule.startTime}"></span>
                 </div>
 
-<!--                Count Down time for customer to choose seat-->
+                <!--                Count Down time for customer to choose seat-->
                 <div class="item">
                     <h5 th:text="${currentTime}"></h5>
                     <p class="mt-2">Hiện tại</p>
@@ -75,108 +76,113 @@
         </div>
     </section>
 
-        <div class="seat-plan-section padding-bottom padding-top">
-            <div class="container">
-                <div class="screen-area">
-                    <h4 class="screen">Màn hình</h4>
-                    <div class="screen-thumb">
-                        <img src="/assets/img/movie/screen-thumb.png" alt="movie">
-                    </div>
-                    <h5 class="subtitle">Ghế thường</h5>
-                    <div class="screen-wrapper">
-                        <ul class="seat-area">
-                            <li class="seat-line">
-                                <ul class="format_seat">
-                                    <li class="front-seat">
-                                        <ul>
-                                            <li class="single-seat seat-free" th:each="seat : ${seatsByType['regular']}">
-                                                <img class="seat-img" alt="seat"
-                                                     th:attr="src=${seat.image}, data-src2='/assets/img/seat/regularchoose.png', data-src=${seat.image}, data-id=${seat.id}, data-symbol=${seat.symbol}, data-price=${seat.seattype.price}"
-                                                     th:classappend="${seat.status == 'booked'} ? ' disabled' : ''"
+    <div class="seat-plan-section padding-bottom padding-top">
+        <div class="container">
+            <div class="screen-area">
+                <h4 class="screen">Màn hình</h4>
+                <div class="screen-thumb">
+                    <img src="/assets/img/movie/screen-thumb.png" alt="movie">
+                </div>
+                <h5 class="subtitle">Ghế thường</h5>
+                <div class="screen-wrapper">
+                    <ul class="seat-area">
+                        <li class="seat-line">
+                            <ul class="format_seat">
+                                <li class="front-seat">
+                                    <ul>
+                                        <li class="single-seat seat-free" th:each="seat : ${seatsByType['regular']}">
+                                            <img class="seat-img" alt="seat"
+                                                 th:attr="src=${seat.image}, data-src2='/assets/img/seat/regularchoose.png', data-src=${seat.image}, data-id=${seat.id}, data-symbol=${seat.symbol}, data-price=${seat.seattype.price}"
+                                                 th:classappend="${seat.status == 'booked'} ? ' disabled' : ''"
 
-                                                     >
-                                                <span class="sit-num" th:text="${seat.symbol}"></span>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    <h5 class="subtitle">Ghế VIP</h5>
-                    <div class="screen-wrapper">
-                        <ul class="seat-area">
-                            <li class="seat-line">
-                                <ul class="format_seat">
-                                    <li class="front-seat">
-                                        <ul>
-                                            <li class="single-seat seat-free" th:each="seat : ${seatsByType['VIP']}">
-                                                <img class="seat-img" alt="seat"
-                                                     th:attr="src=${seat.image}, data-src2='/assets/img/seat/VIPchoose.png', data-src=${seat.image}, data-id=${seat.id}, data-symbol=${seat.symbol}, data-price=${seat.seattype.price}"
-                                                     th:classappend="${seat.status == 'booked'} ? ' disabled' : ''"
+                                            >
+                                            <span class="sit-num" th:text="${seat.symbol}"></span>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <h5 class="subtitle">Ghế VIP</h5>
+                <div class="screen-wrapper">
+                    <ul class="seat-area">
+                        <li class="seat-line">
+                            <ul class="format_seat">
+                                <li class="front-seat">
+                                    <ul>
+                                        <li class="single-seat seat-free" th:each="seat : ${seatsByType['VIP']}">
+                                            <img class="seat-img" alt="seat"
+                                                 th:attr="src=${seat.image}, data-src2='/assets/img/seat/VIPchoose.png', data-src=${seat.image}, data-id=${seat.id}, data-symbol=${seat.symbol}, data-price=${seat.seattype.price}"
+                                                 th:classappend="${seat.status == 'booked'} ? ' disabled' : ''"
 
-                                                    >
-                                                <span class="sit-num" th:text="${seat.symbol}"></span>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    <h5 class="subtitle">SweetBox</h5>
-                    <div class="screen-wrapper">
-                        <ul class="seat-area couple">
-                            <li class="seat-line">
-                                <ul class="seat--area">
-                                    <li class="front-seat">
-                                        <ul style="margin-left: 60px">
-                                            <li class="single-seat seat-free-two" th:each="seat : ${seatsByType['couple']}">
-                                                <img class="seat-img" alt="seat"
-                                                     th:attr="src=${seat.image}, data-src2='/assets/img/seat/couplechoose.png', data-src=${seat.image}, data-id=${seat.id}, data-symbol=${seat.symbol}, data-price=${seat.seattype.price}"
-                                                     th:classappend="${seat.status == 'booked'} ? ' disabled' : ''"
+                                            >
+                                            <span class="sit-num" th:text="${seat.symbol}"></span>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <h5 class="subtitle">SweetBox</h5>
+                <div class="screen-wrapper">
+                    <ul class="seat-area couple">
+                        <li class="seat-line">
+                            <ul class="seat--area">
+                                <li class="front-seat">
+                                    <ul style="margin-left: 60px">
+                                        <li class="single-seat seat-free-two" th:each="seat : ${seatsByType['couple']}">
+                                            <img class="seat-img" alt="seat"
+                                                 th:attr="src=${seat.image}, data-src2='/assets/img/seat/couplechoose.png', data-src=${seat.image}, data-id=${seat.id}, data-symbol=${seat.symbol}, data-price=${seat.seattype.price}"
+                                                 th:classappend="${seat.status == 'booked'} ? ' disabled' : ''"
 
-                                                     >
-                                                <span class="sit-num" th:text="${seat.symbol}"></span>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+                                            >
+                                            <span class="sit-num" th:text="${seat.symbol}"></span>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div class="container">
-                <div class="proceed-book bg_img" data-background="/assets/img/movie/movie-bg-proceed.jpg" style="background-image: url(&quot;/assets/img/movie/movie-bg-proceed.jpg&quot;);">
-                    <div class="proceed-to-book">
-                        <div class="book-item">
-                            <span>Bạn đã chọn ghế</span>
-                            <h3 class="title selected-seats"></h3>
-                            <div class="error-message" style="display: none; color: red;"></div>
-                        </div>
-                        <div class="book-item">
-                            <span>Tổng tiền</span>
-                            <h3 class="title total-price">0 VND</h3>
-                        </div>
-                        <form id="checkout-form" th:action="@{/purchase/add}" method="post" >
-                            <input type="hidden" id="selectedSeatsInput" name="seatSymbol">
-                            <input type="hidden" id="totalPriceInput" name="totalPrice">
-                            <input type="hidden" id="startTimeInput" name="startTime" th:value="${schedule.startTime}">
-                            <input type="hidden" id="filmTitleInput" name="filmTitle" th:value="${film.name}">
-                            <input type="hidden" id="posterInput" name="poster" th:value="${film.poster}">
-                            <input type="hidden" id="categoryInput" name="category" th:value="${film.category.name}">
-                            <input type="hidden" id="cinemaNameInput" name="cinemaName" th:value="${cinemaName}">
-                            <input type="hidden" id="cinemaAddressInput" name="cinemaAddress" th:value="${cinemaAddress}">
-                            <input type="hidden" id="roomNameInput" name="roomName" th:value="${roomName}">
-                            <input type="hidden" id="scheduleIdInput" name="scheduleId" th:value="${schedule.id}">
-                            <div class="book-item">
-                                <button type="submit" class="custom-button" id="checkout-button" sec:authorize="isAuthenticated()">Tiếp tục</button>
-                            </div>
-                        </form>
+        </div>
+        <div class="container">
+            <div class="proceed-book bg_img" data-background="/assets/img/movie/movie-bg-proceed.jpg"
+                 style="background-image: url(&quot;/assets/img/movie/movie-bg-proceed.jpg&quot;);">
+                <div class="proceed-to-book">
+                    <div class="book-item">
+                        <span>Bạn đã chọn ghế</span>
+                        <h3 class="title selected-seats"></h3>
+                        <div class="error-message" style="display: none; color: red;"></div>
                     </div>
+                    <div class="book-item">
+                        <span>Tổng tiền</span>
+                        <h3 class="title total-price">0 VND</h3>
+                    </div>
+                    <form id="checkout-form" th:action="@{/purchase/add}" method="post">
+                        <input type="hidden" id="selectedSeatsInput" name="seatSymbol">
+                        <input type="hidden" id="totalPriceInput" name="totalPrice">
+                        <input type="hidden" id="startTimeInput" name="startTime" th:value="${schedule.startTime}">
+                        <input type="hidden" id="filmTitleInput" name="filmTitle" th:value="${film.name}">
+                        <input type="hidden" id="posterInput" name="poster" th:value="${film.poster}">
+                        <input th:if="${film.categories != null}" type="hidden" id="categoryInput" name="category"
+                               th:each="category : ${film.categories}"
+                               th:text="${category.name}">
+                        <input type="hidden" id="cinemaNameInput" name="cinemaName" th:value="${cinemaName}">
+                        <input type="hidden" id="cinemaAddressInput" name="cinemaAddress" th:value="${cinemaAddress}">
+                        <input type="hidden" id="roomNameInput" name="roomName" th:value="${roomName}">
+                        <input type="hidden" id="scheduleIdInput" name="scheduleId" th:value="${schedule.id}">
+                        <div class="book-item">
+                            <button type="submit" class="custom-button" id="checkout-button"
+                                    sec:authorize="isAuthenticated()">Tiếp tục
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
+        </div>
 
     </div>
 </section>
