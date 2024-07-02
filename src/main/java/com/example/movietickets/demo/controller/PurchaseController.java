@@ -48,6 +48,9 @@ public class PurchaseController {
     @Autowired
     private ComboFoodService comboFoodService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @GetMapping
     public String showPurchase(Model model, @RequestParam(required = false) Long scheduleId) {
         if (purchaseService.IsExist()) {
@@ -69,6 +72,9 @@ public class PurchaseController {
 
             Room room = roomRepository.findByName(purchase.getRoomName());
             List<Seat> seats = seatRepository.findByRoom(room);
+            List<Category> categories = categoryService.getAllCategories();
+
+            model.addAttribute("categories", categories);
             //lấy ra các seat booked
             model.addAttribute("purchase", purchase);
             model.addAttribute("seats", seats);
@@ -109,13 +115,14 @@ public class PurchaseController {
     @GetMapping("/history")
     public String showPurchaseHistory(Model model) {
         List<Booking> bookings = bookingService.getBookingsByCurrentUser(); // phương thức này để lấy các booking của người dùng hiện tại
+        List<Category> categories = categoryService.getAllCategories();
+        model.addAttribute("categories", categories);
         model.addAttribute("bookings", bookings);
         return "/purchase/history";
     }
 
     @PostMapping("/checkout")
     public String checkout(
-            @RequestParam Long comboId,
             @RequestParam("payment") String payment,
             @RequestParam Long scheduleId,
             RedirectAttributes redirectAttributes

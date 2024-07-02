@@ -1,9 +1,6 @@
 package com.example.movietickets.demo.controller;
 
-import com.example.movietickets.demo.model.BookingDetail;
-import com.example.movietickets.demo.model.Film;
-import com.example.movietickets.demo.model.Schedule;
-import com.example.movietickets.demo.model.Seat;
+import com.example.movietickets.demo.model.*;
 import com.example.movietickets.demo.repository.BookingDetailRepository;
 import com.example.movietickets.demo.repository.BookingRepository;
 import com.example.movietickets.demo.service.*;
@@ -41,6 +38,9 @@ public class SeatController {
     private BookingDetailService bookingDetailService;
 
     private BookingDetailRepository bookingDetailRepository;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @GetMapping
     public String getSeatsByRoomId(@RequestParam(value = "roomId", required = false) Long roomId, Model model) {
@@ -91,6 +91,9 @@ public class SeatController {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
             String currentTime = LocalTime.now().format(formatter);
 
+            List<Category> categories = categoryService.getAllCategories();
+
+            model.addAttribute("categories", categories);
             model.addAttribute("currentTime", currentTime);
             model.addAttribute("seats", seats);
             model.addAttribute("film", film);
