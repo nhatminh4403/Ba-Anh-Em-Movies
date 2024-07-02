@@ -167,9 +167,11 @@
                         <input type="hidden" id="startTimeInput" name="startTime" th:value="${schedule.startTime}">
                         <input type="hidden" id="filmTitleInput" name="filmTitle" th:value="${film.name}">
                         <input type="hidden" id="posterInput" name="poster" th:value="${film.poster}">
-                        <input th:if="${film.categories != null}" type="hidden" id="categoryInput" name="category"
-                               th:each="category : ${film.categories}"
-                               th:text="${category.name}">
+                        <div>
+                            <input th:if="${film.categories != null}" type="hidden" id="categoryInput" name="category"
+                                   th:each="category : ${film.categories}"
+                                   th:value="${category.name}">
+                        </div>
                         <input type="hidden" id="cinemaNameInput" name="cinemaName" th:value="${cinemaName}">
                         <input type="hidden" id="cinemaAddressInput" name="cinemaAddress" th:value="${cinemaAddress}">
                         <input type="hidden" id="roomNameInput" name="roomName" th:value="${roomName}">

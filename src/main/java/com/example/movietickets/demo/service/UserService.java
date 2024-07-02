@@ -55,6 +55,7 @@ public class UserService implements UserDetailsService {
         userRepository.findByUsername(username).ifPresentOrElse(
                 user -> {
                     user.getRoles().add(roleRepository.findRoleById(Role.USER.value));
+                    user.setProvider("LOCAL");
                     userRepository.save(user);
                 },
                 () -> {

@@ -494,7 +494,9 @@ ul {
     height: 80px;
   }
   .sidebar__logo img {
-    max-width: 120px;
+    max-width: 175px;
+    object-fit: contain;
+    height: 80px;
   }
 }
 /*==============================
