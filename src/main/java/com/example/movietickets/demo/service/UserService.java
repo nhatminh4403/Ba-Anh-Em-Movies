@@ -99,16 +99,28 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public void saveOauthUser(String email, String username) {
-        if (userRepository.findByUsername(username).isPresent())
+    public void saveOauthUser(String email, String username, String provider) {
+        if (username == null || userRepository.findByUsername(username).isPresent())
             return;
+
         var user = new User();
         user.setUsername(username);
-        user.setEmail(email);
+        user.setEmail(email != null ? email : username + "@example.com");
         user.setPassword(new BCryptPasswordEncoder().encode(username));
-        user.setProvider(Provider.GOOGLE.value);
+        user.setProvider(provider);
         user.getRoles().add(roleRepository.findRoleById(Role.USER.value));
         userRepository.save(user);
     }
+
+    // public void saveOauthUser(String email, String username) {
+    // if (userRepository.findByUsername(username).isPresent()) return;
+    // var user = new User();
+    // user.setUsername(username);
+    // user.setEmail(email);
+    // user.setPassword(new BCryptPasswordEncoder().encode(username));
+    // user.setProvider(Provider.GOOGLE.value);
+    // user.getRoles().add(roleRepository.findRoleById(Role.USER.value));
+    // userRepository.save(user);
+    // }
 
 }

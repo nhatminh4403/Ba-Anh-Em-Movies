@@ -1,12 +1,9 @@
 package com.example.movietickets.demo.controller;
 
-import com.example.movietickets.demo.model.Film;
-import com.example.movietickets.demo.model.Schedule;
-import com.example.movietickets.demo.model.Seat;
-import com.example.movietickets.demo.service.RoomService;
-import com.example.movietickets.demo.service.ScheduleServiceImpl;
-import com.example.movietickets.demo.service.SeatService;
-import com.example.movietickets.demo.service.SeatTypeService;
+import com.example.movietickets.demo.model.*;
+import com.example.movietickets.demo.repository.BookingDetailRepository;
+import com.example.movietickets.demo.repository.BookingRepository;
+import com.example.movietickets.demo.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequestMapping("/seats")
@@ -40,6 +34,14 @@ public class SeatController {
     @Autowired
     private SeatTypeService seatTypeService;
 
+    @Autowired
+    private BookingDetailService bookingDetailService;
+
+    private BookingDetailRepository bookingDetailRepository;
+
+    @Autowired
+    private CategoryService categoryService;
+
     @GetMapping
     public String getSeatsByRoomId(@RequestParam(value = "roomId", required = false) Long roomId, Model model) {
         List<Seat> seats;
@@ -54,25 +56,43 @@ public class SeatController {
         return "/seat/seat-list";
     }
 
-    // AdminSeatController
     @GetMapping("/schedules/{scheduleId}")
     public String getSeatsBySchedule(@PathVariable Long scheduleId, Model model) {
         Optional<Schedule> optionalSchedule = scheduleService.getScheduleById(scheduleId);
-        Film film = optionalSchedule.map(Schedule::getFilm).orElse(null);//map schedule de lay thong tin film
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        String currentTime = LocalTime.now().format(formatter);
-        //kiem tra biến optionalSchedul co chua value => get values
         if (optionalSchedule.isPresent()) {
             Schedule schedule = optionalSchedule.get();
+            Film film = schedule.getFilm();
             Long roomId = schedule.getRoom().getId();
             List<Seat> seats = seatService.getSeatsByRoomIdDistinct(roomId);
-            // Add information
+
+            // Lấy danh sách các BookingDetail của suất chiếu hiện tại
+            List<BookingDetail> bookingDetails = bookingDetailService.getBookingDetailsByScheduleId(scheduleId);
+
+            // Đánh dấu ghế đã được đặt cho suất chiếu hiện tại
+            for (Seat seat : seats) {
+                seat.setStatus("empty"); // Đặt mặc định là 'available'
+                for (BookingDetail bookingDetail : bookingDetails) {
+                    if (bookingDetail.getSeat().getId().equals(seat.getId())) {
+                        seat.setStatus("booked"); // Đánh dấu là 'booked' nếu có trong BookingDetail của suất chiếu hiện
+                                                  // tại
+                        break;
+                    }
+                }
+            }
+            // Nhóm ghế theo loại ghế
+            Map<String, List<Seat>> seatsByType = seats.stream()
+                    .collect(Collectors.groupingBy(seat -> seat.getSeattype().getType()));
+
+            // Thêm thông tin vào model
             String cinemaName = schedule.getRoom().getCinema().getName();
             String cinemaAddress = schedule.getRoom().getCinema().getAddress();
             String roomName = schedule.getRoom().getName();
-            // Group seats theo type
-            Map<String, List<Seat>> seatsByType = seats.stream().collect(Collectors.groupingBy(seat -> seat.getSeattype().getType()));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            String currentTime = LocalTime.now().format(formatter);
 
+            List<Category> categories = categoryService.getAllCategories();
+
+            model.addAttribute("categories", categories);
             model.addAttribute("currentTime", currentTime);
             model.addAttribute("seats", seats);
             model.addAttribute("film", film);
@@ -83,11 +103,18 @@ public class SeatController {
             model.addAttribute("cinemaName", cinemaName);
             model.addAttribute("cinemaAddress", cinemaAddress);
             model.addAttribute("roomName", roomName);
-            return "/seat/seat-choose"; // chuyen den trang chon ghe
+
+            return "/seat/seat-choose"; // chuyển đến trang chọn ghế
         } else {
-            // neu khong tim thay schedule
-            return "redirect:/404"; // Redirect
+            return "redirect:/404"; // Redirect nếu không tìm thấy lịch chiếu
         }
     }
 
+    // Lấy danh sách ghế đã được đặt dựa trên scheduleId
+    // List<BookingDetail> bookingDetails =
+    // bookingDetailService.getBookingDetailsByScheduleId(scheduleId);
+    // Set<Long> bookedSeatIds = bookingDetails.stream()
+    // .map(BookingDetail::getSeat)
+    // .map(Seat::getId)
+    // .collect(Collectors.toSet());
 }
