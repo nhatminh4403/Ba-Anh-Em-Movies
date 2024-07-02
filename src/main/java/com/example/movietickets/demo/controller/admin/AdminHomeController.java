@@ -1,6 +1,7 @@
 package com.example.movietickets.demo.controller.admin;
 
 import com.example.movietickets.demo.model.User;
+import com.example.movietickets.demo.service.BookingService;
 import com.example.movietickets.demo.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,17 @@ import java.util.List;
 public class AdminHomeController {
     @Autowired
     private final UserService userService;
+    private final BookingService bookingService;
 
     @GetMapping
     public String index(Model model) {
         Long getUserCount = userService.getCountUser();
+        long getBookingCount = bookingService.getCountBooking();
+        long getTotalPrice = bookingService.getTotalPrice();
+
         model.addAttribute("userCount", getUserCount);
+        model.addAttribute("bookingCount", getBookingCount);
+        model.addAttribute("totalPrice", getTotalPrice);
         return "/admin/home/index";
     }
 }

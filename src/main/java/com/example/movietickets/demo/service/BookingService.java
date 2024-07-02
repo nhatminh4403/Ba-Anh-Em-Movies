@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 @SessionScope
 public class BookingService {
@@ -39,6 +41,22 @@ public class BookingService {
         this.bookingRepository = bookingRepository;
         this.comboFoodRepository = comboFoodRepository;
         this.userRepository = userRepository;
+    }
+
+    public List<Booking> getAll() {
+        return bookingRepository.findAll();
+    }
+
+    public Optional<Booking> getBookingId(Long id) {
+        return bookingRepository.findById(id);
+    }
+
+    public Long getCountBooking() {
+        return bookingRepository.getCountBooking();
+    }
+
+    public Long getTotalPrice() {
+        return bookingRepository.getTotalPrice();
     }
 
     public List<Seat> getSeatsFromSymbolsAndRoom(List<String> seatSymbols, Room room) {
@@ -78,7 +96,6 @@ public class BookingService {
     }
 
 
-
 //    public List<Booking> getBookingsByCurrentUser() {
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        String username = authentication.getName();
@@ -98,7 +115,6 @@ public class BookingService {
     }
 
 
-
     @Transactional
     public void saveBooking(Booking booking, List<Seat> seats, Schedule schedule) {
         bookingRepository.save(booking);
@@ -111,7 +127,7 @@ public class BookingService {
             bookingDetailRepository.save(bookingDetail);
         }
         //cập nhật trạng thái ghé đã đặt
-        for(Seat seat: seats){
+        for (Seat seat : seats) {
             seat.setStatus("booked");
             seatRepository.save(seat);
         }

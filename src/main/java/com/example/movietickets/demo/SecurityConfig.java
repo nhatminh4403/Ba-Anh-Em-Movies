@@ -24,116 +24,117 @@ import org.springframework.security.web.SecurityFilterChain;
 
 public class SecurityConfig {
 
-        private final UserService userService;
-        private final OauthService oauthService;
+    private final UserService userService;
+    private final OauthService oauthService;
 
-        @Bean
-        public UserDetailsService userDetailsService() {
-                return userService;
-        }
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return userService;
+    }
 
-        @Bean
-        public PasswordEncoder passwordEncoder() {
-                return new BCryptPasswordEncoder();
-        }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-        @Bean
-        public DaoAuthenticationProvider authenticationProvider() {
-                var auth = new DaoAuthenticationProvider();
-                auth.setUserDetailsService(userDetailsService());
-                auth.setPasswordEncoder(passwordEncoder());
-                return auth;
-        }
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        var auth = new DaoAuthenticationProvider();
+        auth.setUserDetailsService(userDetailsService());
+        auth.setPasswordEncoder(passwordEncoder());
+        return auth;
+    }
 
-        @Bean
-        public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http) throws Exception {
-                return http
-                                .authorizeHttpRequests(auth -> auth
-                                                .requestMatchers("/assets/**", "/css/**", "/js/**", "/", "/oauth/**",
-                                                                "/register", "/error", "/purchase", "/films",
-                                                                "/films/film-details/**", "/schedules/**",
-                                                                "/cart", "/cart/**", "blog/details",
-                                                                "/popcorn", "/movie/details", "/movie/seat-plan",
-                                                                "/feedback", "/blog", "/blog/blog-details", "/about",
-                                                                "/blog/blog-details/{id}/comment")
-                                                .permitAll() // Cho phép truy cập không cần xác thực.
-                                                .requestMatchers("admin/movie/edit/**", "/admin/movie/add",
-                                                                "/admin/films", "/admin/films/edit", "/admin/films/add",
-                                                                "/admin/countries", "/admin/countries/add",
-                                                                "/admin/countries/edit",
-                                                                "/admin/categories/add", "/admin/categories",
-                                                                "/admin/categories/edit",
-                                                                "/admin/schedules", "/admin/schedules/add",
-                                                                "/admin/schedules/edit",
-                                                                "/admin/blog/add", "/admin/blog/delete",
-                                                                "/admin/blog/update",
-                                                                "/admin/comboFoods", "/admin/comboFoods/add",
-                                                                "/admin/comboFoods/edit",
-                                                                "/admin/users", "/admin/users/detail",
-                                                                "/admin/seatPrice", "/admin/seatPrice/add",
-                                                                "/admin/seatPrice/edit", "/admin/seatPrice/delete",
-                                                                "blog/blog-details/{id}/delete")
-                                                .hasAnyAuthority("admin") // Chỉ cho phép ADMIN truy cập.
-                                                .requestMatchers("/api/**")
-                                                .permitAll()
-                                                .anyRequest().authenticated())
-                                .logout(logout -> logout
-                                                .logoutUrl("/logout")
-                                                .logoutSuccessUrl("/login")
-                                                .deleteCookies("JSESSIONID")
-                                                .invalidateHttpSession(true)
-                                                .clearAuthentication(true)
-                                                .permitAll())
-                                .formLogin(formLogin -> formLogin
-                                                .loginPage("/login")
-                                                .loginProcessingUrl("/login")
-                                                .defaultSuccessUrl("/")
-                                                .failureUrl("/login?error")
-                                                .permitAll())
+    @Bean
+    public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http) throws Exception {
+        return http
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/assets/**", "/css/**", "/js/**", "/", "/oauth/**",
+                                "/register", "/error", "/purchase", "/films",
+                                "/films/film-details/**", "/schedules/**",
+                                "/cart", "/cart/**", "blog/details",
+                                "/popcorn", "/movie/details", "/movie/seat-plan",
+                                "/feedback", "/blog", "/blog/blog-details", "/about",
+                                "/blog/blog-details/{id}/comment")
+                        .permitAll() // Cho phép truy cập không cần xác thực.
+                        .requestMatchers("admin/movie/edit/**", "/admin/movie/add",
+                                "/admin/films", "/admin/films/edit", "/admin/films/add",
+                                "/admin/countries", "/admin/countries/add",
+                                "/admin/countries/edit",
+                                "/admin/categories/add", "/admin/categories",
+                                "/admin/categories/edit",
+                                "/admin/schedules", "/admin/schedules/add",
+                                "/admin/schedules/edit",
+                                "/admin/blog/add", "/admin/blog/delete",
+                                "/admin/blog/update",
+                                "/admin/comboFoods", "/admin/comboFoods/add",
+                                "/admin/comboFoods/edit",
+                                "/admin/users", "/admin/users/detail",
+                                "/admin/seatPrice", "/admin/seatPrice/add",
+                                "/admin/seatPrice/edit", "/admin/seatPrice/delete",
+                                "/admin/bookings", "/admin/bookings/detail",
+                                "blog/blog-details/{id}/delete")
+                        .hasAnyAuthority("admin") // Chỉ cho phép ADMIN truy cập.
+                        .requestMatchers("/api/**")
+                        .permitAll()
+                        .anyRequest().authenticated())
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login")
+                        .deleteCookies("JSESSIONID")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .permitAll())
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/")
+                        .failureUrl("/login?error")
+                        .permitAll())
 
-                                .oauth2Login(oauth2Login -> oauth2Login
-                                                .loginPage("/login")
-                                                .failureUrl("/login?error")
-                                                .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
-                                                                .userService(oauthService))
-                                                .successHandler((request, response, authentication) -> {
-                                                        var oauthToken = (OAuth2AuthenticationToken) authentication;
-                                                        var principal = authentication.getPrincipal();
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .loginPage("/login")
+                        .failureUrl("/login?error")
+                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
+                                .userService(oauthService))
+                        .successHandler((request, response, authentication) -> {
+                            var oauthToken = (OAuth2AuthenticationToken) authentication;
+                            var principal = authentication.getPrincipal();
 
-                                                        String email = null;
-                                                        String username = null;
+                            String email = null;
+                            String username = null;
 
-                                                        if (principal instanceof DefaultOidcUser) {
-                                                                DefaultOidcUser oidcUser = (DefaultOidcUser) principal;
-                                                                email = oidcUser.getEmail();
-                                                                username = oidcUser.getName();
-                                                        } else if (principal instanceof DefaultOAuth2User) {
-                                                                DefaultOAuth2User oauth2User = (DefaultOAuth2User) principal;
-                                                                email = oauth2User.getAttribute("email");
-                                                                username = oauth2User.getAttribute("name");
-                                                        }
+                            if (principal instanceof DefaultOidcUser) {
+                                DefaultOidcUser oidcUser = (DefaultOidcUser) principal;
+                                email = oidcUser.getEmail();
+                                username = oidcUser.getName();
+                            } else if (principal instanceof DefaultOAuth2User) {
+                                DefaultOAuth2User oauth2User = (DefaultOAuth2User) principal;
+                                email = oauth2User.getAttribute("email");
+                                username = oauth2User.getAttribute("name");
+                            }
 
-                                                        String provider = oauthToken.getAuthorizedClientRegistrationId()
-                                                                        .toUpperCase();
-                                                        userService.saveOauthUser(email, username, provider);
-                                                        response.sendRedirect("/"); // Chuyển hướng đến trang lịch sử
-                                                                                    // sau khi đăng nhập thành công
-                                                })
-                                                .permitAll())
+                            String provider = oauthToken.getAuthorizedClientRegistrationId()
+                                    .toUpperCase();
+                            userService.saveOauthUser(email, username, provider);
+                            response.sendRedirect("/"); // Chuyển hướng đến trang lịch sử
+                            // sau khi đăng nhập thành công
+                        })
+                        .permitAll())
 
-                                .rememberMe(rememberMe -> rememberMe
-                                                .key("3anhem")
-                                                .rememberMeCookieName("3anhem")
-                                                .tokenValiditySeconds(24 * 60 * 60)
-                                                .userDetailsService(userDetailsService()))
-                                .exceptionHandling(exceptionHandling -> exceptionHandling
-                                                .accessDeniedPage("/404"))
-                                .sessionManagement(sessionManagement -> sessionManagement
-                                                .maximumSessions(1)
-                                                .expiredUrl("/login"))
-                                .httpBasic(httpBasic -> httpBasic
-                                                .realmName("3anhem"))
-                                .build();
-        }
+                .rememberMe(rememberMe -> rememberMe
+                        .key("3anhem")
+                        .rememberMeCookieName("3anhem")
+                        .tokenValiditySeconds(24 * 60 * 60)
+                        .userDetailsService(userDetailsService()))
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .accessDeniedPage("/404"))
+                .sessionManagement(sessionManagement -> sessionManagement
+                        .maximumSessions(1)
+                        .expiredUrl("/login"))
+                .httpBasic(httpBasic -> httpBasic
+                        .realmName("3anhem"))
+                .build();
+    }
 
 }

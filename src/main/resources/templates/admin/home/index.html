@@ -15,8 +15,7 @@
                 <!-- main title -->
                 <div class="col-12">
                     <div class="main__title">
-                        <h2>Dashboard</h2>
-                        <!--<a href="add-item.html" class="main__title-link">add item</a>-->
+                        <h2>Trang chủ</h2>
                     </div>
                 </div>
                 <!-- end main title -->
@@ -35,7 +34,7 @@
                 <div class="col-12 col-sm-6 col-xl-3">
                     <div class="stats">
                         <span>Tổng lần đặt (booking)</span>
-                        <p>${count_bookings}</p>
+                        <p th:text="${bookingCount}"></p>
                         <img th:src="@{/assets/admin/img/film.svg}" alt="">
                     </div>
                 </div>
@@ -44,7 +43,7 @@
                 <div class="col-12 col-sm-6 col-xl-3">
                     <div class="stats">
                         <span>Tổng lợi nhuận tạm tính</span>
-                        <p>${profit}</p>
+                        <p th:text="${#numbers.formatDecimal(totalPrice, 0, 'POINT', 0, 'POINT')}"></p>
                         <img th:src="@{/assets/admin/img/star-half-alt.svg}" alt="">
                     </div>
                 </div>
