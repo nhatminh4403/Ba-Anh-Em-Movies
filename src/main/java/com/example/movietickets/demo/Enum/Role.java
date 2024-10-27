@@ -1,4 +1,4 @@
-package com.example.movietickets.demo;
+package com.example.movietickets.demo.Enum;
 
 import lombok.AllArgsConstructor;
 @AllArgsConstructor

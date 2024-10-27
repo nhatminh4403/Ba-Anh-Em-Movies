@@ -1,8 +1,10 @@
 package com.example.movietickets.demo.service;
 
 import com.example.movietickets.demo.model.Blog;
+import com.example.movietickets.demo.model.Category;
 import com.example.movietickets.demo.model.Film;
 import com.example.movietickets.demo.model.Rating;
+import com.example.movietickets.demo.repository.CategoryRepository;
 import com.example.movietickets.demo.repository.FilmRepository;
 import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,7 +22,7 @@ import java.util.Optional;
 @Service
 public class FilmService {
     private final FilmRepository filmRepository;
-
+    private  final CategoryRepository categoryRepository;
     // Retrieve all film from the database
     public List<Film> getAllFilms() {
         return filmRepository.findAllByOrderByIdDesc();
@@ -85,7 +87,7 @@ public class FilmService {
 
     // tìm theo id category
     public List<Film> getFilmsByCategoryId(Long categoryId) {
-        return filmRepository.findByCategoryId(categoryId);
+        return filmRepository.findFilmsByCategoryId(categoryId);
     }
 
 }

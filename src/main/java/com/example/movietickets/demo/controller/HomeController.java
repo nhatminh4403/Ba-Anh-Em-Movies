@@ -2,8 +2,10 @@ package com.example.movietickets.demo.controller;
 
 import com.example.movietickets.demo.model.Category;
 import com.example.movietickets.demo.model.Country;
+import com.example.movietickets.demo.model.Film;
 import com.example.movietickets.demo.service.CategoryService;
 import com.example.movietickets.demo.service.CountryService;
+import com.example.movietickets.demo.service.FilmService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,9 @@ public class HomeController {
     private final CategoryService categoryService;
 
     @Autowired
+    private final FilmService filmService;
+
+    @Autowired
     private final CountryService countryService;
 
     @GetMapping("/")
@@ -28,10 +33,10 @@ public class HomeController {
 
         List<Category> categories = categoryService.getAllCategories();
         List<Country> countries = countryService.getAllCountries();
-
+        List<Film> films = filmService.getAllFilms();
         model.addAttribute("categories", categories);
         model.addAttribute("countries", countries);
-
+        model.addAttribute("films", films);
         return "/home/index";
     }
 }

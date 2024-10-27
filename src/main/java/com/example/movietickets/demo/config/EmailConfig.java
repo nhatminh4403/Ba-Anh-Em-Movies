@@ -1,4 +1,4 @@
-package com.example.movietickets.demo;
+package com.example.movietickets.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

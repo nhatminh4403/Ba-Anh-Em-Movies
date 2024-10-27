@@ -1,5 +1,6 @@
 package com.example.movietickets.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,6 +19,7 @@ public class Schedule {
 
     @ManyToOne
     @JoinColumn(name = "FILM_ID")
+    @JsonBackReference
     private Film film;
 
     @ManyToOne

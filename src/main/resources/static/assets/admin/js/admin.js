@@ -62,9 +62,11 @@ $(document).ready(function () {
 	Select2
 	==============================*/
 	$('#country').select2({
-		placeholder: "Choose country / countries"
+		placeholder: "Chọn quốc gia"
 	});
-
+    $('#category').select2({
+    		placeholder: "Chọn thể loại"
+    });
 	$('#rated').select2({
 		placeholder: "Choose rated"
 	});
@@ -90,7 +92,7 @@ $(document).ready(function () {
 		}
 	}
 
-	$('#form__img-upload').on('change', function() {
+	$('.form__img-upload').on('change', function() {
 		readURL(this);
 	});
 

@@ -20,100 +20,185 @@
                 </div>
                 <!-- end main title -->
 
-                <!-- form -->
+                <!--normal form -->
                 <div class="col-12">
-                    <form th:action="@{/admin/films/add}" th:object="${film}" enctype="multipart/form-data"
-                          method="POST" class="form">
-                        <div class="row">
-                            <div class="col-12 col-md-5 form__cover">
-                                <div class="row">
-                                    <div class="col-12 col-sm-6 col-md-12">
-                                        <div class="form__img">
-                                            <label for="form__img-upload">Upload cover (270 x 400)</label>
-                                            <input id="form__img-upload" th:field="*{poster}" name="form__img-upload"
-                                                   type="file" accept=".png, .jpg, .jpeg">
-                                            <img id="form__img" th:src="*{poster}" alt=" ">
+<!--                    <form th:action="@{/admin/films/add}" th:object="${film}" enctype="multipart/form-data"-->
+<!--                          method="POST" class="form">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-12 col-md-5 form__cover">-->
+<!--                                <div class="row">-->
+<!--                                    <div class="col-12 col-sm-6 col-md-12">-->
+<!--                                        <div class="form__img">-->
+<!--                                            <label for="poster">Upload cover (270 x 400)</label>-->
+<!--                                            <input class="form__img-upload" th:field="*{poster}" name="form__img-upload" id="poster"-->
+<!--                                                   type="file" accept=".png, .jpg, .jpeg">-->
+<!--                                            <img id="form__img" th:src="*{poster}" alt=" ">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-12 col-md-7 form__content">-->
+<!--                                <div class="row">-->
+<!--                                    <div class="col-12">-->
+<!--                                        <input type="text" class="form__input" placeholder="Tên phim" th:field="*{name}"-->
+<!--                                               name="name" required/>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-12">-->
+<!--                                        <textarea id="text" name="description" th:field="*{description}"-->
+<!--                                                  class="form__textarea" placeholder="Mô tả" required></textarea>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-12 col-sm-6 col-lg-3">-->
+<!--                                        <input type="datetime-local" class="form__input" placeholder="Ngày phát hành"-->
+<!--                                               title="Ngày phát hành" th:field="*{openingday}" name="opening_day"-->
+<!--                                               required/>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-12 col-sm-6 col-lg-3">-->
+<!--                                        <input type="number" class="form__input" placeholder="Thời lượng (phút)"-->
+<!--                                               title="Thời lượng (phút)" th:field="*{duration}" name="duration"-->
+<!--                                               required/>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-12 col-sm-6 col-lg-3">-->
+<!--                                        <select class="js-example-basic-single" id="country" th:field="*{country}"-->
+<!--                                                name="country_id" required>-->
+<!--                                            <option th:each="item: ${countries}" th:value="${item.id}"-->
+<!--                                                    th:text="${item.name}"></option>-->
+<!--                                        </select>-->
+<!--                                        <div class="text-danger" th:if="${#fields.hasErrors('country')}"-->
+<!--                                             th:errors="*{country}"></div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-12 col-sm-6 col-lg-3">-->
+<!--                                        <input class="form__input" placeholder="Giới hạn độ tuổi" type="text"-->
+<!--                                               th:field="*{limit_age}" required/>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-12 col-lg-6">-->
+<!--                                        <select class="js-example-basic-multiple form-control" id="category"-->
+<!--                                                multiple="multiple"-->
+<!--                                                th:field="*{categoryIds}" required>-->
+<!--                                            <option th:each="category : ${categories}"-->
+<!--                                                    th:value="${category.id}"-->
+<!--                                                    th:text="${category.name}"-->
+<!--                                                    th:selected="${#lists.contains(film.categoryIds, category.id)}">-->
+<!--                                            </option>-->
+<!--                                        </select>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-12  col-lg-6">-->
+<!--                                        <input type="text" class="form__input" placeholder="Trailer" title="Trailer"-->
+<!--                                               th:field="*{trailer}" name="trailer" required/>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-12  col-lg-6">-->
+<!--                                        <input type="text" class="form__input" placeholder="Đạo diễn" title="Đạo diễn"-->
+<!--                                               th:field="*{director}" name="director" required/>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-12  col-lg-6">-->
+<!--                                        <input type="text" class="form__input" placeholder="Diễn viên" title="Diễn viên"-->
+<!--                                               th:field="*{actor}" name="actor" required/>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-12  col-lg-6">-->
+<!--                                        <input type="text" class="form__input" placeholder="Phụ đề" title="Phụ đề"-->
+<!--                                               th:field="*{subtitle}" name="subtitle" required/>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-12  col-lg-6">-->
+<!--                                        <input type="text" class="form__input" placeholder="Chất luợng phim"-->
+<!--                                               title="Chất luợng phim"-->
+<!--                                               th:field="*{quanlity}" name="quanlity" required/>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-12">-->
+<!--                                <button type="submit" class="form__btn">Thực hiện</button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </form>-->
+                    <!-- api form -->
+                    <form id="addFilmForm" enctype="multipart/form-data" class="form">
+                            <div class="row">
+                                <div class="col-12 col-md-5 form__cover">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-6 col-md-12">
+                                            <div class="form__img">
+                                                <label for="poster">Upload cover (270 x 400)</label>
+                                                <input class="form__img-upload" name="poster" id="poster"
+                                                       type="file" accept="image/*">
+                                                <img id="form__img" alt=" ">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-12 col-md-7 form__content">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <input type="text" class="form__input" placeholder="Tên phim" th:field="*{name}"
-                                               name="name" required/>
-                                    </div>
-                                    <div class="col-12">
-                                        <textarea id="text" name="description" th:field="*{description}"
-                                                  class="form__textarea" placeholder="Mô tả" required></textarea>
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-lg-3">
-                                        <input type="datetime-local" class="form__input" placeholder="Ngày phát hành"
-                                               title="Ngày phát hành" th:field="*{openingday}" name="opening_day"
-                                               required/>
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-lg-3">
-                                        <input type="number" class="form__input" placeholder="Thời lượng (phút)"
-                                               title="Thời lượng (phút)" th:field="*{duration}" name="duration"
-                                               required/>
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-lg-3">
-                                        <select class="js-example-basic-single" id="country" th:field="*{country}"
-                                                name="country_id" required>
-                                            <option th:each="item: ${countries}" th:value="${item.id}"
-                                                    th:text="${item.name}"></option>
-                                        </select>
-                                        <div class="text-danger" th:if="${#fields.hasErrors('country')}"
-                                             th:errors="*{country}"></div>
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-lg-3">
-                                        <input class="form__input" placeholder="Giới hạn độ tuổi" type="text"
-                                               th:field="*{limit_age}" required/>
-                                    </div>
-                                    <div class="col-12 col-lg-6">
-                                        <select class="js-example-basic-multiple form-control" id="category"
-                                                multiple="multiple"
-                                                th:field="*{categoryIds}" required>
-                                            <option th:each="category : ${categories}"
-                                                    th:value="${category.id}"
-                                                    th:text="${category.name}"
-                                                    th:selected="${#lists.contains(film.categoryIds, category.id)}">
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12  col-lg-6">
-                                        <input type="text" class="form__input" placeholder="Trailer" title="Trailer"
-                                               th:field="*{trailer}" name="trailer" required/>
-                                    </div>
-                                    <div class="col-12  col-lg-6">
-                                        <input type="text" class="form__input" placeholder="Đạo diễn" title="Đạo diễn"
-                                               th:field="*{director}" name="director" required/>
-                                    </div>
-                                    <div class="col-12  col-lg-6">
-                                        <input type="text" class="form__input" placeholder="Diễn viên" title="Diễn viên"
-                                               th:field="*{actor}" name="actor" required/>
-                                    </div>
-                                    <div class="col-12  col-lg-6">
-                                        <input type="text" class="form__input" placeholder="Phụ đề" title="Phụ đề"
-                                               th:field="*{subtitle}" name="subtitle" required/>
-                                    </div>
-                                    <div class="col-12  col-lg-6">
-                                        <input type="text" class="form__input" placeholder="Chất luợng phim"
-                                               title="Chất luợng phim"
-                                               th:field="*{quanlity}" name="quanlity" required/>
+                                <div class="col-12 col-md-7 form__content">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <input type="text" class="form__input" placeholder="Tên phim" id="name"
+                                                   name="name" required/>
+                                        </div>
+                                        <div class="col-12">
+                                    <textarea  name="description" id="description"
+                                               class="form__textarea" placeholder="Mô tả" required></textarea>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-lg-3">
+                                            <input type="datetime-local" class="form__input" placeholder="Ngày phát hành"
+                                                   title="Ngày phát hành" id="openingday" name="openingday"
+                                                   required/>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-lg-3">
+                                            <input type="number" class="form__input" placeholder="Thời lượng (phút)"
+                                                   title="Thời lượng (phút)" id="duration" name="duration"
+                                                   required/>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-lg-3">
+                                            <select class="js-example-basic-single" id="country"
+                                                    name="countryId" required>
+                                                <option value=""></option>
+                                            </select>
+                                            <div class="text-danger" id="countryError"></div>
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-lg-3">
+                                            <input class="form__input" placeholder="Giới hạn độ tuổi" type="text" name="limit_age"
+                                                   id="limit_age" required/>
+                                        </div>
+                                        <div class="col-12 col-lg-6">
+                                            <select class="js-example-basic-multiple form-control" id="category" name="categoryIds"
+                                                    multiple="multiple" required>
+                                                <!-- Options sẽ được thêm động -->
+                                            </select>
+                                        </div>
+                                        <div class="col-12  col-lg-6">
+                                            <input type="text" class="form__input" placeholder="Trailer" title="Trailer"
+                                                   id="trailer" name="trailer" required/>
+                                        </div>
+                                        <div class="col-12  col-lg-6">
+                                            <input type="text" class="form__input" placeholder="Đạo diễn" title="Đạo diễn"
+                                                   id="director" name="director" required/>
+                                        </div>
+                                        <div class="col-12  col-lg-6">
+                                            <input type="text" class="form__input" placeholder="Diễn viên" title="Diễn viên"
+                                                   id="actor" name="actor" required/>
+                                        </div>
+                                        <div class="col-12  col-lg-6">
+                                            <input type="text" class="form__input" placeholder="Phụ đề" title="Phụ đề"
+                                                   id="subtitle" name="subtitle" required/>
+                                        </div>
+                                        <div class="col-12  col-lg-6">
+                                            <input type="text" class="form__input" placeholder="Chất luợng phim"
+                                                   title="Chất luợng phim"
+                                                   id="quanlity" name="quanlity" required/>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="col-12">
+                                    <button type="submit" class="form__btn">Thực hiện</button>
+                                </div>
                             </div>
-                            <div class="col-12">
-                                <button type="submit" class="form__btn">Thực hiện</button>
-                            </div>
-                        </div>
+
                     </form>
+                    <!--end form-->
                 </div>
                 <!-- end form -->
+
+
             </div>
         </div>
     </main>
 </section>
+
 </body>
 </html>

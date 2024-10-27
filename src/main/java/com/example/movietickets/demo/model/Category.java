@@ -1,15 +1,21 @@
 package com.example.movietickets.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @Data
 @Entity
+@Getter
+@Setter
+@RequiredArgsConstructor
+@AllArgsConstructor
 @Table(name = "category")
 public class Category {
     @Id
@@ -23,13 +29,12 @@ public class Category {
     private String name;
 
     @ManyToMany(mappedBy = "categories")
-    private List<Film> filmList;
+    @JsonManagedReference
+    private List<Film> films = new ArrayList<>();
 
     @Override
     public String toString() {
         return "Category{id=" + id + ", name='" + name + "'}";
     }
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Film> films;
 }

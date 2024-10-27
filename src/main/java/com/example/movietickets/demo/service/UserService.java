@@ -1,7 +1,6 @@
 package com.example.movietickets.demo.service;
 
-import com.example.movietickets.demo.Provider;
-import com.example.movietickets.demo.Role;
+import com.example.movietickets.demo.Enum.Role;
 import com.example.movietickets.demo.model.User;
 import com.example.movietickets.demo.repository.IRoleRepository;
 import com.example.movietickets.demo.repository.IUserRepository;
@@ -9,7 +8,6 @@ import com.example.movietickets.demo.repository.UserRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

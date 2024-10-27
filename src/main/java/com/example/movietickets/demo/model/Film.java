@@ -1,14 +1,10 @@
-
 package com.example.movietickets.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.text.DateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -16,10 +12,12 @@ import java.util.List;
 
 @Data
 @Entity
+@Getter
+@Setter
+@RequiredArgsConstructor
+@AllArgsConstructor
 @Table(name = "Film")
 public class Film {
-    // @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval =
-    // true)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "FILM_ID")
@@ -29,10 +27,10 @@ public class Film {
     private String name;
 
     @Column(name = "TRAILER")
-    private String trailer; // Changed to String based on assumption
+    private String trailer;
 
-    @Column(name = "DESCRIPTION")
-    private String description; // Changed to String based on assumption
+    @Column(name = "DESCRIPTION", length = 10000)
+    private String description;
 
     @Column(name = "POSTER")
     private String poster;
@@ -60,31 +58,33 @@ public class Film {
     private String quanlity;
 
     @ManyToOne
-    @JoinColumn(name = "COUNTRY_ID")
+    @JoinColumn(name = "country_id")
     private Country country;
 
-    @ManyToOne
-    @JoinColumn(name = "CATEGORY_ID")
-    private Category category;
-
     @ManyToMany
-    @JoinTable(name = "Film_Category", joinColumns = @JoinColumn(name = "FILM_ID"), inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID"))
-    private List<Category> categories;
+    @JoinTable(
+            name = "Film_Category",
+            joinColumns = @JoinColumn(name = "FILM_ID"),
+            inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID")
+    )
+    @JsonBackReference
+    private List<Category> categories = new ArrayList<>();
 
     @Transient
-    private List<Long> categoryIds = new ArrayList<>(); // Khởi tạo danh sách rỗng
+    private List<Long> categoryIds = new ArrayList<>();
 
     @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Rating> ratings;
 
     @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private List<Schedule> schedules;
 
     public List<String> getActorList() {
         if (actor == null || actor.isEmpty()) {
             return new ArrayList<>();
         }
-        return Arrays.asList(actor.split("\\s*,\\s*")); // loại bỏ khoảng trắng thua và tách theo dấu phẩy
+        return Arrays.asList(actor.split("\\s*,\\s*"));
     }
 
     @Override

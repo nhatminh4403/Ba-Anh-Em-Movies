@@ -72,9 +72,9 @@ public class AdminFilmController {
             }
         }
         // Chuyển đổi danh sách các ID thành danh sách các đối tượng Category
-        List<Category> categories = categoryService.findAllById(film.getCategoryIds());
-        film.setCategories(categories);
-
+        List<Category> categories = film.getCategories();
+        List<Category> attachedCategories = categoryService.getCategoriesByIds(categories);
+        film.setCategories(attachedCategories);
         filmService.addFilm(film);
         return "redirect:/admin/films";
     }
@@ -105,6 +105,8 @@ public class AdminFilmController {
         if (categoryIds == null) {
             categoryIds = new ArrayList<>();
         }
+//        List<Category> categories = film.getCategories();
+//        List<Category> attachedCategories = categoryService.getCategoriesByIds(categories);
         film.setCategoryIds(categoryIds);
         model.addAttribute("film", film);
         model.addAttribute("title", "Chỉnh sửa Phim #" + film.getId());

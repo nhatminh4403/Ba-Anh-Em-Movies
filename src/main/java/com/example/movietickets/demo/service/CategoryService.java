@@ -54,4 +54,9 @@ public class CategoryService {
         }
         categoryRepository.deleteById(id);
     }
+
+    public List<Category> getCategoriesByIds(List<Category> categories) {
+        List<Long> ids = categories.stream().map(Category::getId).toList();
+        return categoryRepository.findAllById(ids);
+    }
 }

@@ -56,7 +56,7 @@ public class AdminCategoryController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category Id:" + id));
         model.addAttribute("category", category);
         model.addAttribute("title", "Chỉnh sửa Thể loại #" + category.getId());
-        return "/admin/category/category-add";
+        return "/admin/category/category-edit";
     }
 
     // POST request to update category
@@ -64,7 +64,7 @@ public class AdminCategoryController {
     public String updateCategory(@PathVariable("id") Long id, @Valid Category category, BindingResult result, Model model) {
         if (result.hasErrors()) {
             category.setId(id);
-            return "/admin/category/category-add";
+            return "/admin/category/category-edit";
         }
 
         categoryService.updateCategory(category);
