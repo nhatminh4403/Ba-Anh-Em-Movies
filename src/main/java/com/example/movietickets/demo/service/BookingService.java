@@ -2,6 +2,10 @@ package com.example.movietickets.demo.service;
 
 import com.example.movietickets.demo.model.*;
 import com.example.movietickets.demo.repository.*;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,9 +17,9 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +29,7 @@ import java.util.Optional;
 public class BookingService {
 
     @Autowired
-    private BookingRepository bookingRepository;
+    private final BookingRepository bookingRepository;
 
     @Autowired
     private BookingDetailRepository bookingDetailRepository;
@@ -96,12 +100,16 @@ public class BookingService {
     }
 
 
-//    public List<Booking> getBookingsByCurrentUser() {
+    //    public List<Booking> getBookingsByCurrentUser() {
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        String username = authentication.getName();
 //        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy User"));
 //        return bookingRepository.findByUser(user);
 //    }
+    public Booking getBookingById(Long id) {
+        return bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
+    }
 
     public Booking saveBookingWithCombo(Long userId, Long comboFoodId, Booking booking) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found"));

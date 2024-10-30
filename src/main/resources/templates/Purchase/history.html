@@ -56,23 +56,8 @@
     <section class="movie-section padding-top padding-bottom">
         <div class="container">
             <div class="row flex-wrap-reverse justify-content-center">
-                <div class="col-sm-10 col-md-8 col-lg-3">
-                    <div class="widget-1 widget-banner">
-                        <div class="widget-1-body">
-                            <a href="#0">
-                                <img src="/assets/img/sidebar/banner/banner00.jpg" alt="banner">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="widget-1 widget-banner">
-                        <div class="widget-1-body">
-                            <a href="#0">
-                                <img src="/assets/img/sidebar/banner/banner01.jpg" alt="banner">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-9 mb-50 mb-lg-0">
+
+                <div class="col-lg-12 mb-50 mb-lg-0">
                     <!--list film-->
                     <div class="movie-area mb-10"  th:each="booking : ${bookings}">
                         <div class="movie-list">
@@ -113,10 +98,9 @@
                                     </div>
                                     <div>
                                         <div class="thumb">
-                                            <img   class="comboFood"
-                                                   src="/assets/img/logo/frame.png"
-                                                   alt="icons"
-                                            />
+                                            <img class="comboFood"
+                                                 th:attr="data-booking-id=${booking.id}"
+                                                 alt="QR Code" />
                                         </div>
                                     </div>
                                 </div>
@@ -225,5 +209,7 @@
         </div>
     </section>
 </section>
+
+<script th:src="@{/assets/user/js/qrcode.js}"></script>
 </body>
 </html>

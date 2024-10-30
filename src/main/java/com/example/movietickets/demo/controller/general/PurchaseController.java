@@ -52,6 +52,7 @@ public class PurchaseController {
     @Autowired
     private CategoryService categoryService;
 
+
     @GetMapping
     public String showPurchase(Model model, @RequestParam(required = false) Long scheduleId) {
         if (purchaseService.IsExist()) {
@@ -121,6 +122,7 @@ public class PurchaseController {
         List<Category> categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
         model.addAttribute("bookings", bookings);
+
         return "/purchase/history";
     }
 
@@ -129,7 +131,8 @@ public class PurchaseController {
             @RequestParam("payment") String payment,
             @RequestParam String comboId, //nhận String từ form purrchase
             @RequestParam Long scheduleId,
-            RedirectAttributes redirectAttributes
+            RedirectAttributes redirectAttributes,
+            Model model
     ) {
         if (purchaseService.IsExist()) {
             Purchase purchase = purchaseService.Get();
@@ -137,7 +140,6 @@ public class PurchaseController {
             for (Purchase.Seat2 seat : purchase.getSeatsList()) {
                 seatSymbols.add(seat.getSymbol());
             }
-
 
 
             Room room = roomRepository.findByName(purchase.getRoomName());
@@ -186,6 +188,15 @@ public class PurchaseController {
             booking.setUser(user);
 
             bookingService.saveBooking(booking, seats, schedule);
+
+//            try {
+//                String qrContent = "Booking ID: " + booking.getId() + ", Film: " + booking.getFilmName() +
+//                        ", Start Time: " + booking.getStartTime();
+//                byte[] qrCodeImage = qrCodeService.generateQRCode(qrContent, 200, 200);
+//                model.addAttribute("qrCodeImage", qrCodeImage);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
 
             redirectAttributes.addFlashAttribute("message", "Đặt vé thành công!");
         } else {
