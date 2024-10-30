@@ -1,4 +1,4 @@
-package com.example.movietickets.demo.controller;
+package com.example.movietickets.demo.controller.general;
 
 
 import com.example.movietickets.demo.model.*;
@@ -17,7 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor

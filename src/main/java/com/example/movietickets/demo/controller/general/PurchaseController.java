@@ -1,4 +1,4 @@
-package com.example.movietickets.demo.controller;
+package com.example.movietickets.demo.controller.general;
 
 import com.example.movietickets.demo.model.*;
 import com.example.movietickets.demo.repository.RoomRepository;
@@ -8,7 +8,6 @@ import com.example.movietickets.demo.service.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;

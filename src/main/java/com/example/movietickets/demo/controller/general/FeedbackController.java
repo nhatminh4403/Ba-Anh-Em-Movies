@@ -1,4 +1,4 @@
-package com.example.movietickets.demo.controller;
+package com.example.movietickets.demo.controller.general;
 
 import com.example.movietickets.demo.model.Category;
 import com.example.movietickets.demo.model.Feedback;

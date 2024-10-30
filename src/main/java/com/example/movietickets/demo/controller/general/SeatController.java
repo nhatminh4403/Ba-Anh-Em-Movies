@@ -1,8 +1,7 @@
-package com.example.movietickets.demo.controller;
+package com.example.movietickets.demo.controller.general;
 
 import com.example.movietickets.demo.model.*;
 import com.example.movietickets.demo.repository.BookingDetailRepository;
-import com.example.movietickets.demo.repository.BookingRepository;
 import com.example.movietickets.demo.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

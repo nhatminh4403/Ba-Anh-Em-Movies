@@ -24,7 +24,7 @@ public class Purchase {
 
     @AllArgsConstructor
     @Data
-    public class Seat2 {
+    public static class Seat2 {
         private int id;
         private String symbol;
         private int price;

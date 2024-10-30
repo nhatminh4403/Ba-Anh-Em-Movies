@@ -1,4 +1,4 @@
-package com.example.movietickets.demo.controller;
+package com.example.movietickets.demo.controller.general;
 
 
 import com.example.movietickets.demo.model.Category;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor

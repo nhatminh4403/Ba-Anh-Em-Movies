@@ -1,11 +1,9 @@
-package com.example.movietickets.demo.controller;
+package com.example.movietickets.demo.controller.general;
 
 import com.example.movietickets.demo.model.*;
 import com.example.movietickets.demo.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
