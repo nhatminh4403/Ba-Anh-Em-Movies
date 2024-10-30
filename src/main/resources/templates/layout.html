@@ -56,13 +56,15 @@
     .mt-50 {
       margin-top: 50px;
     }
+
+
   </style>
 </head>
 
 <body>
   <!-- ==========Overlay========== -->
   <div class="overlay"></div>
-  <a href="#0" class="scrollToTop">
+  <a href="#0" class="scrollToTop ">
     <i class="fas fa-angle-up"></i>
   </a>
   <!-- ==========Overlay========== -->
@@ -272,6 +274,7 @@
                 <span class="text-phone">093.1034.852(a Phát)</span>
               </a>
             </div>
+
           </div>
         </div>
         <!-- end phone -->
@@ -324,6 +327,13 @@
   <script type="text/javascript" th:src="@{https://cdn.jsdelivr.net/npm/toastify-js}"></script>
   <script th:src="@{/assets/js/app.js}"></script>
   <script th:src="@{/assets/js/main.js}"></script>
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+  <df-messenger
+          intent="WELCOME"
+          chat-title="chatbotDACN"
+          agent-id="72bf1791-f07f-4c60-98d4-c51b458e64d7"
+          language-code="en"
+  ></df-messenger>
 </body>
 
 </html>
