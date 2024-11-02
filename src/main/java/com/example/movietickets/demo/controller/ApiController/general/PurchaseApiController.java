@@ -34,6 +34,7 @@ public class PurchaseApiController {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         Map<EncodeHintType, Object> hints = new HashMap<>();
         hints.put(EncodeHintType.MARGIN, 1); // loại bỏ margin
+
         hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H); // cải thiện độ chính xác mã QR
 
         BitMatrix bitMatrix = qrCodeWriter.encode(qrData, BarcodeFormat.QR_CODE, 200, 200, hints);
