@@ -37,5 +37,4 @@ public class AdminBookingController {
         model.addAttribute("title", "Danh sách đặt vé");
         return "/admin/booking/booking-list";
     }
-
 }

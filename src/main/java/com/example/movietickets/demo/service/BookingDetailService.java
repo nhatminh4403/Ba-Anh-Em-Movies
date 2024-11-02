@@ -1,5 +1,6 @@
 package com.example.movietickets.demo.service;
 
+import com.example.movietickets.demo.model.Booking;
 import com.example.movietickets.demo.model.BookingDetail;
 import com.example.movietickets.demo.model.Seat;
 import com.example.movietickets.demo.repository.BookingDetailRepository;
@@ -18,6 +19,9 @@ public class BookingDetailService {
         return bookingDetailRepository.findByScheduleId(scheduleId);
     }
 
+    public List<Booking> getBookingDetailsByBookingId(Long bookingId) {
+        return bookingDetailRepository.findByBookingId(bookingId);
+    }
     //List seats booked theo schedule tránh trùng lắp
     public List<Long> getBookedSeatIdsForSchedule(Long scheduleId) {
         return bookingDetailRepository.findByScheduleId(scheduleId)

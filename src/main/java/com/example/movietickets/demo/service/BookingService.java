@@ -123,6 +123,7 @@ public class BookingService {
     }
 
 
+
     @Transactional
     public void saveBooking(Booking booking, List<Seat> seats, Schedule schedule) {
         bookingRepository.save(booking);

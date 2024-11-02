@@ -334,5 +334,46 @@
         <script th:src="@{/assets/admin/js/adminCategoryAPI.js}"> </script>
         <script th:src="@{/assets/admin/js/adminAddFilmApi.js}"></script>
         <script th:src="@{/assets/admin/js/adminCategoryApiEdit.js}"> </script>
+<!--        <script th:src="@{/assets/admin/js/print.js}"> </script>-->
+<!--        <script>-->
+<!--            async function downloadPdf(event) {-->
+<!--                event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ a-->
+
+<!--                // Lấy ID booking từ thuộc tính data-->
+<!--                const bookingId = event.currentTarget.getAttribute('data-booking-id');-->
+
+<!--                // Tạo URL cho yêu cầu tải xuống PDF-->
+<!--                const url = `/api/admin/ticket/generate-pdfs/${bookingId}`;-->
+
+<!--                // Mở URL trong tab mới để tải xuống PDF-->
+<!--                window.open(url, '_blank');-->
+<!--            }-->
+<!--        </script>-->
+
+        <script>
+            document.querySelectorAll('.main__table-btn--edit').forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault(); // Prevent default link behavior
+                    const bookingId = this.getAttribute('data-booking-id'); // Get the booking ID from the button
+
+                    fetch(`/api/admin/ticket/generate-pdfs/${bookingId}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json(); // Parse the JSON response
+                        })
+                        .then(urls => {
+                            if (!Array.isArray(urls)) {
+                                throw new Error('Response is not an array');
+                            }
+                            urls.forEach(url => {
+                                window.open(url, '_blank'); // Open each URL in a new tab
+                            });
+                        })
+                        .catch(error => console.error('Error:', error)); // Log errors to the console
+                });
+            });
+        </script>
     </body>
 </html>

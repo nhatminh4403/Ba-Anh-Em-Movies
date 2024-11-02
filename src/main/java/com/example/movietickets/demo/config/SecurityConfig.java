@@ -62,7 +62,7 @@ public class SecurityConfig {
                                 "/feedback", "/blog", "/blog/blog-details", "/about","/films/by-category/**",
                                 "/blog/blog-details/{id}/comment")
                         .permitAll() // Cho phép truy cập không cần xác thực.
-                        .requestMatchers("admin/movie/edit/**", "/admin/movie/add",
+                        .requestMatchers("admin/movie/edit/**", "/admin/movie/add","/admin/bookings/detail/**",
                                 "/admin/films", "/admin/films/edit", "/admin/films/add",
                                 "/admin/countries", "/admin/countries/add",
                                 "/admin/countries/edit",
