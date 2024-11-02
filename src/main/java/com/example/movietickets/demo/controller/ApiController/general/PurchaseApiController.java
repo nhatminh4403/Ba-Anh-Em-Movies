@@ -32,6 +32,7 @@ public class PurchaseApiController {
         // Sử dụng ID của booking để tạo mã QR
         String qrData = "Booking ID: " + booking.getId();
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
+
         Map<EncodeHintType, Object> hints = new HashMap<>();
 
         hints.put(EncodeHintType.MARGIN, 1); // loại bỏ margin
