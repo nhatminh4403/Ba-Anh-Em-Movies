@@ -1,8 +1,10 @@
 package com.example.movietickets.demo.service.APIService;
 
+import com.example.movietickets.demo.model.Booking;
 import com.example.movietickets.demo.model.Category;
 import com.example.movietickets.demo.model.Country;
 import com.example.movietickets.demo.model.Film;
+import com.example.movietickets.demo.repository.BookingRepository;
 import com.example.movietickets.demo.repository.CategoryRepository;
 import com.example.movietickets.demo.repository.CountryRepository;
 import com.example.movietickets.demo.repository.FilmRepository;
@@ -24,6 +26,9 @@ public class AdminApiService {
 
     @Autowired
     private CountryRepository countryRepository;
+
+    @Autowired
+    private BookingRepository bookingRepository;
 
     public List<Category> getAllCategory() {
         return  categoryRepository.findAll();
@@ -89,4 +94,14 @@ public class AdminApiService {
 
     }
 
+//    Booking
+
+    @Transactional
+    public Optional<Booking> getBookingId(Long id) {
+        return bookingRepository.findById(id);
+    }
+    @Transactional
+    public Booking getBookingById(Long id){
+        return bookingRepository.findById(id).get();
+    }
 }

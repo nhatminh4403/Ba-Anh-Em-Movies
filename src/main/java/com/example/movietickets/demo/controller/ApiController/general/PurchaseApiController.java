@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -29,18 +32,36 @@ public class PurchaseApiController {
     public ResponseEntity<BufferedImage> generateQRCodeForBooking(@PathVariable("id") Long id) throws Exception {
         Booking booking = bookingService.getBookingById(id);
 
-        // Sử dụng ID của booking để tạo mã QR
-        String qrData = "Booking ID: " + booking.getId();
+        Long qrData = booking.getId();
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
 
         Map<EncodeHintType, Object> hints = new HashMap<>();
+        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H); // Higher error correction
+        hints.put(EncodeHintType.MARGIN, 2); // Slightly larger margin for better scanning
+        hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
 
-        hints.put(EncodeHintType.MARGIN, 1); // loại bỏ margin
+        // Make the QR code larger
+        int width = 300;  // Increased size
+        int height = 300; // Increased size
 
-        hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H); // cải thiện độ chính xác mã QR
+        BitMatrix bitMatrix = qrCodeWriter.encode(
+                String.format("BOOKING-%d", qrData), // Add a prefix to ensure consistent format
+                BarcodeFormat.QR_CODE,
+                width,
+                height,
+                hints
+        );
 
-        BitMatrix bitMatrix = qrCodeWriter.encode(qrData, BarcodeFormat.QR_CODE, 200, 200, hints);
+        BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
 
-        return new ResponseEntity<>(MatrixToImageWriter.toBufferedImage(bitMatrix), HttpStatus.OK);
+        // Optionally enhance the contrast
+        BufferedImage enhancedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                enhancedImage.setRGB(x, y, bitMatrix.get(x, y) ? 0xFF000000 : 0xFFFFFFFF);
+            }
+        }
+
+        return new ResponseEntity<>(enhancedImage, HttpStatus.OK);
     }
 }

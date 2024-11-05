@@ -5,20 +5,19 @@ import com.example.movietickets.demo.model.Booking;
 import com.example.movietickets.demo.service.APIService.TicketPrintingService;
 import com.example.movietickets.demo.service.BookingDetailService;
 import com.example.movietickets.demo.service.BookingService;
-import com.google.zxing.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController

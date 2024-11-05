@@ -1,9 +1,9 @@
 package com.example.movietickets.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -50,6 +50,7 @@ public class Booking {
     private boolean status;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "USER_ID")
     private User user;
 
@@ -57,6 +58,7 @@ public class Booking {
     @JoinColumn(name = "COMBO_ID")
     private ComboFood comboFood;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookingDetail> bookingDetails;
 }

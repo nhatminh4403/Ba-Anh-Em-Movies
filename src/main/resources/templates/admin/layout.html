@@ -1,395 +1,560 @@
 <!DOCTYPE html>
-<html
-    lang="vi"
-    xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
->
-    <head>
-        <meta charset="utf-8" />
-        <meta
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8"/>
+    <meta
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
+    />
 
-        <!-- CSS -->
-        <link
-            rel="stylesheet"
+    <!-- CSS -->
+    <link rel="stylesheet"
             th:href="@{/assets/admin/css/bootstrap-reboot.min.css}"
-        />
-        <link
+    />
+    <link
             rel="stylesheet"
             th:href="@{/assets/admin/css/bootstrap-grid.min.css}"
-        />
-        <link
+    />
+    <link
             rel="stylesheet"
             th:href="@{/assets/admin/css/magnific-popup.css}"
-        />
-        <link
+    />
+    <link
             rel="stylesheet"
             th:href="@{/assets/admin/css/jquery.mCustomScrollbar.min.css}"
-        />
-        <link rel="stylesheet" th:href="@{/assets/admin/css/select2.min.css}" />
-        <link rel="stylesheet" th:href="@{/assets/admin/css/admin.css}" />
+    />
+    <link rel="stylesheet" th:href="@{/assets/admin/css/select2.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/admin/css/admin.css}"/>
 
-        <!-- Favicons -->
-        <<<<<<< HEAD
-        <link
+    <!-- Favicons -->
+    <<<<<<< HEAD
+    <link
             rel="icon"
             type="image/png"
             th:href="@{/assets/admin/icon/cake2.png}"
             sizes="32x32"
-        />
-        <link
+    />
+    <link
             rel="apple-touch-icon"
             th:href="@{/assets/admin/icon/cake2.png}"
-        />
-        =======
-        <link
+    />
+    =======
+    <link
             rel="icon"
             type="image/png"
             th:href="@{/assets/img/logo/favicon.png}"
             sizes="32x32"
-        />
-        <link
+    />
+    <link
             rel="apple-touch-icon"
             th:href="@{/assets/admin/icon/favicon-32x32.png}"
-        />
-        >>>>>>> Việt
+    />
 
-        <meta name="description" content="" />
-        <meta name="keywords" content="" />
-        <title>Trang quản trị Admin</title>
-    </head>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <title>Trang quản trị Admin</title>
+</head>
 
-    <body>
-        <!-- header -->
-        <header class="header">
-            <div class="header__content">
-                <!-- header logo -->
-                <a th:href="@{/admin}" class="header__logo">
-                    <img th:src="@{/assets/img/logo/logo1.png}" alt="" />
-                </a>
-                <!-- end header logo -->
+<body>
+<!-- header -->
+<header class="header">
+    <div class="header__content">
+        <!-- header logo -->
+        <a th:href="@{/admin}" class="header__logo">
+            <img th:src="@{/assets/img/logo/logo1.png}" alt=""/>
+        </a>
+        <!-- end header logo -->
 
-                <!-- header menu btn -->
-                <button class="header__btn" type="button">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                <!-- end header menu btn -->
-            </div>
-        </header>
-        <!-- end header -->
+        <!-- header menu btn -->
+        <button class="header__btn" type="button">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <!-- end header menu btn -->
+    </div>
+</header>
+<!-- end header -->
 
-        <!-- sidebar -->
-        <div class="sidebar">
-            <!-- sidebar logo -->
-            <a th:href="@{/admin}" class="sidebar__logo">
-                <img th:src="@{/assets/img/logo/logo1.png}" alt="" />
-            </a>
-            <!-- end sidebar logo -->
+<!-- sidebar -->
+<div class="sidebar">
+    <!-- sidebar logo -->
+    <a th:href="@{/admin}" class="sidebar__logo">
+        <img th:src="@{/assets/img/logo/logo1.png}" alt=""/>
+    </a>
+    <!-- end sidebar logo -->
 
-            <!-- sidebar user -->
-            <div class="sidebar__user">
-                <div class="sidebar__user-img">
-                    <img th:src="@{/assets/admin/img/user.svg}" alt="" />
-                </div>
-
-                <div class="sidebar__user-title">
-                    <span>Administrator</span>
-                    <p>Admin</p>
-                </div>
-
-                <form
-                    th:action="@{/logout}"
-                    method="post"
-                    class="sidebar__user-btn"
-                    title="Đăng xuất"
-                >
-                    <button type="submit">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                d="M4,12a1,1,0,0,0,1,1h7.59l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l4-4a1,1,0,0,0,.21-.33,1,1,0,0,0,0-.76,1,1,0,0,0-.21-.33l-4-4a1,1,0,1,0-1.42,1.42L12.59,11H5A1,1,0,0,0,4,12ZM17,2H7A3,3,0,0,0,4,5V8A1,1,0,0,0,6,8V5A1,1,0,0,1,7,4H17a1,1,0,0,1,1,1V19a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V16a1,1,0,0,0-2,0v3a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V5A3,3,0,0,0,17,2Z"
-                            ></path>
-                        </svg>
-                    </button>
-                </form>
-            </div>
-            <!-- end sidebar user -->
-
-            <!-- sidebar nav -->
-            <ul class="sidebar__nav">
-                <li class="sidebar__nav-item">
-                    <a th:href="@{/admin}" class="sidebar__nav-link">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
-                            />
-                        </svg>
-                        Trang chủ</a
-                    >
-                </li>
-                <li class="sidebar__nav-item">
-                    <a th:href="@{/admin/countries}" class="sidebar__nav-link">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
-                            />
-                        </svg>
-                        Quốc gia</a
-                    >
-                </li>
-                <li class="sidebar__nav-item">
-                    <a th:href="@{/admin/categories}" class="sidebar__nav-link">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
-                            />
-                        </svg>
-                        Thể loại</a
-                    >
-                </li>
-                <li class="sidebar__nav-item">
-                    <a th:href="@{/admin/cinemas}" class="sidebar__nav-link">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
-                            />
-                        </svg>
-                        Rạp</a
-                    >
-                </li>
-                <li class="sidebar__nav-item">
-                    <a th:href="@{/admin/rooms}" class="sidebar__nav-link">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
-                            />
-                        </svg>
-                        Phòng</a
-                    >
-                </li>
-                <li class="sidebar__nav-item">
-                    <a th:href="@{/admin/films}" class="sidebar__nav-link">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                d="M20.61,19.19A7,7,0,0,0,17.87,8.62,8,8,0,1,0,3.68,14.91L2.29,16.29a1,1,0,0,0-.21,1.09A1,1,0,0,0,3,18H8.69A7,7,0,0,0,15,22h6a1,1,0,0,0,.92-.62,1,1,0,0,0-.21-1.09ZM8,15a6.63,6.63,0,0,0,.08,1H5.41l.35-.34a1,1,0,0,0,0-1.42A5.93,5.93,0,0,1,4,10a6,6,0,0,1,6-6,5.94,5.94,0,0,1,5.65,4c-.22,0-.43,0-.65,0A7,7,0,0,0,8,15ZM18.54,20l.05.05H15a5,5,0,1,1,3.54-1.46,1,1,0,0,0-.3.7A1,1,0,0,0,18.54,20Z"
-                            />
-                        </svg>
-                        Phim</a
-                    >
-                </li>
-                <li class="sidebar__nav-item">
-                    <a th:href="@{/admin/schedules}" class="sidebar__nav-link">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            enable-background="new 0 0 24 24"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
-                            />
-                        </svg>
-                        Lịch chiếu</a
-                    >
-                </li>
-                <li class="sidebar__nav-item">
-                    <a th:href="@{/admin/seats}" class="sidebar__nav-link">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            enable-background="new 0 0 24 24"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
-                            />
-                        </svg>
-                        Ghế</a
-                    >
-                </li>
-                <li class="sidebar__nav-item">
-                    <a th:href="@{/admin/seattypes}" class="sidebar__nav-link">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            enable-background="new 0 0 24 24"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
-                            />
-                        </svg>
-                        Loại ghế</a
-                    >
-                </li>
-                <li class="sidebar__nav-item">
-                    <a th:href="@{/admin/comboFoods}" class="sidebar__nav-link">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            enable-background="new 0 0 24 24"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
-                            />
-                        </svg>
-                        Thức ăn nhanh</a
-                    >
-                </li>
-                <li class="sidebar__nav-item">
-                    <a th:href="@{/admin/blogs}" class="sidebar__nav-link">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            enable-background="new 0 0 24 24"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
-                            />
-                        </svg>
-                        Blog</a
-                    >
-                </li>
-                <li class="sidebar__nav-item">
-                    <a th:href="@{/admin/users}" class="sidebar__nav-link">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            enable-background="new 0 0 24 24"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                d="M12,2A10,10,0,0,0,4.65,18.76h0a10,10,0,0,0,14.7,0h0A10,10,0,0,0,12,2Zm0,18a8,8,0,0,1-5.55-2.25,6,6,0,0,1,11.1,0A8,8,0,0,1,12,20ZM10,10a2,2,0,1,1,2,2A2,2,0,0,1,10,10Zm8.91,6A8,8,0,0,0,15,12.62a4,4,0,1,0-6,0A8,8,0,0,0,5.09,16,7.92,7.92,0,0,1,4,12a8,8,0,0,1,16,0A7.92,7.92,0,0,1,18.91,16Z"
-                            />
-                        </svg>
-                        Người dùng</a
-                    >
-                </li>
-                <li class="sidebar__nav-item">
-                    <a th:href="@{/admin/bookings}" class="sidebar__nav-link">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            enable-background="new 0 0 24 24"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
-                            />
-                        </svg>
-                        Đơn hàng</a
-                    >
-                </li>
-            </ul>
-            <!-- end sidebar nav -->
-
-            <!-- sidebar copyright -->
-            <div class="sidebar__copyright">© 3AnhEm, 2024.</div>
-            <!-- end sidebar copyright -->
+    <!-- sidebar user -->
+    <div class="sidebar__user">
+        <div class="sidebar__user-img">
+            <img th:src="@{/assets/admin/img/user.svg}" alt=""/>
         </div>
 
-        <section layout:fragment="content"></section>
+        <div class="sidebar__user-title">
+            <span>Administrator</span>
+            <p>Admin</p>
+        </div>
 
-        <script th:src="@{/assets/admin/js/jquery-3.6.0.min.js}"></script>
-        <script th:src="@{/assets/admin/js/bootstrap.bundle.min.js}"></script>
-        <script
-            th:src="@{/assets/admin/js/jquery.magnific-popup.min.js}"
-        ></script>
-        <script th:src="@{/assets/admin/js/jquery.mousewheel.min.js}"></script>
-        <script
-            th:src="@{/assets/admin/js/jquery.mCustomScrollbar.min.js}"
-        ></script>
-        <script th:src="@{/assets/admin/js/select2.min.js}"></script>
-        <script th:src="@{/assets/admin/js/admin.js}"></script>
-        <script>
-            let item_id = 0;
-            function setDeleteItem(id) {
-                item_id = id;
+        <form
+                th:action="@{/logout}"
+                method="post"
+                class="sidebar__user-btn"
+                title="Đăng xuất"
+        >
+            <button type="submit">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                >
+                    <path
+                            d="M4,12a1,1,0,0,0,1,1h7.59l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l4-4a1,1,0,0,0,.21-.33,1,1,0,0,0,0-.76,1,1,0,0,0-.21-.33l-4-4a1,1,0,1,0-1.42,1.42L12.59,11H5A1,1,0,0,0,4,12ZM17,2H7A3,3,0,0,0,4,5V8A1,1,0,0,0,6,8V5A1,1,0,0,1,7,4H17a1,1,0,0,1,1,1V19a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V16a1,1,0,0,0-2,0v3a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V5A3,3,0,0,0,17,2Z"
+                    ></path>
+                </svg>
+            </button>
+        </form>
+    </div>
+    <!-- end sidebar user -->
+
+    <!-- sidebar nav -->
+    <ul class="sidebar__nav">
+        <li class="sidebar__nav-item">
+            <a th:href="@{/admin}" class="sidebar__nav-link">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                >
+                    <path
+                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
+                    />
+                </svg>
+                Trang chủ</a
+            >
+        </li>
+        <li class="sidebar__nav-item">
+            <a th:href="@{/admin/countries}" class="sidebar__nav-link">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                >
+                    <path
+                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
+                    />
+                </svg>
+                Quốc gia</a
+            >
+        </li>
+        <li class="sidebar__nav-item">
+            <a th:href="@{/admin/categories}" class="sidebar__nav-link">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                >
+                    <path
+                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
+                    />
+                </svg>
+                Thể loại</a
+            >
+        </li>
+        <li class="sidebar__nav-item">
+            <a th:href="@{/admin/cinemas}" class="sidebar__nav-link">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                >
+                    <path
+                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
+                    />
+                </svg>
+                Rạp</a
+            >
+        </li>
+        <li class="sidebar__nav-item">
+            <a th:href="@{/admin/rooms}" class="sidebar__nav-link">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                >
+                    <path
+                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
+                    />
+                </svg>
+                Phòng</a
+            >
+        </li>
+        <li class="sidebar__nav-item">
+            <a th:href="@{/admin/films}" class="sidebar__nav-link">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                >
+                    <path
+                            d="M20.61,19.19A7,7,0,0,0,17.87,8.62,8,8,0,1,0,3.68,14.91L2.29,16.29a1,1,0,0,0-.21,1.09A1,1,0,0,0,3,18H8.69A7,7,0,0,0,15,22h6a1,1,0,0,0,.92-.62,1,1,0,0,0-.21-1.09ZM8,15a6.63,6.63,0,0,0,.08,1H5.41l.35-.34a1,1,0,0,0,0-1.42A5.93,5.93,0,0,1,4,10a6,6,0,0,1,6-6,5.94,5.94,0,0,1,5.65,4c-.22,0-.43,0-.65,0A7,7,0,0,0,8,15ZM18.54,20l.05.05H15a5,5,0,1,1,3.54-1.46,1,1,0,0,0-.3.7A1,1,0,0,0,18.54,20Z"
+                    />
+                </svg>
+                Phim</a
+            >
+        </li>
+        <li class="sidebar__nav-item">
+            <a th:href="@{/admin/schedules}" class="sidebar__nav-link">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        enable-background="new 0 0 24 24"
+                        viewBox="0 0 24 24"
+                >
+                    <path
+                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
+                    />
+                </svg>
+                Lịch chiếu</a
+            >
+        </li>
+        <li class="sidebar__nav-item">
+            <a th:href="@{/admin/seats}" class="sidebar__nav-link">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        enable-background="new 0 0 24 24"
+                        viewBox="0 0 24 24"
+                >
+                    <path
+                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
+                    />
+                </svg>
+                Ghế</a
+            >
+        </li>
+        <li class="sidebar__nav-item">
+            <a th:href="@{/admin/seattypes}" class="sidebar__nav-link">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        enable-background="new 0 0 24 24"
+                        viewBox="0 0 24 24"
+                >
+                    <path
+                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
+                    />
+                </svg>
+                Loại ghế</a
+            >
+        </li>
+        <li class="sidebar__nav-item">
+            <a th:href="@{/admin/comboFoods}" class="sidebar__nav-link">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        enable-background="new 0 0 24 24"
+                        viewBox="0 0 24 24"
+                >
+                    <path
+                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
+                    />
+                </svg>
+                Thức ăn nhanh</a
+            >
+        </li>
+        <li class="sidebar__nav-item">
+            <a th:href="@{/admin/blogs}" class="sidebar__nav-link">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        enable-background="new 0 0 24 24"
+                        viewBox="0 0 24 24"
+                >
+                    <path
+                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
+                    />
+                </svg>
+                Blog</a
+            >
+        </li>
+        <li class="sidebar__nav-item">
+            <a th:href="@{/admin/users}" class="sidebar__nav-link">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        enable-background="new 0 0 24 24"
+                        viewBox="0 0 24 24"
+                >
+                    <path
+                            d="M12,2A10,10,0,0,0,4.65,18.76h0a10,10,0,0,0,14.7,0h0A10,10,0,0,0,12,2Zm0,18a8,8,0,0,1-5.55-2.25,6,6,0,0,1,11.1,0A8,8,0,0,1,12,20ZM10,10a2,2,0,1,1,2,2A2,2,0,0,1,10,10Zm8.91,6A8,8,0,0,0,15,12.62a4,4,0,1,0-6,0A8,8,0,0,0,5.09,16,7.92,7.92,0,0,1,4,12a8,8,0,0,1,16,0A7.92,7.92,0,0,1,18.91,16Z"
+                    />
+                </svg>
+                Người dùng</a
+            >
+        </li>
+        <li class="sidebar__nav-item">
+            <a th:href="@{/admin/bookings}" class="sidebar__nav-link">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        enable-background="new 0 0 24 24"
+                        viewBox="0 0 24 24"
+                >
+                    <path
+                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"
+                    />
+                </svg>
+                Đơn hàng</a
+            >
+        </li>
+    </ul>
+    <!-- end sidebar nav -->
+
+    <!-- sidebar copyright -->
+    <div class="sidebar__copyright">© 3AnhEm, 2024.</div>
+    <!-- end sidebar copyright -->
+</div>
+
+<section layout:fragment="content"></section>
+
+<script th:src="@{/assets/admin/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/assets/admin/js/bootstrap.bundle.min.js}"></script>
+<script
+        th:src="@{/assets/admin/js/jquery.magnific-popup.min.js}"
+></script>
+<script th:src="@{/assets/admin/js/jquery.mousewheel.min.js}"></script>
+<script
+        th:src="@{/assets/admin/js/jquery.mCustomScrollbar.min.js}"
+></script>
+<script th:src="@{/assets/admin/js/select2.min.js}"></script>
+<script th:src="@{/assets/admin/js/admin.js}"></script>
+<script>
+    let item_id = 0;
+
+    function setDeleteItem(id) {
+        item_id = id;
+    }
+
+    function deleteItem(api, href) {
+        $.get(api, function (data) {
+            window.location.href = href;
+        });
+    }
+</script>
+<script th:src="@{/assets/admin/js/adminCategoryAPI.js}"></script>
+<script th:src="@{/assets/admin/js/adminAddFilmApi.js}"></script>
+<script th:src="@{/assets/admin/js/adminCategoryApiEdit.js}"></script>
+<script>
+    document.querySelectorAll('.main__table-btn--edit').forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default link behavior
+            const bookingId = this.getAttribute('data-booking-id-print'); // Get the booking ID from the button
+
+            fetch(`/api/admin/ticket/generate-pdfs/${bookingId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json(); // Parse the JSON response
+                })
+                .then(urls => {
+                    if (!Array.isArray(urls)) {
+                        throw new Error('Response is not an array');
+                    }
+
+                    // Open each PDF for viewing and trigger download separately
+                    urls.forEach((url, index) => {
+                        // Open the PDF in a new tab
+                        setTimeout(() => {
+                            const viewUrl = url.replace('/download/', '/view/');
+                            window.open(viewUrl, '_blank');
+                        }, index * 500); // Delay each tab opening by 500ms
+
+                        // Trigger download after a short delay
+                        setTimeout(() => {
+                            const downloadLink = document.createElement('a');
+                            downloadLink.href = url;
+                            downloadLink.download = ''; // Trigger download without needing to specify filename
+                            document.body.appendChild(downloadLink);
+                            downloadLink.click();
+                            document.body.removeChild(downloadLink);
+                        }, (index * 500) + 1000); // Delay download by 1 second after opening tab
+                    });
+                })
+                .catch(error => console.error('Error:', error)); // Log errors to the console
+        });
+    });
+</script>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let html5QrcodeScanner = null;
+
+        window.toggleScanner = function() {
+            const overlay = document.getElementById('scanner-overlay');
+            if (overlay.style.display === 'none' || !overlay.style.display) {
+                overlay.style.display = 'flex';
+                startScanner();
+            } else {
+                overlay.style.display = 'none';
+                if (html5QrcodeScanner) {
+                    html5QrcodeScanner.clear();
+                }
             }
-            function deleteItem(api, href) {
-                $.get(api, function (data) {
-                    window.location.href = href;
-                });
+        }
+
+        function startScanner() {
+            if (html5QrcodeScanner) {
+                html5QrcodeScanner.clear();
             }
-        </script>
-        <script th:src="@{/assets/admin/js/adminCategoryAPI.js}"> </script>
-        <script th:src="@{/assets/admin/js/adminAddFilmApi.js}"></script>
-        <script th:src="@{/assets/admin/js/adminCategoryApiEdit.js}"> </script>
-<!--        <script th:src="@{/assets/admin/js/print.js}"> </script>-->
-<!--        <script>-->
-<!--            async function downloadPdf(event) {-->
-<!--                event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ a-->
 
-<!--                // Lấy ID booking từ thuộc tính data-->
-<!--                const bookingId = event.currentTarget.getAttribute('data-booking-id');-->
+            const config = {
+                fps: 10,
+                qrbox: { width: 250, height: 250 },
+                aspectRatio: 1.0,
+                formatsToSupport: [ Html5QrcodeSupportedFormats.QR_CODE ],
+                experimentalFeatures: {
+                    useBarCodeDetectorIfSupported: true
+                },
+                rememberLastUsedCamera: true,
+                showTorchButtonIfSupported: true
+            };
 
-<!--                // Tạo URL cho yêu cầu tải xuống PDF-->
-<!--                const url = `/api/admin/ticket/generate-pdfs/${bookingId}`;-->
+            html5QrcodeScanner = new Html5QrcodeScanner("reader", config, /* verbose= */ false);
 
-<!--                // Mở URL trong tab mới để tải xuống PDF-->
-<!--                window.open(url, '_blank');-->
-<!--            }-->
-<!--        </script>-->
+            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+        }
 
-        <script>
-            document.querySelectorAll('.main__table-btn--edit').forEach(button => {
-                button.addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevent default link behavior
-                    const bookingId = this.getAttribute('data-booking-id'); // Get the booking ID from the button
+        async function onScanSuccess(decodedText, decodedResult) {
+            console.log('Scanned text:', decodedText);
+            console.log('Scanned type:', typeof decodedText);
+            try {
+                const match = decodedText.match(/BOOKING-(\d+)/);
+                if (!match) {
+                    throw new Error('Invalid QR code format');
+                }
+                const bookingId = parseInt(match[1]);
+                console.log('Scanned booking ID:', bookingId);
+                // Show loading indicator
+                const loadingDiv = document.createElement('div');
+                loadingDiv.id = 'loadingIndicator';
+                loadingDiv.innerHTML = 'Searching for booking...';
+                loadingDiv.style.position = 'fixed';
+                loadingDiv.style.top = '50%';
+                loadingDiv.style.left = '50%';
+                loadingDiv.style.transform = 'translate(-50%, -50%)';
+                loadingDiv.style.background = 'white';
+                loadingDiv.style.padding = '20px';
+                loadingDiv.style.borderRadius = '5px';
+                loadingDiv.style.zIndex = '2000';
+                document.body.appendChild(loadingDiv);
 
-                    fetch(`/api/admin/ticket/generate-pdfs/${bookingId}`)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json(); // Parse the JSON response
-                        })
-                        .then(urls => {
-                            if (!Array.isArray(urls)) {
-                                throw new Error('Response is not an array');
-                            }
+                // Fetch booking data from the API
+                const response = await fetch(`/api/admin/bookings/${bookingId}`);
 
-                            // Open each PDF for viewing and trigger download separately
-                            urls.forEach((url, index) => {
-                                // Open the PDF in a new tab
-                                setTimeout(() => {
-                                    const viewUrl = url.replace('/download/', '/view/');
-                                    window.open(viewUrl, '_blank');
-                                }, index * 500); // Delay each tab opening by 500ms
+                if (!response.ok) {
+                    throw new Error('Booking not found');
+                }
 
-                                // Trigger download after a short delay
-                                setTimeout(() => {
-                                    const downloadLink = document.createElement('a');
-                                    downloadLink.href = url;
-                                    downloadLink.download = ''; // Trigger download without needing to specify filename
-                                    document.body.appendChild(downloadLink);
-                                    downloadLink.click();
-                                    document.body.removeChild(downloadLink);
-                                }, (index * 500) + 1000); // Delay download by 1 second after opening tab
-                            });
-                        })
-                        .catch(error => console.error('Error:', error)); // Log errors to the console
+                const booking = await response.json();
+
+                // Hide all rows first
+                const rows = document.querySelectorAll('#bookingTableBody tr');
+                rows.forEach(row => {
+                    row.style.display = 'none';
                 });
+
+                // Show only the matched row
+                const matchedRow = document.querySelector(`tr[data-booking-id="${booking.id}"]`);
+                if (matchedRow) {
+                    matchedRow.style.display = 'table-row';
+                    matchedRow.style.backgroundColor = '#e8f5e9';
+                    setTimeout(() => {
+                        matchedRow.style.backgroundColor = '';
+                    }, 3000);
+                } else {
+                    // If the row doesn't exist in the current table, you might want to
+                    // either reload the page or add a new row with the booking data
+                    const tableBody = document.getElementById('bookingTableBody');
+                    const newRow = createBookingRow(booking); // You'll need to implement this
+                    tableBody.insertBefore(newRow, tableBody.firstChild);
+                    newRow.style.backgroundColor = '#e8f5e9';
+                    setTimeout(() => {
+                        newRow.style.backgroundColor = '';
+                    }, 3000);
+                }
+
+                // Add reset button if it doesn't exist
+                if (!document.getElementById('resetTable')) {
+                    const resetBtn = document.createElement('button');
+                    resetBtn.id = 'resetTable';
+                    resetBtn.className = 'btn btn-secondary ml-2';
+                    resetBtn.textContent = 'Show All Bookings';
+                    resetBtn.onclick = resetTable;
+                    document.querySelector('.main__title').appendChild(resetBtn);
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Could not find the booking. Please try again.');
+            } finally {
+                // Close scanner overlay
+                if (html5QrcodeScanner) {
+                    html5QrcodeScanner.clear();
+                }
+                document.getElementById('scanner-overlay').style.display = 'none';
+
+                // Remove loading indicator
+                const loadingDiv = document.getElementById('loadingIndicator');
+                if (loadingDiv) {
+                    loadingDiv.remove();
+                }
+            }
+        }
+
+        // Helper function to create a new table row from booking data
+        function createBookingRow(booking) {
+            const row = document.createElement('tr');
+            row.setAttribute('data-booking-id', booking.id);
+
+            // Adjust these fields according to your booking object structure
+            row.innerHTML = `
+            <td>${booking.id}</td>
+            <td>${booking.customerName}</td>
+            <td>${booking.date}</td>
+            <td>${booking.time}</td>
+            <td>${booking.status}</td>
+            <td>
+                <button class="btn btn-primary btn-sm" onclick="editBooking(${booking.id})">Edit</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteBooking(${booking.id})">Delete</button>
+            </td>
+        `;
+
+            return row;
+        }
+
+        function onScanFailure(error) {
+            console.warn(`QR scan error = ${error}`);
+        }
+
+        function resetTable() {
+            const rows = document.querySelectorAll('#bookingTableBody tr');
+            rows.forEach(row => {
+                row.style.display = 'table-row';
             });
-        </script>
-    </body>
+
+            const resetBtn = document.getElementById('resetTable');
+            if (resetBtn) {
+                resetBtn.remove();
+            }
+        }
+
+        // Close scanner when clicking outside the modal
+        document.getElementById('scanner-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                toggleScanner();
+            }
+        });
+
+        // Handle escape key to close scanner
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const overlay = document.getElementById('scanner-overlay');
+                if (overlay.style.display === 'flex') {
+                    toggleScanner();
+                }
+            }
+        });
+    });
+</script>
+</body>
 </html>
