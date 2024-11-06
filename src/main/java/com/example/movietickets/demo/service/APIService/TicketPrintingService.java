@@ -153,7 +153,6 @@ public class TicketPrintingService {
             }
             // Fill form fields
             if (acroForm != null) {
-
                 fillFormFields(acroForm, booking, detail);
             }
 
