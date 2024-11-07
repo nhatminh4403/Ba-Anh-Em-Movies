@@ -58,7 +58,7 @@ public class SecurityConfig {
                                 "/register", "/error", "/purchase", "/films",
                                 "/films/film-details/**", "/schedules/**",
                                 "/cart", "/cart/**", "blog/details",
-                                "/popcorn", "/movie/details", "/movie/seat-plan",
+                                "/popcorn", "/movie/details", "/movie/seat-plan","/films/search",
                                 "/feedback", "/blog", "/blog/blog-details", "/about","/films/by-category/**",
                                 "/blog/blog-details/{id}/comment")
                         .permitAll() // Cho phép truy cập không cần xác thực.

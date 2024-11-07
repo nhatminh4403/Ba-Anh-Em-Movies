@@ -1026,7 +1026,7 @@ input[type="submit"] {
 
 @media (min-width: 992px) {
     .padding-top {
-        padding-top: 120px;
+        padding-top: 90px;
     }
     .padding-bottom {
         padding-bottom: 120px;
@@ -1842,7 +1842,7 @@ input[type="submit"] {
 }
 
 .banner-section {
-    padding: 250px 0 100px;
+    padding: 250px 0 150px;
     position: relative;
 }
 
@@ -3855,7 +3855,7 @@ input[type="submit"] {
     border-radius: 0;
     padding: 0;
     height: 45px;
-    padding-right: 50px;
+    padding-right: 80px;
 }
 
 .ticket-search-form .form-group input::-webkit-input-placeholder {
@@ -3928,7 +3928,7 @@ input[type="submit"] {
 }
 
 .ticket-search-form .form-group.large {
-    width: 270px;
+    width: 310px;
 }
 
 @media (min-width: 992px) and (max-width: 1199px) {

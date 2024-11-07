@@ -50,7 +50,7 @@ public class FilmController {
         model.addAttribute("films", films);
         model.addAttribute("countries", countries);
         model.addAttribute("title", "Danh sách film");
-        return "/film/film-list";
+        return "Film/film-list";
     }
 
     @GetMapping("/films/film-details/{id}")
@@ -83,7 +83,7 @@ public class FilmController {
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("countries", countryService.getAllCountries());
 
-        return "film/film-detail";
+        return "Film/film-detail";
     }
 
     @GetMapping("/films/by-country")
@@ -97,7 +97,7 @@ public class FilmController {
         model.addAttribute("films", films);
         model.addAttribute("countries", countries);
         model.addAttribute("countryId", countryId);
-        return "film/films-by-country";
+        return "Film/films-by-country";
     }
 
     @GetMapping("/films/by-category/{id}")
@@ -110,8 +110,16 @@ public class FilmController {
 
         model.addAttribute("films", films);
         model.addAttribute("countries", countries);
-        return "film/films-by-category";  // Tên template view để hiển thị danh sách phim theo category
+        return "Film/films-by-category";  // Tên template view để hiển thị danh sách phim theo category
     }
-
+    @GetMapping("/films/search")
+    public String searchFilm(@RequestParam("keyword") String keyword, Model model) {
+        List<Film> filmsByName = filmService.searchFilmsByName(keyword);
+        model.addAttribute("keyword",keyword);
+        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("countries",countryService.getAllCountries());
+        model.addAttribute("filmsByName", filmsByName);
+        return "Film/film-search";
+    }
 }
 

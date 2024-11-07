@@ -22,7 +22,7 @@ public interface FilmRepository extends PagingAndSortingRepository<Film, Long>, 
     @Query("SELECT cf FROM Film cf ORDER BY cf.id DESC")
     List<Film> findAllByOrderByIdDesc();
 
-    @Query("SELECT f FROM Film f WHERE f.name LIKE %:keyword%")
+    @Query("SELECT f FROM Film f WHERE LOWER(f.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Film> searchFilmByName(@Param("keyword") String keyword);
 
     List<Film> findByCountry_Id(Long countryId);

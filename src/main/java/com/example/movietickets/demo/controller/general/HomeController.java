@@ -29,13 +29,15 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model) {
-
-        List<Category> categories = categoryService.getAllCategories();
         List<Country> countries = countryService.getAllCountries();
         List<Film> films = filmService.getAllFilms();
-        model.addAttribute("categories", categories);
         model.addAttribute("countries", countries);
         model.addAttribute("films", films);
-        return "/home/index";
+
+        // Add categories to session if they are not already there
+        if (!model.containsAttribute("categories")) {
+            model.addAttribute("categories", categoryService.getAllCategories());
+        }
+        return "Home/index";
     }
 }
