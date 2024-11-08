@@ -122,6 +122,7 @@ public class PurchaseController {
             @RequestParam("scheduleId") Long scheduleId,
             Model model
     ) {
+
         System.out.println("scheduleId in addPurchase: " + scheduleId); // Debugging
         purchaseService.addToBuy(seatSymbols, filmTitle, poster, category, totalPrice, cinemaAddress, cinemaName, startTime, roomName);
         model.addAttribute("scheduleId", scheduleId);
@@ -198,7 +199,7 @@ public class PurchaseController {
             if("paypal".equalsIgnoreCase(payment)){
                 try {
                     String cancelUrl = "http://localhost:8080/purchase/cancel";
-                    String successUrl = "http://localhost:8080/purchase/success";
+                    String successUrl = "http://localhost:8080/purchase/success?scheduleId=" + scheduleId;
 
                     Payment paypalPayment = paypalService.createPayment(totalPriceUSD.doubleValue(),
                             "USD",
@@ -278,6 +279,7 @@ public class PurchaseController {
     }
     @GetMapping("/success")
     public String success(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId,
+                          @RequestParam("scheduleId") Long scheduleId,
                           Model model,RedirectAttributes redirectAttributes) {
         try {
             Payment payment = paypalService.executePayment(paymentId, payerId);
@@ -294,10 +296,7 @@ public class PurchaseController {
                     Room room = roomRepository.findByName(purchase.getRoomName());
                     List<Seat> seats = bookingService.getSeatsFromSymbolsAndRoom(seatSymbols, room);
 
-                    Optional<Film> film = filmService.getFilmByName(purchase.getFilmTitle());
-                    Film filmByName = film.get();
-                    // Assuming scheduleId is stored or passed somehow; else you'll need to refactor to ensure it's available here
-                    Schedule schedule = scheduleService.findScheduleByFilmId(filmByName.getId());
+                    Schedule schedule = scheduleService.getScheduleById(scheduleId).orElseThrow(() -> new IllegalArgumentException("Invalid schedule Id"));
 
                     Booking booking = new Booking();
                     booking.setFilmName(purchase.getFilmTitle());
@@ -316,7 +315,7 @@ public class PurchaseController {
                     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                     User user = getUserFromAuthentication(authentication);
                     booking.setUser(user);
-
+                    System.out.println("Schedule: "+schedule.getId() +" " + schedule.getStartTime());
                     bookingService.saveBooking(booking, seats, schedule);
 
                     // Optionally clear the purchase after successful booking
