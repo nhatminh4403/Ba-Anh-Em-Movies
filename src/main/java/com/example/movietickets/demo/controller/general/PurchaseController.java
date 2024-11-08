@@ -5,9 +5,13 @@ import com.example.movietickets.demo.repository.RoomRepository;
 import com.example.movietickets.demo.repository.SeatRepository;
 import com.example.movietickets.demo.repository.UserRepository;
 import com.example.movietickets.demo.service.*;
+import com.paypal.api.payments.Links;
+import com.paypal.api.payments.Payment;
+import com.paypal.base.rest.PayPalRESTException;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
@@ -18,14 +22,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.security.core.Authentication;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/purchase")
 public class PurchaseController {
     @Autowired
@@ -50,7 +54,15 @@ public class PurchaseController {
     private ComboFoodService comboFoodService;
 
     @Autowired
+    private FilmService filmService;
+
+    @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private final PaypalService paypalService;
+    @Autowired
+    private ExchangeCurrencyService exchangeCurrencyService;
 
 
     @GetMapping
@@ -84,7 +96,7 @@ public class PurchaseController {
             model.addAttribute("seats", seats);
             model.addAttribute("scheduleId", scheduleId);
         }
-        return "/purchase/purchase";
+        return "Purchase/purchase";
     }
 
 
@@ -123,7 +135,7 @@ public class PurchaseController {
         model.addAttribute("categories", categories);
         model.addAttribute("bookings", bookings);
 
-        return "/purchase/history";
+        return "Purchase/history";
     }
 
     @PostMapping("/checkout")
@@ -133,7 +145,7 @@ public class PurchaseController {
             @RequestParam Long scheduleId,
             RedirectAttributes redirectAttributes,
             Model model
-    ) {
+    ) throws PayPalRESTException {
         if (purchaseService.IsExist()) {
             Purchase purchase = purchaseService.Get();
             List<String> seatSymbols = new ArrayList<>();
@@ -156,7 +168,6 @@ public class PurchaseController {
                 comboFoodId = Long.parseLong(comboDetails[0]);
                 comboPrice = Long.parseLong(comboDetails[1]);
             }
-
 
             Booking booking = new Booking();
             booking.setFilmName(purchase.getFilmTitle());
@@ -181,6 +192,35 @@ public class PurchaseController {
                 //return "redirect:/api/payment/create_payment?amount=" + purchase.getTotalPrice();
                 return "redirect:/api/payment/create_payment?scheduleId=" + scheduleId + "&amount="  + booking.getPrice() + "&comboId="  + comboId ;
             }
+            Long comboPricePaypal = (long) getComboPrice(comboId);
+            BigDecimal totalPriceUSD = exchangeCurrencyService.convertVNDToUSD(purchase.getTotalPrice() + comboPricePaypal);
+
+            if("paypal".equalsIgnoreCase(payment)){
+                try {
+                    String cancelUrl = "http://localhost:8080/purchase/cancel";
+                    String successUrl = "http://localhost:8080/purchase/success";
+
+                    Payment paypalPayment = paypalService.createPayment(totalPriceUSD.doubleValue(),
+                            "USD",
+                            "paypal",
+                            "sale",
+                            "Movie Ticket Purchase",
+                            cancelUrl,
+                            successUrl
+                    );
+
+                    for (Links link : paypalPayment.getLinks()) {
+                        if (link.getRel().equals("approval_url")) {
+                            return "redirect:" + link.getHref();
+                        }
+                    }
+                } catch (PayPalRESTException e) {
+                    e.printStackTrace();
+                    redirectAttributes.addFlashAttribute("message", "Payment failed!");
+                    return "redirect:/purchase/history";
+                }
+            }
+
 
             // Lấy thông tin người dùng hiện tại
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -228,4 +268,81 @@ public class PurchaseController {
             return null;
         }
     }
+
+    private double getComboPrice(String comboId) {
+        if (!"0-0".equals(comboId)) {
+            String[] comboDetails = comboId.split("-");
+            return Long.parseLong(comboDetails[1]);
+        }
+        return 0;
+    }
+    @GetMapping("/success")
+    public String success(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId,
+                          Model model,RedirectAttributes redirectAttributes) {
+        try {
+            Payment payment = paypalService.executePayment(paymentId, payerId);
+            if ("approved".equals(payment.getState())) {
+                // Save booking information and proceed
+                if (purchaseService.IsExist()) {
+                    Purchase purchase = purchaseService.Get();
+
+                    List<String> seatSymbols = new ArrayList<>();
+                    for (Purchase.Seat2 seat : purchase.getSeatsList()) {
+                        seatSymbols.add(seat.getSymbol());
+                    }
+
+                    Room room = roomRepository.findByName(purchase.getRoomName());
+                    List<Seat> seats = bookingService.getSeatsFromSymbolsAndRoom(seatSymbols, room);
+
+                    Optional<Film> film = filmService.getFilmByName(purchase.getFilmTitle());
+                    Film filmByName = film.get();
+                    // Assuming scheduleId is stored or passed somehow; else you'll need to refactor to ensure it's available here
+                    Schedule schedule = scheduleService.findScheduleByFilmId(filmByName.getId());
+
+                    Booking booking = new Booking();
+                    booking.setFilmName(purchase.getFilmTitle());
+                    booking.setPoster(purchase.getPoster());
+                    booking.setCinemaName(purchase.getCinemaName());
+                    booking.setCinemaAddress(purchase.getCinemaAddress());
+                    booking.setStartTime(parseDate(purchase.getStartTime()));
+                    booking.setSeatName(purchase.getSeats());
+                    booking.setRoomName(purchase.getRoomName());
+                    booking.setPayment("paypal");
+                    booking.setStatus(true);
+                    booking.setCreateAt(new Date());
+                    booking.setPrice(purchase.getTotalPrice());
+
+                    // Retrieve the user and set on the booking
+                    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                    User user = getUserFromAuthentication(authentication);
+                    booking.setUser(user);
+
+                    bookingService.saveBooking(booking, seats, schedule);
+
+                    // Optionally clear the purchase after successful booking
+                    purchaseService.clearPurchase();
+                    redirectAttributes.addFlashAttribute("message", "Payment and booking successful!");
+                } else {
+                    redirectAttributes.addFlashAttribute("message", "No purchase information found.");
+                }
+                model.addAttribute("message", "Payment successful!");
+                System.out.println("Payment successful!");
+                System.out.println();
+                return "redirect:/purchase/history";
+            }
+        } catch (PayPalRESTException e) {
+            e.printStackTrace();
+            model.addAttribute("message", "Payment failed!");
+        }
+        return "redirect:/purchase/history";
+    }
+
+    @GetMapping("/cancel")
+    public String cancel(Model model) {
+        model.addAttribute("message", "Payment cancelled!");
+        System.out.println("Payment failed to proceed!");
+        System.out.println();
+        return "redirect:/purchase/history";
+    }
+
 }

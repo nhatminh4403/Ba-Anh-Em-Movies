@@ -43,6 +43,10 @@ public class FilmService {
                 .orElseThrow(() -> new RuntimeException("Film not found with id " + id));
     }
 
+    public Optional<Film> getFilmByName(String name){
+        return Optional.ofNullable(filmRepository.findByName(name));
+    }
+
     // Thêm film
     public Film addFilm(Film film) throws IOException {
 

@@ -42,4 +42,12 @@ public class ScheduleServiceImpl implements ScheduleService {
     public List<Schedule> getSchedulesByFilmId(Long filmId) {
         return scheduleRepository.findByFilmId(filmId);
     }
+
+    @Override
+    public Schedule findScheduleByFilmId(Long filmId) {
+        return scheduleRepository.findByFilmId(filmId)
+                .stream()
+                .findFirst() // Or choose logic for multiple schedules
+                .orElseThrow(() -> new IllegalArgumentException("No schedule found for film ID " + filmId));
+    }
 }

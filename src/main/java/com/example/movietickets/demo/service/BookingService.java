@@ -88,12 +88,12 @@ public class BookingService {
 
             if (email != null) {
                 User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy User"));
-                return bookingRepository.findByUser(user);
+                return bookingRepository.findByUserOrderByCreateAtDesc(user);
             }
         } else if (authentication instanceof UsernamePasswordAuthenticationToken) { //login binh thuong
             String username = authentication.getName();
             User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy User"));
-            return bookingRepository.findByUser(user);
+            return bookingRepository.findByUserOrderByCreateAtDesc(user);
         }
 
         throw new UsernameNotFoundException("Không tìm thấy User");

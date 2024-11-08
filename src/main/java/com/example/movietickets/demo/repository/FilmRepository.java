@@ -28,4 +28,6 @@ public interface FilmRepository extends PagingAndSortingRepository<Film, Long>, 
     List<Film> findByCountry_Id(Long countryId);
     @Query("SELECT f FROM Film f JOIN f.categories c WHERE c.id = :categoryId")
     List<Film> findFilmsByCategoryId(@Param("categoryId") Long categoryId);
+
+    Film findByName(String name);
 }

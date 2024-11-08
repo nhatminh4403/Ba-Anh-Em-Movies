@@ -2,7 +2,7 @@ package com.example.movietickets.demo.controller.general;
 
 
 import com.example.movietickets.demo.DTO.PaymentResDTO;
-import com.example.movietickets.demo.config.Config;
+import com.example.movietickets.demo.config.VnPayConfig;
 import com.example.movietickets.demo.model.*;
 import com.example.movietickets.demo.repository.RoomRepository;
 import com.example.movietickets.demo.repository.SeatRepository;
@@ -76,25 +76,25 @@ public class PaymentController {
 
         //long amount = 10000;
         String amountValue = String.valueOf(amount*100);
-        String vnp_TxnRef = Config.getRandomNumber(8);
+        String vnp_TxnRef = VnPayConfig.getRandomNumber(8);
         //String vnp_IpAddr = Config.getIpAddress(req);
-        String vnp_TmnCode = Config.vnp_TmnCode;
+        String vnp_TmnCode = VnPayConfig.vnp_TmnCode;
 
         Map<String, String> vnp_Params = new HashMap<>();
-        vnp_Params.put("vnp_Version", Config.vnp_Version);
-        vnp_Params.put("vnp_Command", Config.vnp_Command);
+        vnp_Params.put("vnp_Version", VnPayConfig.vnp_Version);
+        vnp_Params.put("vnp_Command", VnPayConfig.vnp_Command);
         vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
         vnp_Params.put("vnp_Amount", amountValue);
         vnp_Params.put("vnp_CurrCode", "VND");
         vnp_Params.put("vnp_BankCode", "NCB");
         vnp_Params.put("vnp_Locale", "vn");
         //vnp_Params.put("vnp_TransactionNo", "NCB");
-        vnp_Params.put("vnp_IpAddr", Config.vnp_IpAddr);
+        vnp_Params.put("vnp_IpAddr", VnPayConfig.vnp_IpAddr);
 
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
         vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
         vnp_Params.put("vnp_OrderType", "other" );
-        vnp_Params.put("vnp_ReturnUrl", Config.vnp_ReturnUrl);
+        vnp_Params.put("vnp_ReturnUrl", VnPayConfig.vnp_ReturnUrl);
 
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
@@ -132,10 +132,10 @@ public class PaymentController {
         }
 
         String queryUrl = query.toString();
-        String vnp_SecureHash = Config.hmacSHA512(Config.secretKey, hashData.toString());
+        String vnp_SecureHash = VnPayConfig.hmacSHA512(VnPayConfig.secretKey, hashData.toString());
         vnp_Params.put("vnp_SecureHash", vnp_SecureHash);
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
-        String paymentUrl = Config.vnp_PayUrl + "?" + queryUrl;
+        String paymentUrl = VnPayConfig.vnp_PayUrl + "?" + queryUrl;
 
         PaymentResDTO paymentResDTO = new PaymentResDTO();
         paymentResDTO.setStatus("OK");
