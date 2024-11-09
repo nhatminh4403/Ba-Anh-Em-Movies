@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+    <style>
+        .edit-profile-section {
+            padding: 70px 0;
+            background: #001232;
+        }
+
+        .edit-profile-wrapper {
+            background: #032055;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .edit-profile-title {
+            color: #31d7a9;
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .edit-profile-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: #31d7a9;
+            border-radius: 3px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            color: #31d7a9;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(49, 215, 169, 0.2);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            color: white !important;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #31d7a9;
+            box-shadow: 0 0 0 3px rgba(49, 215, 169, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .error-message {
+            color: #ff4646;
+            font-size: 14px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: rgba(49, 215, 169, 0.1);
+            border: 1px solid #31d7a9;
+            color: #31d7a9;
+        }
+
+        .alert-danger {
+            background: rgba(255, 70, 70, 0.1);
+            border: 1px solid #ff4646;
+            color: #ff4646;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn--primary {
+            background: #31d7a9;
+            color: #ffffff;
+        }
+
+        .btn--primary:hover {
+            background: #28c498;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #31d7a9;
+            border: 2px solid #31d7a9;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(49, 215, 169, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Avatar upload section */
+        .avatar-upload {
+            position: relative;
+            max-width: 200px;
+            margin: 0 auto 30px;
+        }
+
+        .avatar-edit {
+            position: absolute;
+            right: 12px;
+            z-index: 1;
+            top: 10px;
+        }
+
+        .avatar-edit input {
+            display: none;
+        }
+
+        .avatar-edit label {
+            display: inline-block;
+            width: 34px;
+            height: 34px;
+            margin-bottom: 0;
+            border-radius: 100%;
+            background: #31d7a9;
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-weight: normal;
+            transition: all .2s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar-edit label:hover {
+            background: #28c498;
+        }
+
+        .avatar-preview {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            border-radius: 100%;
+            border: 6px solid #31d7a9;
+            box-shadow: 0 0 20px rgba(49, 215, 169, 0.2);
+        }
+
+        .avatar-preview > div {
+            width: 100%;
+            height: 100%;
+            border-radius: 100%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    </style>
+</head>
+<body>
+<section layout:fragment="content">
+
+    <!-- ==========Preloader========== -->
+    <div class="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <section class="banner-section">
+        <div class="banner-bg bg_img bg-fixed" data-background="/assets/img/history/history-bg.jpg"
+             style="background-image: url(&quot;./assets/img/history/history-bg.jpg&quot;);"></div>
+        <div class="container">
+            <div class="banner-content">
+                <h1 class="title cd-headline clip">
+                    <span class="d-block" th:text="${title}"></span>
+                </h1>
+                <p>Cám ơn bạn đã đồng hành cùng Ba Anh Em. Chúc bạn xem phim vui vẻ!</p>
+            </div>
+        </div>
+    </section>
+    <div class="edit-profile-section">
+        <div class="container">
+            <div class="edit-profile-wrapper">
+                <!-- Alert Messages -->
+                <div th:if="${success}" class="alert alert-success">
+                    <span th:text="${success}"></span>
+                </div>
+
+                <div th:if="${errors}" class="alert alert-danger">
+                    <span th:text="${errors}"></span>
+                </div>
+                <!--                <div class="avatar-upload">
+                                   <div class="avatar-edit">
+                                        <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
+                                        <label for="imageUpload">
+                                           <i class="fas fa-pencil-alt" style="color: #fff;"></i>
+                                       </label>
+                                    </div>
+                                    <div class="avatar-preview">
+                                        <div id="imagePreview"
+                                             th:style="'background-image: url(' + ${user.avatar != null ? user.avatar : '/assets/images/default-avatar.png'} + ');'">
+                                        </div>
+                                    </div>
+                                </div>-->
+                <form th:action="@{/user/profile/chinh-sua}" th:object="${user}" method="post"
+                      enctype="multipart/form-data">
+                    <input type="hidden" th:field="*{id}">
+                    <input type="hidden" th:field="*{username}"/>
+                    <input type="hidden" th:field="*{password}"/>
+                    <input type="hidden" th:field="*{provider}"/>
+                    <div class="form-group">
+                        <label class="form-label" for="fullname">Họ và tên</label>
+                        <input type="text" th:field="*{fullname}" id="fullname" class="form-control"
+                               placeholder="Nhập họ và tên"/>
+                        <span class="error-message" th:if="${#fields.hasErrors('fullname')}"
+                              th:errors="*{fullname}"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" th:field="*{email}" id="email" class="form-control"
+                               placeholder="Nhập email"/>
+                        <span class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                        <!--                        <span class="error-message" th:if="${emailError}" th:text="${emailError}"></span>-->
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="phone">Số điện thoại</label>
+                        <input type="text" th:field="*{phone}" id="phone" class="form-control"
+                               placeholder="Nhập số điện thoại"/>
+                        <span class="error-message" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+                        <!--                        <span class="error-message" th:if="${phoneError}" th:text="${phoneError}"></span>-->
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn--primary">Lưu thay đổi</button>
+                        <a th:href="@{/user/profile}" class="btn btn-secondary">Hủy</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!--<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#imagePreview').css('background-image', 'url('+e.target.result +')');
+                $('#imagePreview').hide();
+                $('#imagePreview').fadeIn(650);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $("#imageUpload").change(function() {
+        readURL(this);
+    });
+</script>-->
+</body>
+</html>

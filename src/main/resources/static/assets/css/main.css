@@ -1579,6 +1579,7 @@ input[type="submit"] {
         top: calc(100% + 30px);
         position: absolute;
         content: "";
+        z-index: -1;
         -webkit-transform: scaleX(0);
         transform: scaleX(0);
         -webkit-transition: all ease 0.3s;

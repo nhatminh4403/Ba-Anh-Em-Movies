@@ -109,8 +109,18 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        <a th:href="@{/purchase/history}" class="on_item" id="5">Vé Đã đặt</a>
+                    <li sec:authorize="isAuthenticated()">
+                        <a href="#0" class="on_item" id="5">
+                            Tài khoản
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                <a th:href="@{/purchase/history}" >Vé Đã đặt</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/user/profile}">Thông tin cá nhân</a>
+                            </li>
+                        </ul>
                     </li>
 
                     <li class="header-button pr-0" sec:authorize="isAuthenticated()">

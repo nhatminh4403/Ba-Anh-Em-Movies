@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+    <style>
+        .profile-section {
+            padding: 70px 0;
+            background: #001232;
+        }
+
+        .profile-wrapper {
+            background: #032055;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            border: 5px solid #31d7a9;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info {
+            margin-top: 30px;
+        }
+
+        .info-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+
+        .info-label {
+            color: #31d7a9;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            color: #ffffff;
+        }
+
+        .edit-button {
+            background: #31d7a9;
+            color: #ffffff;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .edit-button:hover {
+            background: #28c498;
+            transform: translateY(-2px);
+        }
+
+        .booking-history {
+            margin-top: 40px;
+        }
+
+        .booking-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .booking-date {
+            color: #31d7a9;
+        }
+
+        .booking-status {
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.9em;
+        }
+
+        .status-completed {
+            background: #31d7a9;
+            color: #fff;
+        }
+
+        .status-pending {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .status-cancelled {
+            background: #dc3545;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<section layout:fragment="content">
+
+    <!-- ==========Preloader========== -->
+    <div class="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <section class="banner-section">
+        <div class="banner-bg bg_img bg-fixed" data-background="/assets/img/history/history-bg.jpg" style="background-image: url(&quot;./assets/img/history/history-bg.jpg&quot;);"></div>
+        <div class="container">
+            <div class="banner-content">
+                <h1 class="title cd-headline clip">
+                    <span class="d-block" th:text="${title}"></span>
+                    <span class="color-theme cd-words-wrapper p-0 m-0">
+                        <b class="is-hidden pb-3">Rõ ràng</b>
+                        <b class="is-hidden pb-3">Nhanh chóng</b>
+                        <b class="is-visible pb-3">Tối ưu</b>
+                    </span>
+                </h1>
+                <p>Cám ơn bạn đã đồng hành cùng Ba Anh Em. Chúc bạn xem phim vui vẻ!</p>
+            </div>
+        </div>
+    </section>
+    <section class="profile-section">
+        <div class="container">
+            <div class="profile-wrapper">
+                <div class="profile-header">
+<!--                    <div class="profile-avatar">-->
+<!--                        <img th:src="${user.avatar != null ? user.avatar : '/assets/img/user/default-avatar.png'}"-->
+<!--                             alt="User Avatar">-->
+<!--                    </div>-->
+                    <h2 class="text-white" th:text="${user.fullname}">Họ và tên người dùng</h2>
+                    <p class="text-white" th:text="${user.email}">email@example.com</p>
+                </div>
+
+                <div class="profile-info">
+                    <div class="info-item">
+                        <div class="info-label">Tên đăng nhập</div>
+                        <div class="info-value" th:text="${user.username}">username</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Số điện thoại</div>
+                        <div class="info-value" th:text="${user.phone != null ? user.phone : 'Chưa cập nhật'}">
+                            0123456789
+                        </div>
+                    </div>
+
+<!--                    <div class="info-item">-->
+<!--                        <div class="info-label">Địa chỉ</div>-->
+<!--                        <div class="info-value" th:text="${user.address != null ? user.address : 'Chưa cập nhật'}">-->
+<!--                            Địa chỉ người dùng-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="info-item">-->
+<!--                        <div class="info-label">Ngày tham gia</div>-->
+<!--                        <div class="info-value"-->
+<!--                             th:text="${#dates.format(user.createdAt, 'dd/MM/yyyy')}">-->
+<!--                            01/01/2024-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+                    <div class="text-center">
+                        <a th:href="@{/user/profile/chinh-sua}" class="edit-button">
+                            Chỉnh sửa thông tin
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</section>
+</body>
+</html>
