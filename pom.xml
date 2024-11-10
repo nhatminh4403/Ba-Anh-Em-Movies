@@ -163,6 +163,20 @@
         </dependency>
         <!--end vnpay-->
 
+
+<!-- OCR-->
+        <dependency>
+            <groupId>net.sourceforge.tess4j</groupId>
+            <artifactId>tess4j</artifactId>
+            <version>4.5.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>5.10.0</version> <!-- Use the latest stable version -->
+        </dependency>
+<!--END OCR-->
     </dependencies>
 
 <!--    <build>-->
