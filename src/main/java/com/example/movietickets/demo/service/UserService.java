@@ -8,6 +8,8 @@ import com.example.movietickets.demo.repository.UserRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -88,16 +90,37 @@ public class UserService implements UserDetailsService {
         return userRepository.existsByPhone(phone);
     }
 
-    public User getCurrentUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            String username = ((UserDetails) principal).getUsername();
-            return findByUsername(username).orElse(null);
-        } else {
-            return null;
-        }
+//    public User getCurrentUser() {
+//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        if (principal instanceof UserDetails) {
+//            String username = ((UserDetails) principal).getUsername();
+//            return findByUsername(username).orElse(null);
+//        } else {
+//            return null;
+//        }
+//    }
+public User getCurrentUser() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication == null || !authentication.isAuthenticated() ||
+            authentication instanceof AnonymousAuthenticationToken) {
+        return null;
     }
 
+    String username = authentication.getName();
+    return userRepository.findByUsername(username)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+}
+    @Transactional
+    public User updateUser(User user) {
+        User existingUser = user_Repository.findById(user.getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        existingUser.setFullname(user.getFullname());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setPhone(user.getPhone());
+
+        return userRepository.save(existingUser);
+    }
     public void saveOauthUser(String email, String username, String provider) {
         if (username == null || userRepository.findByUsername(username).isPresent())
             return;

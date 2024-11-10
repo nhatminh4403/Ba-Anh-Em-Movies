@@ -61,7 +61,7 @@
 
         .edit-button {
             background: #31d7a9;
-            color: #ffffff;
+            color: black;
             border: none;
             padding: 10px 25px;
             border-radius: 25px;
@@ -155,7 +155,7 @@
 <!--                        <img th:src="${user.avatar != null ? user.avatar : '/assets/img/user/default-avatar.png'}"-->
 <!--                             alt="User Avatar">-->
 <!--                    </div>-->
-                    <h2 class="text-white" th:text="${user.fullname}">Họ và tên người dùng</h2>
+                    <h2 class="text-white" style="margin-bottom: 20px" th:text="${user.fullname}">Họ và tên người dùng</h2>
                     <p class="text-white" th:text="${user.email}">email@example.com</p>
                 </div>
 
