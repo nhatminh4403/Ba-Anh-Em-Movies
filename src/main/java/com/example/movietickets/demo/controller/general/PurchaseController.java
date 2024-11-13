@@ -5,10 +5,13 @@ import com.example.movietickets.demo.repository.RoomRepository;
 import com.example.movietickets.demo.repository.SeatRepository;
 import com.example.movietickets.demo.repository.UserRepository;
 import com.example.movietickets.demo.service.*;
+import com.example.movietickets.demo.service.PaymentServices.ExchangeCurrencyService;
+import com.example.movietickets.demo.service.PaymentServices.PaypalService;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -26,7 +29,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 @Controller
 @RequiredArgsConstructor
@@ -63,7 +69,9 @@ public class PurchaseController {
     private final PaypalService paypalService;
     @Autowired
     private ExchangeCurrencyService exchangeCurrencyService;
-
+//
+//    @Autowired
+//    private  MoMoService momoService;
 
     @GetMapping
     public String showPurchase(Model model, @RequestParam(required = false) Long scheduleId) {
@@ -98,7 +106,6 @@ public class PurchaseController {
         }
         return "Purchase/purchase";
     }
-
 
 
     @GetMapping("/clear")
@@ -145,7 +152,7 @@ public class PurchaseController {
             @RequestParam String comboId, //nhận String từ form purrchase
             @RequestParam Long scheduleId,
             RedirectAttributes redirectAttributes,
-            Model model
+            Model model, HttpSession session
     ) throws PayPalRESTException {
         if (purchaseService.IsExist()) {
             Purchase purchase = purchaseService.Get();
@@ -179,24 +186,28 @@ public class PurchaseController {
             booking.setSeatName(purchase.getSeats());
             booking.setRoomName(purchase.getRoomName());
             booking.setPayment(payment);
-            booking.setStatus(true); // Hoặc giá trị khác tùy vào logic của bạn
+            booking.setStatus(false); // Hoặc giá trị khác tùy vào logic của bạn
             booking.setCreateAt(new Date());
-            booking.setPrice(purchase.getTotalPrice()+ comboPrice); //cộng thêm giá từ food
+            booking.setPrice(purchase.getTotalPrice() + comboPrice); //cộng thêm giá từ food
 
             if (comboFoodId != null) {
                 ComboFood comboFood = comboFoodService.getComboFoodById(comboFoodId).orElseThrow(() -> new EntityNotFoundException("Combo not found"));
                 booking.setComboFood(comboFood);
             }
 
+            if ("Trả tiền tại quầy".equalsIgnoreCase(payment)) {
+                booking.setPayment("Thanh toán taại quầy");
+            }
+
             // Kiểm tra phương thức thanh toán
             if ("vnpay".equalsIgnoreCase(payment)) {
                 //return "redirect:/api/payment/create_payment?amount=" + purchase.getTotalPrice();
-                return "redirect:/api/payment/create_payment?scheduleId=" + scheduleId + "&amount="  + booking.getPrice() + "&comboId="  + comboId ;
+                return "redirect:/api/payment/create_payment?scheduleId=" + scheduleId + "&amount=" + booking.getPrice() + "&comboId=" + comboId;
             }
-            Long comboPricePaypal = (long) getComboPrice(comboId);
-            BigDecimal totalPriceUSD = exchangeCurrencyService.convertVNDToUSD(purchase.getTotalPrice() + comboPricePaypal);
+            Long comboPriceInLong = (long) getComboPrice(comboId);
+            BigDecimal totalPriceUSD = exchangeCurrencyService.convertVNDToUSD(purchase.getTotalPrice() + comboPriceInLong);
 
-            if("paypal".equalsIgnoreCase(payment)){
+            if ("paypal".equalsIgnoreCase(payment)) {
                 try {
                     String cancelUrl = "http://localhost:8080/purchase/cancel";
                     String successUrl = "http://localhost:8080/purchase/success?scheduleId=" + scheduleId;
@@ -221,8 +232,89 @@ public class PurchaseController {
                     return "redirect:/purchase/history";
                 }
             }
+            if ("momo".equalsIgnoreCase(payment)) {
+//                try {
+//                    // Thông tin cấu hình MoMo
+//                    String accessKey = "mTCKt9W3eU1m39TW";
+//                    String secretKey = "SetA5RDnLHvt51AULf51DyauxUo3kDU6";
+//                    String partnerCode = "MOMOLRJZ20181206";
+//                    String redirectUrl = "www.google.com";
+//                    String ipnUrl = "http://localhost:8080/purchase/history";
+//
+//                    // Các thông tin cần thiết để thanh toán
+//                    String orderId = String.valueOf(System.currentTimeMillis()); // Mã đơn hàng
+//                    String requestId = String.valueOf(System.currentTimeMillis());
+//                    // Mã request duy nhất
+//                    long amount = (long) (booking.getPrice() + getComboPrice(comboId)); // Số tiền
+//                    String orderInfo = "Checkout";
+//                    String requestType = "captureMoMoWallet";
+//
+//                    MoMoEnvironment environment = MoMoEnvironment.selectEnv("dev");
+//
+////                    PaymentResponse captureWalletMoMoResponse = CreateOrderMoMo.process(environment,orderId,requestId,Long.toString(amount),
+////                            orderInfo,redirectUrl,ipnUrl,"", RequestType.CAPTURE_WALLET,Boolean.TRUE);
+//                    // Tạo chữ ký (signature)
+//                    String rawData =
+//                            "partnerCode=" + partnerCode +
+//                                    "&accessKey=" + accessKey +
+//                                    "&requestId=" + requestId +
+//                                    "&amount=" + Long.toString(amount) +
+//                                    "&orderId=" + orderId +
+//                                    "&orderInfo=" + orderInfo +
+//                                    "&returnUrl=" + redirectUrl +
+//                                    "&notifyUrl=" + ipnUrl +
+//                                    "&requestType=" + requestType +
+//                                    "&extraData=";
+//
+//                    String signature = Encoder.signHmacSHA256(rawData, secretKey);
+//                    // MoMoUtils là class giúp tạo signature
+//                    System.out.println("Raw data: " + rawData);
+//                    System.out.println("orderId " + orderId);
+//                    System.out.println("requestId" + requestId);
+//                    System.out.println("Signature  " + signature);
+//                    // Tạo JSON request gửi tới MoMo
+//                    Map<String, String> requestParams = new HashMap<>();
+//                    requestParams.put("partnerCode", partnerCode);
+//                    requestParams.put("accessKey", accessKey);
+//                    requestParams.put("requestId", requestId);
+//                    requestParams.put("amount", Long.toString(amount));
+//                    requestParams.put("orderId", orderId);
+//                    requestParams.put("orderInfo", orderInfo);
+//                    requestParams.put("returnUrl", redirectUrl);
+//                    requestParams.put("notifyUrl", ipnUrl);
+//                    requestParams.put("lang", "vi");
+//                    requestParams.put("requestType", requestType);
+//                    requestParams.put("signature", signature);
+//                    requestParams.put("extraData", "");
+//
+//                    HttpHeaders headers = new HttpHeaders();
+//                    headers.setContentType(MediaType.APPLICATION_JSON);
+//                    HttpEntity<Map<String, String>> request = new HttpEntity<>(requestParams, headers);
+//
+//                    RestTemplate restTemplate = new RestTemplate();
+//                    ResponseEntity<String> response =
+//                            restTemplate.postForEntity("https://test-payment.momo.vn/v2/gateway/api/create", request, String.class);
+//
+//                    if (response.getStatusCode().is2xxSuccessful()) {
+//                        JSONObject responseBody = new JSONObject(response.getBody());
+//                        String payUrl = responseBody.getString("payUrl");
+//                        return "redirect:" + payUrl;  // Chuyển hướng người dùng đến trang thanh toán của MoMo
+//                    } else {
+//                        redirectAttributes.addFlashAttribute("message", "Payment failed with MoMo!");
+//                        return "redirect:/purchase/history";  // Chuyển hướng lại về trang thanh toán khi có lỗi
+//                    }
+//                    // Gửi request tới MoMo và lấy payUrl
+//
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    redirectAttributes.addFlashAttribute("message", "Payment failed!");
+//                    System.out.println("Failed1");
+//                    return "redirect:/purchase/history"; // Chuyển hướng về trang lịch sử nếu thất bại
+//                }
+                return "redirect:/api/payment/create_momo?scheduleId=" + scheduleId + "&amount=" + purchase.getTotalPrice() + "&comboId=" + comboId;
 
-
+            }
             // Lấy thông tin người dùng hiện tại
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             User user = getUserFromAuthentication(authentication);
@@ -230,14 +322,6 @@ public class PurchaseController {
 
             bookingService.saveBooking(booking, seats, schedule);
 
-//            try {
-//                String qrContent = "Booking ID: " + booking.getId() + ", Film: " + booking.getFilmName() +
-//                        ", Start Time: " + booking.getStartTime();
-//                byte[] qrCodeImage = qrCodeService.generateQRCode(qrContent, 200, 200);
-//                model.addAttribute("qrCodeImage", qrCodeImage);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
 
             redirectAttributes.addFlashAttribute("message", "Đặt vé thành công!");
         } else {
@@ -259,7 +343,6 @@ public class PurchaseController {
         throw new UsernameNotFoundException("User not found");
     }
 
-
     private Date parseDate(String dateStr) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -277,10 +360,11 @@ public class PurchaseController {
         }
         return 0;
     }
+
     @GetMapping("/success")
     public String success(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId,
                           @RequestParam("scheduleId") Long scheduleId,
-                          Model model,RedirectAttributes redirectAttributes) {
+                          Model model, RedirectAttributes redirectAttributes) {
         try {
             Payment payment = paypalService.executePayment(paymentId, payerId);
             if ("approved".equals(payment.getState())) {
@@ -315,7 +399,7 @@ public class PurchaseController {
                     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                     User user = getUserFromAuthentication(authentication);
                     booking.setUser(user);
-                    System.out.println("Schedule: "+schedule.getId() +" " + schedule.getStartTime());
+                    System.out.println("Schedule: " + schedule.getId() + " " + schedule.getStartTime());
                     bookingService.saveBooking(booking, seats, schedule);
 
                     // Optionally clear the purchase after successful booking
@@ -343,5 +427,6 @@ public class PurchaseController {
         System.out.println();
         return "redirect:/purchase/history";
     }
+
 
 }

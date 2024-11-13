@@ -1,13 +1,11 @@
-package com.example.movietickets.demo.service;
+package com.example.movietickets.demo.service.PaymentServices;
 
+import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
-import com.paypal.api.payments.*;
-import com.paypal.base.rest.PayPalModel;
 
 import java.util.ArrayList;
 import java.util.List;

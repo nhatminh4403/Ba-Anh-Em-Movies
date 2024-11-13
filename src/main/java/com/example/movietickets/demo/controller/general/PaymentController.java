@@ -1,6 +1,6 @@
 package com.example.movietickets.demo.controller.general;
 
-
+import com.example.movietickets.demo.DTO.MoMoPaymentDto;
 import com.example.movietickets.demo.DTO.PaymentResDTO;
 import com.example.movietickets.demo.config.VnPayConfig;
 import com.example.movietickets.demo.model.*;
@@ -8,7 +8,12 @@ import com.example.movietickets.demo.repository.RoomRepository;
 import com.example.movietickets.demo.repository.SeatRepository;
 import com.example.movietickets.demo.repository.UserRepository;
 import com.example.movietickets.demo.service.*;
+import com.example.movietickets.demo.service.PaymentServices.MoMoRequestService;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,22 +22,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-
 import java.util.*;
 
 @RestController
@@ -64,8 +64,12 @@ public class PaymentController {
     private CategoryService categoryService;
 
 
+    @Autowired
+    private PaymentService paymentService;
+
     @GetMapping("create_payment")
-    public ResponseEntity<?> createPayment(@RequestParam("amount") long amount, @RequestParam("scheduleId") Long scheduleId, @RequestParam("comboId") String comboId) throws UnsupportedEncodingException {
+    public ResponseEntity<?> createPayment(@RequestParam("amount") long amount, @RequestParam("scheduleId") Long scheduleId,
+                                           @RequestParam("comboId") String comboId) throws UnsupportedEncodingException {
 
         // Kiểm tra giá trị amount
         System.out.println("Amount received: " + amount);
@@ -208,7 +212,107 @@ public class PaymentController {
         //return paymentUrl;
 
     }
+    @GetMapping("create_momo")
+    public ResponseEntity<?> createMoMoPayment(
+            @RequestParam(value = "scheduleId") Long scheduleId,
+            @RequestParam(value = "amount") Long amount,
+            @RequestParam(value = "comboId") String comboId,
+            HttpServletRequest request) throws Exception {
 
+        String orderId = String.valueOf(System.currentTimeMillis());
+        String requestId = String.valueOf(System.currentTimeMillis());
+
+        // Tạo signature cho yêu cầu thanh toán
+        String rawSignature = String.format("accessKey=%s&amount=%s&extraData=%s&ipnUrl=%s&orderId=%s&orderInfo=%s&partnerCode=%s&redirectUrl=%s&requestId=%s&requestType=%s",
+                MoMoRequestService.accessKey,
+                amount,
+                MoMoRequestService.Extra_Data,
+                MoMoRequestService.ipnUrl,
+                orderId,
+                MoMoRequestService.orderInfo,
+                MoMoRequestService.partnerCode,
+                MoMoRequestService.redirectUrl,
+                requestId,
+                MoMoRequestService.requestType);
+
+        String signature = MoMoRequestService.HmacSHA256(rawSignature, MoMoRequestService.secretKey);
+
+        JsonObject requestBody = new JsonObject();
+        requestBody.addProperty("partnerCode", MoMoRequestService.partnerCode);
+        requestBody.addProperty("requestId", requestId);
+        requestBody.addProperty("amount", String.valueOf(amount));
+        requestBody.addProperty("orderId", orderId);
+        requestBody.addProperty("orderInfo", MoMoRequestService.orderInfo);
+        requestBody.addProperty("redirectUrl", MoMoRequestService.redirectUrl);
+        requestBody.addProperty("ipnUrl", MoMoRequestService.ipnUrl);
+        requestBody.addProperty("lang", MoMoRequestService.LANGUAGE);
+        requestBody.addProperty("requestType", MoMoRequestService.requestType);
+        requestBody.addProperty("autoCapture", MoMoRequestService.Auto_Capture);
+        requestBody.addProperty("extraData", MoMoRequestService.Extra_Data);
+        requestBody.addProperty("signature", signature);
+
+        String response = MoMoRequestService.sendToHTTPPost(MoMoRequestService.Endpoint, requestBody.toString());
+        JsonObject responseObject = new JsonParser().parse(response).getAsJsonObject();
+
+        // Kiểm tra phản hồi của MoMo
+        if (responseObject.has("payUrl")) {
+            String payUrl = responseObject.get("payUrl").getAsString();
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Location", payUrl);
+            return new ResponseEntity<>(headers, HttpStatus.FOUND);
+        } else {
+            String message = responseObject.has("message") ?
+                    responseObject.get("message").getAsString() : "Payment creation failed";
+            return ResponseEntity.badRequest().body(message);
+        }
+    }
+
+    @GetMapping("/purchase/history")
+    public String handleMoMoResponse(
+            @RequestParam("resultCode") int resultCode,
+            @RequestParam("message") String message,
+            @RequestParam("orderId") String orderId,
+            @RequestParam("scheduleId") String scheduleId,@RequestParam("transId") String transId,
+            HttpSession session) {
+
+
+        try {
+            MoMoPaymentDto payment = paymentService.getPaymentById(orderId).orElseThrow(() -> new RuntimeException("Payment not found"));
+
+            if (resultCode == 0) {
+                payment.setPaymentStatus("SUCCESS");
+                payment.setTransactionId(transId);
+                payment.setPaymentTime(new Date());
+
+                // Cập nhật Booking
+                Booking booking = payment.getBooking();
+                booking.setStatus(true);
+                bookingService.saveBooking(booking);
+
+                paymentService.savePayment(payment);
+                return "redirect:/payment-success";
+            } else {
+                payment.setPaymentStatus("FAILED");
+                payment.setFailureMessage(message);
+                paymentService.savePayment(payment);
+                return "redirect:/purchase?scheduleId=" + scheduleId;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/payment-failed?reason=system-error";
+        }
+    }
+    @GetMapping("/payment-success")
+    public String paymentSuccess(Model model) {
+        model.addAttribute("message", "Payment successful!");
+        return "payment-success";
+    }
+
+    @GetMapping("/payment-failed")
+    public String paymentFailed(@RequestParam String reason, Model model) {
+        model.addAttribute("error", reason);
+        return "payment-failed";
+    }
     private Date parseDate(String dateStr) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -1,4 +1,4 @@
-package com.example.movietickets.demo.service;
+package com.example.movietickets.demo.service.PaymentServices;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

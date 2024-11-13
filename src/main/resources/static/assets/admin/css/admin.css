@@ -369,7 +369,19 @@ ul {
   position: relative;
   padding: 30px;
   width: 100%;
+  overflow-y: scroll;
 }
+.sidebar__nav::-webkit-scrollbar{
+  width: 8px;
+}
+.sidebar__nav::-webkit-scrollbar-thumb{
+  background: white;
+  border-radius: 10px;
+}
+.sidebar__nav::-webkit-scrollbar-thumb:hover{
+  background: rgba(255,255,255,0.6);
+}
+
 .sidebar__nav-link {
   display: flex;
   flex-direction: row;
@@ -471,9 +483,10 @@ ul {
 }
 .sidebar__copyright {
   margin-top: auto;
-  padding: 0 30px 20px;
+  padding: 20px 30px;
   color: rgba(255,255,255,0.5);
   font-size: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 .sidebar__copyright a {
   color: rgba(255,255,255,0.5);
@@ -491,7 +504,7 @@ ul {
     box-shadow: 0 5px 25px 0 rgba(0,0,0,0.3);
   }
   .sidebar__logo {
-    height: 80px;
+    height: 60px;
   }
   .sidebar__logo img {
     max-width: 175px;
