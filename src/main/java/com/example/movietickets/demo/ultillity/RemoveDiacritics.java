@@ -11,8 +11,30 @@ public class RemoveDiacritics {
             return null;
         }
 
-        // Chuyển chuỗi về dạng bình thường và loại bỏ dấu
+        // Normalize and remove diacritical marks
         String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
-        return VIETNAMESE_ACCENT_PATTERN.matcher(normalized).replaceAll("");
+        normalized = VIETNAMESE_ACCENT_PATTERN.matcher(normalized).replaceAll("");
+
+        // Replace remaining Vietnamese characters that may not decompose
+        return replaceVietnameseCharacters(normalized);
     }
+
+    private static String replaceVietnameseCharacters(String input) {
+        return input
+                .replaceAll("Đ", "D")
+                .replaceAll("đ", "d")
+                .replaceAll("Ă", "A")
+                .replaceAll("ă", "a")
+                .replaceAll("Â", "A")
+                .replaceAll("â", "a")
+                .replaceAll("Ê", "E")
+                .replaceAll("ê", "e")
+                .replaceAll("Ô", "O")
+                .replaceAll("ô", "o")
+                .replaceAll("Ơ", "O")
+                .replaceAll("ơ", "o")
+                .replaceAll("Ư", "U")
+                .replaceAll("ư", "u");
+    }
+
 }

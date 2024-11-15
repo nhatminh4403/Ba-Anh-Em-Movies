@@ -138,19 +138,19 @@ public class TicketPrintingService {
             }
 
             // Add font to resources with a specific name
-            String fontName = "Montserrat"; // Choose a name for your font
-            acroForm.getDefaultResources().put(COSName.getPDFName(fontName), customFont);
+//            String fontName = "Montserrat"; // Choose a name for your font
+//            acroForm.getDefaultResources().put(COSName.getPDFName(fontName), customFont);
 
             // Set default appearance string with the correct font name
-            String defaultAppearanceString = "/" + fontName + " 12 Tf 0 g"; // 0 g sets black color
+//            String defaultAppearanceString = "/" + fontName + " 12 Tf 0 g"; // 0 g sets black color
 
             // Apply the appearance to each field individually
-            for (PDField field : acroForm.getFields()) {
-                PDVariableText textField = (PDVariableText) field;
-                textField.setDefaultAppearance(defaultAppearanceString);
-                // Force the field to update its appearance
-                field.getCOSObject().removeItem(COSName.AP);
-            }
+//            for (PDField field : acroForm.getFields()) {
+//                PDVariableText textField = (PDVariableText) field;
+//                textField.setDefaultAppearance(defaultAppearanceString);
+//                // Force the field to update its appearance
+//                field.getCOSObject().removeItem(COSName.AP);
+//            }
             // Fill form fields
             if (acroForm != null) {
                 fillFormFields(acroForm, booking, detail);

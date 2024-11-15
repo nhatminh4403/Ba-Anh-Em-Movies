@@ -33,6 +33,76 @@ public class PrintTicketController {
     @Autowired
     private BookingDetailService detailService;
 
+
+    @GetMapping("/generate-pdfs/{bookingId}")
+    public ResponseEntity<List<String>> generatePdfs(@PathVariable String bookingId)  {
+        long idNumber;
+        try {
+            idNumber = Long.parseLong(bookingId);
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        if (bookingId.isEmpty() || idNumber <= 0) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        Booking booking = bookingService.getBookingById(idNumber);
+        if (booking == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        try {
+            String templatePath = "src/main/resources/static/assets/admin/templates/template-ticket.pdf";
+            List<String> pdfFilePaths = ticketPrintingService.generatePdfs(booking, templatePath);
+
+            List<String> pdfUrls = pdfFilePaths.stream().map(filePath ->
+                            ServletUriComponentsBuilder.fromCurrentContextPath()
+                                    .path("/api/admin/ticket/download/")
+                                    .path(new File(filePath).getName())
+                                    .toUriString())
+                    .collect(Collectors.toList());
+
+            return new ResponseEntity<>(pdfUrls, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();  // Log the error for troubleshooting
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    // Method to download a specific PDF by filename
+    @GetMapping("/view/{filename:.+}")
+    public ResponseEntity<byte[]> viewPdf(@PathVariable String filename) throws IOException {
+
+        String filePath = "src/main/resources/static/assets/admin/ticket-pdfs/"+ filename;
+        File pdfFile = new File(filePath);
+        if (!pdfFile.exists()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        byte[] pdfBytes = Files.readAllBytes(Paths.get(filePath));
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDisposition(ContentDisposition.inline().filename(filename).build()); // View inline
+
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/download/{filename:.+}")
+    public ResponseEntity<byte[]> downloadPdf(@PathVariable String filename) throws IOException {
+        String filePath ="src/main/resources/static/assets/admin/ticket-pdfs/" + filename;
+        File pdfFile = new File(filePath);
+        if (!pdfFile.exists()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        byte[] pdfBytes = Files.readAllBytes(Paths.get(filePath));
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDisposition(ContentDisposition.attachment().filename(filename).build()); // Trigger download
+
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+    }
+
 //        @GetMapping("/generate-pdfs/{bookingId}")
 //    public ResponseEntity<byte[]> generatePdfs(@PathVariable Long bookingId) {
 //        if (bookingId == null || bookingId <= 0) {
@@ -76,67 +146,4 @@ public class PrintTicketController {
 //                    .body(null); // Trả về lỗi 400
 //        }
 //    }
-
-    @GetMapping("/generate-pdfs/{bookingId}")
-    public ResponseEntity<List<String>> generatePdfs(@PathVariable Long bookingId)  {
-        if (bookingId == null || bookingId <= 0) {
-            return ResponseEntity.badRequest().body(null);
-        }
-
-        Booking booking = bookingService.getBookingById(bookingId);
-        if (booking == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-
-        try {
-            String templatePath = "src/main/resources/static/assets/admin/templates/template-ticket.pdf";
-            List<String> pdfFilePaths = ticketPrintingService.generatePdfs(booking, templatePath);
-
-            // Generate download URLs for each PDF
-            List<String> pdfUrls = pdfFilePaths.stream().map(filePath ->
-                            ServletUriComponentsBuilder.fromCurrentContextPath()
-                                    .path("/api/admin/ticket/download/")
-                                    .path(new File(filePath).getName())
-                                    .toUriString())
-                    .collect(Collectors.toList());
-
-            return new ResponseEntity<>(pdfUrls, HttpStatus.OK);
-        }catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
-    // Method to download a specific PDF by filename
-    @GetMapping("/view/{filename:.+}")
-    public ResponseEntity<byte[]> viewPdf(@PathVariable String filename) throws IOException {
-
-        String filePath = "src/main/resources/static/assets/admin/ticket-pdfs/"+ filename;
-        File pdfFile = new File(filePath);
-        if (!pdfFile.exists()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-
-        byte[] pdfBytes = Files.readAllBytes(Paths.get(filePath));
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDisposition(ContentDisposition.inline().filename(filename).build()); // View inline
-
-        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
-    }
-
-    @GetMapping("/download/{filename:.+}")
-    public ResponseEntity<byte[]> downloadPdf(@PathVariable String filename) throws IOException {
-        String filePath ="src/main/resources/static/assets/admin/ticket-pdfs/" + filename;
-        File pdfFile = new File(filePath);
-        if (!pdfFile.exists()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-
-        byte[] pdfBytes = Files.readAllBytes(Paths.get(filePath));
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDisposition(ContentDisposition.attachment().filename(filename).build()); // Trigger download
-
-        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
-    }
-
 }
