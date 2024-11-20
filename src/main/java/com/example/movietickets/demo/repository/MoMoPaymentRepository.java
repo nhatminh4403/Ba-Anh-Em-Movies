@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface PaymentRepository  extends JpaRepository<MoMoPaymentDto,Long> {
+public interface MoMoPaymentRepository extends JpaRepository<MoMoPaymentDto,Long> {
     Optional<MoMoPaymentDto> findByOrderId(String orderId);
 }

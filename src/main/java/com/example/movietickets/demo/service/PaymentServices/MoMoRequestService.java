@@ -18,10 +18,10 @@ public class MoMoRequestService {
     public static String accessKey = "F8BBA842ECF85";
     public static String secretKey = "K951B6PE1waDMi640xX08PD3vg6EkVlz";
     public static String partnerCode = "MOMO";
-    public static String redirectUrl = "https://ea88-2405-4803-c7a5-2c60-1400-3cc5-db6b-3c13.ngrok-free.app/purchase/history";
-    public static String ipnUrl = "https://ea88-2405-4803-c7a5-2c60-1400-3cc5-db6b-3c13.ngrok-free.app/purchase/history";
+    public static String redirectUrl = "http://localhost:8080/purchase/history";
+    public static String ipnUrl = "http://localhost:8080/api/payment/momo/momo-ipn";
     public static String orderInfo = "paywithmethod";
-    public static String requestType = "captureWallet";
+    public static String requestType = "payWithATM";
     public static String orderId = String.valueOf(System.currentTimeMillis()); // Mã đơn hàng
     public static String requestId = String.valueOf(System.currentTimeMillis());
     public static String LANGUAGE = "vi";

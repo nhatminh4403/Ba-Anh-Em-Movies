@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -137,11 +139,27 @@ public class PurchaseController {
     }
 
     @GetMapping("/history")
-    public String showPurchaseHistory(Model model) {
+    public String showPurchaseHistory(Model model, @RequestParam(required = false) String status,
+                                      @RequestParam(required = false) String message) {
         List<Booking> bookings = bookingService.getBookingsByCurrentUser(); // phương thức này để lấy các booking của người dùng hiện tại
         List<Category> categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
         model.addAttribute("bookings", bookings);
+        if (status != null) {
+            switch (status) {
+                case "success":
+                    model.addAttribute("successMessage", "Thanh toán thành công!");
+                    break;
+                case "failed":
+                    model.addAttribute("errorMessage",
+                            message != null ? "Thanh toán thất bại: " + message : "Thanh toán thất bại!");
+                    break;
+                case "error":
+                    model.addAttribute("errorMessage",
+                            message != null ? message : "Có lỗi xảy ra trong quá trình xử lý!");
+                    break;
+            }
+        }
 
         return "Purchase/history";
     }
@@ -196,7 +214,8 @@ public class PurchaseController {
             }
 
             if ("Trả tiền tại quầy".equalsIgnoreCase(payment)) {
-                booking.setPayment("Thanh toán taại quầy");
+
+                booking.setPayment("Thanh toán tại quầy");
             }
 
             // Kiểm tra phương thức thanh toán
@@ -233,87 +252,7 @@ public class PurchaseController {
                 }
             }
             if ("momo".equalsIgnoreCase(payment)) {
-//                try {
-//                    // Thông tin cấu hình MoMo
-//                    String accessKey = "mTCKt9W3eU1m39TW";
-//                    String secretKey = "SetA5RDnLHvt51AULf51DyauxUo3kDU6";
-//                    String partnerCode = "MOMOLRJZ20181206";
-//                    String redirectUrl = "www.google.com";
-//                    String ipnUrl = "http://localhost:8080/purchase/history";
-//
-//                    // Các thông tin cần thiết để thanh toán
-//                    String orderId = String.valueOf(System.currentTimeMillis()); // Mã đơn hàng
-//                    String requestId = String.valueOf(System.currentTimeMillis());
-//                    // Mã request duy nhất
-//                    long amount = (long) (booking.getPrice() + getComboPrice(comboId)); // Số tiền
-//                    String orderInfo = "Checkout";
-//                    String requestType = "captureMoMoWallet";
-//
-//                    MoMoEnvironment environment = MoMoEnvironment.selectEnv("dev");
-//
-////                    PaymentResponse captureWalletMoMoResponse = CreateOrderMoMo.process(environment,orderId,requestId,Long.toString(amount),
-////                            orderInfo,redirectUrl,ipnUrl,"", RequestType.CAPTURE_WALLET,Boolean.TRUE);
-//                    // Tạo chữ ký (signature)
-//                    String rawData =
-//                            "partnerCode=" + partnerCode +
-//                                    "&accessKey=" + accessKey +
-//                                    "&requestId=" + requestId +
-//                                    "&amount=" + Long.toString(amount) +
-//                                    "&orderId=" + orderId +
-//                                    "&orderInfo=" + orderInfo +
-//                                    "&returnUrl=" + redirectUrl +
-//                                    "&notifyUrl=" + ipnUrl +
-//                                    "&requestType=" + requestType +
-//                                    "&extraData=";
-//
-//                    String signature = Encoder.signHmacSHA256(rawData, secretKey);
-//                    // MoMoUtils là class giúp tạo signature
-//                    System.out.println("Raw data: " + rawData);
-//                    System.out.println("orderId " + orderId);
-//                    System.out.println("requestId" + requestId);
-//                    System.out.println("Signature  " + signature);
-//                    // Tạo JSON request gửi tới MoMo
-//                    Map<String, String> requestParams = new HashMap<>();
-//                    requestParams.put("partnerCode", partnerCode);
-//                    requestParams.put("accessKey", accessKey);
-//                    requestParams.put("requestId", requestId);
-//                    requestParams.put("amount", Long.toString(amount));
-//                    requestParams.put("orderId", orderId);
-//                    requestParams.put("orderInfo", orderInfo);
-//                    requestParams.put("returnUrl", redirectUrl);
-//                    requestParams.put("notifyUrl", ipnUrl);
-//                    requestParams.put("lang", "vi");
-//                    requestParams.put("requestType", requestType);
-//                    requestParams.put("signature", signature);
-//                    requestParams.put("extraData", "");
-//
-//                    HttpHeaders headers = new HttpHeaders();
-//                    headers.setContentType(MediaType.APPLICATION_JSON);
-//                    HttpEntity<Map<String, String>> request = new HttpEntity<>(requestParams, headers);
-//
-//                    RestTemplate restTemplate = new RestTemplate();
-//                    ResponseEntity<String> response =
-//                            restTemplate.postForEntity("https://test-payment.momo.vn/v2/gateway/api/create", request, String.class);
-//
-//                    if (response.getStatusCode().is2xxSuccessful()) {
-//                        JSONObject responseBody = new JSONObject(response.getBody());
-//                        String payUrl = responseBody.getString("payUrl");
-//                        return "redirect:" + payUrl;  // Chuyển hướng người dùng đến trang thanh toán của MoMo
-//                    } else {
-//                        redirectAttributes.addFlashAttribute("message", "Payment failed with MoMo!");
-//                        return "redirect:/purchase/history";  // Chuyển hướng lại về trang thanh toán khi có lỗi
-//                    }
-//                    // Gửi request tới MoMo và lấy payUrl
-//
-//
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    redirectAttributes.addFlashAttribute("message", "Payment failed!");
-//                    System.out.println("Failed1");
-//                    return "redirect:/purchase/history"; // Chuyển hướng về trang lịch sử nếu thất bại
-//                }
-                return "redirect:/api/payment/create_momo?scheduleId=" + scheduleId + "&amount=" + purchase.getTotalPrice() + "&comboId=" + comboId;
-
+                return "redirect:/api/payment/momo/create_momo?scheduleId=" + scheduleId + "&amount=" + purchase.getTotalPrice() + "&comboId=" + comboId;
             }
             // Lấy thông tin người dùng hiện tại
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -411,7 +350,7 @@ public class PurchaseController {
                 model.addAttribute("message", "Payment successful!");
                 System.out.println("Payment successful!");
                 System.out.println();
-                return "redirect:/purchase/history";
+                return "redirect:/purchase/history?status=success";
             }
         } catch (PayPalRESTException e) {
             e.printStackTrace();
@@ -425,8 +364,6 @@ public class PurchaseController {
         model.addAttribute("message", "Payment cancelled!");
         System.out.println("Payment failed to proceed!");
         System.out.println();
-        return "redirect:/purchase/history";
+        return "redirect:/purchase/history?status=failed&message=" + URLEncoder.encode("Failed", StandardCharsets.UTF_8);
     }
-
-
 }

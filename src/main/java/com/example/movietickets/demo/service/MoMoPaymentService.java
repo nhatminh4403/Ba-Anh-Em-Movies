@@ -1,7 +1,7 @@
 package com.example.movietickets.demo.service;
 
 import com.example.movietickets.demo.DTO.MoMoPaymentDto;
-import com.example.movietickets.demo.repository.PaymentRepository;
+import com.example.movietickets.demo.repository.MoMoPaymentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +9,9 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class PaymentService {
+public class MoMoPaymentService {
 
-    private final PaymentRepository paymentRepository;
+    private final MoMoPaymentRepository paymentRepository;
 
     public MoMoPaymentDto savePayment(MoMoPaymentDto moMoPaymentDto)
     {
