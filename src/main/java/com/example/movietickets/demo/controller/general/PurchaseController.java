@@ -147,7 +147,7 @@ public class PurchaseController {
         model.addAttribute("bookings", bookings);
         if (status != null) {
             switch (status) {
-                case "success":
+                case "success": case "Successful":
                     model.addAttribute("successMessage", "Thanh toán thành công!");
                     break;
                 case "failed":
@@ -167,10 +167,11 @@ public class PurchaseController {
     @PostMapping("/checkout")
     public String checkout(
             @RequestParam("payment") String payment,
-            @RequestParam String comboId, //nhận String từ form purrchase
+            @RequestParam String comboId, //nhận String từ form purchase
             @RequestParam Long scheduleId,
             RedirectAttributes redirectAttributes,
             Model model, HttpSession session
+
     ) throws PayPalRESTException {
         if (purchaseService.IsExist()) {
             Purchase purchase = purchaseService.Get();

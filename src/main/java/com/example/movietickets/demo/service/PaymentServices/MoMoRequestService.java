@@ -18,9 +18,9 @@ public class MoMoRequestService {
     public static String accessKey = "F8BBA842ECF85";
     public static String secretKey = "K951B6PE1waDMi640xX08PD3vg6EkVlz";
     public static String partnerCode = "MOMO";
-    public static String redirectUrl = "http://localhost:8080/purchase/history";
+    public static String redirectUrl = "http://localhost:8080/api/payment/momo/momo-return";
     public static String ipnUrl = "http://localhost:8080/api/payment/momo/momo-ipn";
-    public static String orderInfo = "paywithmethod";
+    public static String orderInfo = "Thanh toan ve";
     public static String requestType = "payWithATM";
     public static String orderId = String.valueOf(System.currentTimeMillis()); // Mã đơn hàng
     public static String requestId = String.valueOf(System.currentTimeMillis());
