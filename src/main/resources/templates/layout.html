@@ -329,9 +329,36 @@
             });
         });
     </script>
+<script>
+    function showToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerText = message;
+
+        container.appendChild(toast);
+        setTimeout(() => toast.classList.add('show'), 100);
+
+        // Tự động xóa sau 5 giây
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => container.removeChild(toast), 300);
+        }, 5000);
+    }
+
+    // Hiển thị toast khi cần
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    if (status === 'success') {
+        showToast('Thanh toán thành công!', 'success');
+    } else if (status === 'failed') {
+        const message = urlParams.get('message') || 'Đã có lỗi xảy ra!';
+        showToast(decodeURIComponent(message), 'error');
+    }
+</script>
 
 
-    <script th:src="@{/assets/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/assets/js/jquery-3.3.1.min.js}"></script>
     <script th:src="@{/assets/js/modernizr-3.6.0.min.js}"></script>
     <script th:src="@{/assets/js/plugins.js}"></script>
     <script th:src="@{/assets/js/bootstrap.min.js}"></script>

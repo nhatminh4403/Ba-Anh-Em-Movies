@@ -1,5 +1,7 @@
 package com.example.movietickets.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
@@ -24,6 +26,7 @@ public class Room {
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "CINEMA_ID", referencedColumnName = "CINEMA_ID")
     private Cinema cinema;

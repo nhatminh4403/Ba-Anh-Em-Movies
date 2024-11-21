@@ -148,14 +148,14 @@ public class PurchaseController {
         if (status != null) {
             switch (status) {
                 case "success": case "Successful":
-                    model.addAttribute("successMessage", "Thanh toán thành công!");
+                    model.addAttribute("message", "Thanh toán thành công!");
                     break;
                 case "failed":
-                    model.addAttribute("errorMessage",
+                    model.addAttribute("message",
                             message != null ? "Thanh toán thất bại: " + message : "Thanh toán thất bại!");
                     break;
                 case "error":
-                    model.addAttribute("errorMessage",
+                    model.addAttribute("message",
                             message != null ? message : "Có lỗi xảy ra trong quá trình xử lý!");
                     break;
             }

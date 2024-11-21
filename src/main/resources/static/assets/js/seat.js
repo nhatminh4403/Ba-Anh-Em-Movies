@@ -30,7 +30,7 @@ window.onload = function() {
             console.log("tôi là sự kiện on mouse out ");
         });
 
-          seatImages[i].addEventListener('dblclick', function() {
+          seatImages[i].addEventListener('click', function() {
                   const seatId = this.getAttribute('data-id');
                   const seatSymbol = this.getAttribute('data-symbol');
                   const seatPrice = parseInt(this.getAttribute('data-price'));

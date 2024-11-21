@@ -3,6 +3,7 @@ package com.example.movietickets.demo.repository;
 import com.example.movietickets.demo.model.Booking;
 import com.example.movietickets.demo.model.User;
 import jdk.jfr.Enabled;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -24,6 +25,9 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     List<Booking> findAllWithComboFoodByUser(User user);
 
+    @NotNull
     @Override
     Optional<Booking> findById(Long id);
+
+    Optional<Booking> findByOrderId(String orderId);
 }

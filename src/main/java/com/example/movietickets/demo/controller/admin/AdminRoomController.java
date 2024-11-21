@@ -2,9 +2,11 @@ package com.example.movietickets.demo.controller.admin;
 
 import com.example.movietickets.demo.model.Room;
 import com.example.movietickets.demo.model.Cinema;
+import com.example.movietickets.demo.model.Seat;
 import com.example.movietickets.demo.service.CategoryService;
 import com.example.movietickets.demo.service.CinemaService;
 import com.example.movietickets.demo.service.RoomService;
+import com.example.movietickets.demo.service.SeatService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
@@ -26,6 +29,8 @@ public class AdminRoomController {
     private final RoomService roomService;
     @Autowired
     private final CinemaService cinemaService;
+    @Autowired
+    private final SeatService seatService;
 
     // Hiển thị danh sách danh mục
     @GetMapping("/rooms")
@@ -36,6 +41,18 @@ public class AdminRoomController {
         return "/admin/room/room-list";
     }
 
+    @GetMapping("/rooms/{id}")
+    public String getRoom(@PathVariable Long id, Model model) {
+        model.addAttribute("title","Chi tiết phòng");
+        Optional<Room> room = roomService.getRoomById(id);
+        if (!room.isPresent()) {
+            model.addAttribute("NaN","Room Empty");
+        }
+        List<Seat> seats = seatService.getSeatListByRoomId(id);
+        model.addAttribute("seats", seats);
+        model.addAttribute("room", room.get());
+        return "/admin/room/room-detail";
+    }
     //gửi response ra view add
     @GetMapping("/rooms/add")
     public String showAddForm(Model model) {

@@ -4,9 +4,11 @@ import com.example.movietickets.demo.model.Category;
 import com.example.movietickets.demo.model.Cinema;
 import com.example.movietickets.demo.model.Room;
 import com.example.movietickets.demo.repository.CinemaRepository;
+import com.example.movietickets.demo.repository.RoomRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,9 +18,10 @@ import java.util.Optional;
 public class CinemaService {
 
     private final CinemaRepository cinemaRepository;
+    private final RoomRepository roomRepository;
 
     public List<Cinema> getAllCinemas() {
-        return cinemaRepository.findAllByOrderByIdDesc();
+        return cinemaRepository.findAllByOrderById();
     }
 
     public Optional<Cinema> getCinemaById(Long id) {
@@ -43,5 +46,13 @@ public class CinemaService {
             throw new IllegalStateException("Cinema with ID " + id + " does not exist.");
         }
         cinemaRepository.deleteById(id);
+    }
+
+    public List<Cinema> findAllWithRooms() {
+        // Fetch tất cả các rạp và kèm danh sách phòng
+        return cinemaRepository.findAllWithRooms();
+    }
+    public Cinema findCinemaById(Long id) {
+        return cinemaRepository.findById(id).orElseThrow(() -> new IllegalStateException("Cinema with ID " + id + " does not exist."));
     }
 }

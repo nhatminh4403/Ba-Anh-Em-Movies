@@ -57,7 +57,9 @@ public class SeatService {
         seatRepository.deleteById(seatId);
     }
 
-
+    public List<Seat> getSeatListByRoomId(Long roomId) {
+        return seatRepository.findByRoomId(roomId);
+    }
 
 
 

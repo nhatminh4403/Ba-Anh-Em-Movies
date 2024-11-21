@@ -1,33 +1,40 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <!-- CSS -->
-    <link rel="stylesheet" th:href="@{/assets/admin/css/bootstrap-reboot.min.css}" />
-    <link rel="stylesheet" th:href="@{/assets/admin/css/bootstrap-grid.min.css}" />
-    <link rel="stylesheet" th:href="@{/assets/admin/css/magnific-popup.css}" />
-    <link rel="stylesheet" th:href="@{/assets/admin/css/jquery.mCustomScrollbar.min.css}" />
-    <link rel="stylesheet" th:href="@{/assets/admin/css/select2.min.css}" />
-    <link rel="stylesheet" th:href="@{/assets/admin/css/admin.css}" />
-    <!-- Favicons -->
-    <link rel="icon" type="image/png" th:href="@{/assets/admin/icon/cake2.png}" sizes="32x32" />
-    <link rel="apple-touch-icon" th:href="@{/assets/admin/icon/cake2.png}" /> =======
-    <link rel="icon" type="image/png" th:href="@{/assets/img/logo/favicon.png}" sizes="32x32" />
-    <link rel="apple-touch-icon" th:href="@{/assets/admin/icon/favicon-32x32.png}" />
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
-    <title>Trang quản trị Admin</title>
-</head>
+    <link rel="stylesheet" th:href="@{/assets/admin/css/bootstrap-reboot.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/admin/css/bootstrap-grid.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/admin/css/magnific-popup.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/admin/css/jquery.mCustomScrollbar.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/admin/css/select2.min.css}"/>
+    <link rel="stylesheet" th:href="@{/assets/admin/css/admin.css}"/>
 
+    <link rel="stylesheet" th:href="@{/assets/admin/css/sidebarNav.css}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" th:href="@{/assets/admin/icon/cake2.png}" sizes="32x32"/>
+    <link rel="apple-touch-icon" th:href="@{/assets/admin/icon/cake2.png}"/>
+    =======
+    <link rel="icon" type="image/png" th:href="@{/assets/img/logo/favicon.png}" sizes="32x32"/>
+    <link rel="apple-touch-icon" th:href="@{/assets/admin/icon/favicon-32x32.png}"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <title>Trang quản trị Admin</title>
+    <style>
+        body {
+            background-color: #2b2b31;
+        }
+    </style>
+</head>
 <body>
 <!-- header -->
 <header class="header">
     <div class="header__content">
         <!-- header logo -->
         <a th:href="@{/admin}" class="header__logo">
-            <img th:src="@{/assets/img/logo/logo1.png}" alt="" />
+            <img th:src="@{/assets/img/logo/logo1.png}" alt=""/>
         </a>
         <!-- end header logo -->
         <!-- header menu btn -->
@@ -44,13 +51,13 @@
 <div class="sidebar">
     <!-- sidebar logo -->
     <a th:href="@{/admin}" class="sidebar__logo">
-        <img th:src="@{/assets/img/logo/logo1.png}" alt="" />
+        <img th:src="@{/assets/img/logo/logo1.png}" alt=""/>
     </a>
     <!-- end sidebar logo -->
     <!-- sidebar user -->
     <div class="sidebar__user">
         <div class="sidebar__user-img">
-            <img th:src="@{/assets/admin/img/user.svg}" alt="" />
+            <img th:src="@{/assets/admin/img/user.svg}" alt=""/>
         </div>
         <div class="sidebar__user-title">
             <span>Administrator</span>
@@ -59,9 +66,7 @@
         <form th:action="@{/logout}" method="post" class="sidebar__user-btn" title="Đăng xuất">
             <button type="submit">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                            d="M4,12a1,1,0,0,0,1,1h7.59l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l4-4a1,1,0,0,0,.21-.33,1,1,0,0,0,0-.76,1,1,0,0,0-.21-.33l-4-4a1,1,0,1,0-1.42,1.42L12.59,11H5A1,1,0,0,0,4,12ZM17,2H7A3,3,0,0,0,4,5V8A1,1,0,0,0,6,8V5A1,1,0,0,1,7,4H17a1,1,0,0,1,1,1V19a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V16a1,1,0,0,0-2,0v3a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V5A3,3,0,0,0,17,2Z">
-                    </path>
+                    <path d="M4,12a1,1,0,0,0,1,1h7.59l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l4-4a1,1,0,0,0,.21-.33,1,1,0,0,0,0-.76,1,1,0,0,0-.21-.33l-4-4a1,1,0,1,0-1.42,1.42L12.59,11H5A1,1,0,0,0,4,12ZM17,2H7A3,3,0,0,0,4,5V8A1,1,0,0,0,6,8V5A1,1,0,0,1,7,4H17a1,1,0,0,1,1,1V19a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V16a1,1,0,0,0-2,0v3a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V5A3,3,0,0,0,17,2Z"></path>
                 </svg>
             </button>
         </form>
@@ -72,32 +77,32 @@
         <li class="sidebar__nav-item">
             <a th:href="@{/admin}" class="sidebar__nav-link">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z" />
-                </svg> Trang chủ </a>
+                    <path d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"/>
+                </svg>
+                Trang chủ </a>
         </li>
         <li class="sidebar__nav-item">
             <a th:href="@{/admin/countries}" class="sidebar__nav-link">
                 <svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                      xmlns:xlink="http://www.w3.org/1999/xlink" width="800px" height="800px"
                      viewBox="0 0 356.926 356.926" xml:space="preserve">
-                        <g>
-                            <g>
-                                <path d="M211.89,213.669c0-10.475-8.521-18.997-18.996-18.997c-0.401,0-0.799,0.017-1.193,0.041v2.406
+              <g>
+                <g>
+                  <path d="M211.89,213.669c0-10.475-8.521-18.997-18.996-18.997c-0.401,0-0.799,0.017-1.193,0.041v2.406
                         c0.396-0.028,0.79-0.061,1.193-0.061c9.158,0,16.608,7.452,16.608,16.611s-7.45,16.61-16.608,16.61
                         c-0.269,0-0.53-0.027-0.795-0.041v0.897v1.509v4.723H186.2v3.182h13.388v-3.182h-5.104v-4.774
-                        C204.218,231.781,211.89,223.607,211.89,213.669z" />
-                                <g>
-                                    <polygon points="260.072,79.408 260.398,82.045 256.447,82.882 255.913,88.517 260.677,88.517 266.998,87.913 270.251,84.021
+                        C204.218,231.781,211.89,223.607,211.89,213.669z"/>
+                    <g>
+                    <polygon points="260.072,79.408 260.398,82.045 256.447,82.882 255.913,88.517 260.677,88.517 266.998,87.913 270.251,84.021
                             266.788,82.678 264.883,80.488 262.024,75.858 260.677,69.329 255.286,70.409 253.799,72.721 253.799,75.312 256.378,77.084
-                            " />
-                                    <polygon points="255.495,81.569 255.773,78.037 252.637,76.683 248.233,77.706 244.945,82.94 244.945,86.344 248.768,86.344
-                            " />
-                                    <path d="M164.852,96.598l-0.976,2.498h-4.7v2.428h1.121c0,0,0.07,0.511,0.168,1.191l2.876-0.238l1.783-1.121l0.465-2.248
-                            l2.335-0.204l0.912-1.888l-2.138-0.442L164.852,96.598z" />
-                                    <polygon
-                                            points="152.739,101.001 152.565,103.366 155.976,103.081 156.324,100.705 154.279,99.096 			" />
-                                    <path d="M356.868,176.633c-0.047-5.223-0.313-10.398-0.802-15.505c-1.662-17.01-5.717-33.311-11.828-48.589
+                            "/>
+                        <polygon points="255.495,81.569 255.773,78.037 252.637,76.683 248.233,77.706 244.945,82.94 244.945,86.344 248.768,86.344
+                            "/>
+                        <path d="M164.852,96.598l-0.976,2.498h-4.7v2.428h1.121c0,0,0.07,0.511,0.168,1.191l2.876-0.238l1.783-1.121l0.465-2.248
+                            l2.335-0.204l0.912-1.888l-2.138-0.442L164.852,96.598z"/>
+                        <polygon
+                                points="152.739,101.001 152.565,103.366 155.976,103.081 156.324,100.705 154.279,99.096 			"/>
+                        <path d="M356.868,176.633c-0.047-5.223-0.313-10.398-0.802-15.505c-1.662-17.01-5.717-33.311-11.828-48.589
                             c-0.441-1.127-0.859-2.283-1.336-3.41c-8.121-19.183-19.531-36.646-33.474-51.721c-0.906-0.987-1.835-1.952-2.765-2.916
                             c-2.649-2.736-5.333-5.415-8.156-7.971C266.788,17.631,224.642,0,178.463,0C131.896,0,89.447,17.957,57.635,47.271
                             c-7.413,6.832-14.221,14.303-20.408,22.285C13.919,99.717,0,137.49,0,178.463c0,98.398,80.059,178.463,178.463,178.463
@@ -144,23 +149,22 @@
                             v3.178l-2.347,2.347h-5.211l0.813-3.573l2.463-0.215l0.5-1.226L123.355,104.568z M110.39,98.05h5.408l-6.948,9.696l-2.852-1.534
                             l0.616-4.084L110.39,98.05z M132.529,103.464v3.166h-5.211l-1.417-2.062v-2.951h0.406L132.529,103.464z M127.748,99.096
                             l1.475-1.557l2.498,1.557l-1.999,1.656L127.748,99.096z M337.291,141.428l0.511-0.61c0.232,0.93,0.441,1.859,0.662,2.789
-                            L337.291,141.428z" />
-                                    <path
-                                            d="M27.734,109.268v5.106c1.771-4.177,3.747-8.231,5.855-12.223L27.734,109.268z" />
-                                </g>
-                            </g>
-                        </g>
-                    </svg> Quốc gia </a>
+                            L337.291,141.428z"/>
+                        <path d="M27.734,109.268v5.106c1.771-4.177,3.747-8.231,5.855-12.223L27.734,109.268z"/>
+                  </g>
+                </g>
+              </g>
+            </svg>
+                Quốc gia </a>
         </li>
         <li class="sidebar__nav-item">
             <a th:href="@{/admin/films}" class="sidebar__nav-link">
                 <svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                      xmlns:xlink="http://www.w3.org/1999/xlink" width="800px" height="800px"
                      viewBox="0 0 498.631 498.631" xml:space="preserve">
-                        <g>
-                            <g id="Layer_8_11_">
-                                <path
-                                        d="M43.734,222.979c-0.941-1.323-1.3-2.969-1.009-4.567c5.474-29.439,21.583-56.329,44.861-75.015
+              <g>
+                <g id="Layer_8_11_">
+                  <path d="M43.734,222.979c-0.941-1.323-1.3-2.969-1.009-4.567c5.474-29.439,21.583-56.329,44.861-75.015
                                 c1.27-1.021,2.9-1.486,4.52-1.278c1.62,0.213,3.089,1.064,4.052,2.369l30.257,40.753c1.47,1.967,1.541,4.561,0.38,6.572
                                 c-0.339,0.588-0.788,1.133-1.331,1.592c-10.636,8.928-18.004,21.215-20.827,34.999c-0.623,3.139-3.62,5.212-6.786,4.723
                                 l-50.145-7.699C46.104,225.186,44.665,224.303,43.734,222.979z M102.413,264.909c-0.117-0.711-0.371-1.368-0.714-1.963
@@ -194,80 +198,175 @@
                                 h-13.978l-5.613,6.921h13.975L326.471,413.098z M357.517,413.098h-13.985l-5.602,6.921h13.965L357.517,413.098z M363.974,396.998
                                 h-75.962l-8.395,12.588h75.952L363.974,396.998z M387.427,413.098h-13.975l-5.612,6.921h13.974L387.427,413.098z M415.674,413.098
                                 H401.7l-5.616,6.921h13.975L415.674,413.098z M446.799,413.098h-13.975l-5.616,6.921h13.965L446.799,413.098z M477.836,413.098
-                                H463.86l-5.612,6.921h13.975L477.836,413.098z M483.756,395.85l5.439-6.49h-13.111l-5.426,6.49H483.756z" />
-                            </g>
-                        </g>
-                    </svg> Phim </a>
+                                H463.86l-5.612,6.921h13.975L477.836,413.098z M483.756,395.85l5.439-6.49h-13.111l-5.426,6.49H483.756z"/>
+                </g>
+              </g>
+            </svg>
+                Phim </a>
         </li>
         <li class="sidebar__nav-item">
             <a th:href="@{/admin/categories}" class="sidebar__nav-link">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z" />
-                </svg> Thể loại </a>
+                <svg height="800px" width="800px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink"
+                     viewBox="0 0 254.217 254.217" xml:space="preserve">
+                    <g>
+                        <path style="fill:white;" d="M246.717,0H7.5C3.357,0,0,3.357,0,7.5v239.217c0,4.143,3.357,7.5,7.5,7.5h239.217
+                            c4.143,0,7.5-3.357,7.5-7.5V7.5C254.217,3.357,250.859,0,246.717,0z M188.2,15v224.217H66.017V15H188.2z M15,15h36.017v224.217H15
+                            V15z M239.217,239.217H203.2V15h36.017V239.217z"/>
+                        <path style="fill:white;" d="M31.878,37.378c1.971,0,3.9-0.8,5.3-2.2c1.4-1.39,2.2-3.319,2.2-5.3c0-1.97-0.8-3.91-2.2-5.3
+                            c-1.399-1.4-3.329-2.2-5.3-2.2c-1.979,0-3.91,0.8-5.31,2.2c-1.391,1.39-2.19,3.33-2.19,5.3c0,1.98,0.8,3.91,2.19,5.3
+                            C27.968,36.578,29.898,37.378,31.878,37.378z"/>
+                        <path style="fill:white;" d="M31.878,50.208c-1.979,0-3.91,0.8-5.31,2.2c-1.391,1.4-2.19,3.33-2.19,5.31
+                            c0,1.971,0.8,3.9,2.19,5.301c1.399,1.399,3.34,2.199,5.31,2.199c1.971,0,3.9-0.8,5.3-2.199c1.4-1.4,2.2-3.33,2.2-5.301
+                            c0-1.979-0.8-3.909-2.2-5.31C35.778,51.008,33.849,50.208,31.878,50.208z"/>
+                        <path style="fill:white;" d="M31.878,78.048c-1.979,0-3.91,0.801-5.31,2.2c-1.391,1.391-2.19,3.32-2.19,5.3
+                            c0,1.971,0.8,3.9,2.19,5.301c1.399,1.399,3.33,2.199,5.31,2.199c1.971,0,3.9-0.8,5.3-2.199c1.4-1.4,2.2-3.33,2.2-5.301
+                            c0-1.979-0.8-3.909-2.2-5.3C35.778,78.849,33.849,78.048,31.878,78.048z"/>
+                        <path style="fill:#FFF;" d="M31.878,105.878c-1.979,0-3.91,0.8-5.31,2.2c-1.391,1.4-2.19,3.33-2.19,5.3
+                            c0,1.98,0.8,3.91,2.19,5.311c1.399,1.39,3.33,2.189,5.31,2.189c1.971,0,3.9-0.8,5.3-2.189c1.4-1.4,2.2-3.33,2.2-5.311
+                            c0-1.97-0.8-3.899-2.2-5.3C35.778,106.678,33.849,105.878,31.878,105.878z"/>
+                        <path style="fill:#FFF;" d="M31.878,133.718c-1.97,0-3.91,0.801-5.31,2.19c-1.391,1.4-2.19,3.33-2.19,5.31
+                            c0,1.971,0.8,3.9,2.19,5.301c1.399,1.39,3.33,2.189,5.31,2.189c1.971,0,3.9-0.8,5.3-2.189c1.4-1.4,2.2-3.33,2.2-5.301
+                            c0-1.979-0.8-3.909-2.2-5.31C35.778,134.519,33.849,133.718,31.878,133.718z"/>
+                        <path style="fill:#FFF;" d="M31.878,161.548c-1.979,0-3.91,0.801-5.31,2.2c-1.391,1.391-2.19,3.33-2.19,5.3
+                            c0,1.971,0.8,3.91,2.19,5.301c1.399,1.399,3.33,2.199,5.31,2.199c1.971,0,3.9-0.8,5.3-2.199c1.4-1.391,2.2-3.33,2.2-5.301
+                            c0-1.97-0.8-3.909-2.2-5.3C35.778,162.349,33.849,161.548,31.878,161.548z"/>
+                        <path style="fill:#FFF;" d="M31.878,189.378c-1.979,0-3.91,0.8-5.31,2.2c-1.391,1.4-2.19,3.33-2.19,5.3
+                            c0,1.98,0.8,3.91,2.19,5.311c1.399,1.39,3.33,2.189,5.31,2.189c1.971,0,3.9-0.8,5.3-2.189c1.4-1.4,2.2-3.33,2.2-5.311
+                            c0-1.97-0.8-3.91-2.2-5.3C35.778,190.178,33.849,189.378,31.878,189.378z"/>
+                        <path style="fill:#FFF;" d="M31.878,217.218c-1.979,0-3.91,0.801-5.31,2.19c-1.391,1.4-2.19,3.33-2.19,5.31
+                            c0,1.971,0.8,3.9,2.19,5.301c1.399,1.399,3.33,2.199,5.31,2.199c1.971,0,3.9-0.8,5.3-2.199c1.4-1.4,2.2-3.33,2.2-5.301
+                            c0-1.979-0.8-3.909-2.2-5.31C35.778,218.019,33.849,217.218,31.878,217.218z"/>
+                        <path style="fill:#FFF;" d="M221.968,37.378c1.971,0,3.91-0.8,5.301-2.2c1.399-1.39,2.199-3.329,2.199-5.3
+                            c0-1.97-0.8-3.91-2.199-5.3c-1.391-1.4-3.33-2.2-5.301-2.2c-1.97,0-3.909,0.8-5.3,2.2c-1.399,1.39-2.2,3.33-2.2,5.3
+                            c0,1.98,0.801,3.91,2.2,5.3C218.059,36.578,219.998,37.378,221.968,37.378z"/>
+                        <path style="fill:#FFF;" d="M221.968,65.218c1.971,0,3.91-0.8,5.301-2.199c1.399-1.4,2.199-3.33,2.199-5.301
+                            c0-1.979-0.8-3.909-2.199-5.31c-1.391-1.4-3.33-2.2-5.301-2.2c-1.97,0-3.899,0.8-5.3,2.2c-1.399,1.4-2.2,3.33-2.2,5.31
+                            c0,1.971,0.801,3.9,2.2,5.301C218.068,64.418,219.998,65.218,221.968,65.218z"/>
+                        <path style="fill:#FFF;" d="M221.968,93.048c1.971,0,3.91-0.8,5.301-2.199c1.399-1.4,2.199-3.33,2.199-5.301
+                            c0-1.979-0.8-3.909-2.199-5.3c-1.391-1.399-3.33-2.2-5.301-2.2c-1.97,0-3.909,0.801-5.3,2.2c-1.399,1.391-2.2,3.32-2.2,5.3
+                            c0,1.971,0.801,3.9,2.2,5.301C218.059,92.248,219.998,93.048,221.968,93.048z"/>
+                        <path style="fill:#FFF;" d="M221.968,120.878c1.971,0,3.91-0.8,5.301-2.189c1.399-1.4,2.199-3.33,2.199-5.311
+                            c0-1.97-0.8-3.91-2.199-5.3c-1.391-1.4-3.33-2.2-5.301-2.2c-1.979,0-3.909,0.8-5.3,2.2c-1.399,1.39-2.2,3.33-2.2,5.3
+                            c0,1.98,0.801,3.91,2.2,5.311C218.059,120.078,219.998,120.878,221.968,120.878z"/>
+                        <path style="fill:#FFF;" d="M221.968,148.708c1.98,0,3.91-0.8,5.301-2.189c1.399-1.4,2.199-3.33,2.199-5.301
+                            c0-1.979-0.8-3.909-2.199-5.31c-1.391-1.39-3.33-2.19-5.301-2.19c-1.97,0-3.909,0.801-5.3,2.19c-1.399,1.4-2.2,3.33-2.2,5.31
+                            c0,1.971,0.801,3.9,2.2,5.301C218.059,147.908,219.998,148.708,221.968,148.708z"/>
+                        <path style="fill:#FFF;" d="M221.968,176.548c1.971,0,3.91-0.8,5.301-2.199c1.399-1.391,2.199-3.33,2.199-5.301
+                            c0-1.97-0.8-3.909-2.199-5.3c-1.391-1.399-3.33-2.2-5.301-2.2c-1.979,0-3.909,0.801-5.3,2.2c-1.399,1.391-2.2,3.32-2.2,5.3
+                            c0,1.98,0.801,3.91,2.2,5.301C218.059,175.748,219.988,176.548,221.968,176.548z"/>
+                        <path style="fill:#FFF;" d="M221.968,204.378c1.98,0,3.91-0.8,5.301-2.189c1.399-1.4,2.199-3.33,2.199-5.311
+                            c0-1.97-0.8-3.899-2.199-5.3c-1.391-1.4-3.32-2.2-5.301-2.2c-1.979,0-3.909,0.8-5.3,2.2c-1.399,1.4-2.2,3.33-2.2,5.3
+                            c0,1.98,0.801,3.91,2.2,5.311C218.059,203.578,219.988,204.378,221.968,204.378z"/>
+                        <path style="fill:#FFF;" d="M221.968,217.218c-1.97,0-3.909,0.801-5.3,2.19c-1.399,1.4-2.2,3.33-2.2,5.31
+                            c0,1.971,0.801,3.9,2.2,5.301c1.391,1.399,3.33,2.199,5.3,2.199c1.971,0,3.91-0.8,5.301-2.199c1.399-1.4,2.199-3.33,2.199-5.301
+                            c0-1.979-0.8-3.909-2.199-5.31C225.878,218.019,223.938,217.218,221.968,217.218z"/>
+                        <path style="fill:#FFF;" d="M91.649,170.623c1.156,0.664,2.446,0.996,3.735,0.996c1.306,0,2.611-0.341,3.779-1.021
+                            l63.447-37.011c2.304-1.344,3.721-3.811,3.721-6.479s-1.417-5.135-3.721-6.479L99.164,83.619c-2.32-1.353-5.187-1.362-7.515-0.025
+                            c-2.329,1.338-3.765,3.818-3.765,6.504v74.021C87.885,166.805,89.32,169.285,91.649,170.623z M102.885,103.155l41.063,23.953
+                            l-41.063,23.953V103.155z"/>
+                        </g>
+                    </svg>
+                Thể loại </a>
         </li>
         <li class="sidebar__nav-item">
             <a th:href="@{/admin/cinemas}" class="sidebar__nav-link">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z" />
-                </svg> Rạp </a>
-        </li>
-        <li class="sidebar__nav-item">
-            <a th:href="@{/admin/rooms}" class="sidebar__nav-link">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z" />
-                </svg> Phòng </a>
-        </li>
-        <li class="sidebar__nav-item">
-            <a th:href="@{/admin/schedules}" class="sidebar__nav-link">
-                <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24">
-                    <path
-                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z" />
-                </svg> Lịch chiếu </a>
+                <svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21C15.5 17.4 19 14.1764 19 10.2C19 6.22355 15.866 3 12 3C8.13401 3 5 6.22355 5 10.2C5 14.1764 8.5 17.4 12 21Z"
+                          stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z"
+                          stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Chi nhánh rạp </a>
         </li>
         <li class="sidebar__nav-item">
             <a th:href="@{/admin/bookings}" class="sidebar__nav-link">
                 <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24">
-                    <path
-                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z" />
-                </svg> Đơn hàng </a>
+                    <path d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"/>
+                </svg>
+                Đơn hàng </a>
         </li>
         <li class="sidebar__nav-item">
-            <a th:href="@{/admin/seats}" class="sidebar__nav-link">
+            <a href="#" class="sidebar__nav-link toggle-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24">
-                    <path
-                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z" />
-                </svg> Ghế </a>
+                    <path d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"/>
+                </svg>
+                Quản lý
+                <span class="arrow right"></span>
+            </a>
+            <ul class="subNav">
+                <li>
+                    <a th:href="@{/admin/schedules}" class="sidebar__nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24">
+                            <path d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"/>
+                        </svg>
+                        Lịch chiếu </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/seattypes}" class="sidebar__nav-link">
+                        <svg version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg"
+                             xmlns:xlink="http://www.w3.org/1999/xlink"
+                             viewBox="0 0 32 32" xml:space="preserve">
+                            <style type="text/css">
+                                .st0 {
+                                    fill: white;
+                                    stroke: #000000;
+                                    stroke-width: 2;
+                                    stroke-linecap: round;
+                                    stroke-linejoin: round;
+                                    stroke-miterlimit: 10;
+                                }
+                            </style>
+                            <path class="st0" d="M9,29H5c-1.1,0-2-0.9-2-2V17c0-1.7,1.3-3,3-3h0c1.7,0,3,1.3,3,3V29z"/>
+                            <path class="st0"
+                                  d="M27,29h-4V17c0-1.7,1.3-3,3-3h0c1.7,0,3,1.3,3,3v10C29,28.1,28.1,29,27,29z"/>
+                            <rect x="9" y="19" class="st0" width="14" height="10"/>
+                            <path class="st0" d="M6,14V7.8C6,5.7,7.7,4,9.8,4h12.3C24.3,4,26,5.7,26,7.8V14"/>
+                            </svg>
+                        Loại ghế </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/comboFoods}" class="sidebar__nav-link">
+                        <svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+                             xmlns:xlink="http://www.w3.org/1999/xlink"
+                             viewBox="0 0 490 490" xml:space="preserve">
+                            <g>
+                                <g>
+                                    <g>
+                                        <path d="M407.2,85.6l-40.1,102.7H122.9L82.8,85.6H12.4l49.4,386.6c1.2,10,10.1,17.8,20.3,17.8h325.1c10.5,0,19.1-7.8,20.2-17.9
+                                            l50.2-386.6h-70.4V85.6z M245,395.1c-80.1,0-143.1-33.1-143.1-75.4s63-75.4,143.1-75.4s143.1,33.1,143.1,75.4
+                                            S325.1,395.1,245,395.1z"/>
+                                        <rect x="412.6" width="39.3" height="65.7"/>
+                                        <polygon
+                                                points="385.8,86.3 399.4,16.3 360.5,8.9 329.8,168.4 353.5,168.4 			"/>
+                                        <rect x="284.7" y="6.2" width="39.3" height="162.2"/>
+                                        <polygon points="266.4,168.4 236.8,15.9 198.3,23.7 226.3,168.4 			"/>
+                                        <rect x="151.3" y="30.3" width="39.3" height="138.1"/>
+                                        <polygon
+                                                points="114.3,112 131.1,26.8 92.6,19.1 83.2,65.7 96.4,65.7 			"/>
+                                        <rect x="37.3" width="39.3" height="65.7"/>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
+                        Thức ăn nhanh </a>
+                </li>
+            </ul>
         </li>
+
         <li class="sidebar__nav-item">
-            <a th:href="@{/admin/seattypes}" class="sidebar__nav-link">
+            <a th:href="@{/admin/users}" class="sidebar__nav-link">
                 <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24">
-                    <path
-                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z" />
-                </svg> Loại ghế </a>
-        </li>
-        <li class="sidebar__nav-item">
-            <a th:href="@{/admin/comboFoods}" class="sidebar__nav-link">
-                <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24">
-                    <path
-                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z" />
-                </svg> Thức ăn nhanh </a>
+                    <path d="M12,2A10,10,0,0,0,4.65,18.76h0a10,10,0,0,0,14.7,0h0A10,10,0,0,0,12,2Zm0,18a8,8,0,0,1-5.55-2.25,6,6,0,0,1,11.1,0A8,8,0,0,1,12,20ZM10,10a2,2,0,1,1,2,2A2,2,0,0,1,10,10Zm8.91,6A8,8,0,0,0,15,12.62a4,4,0,1,0-6,0A8,8,0,0,0,5.09,16,7.92,7.92,0,0,1,4,12a8,8,0,0,1,16,0A7.92,7.92,0,0,1,18.91,16Z"/>
+                </svg>
+                Người dùng </a>
         </li>
         <li class="sidebar__nav-item">
             <a th:href="@{/admin/blogs}" class="sidebar__nav-link">
                 <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24">
-                    <path
-                            d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z" />
-                </svg> Blog </a>
-        </li>
-        <li class="sidebar__nav-item">
-            <a th:href="@{/admin/users}" class="sidebar__nav-link">
-                <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24">
-                    <path
-                            d="M12,2A10,10,0,0,0,4.65,18.76h0a10,10,0,0,0,14.7,0h0A10,10,0,0,0,12,2Zm0,18a8,8,0,0,1-5.55-2.25,6,6,0,0,1,11.1,0A8,8,0,0,1,12,20ZM10,10a2,2,0,1,1,2,2A2,2,0,0,1,10,10Zm8.91,6A8,8,0,0,0,15,12.62a4,4,0,1,0-6,0A8,8,0,0,0,5.09,16,7.92,7.92,0,0,1,4,12a8,8,0,0,1,16,0A7.92,7.92,0,0,1,18.91,16Z" />
-                </svg> Người dùng </a>
+                    <path d="M10,13H3a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,10,13ZM9,20H4V15H9ZM21,2H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,21,2ZM20,9H15V4h5Zm1,4H14a1,1,0,0,0-1,1v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V14A1,1,0,0,0,21,13Zm-1,7H15V15h5ZM10,2H3A1,1,0,0,0,2,3v7a1,1,0,0,0,1,1h7a1,1,0,0,0,1-1V3A1,1,0,0,0,10,2ZM9,9H4V4H9Z"/>
+                </svg>
+                Blog </a>
         </li>
     </ul>
     <!-- end sidebar nav -->
@@ -277,12 +376,13 @@
 </div>
 <section layout:fragment="content"></section>
 <script th:src="@{/assets/admin/js/jquery-3.6.0.min.js}"></script>
-<script th:src="@{/assets/admin/js/bootstrap.bundle.min.js}"></script>
+<!--<script th:src="@{/assets/admin/js/bootstrap.bundle.min.js}"></script>-->
 <script th:src="@{/assets/admin/js/jquery.magnific-popup.min.js}"></script>
 <script th:src="@{/assets/admin/js/jquery.mousewheel.min.js}"></script>
 <script th:src="@{/assets/admin/js/jquery.mCustomScrollbar.min.js}"></script>
 <script th:src="@{/assets/admin/js/select2.min.js}"></script>
 <script th:src="@{/assets/admin/js/admin.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     let item_id = 0;
 
@@ -296,44 +396,51 @@
         });
     }
 </script>
+<script>
+    document.querySelectorAll('.toggle-btn').forEach((button) => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
+            const navItem = this.parentElement; // Lấy thẻ cha của nút nhấn
+            const subnav = this.nextElementSibling;
+
+            // Đóng các subnav khác trước khi mở
+            document.querySelectorAll('.sidebar__nav-item').forEach((item) => {
+                if (item !== navItem) {
+                    item.classList.remove('active');
+                    const sub = item.querySelector('.subNav');
+                    if (sub) {
+                        sub.style.maxHeight = null;
+                        sub.style.padding = null;
+                    }
+                }
+            });
+
+            // Toggle trạng thái active
+            if (navItem.classList.contains('active')) {
+                navItem.classList.remove('active');
+                subnav.style.maxHeight = null;
+                subnav.style.padding = null;
+            } else {
+                navItem.classList.add('active');
+                subnav.style.display = "flex";
+                subnav.style.textAlign = "center";
+                subnav.style.flexWrap = "wrap";
+                subnav.style.alignItems = 'center';
+                subnav.style.backgroundColor = "#28282d";
+                subnav.style.maxHeight = (subnav.scrollHeight) * 2 + 'px';
+                subnav.style.padding = '6px 0 2px';
+            }
+        });
+    });
+
+
+</script>
 <script th:src="@{/assets/admin/js/adminCategoryAPI.js}"></script>
 <script th:src="@{/assets/admin/js/adminAddFilmApi.js}"></script>
 <script th:src="@{/assets/admin/js/adminCategoryApiEdit.js}"></script>
-<script>
-    document.querySelectorAll('.main__table-btn--edit').forEach(button => {
-        button.addEventListener('click', function (event) {
-            event.preventDefault(); // Prevent default link behavior
-            const bookingId = this.getAttribute('data-booking-id'); // Get the booking ID from the button
-            fetch(`/api/admin/ticket/generate-pdfs/${bookingId}`).then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json(); // Parse the JSON response
-            }).then(urls => {
-                if (!Array.isArray(urls)) {
-                    throw new Error('Response is not an array');
-                }
-                // Open each PDF for viewing and trigger download separately
-                urls.forEach((url, index) => {
-                    // Open the PDF in a new tab
-                    setTimeout(() => {
-                        const viewUrl = url.replace('/download/', '/view/');
-                        window.open(viewUrl, '_blank');
-                    }, index * 500); // Delay each tab opening by 500ms
-                    // Trigger download after a short delay
-                    setTimeout(() => {
-                        const downloadLink = document.createElement('a');
-                        downloadLink.href = url;
-                        downloadLink.download = ''; // Trigger download without needing to specify filename
-                        document.body.appendChild(downloadLink);
-                        downloadLink.click();
-                        document.body.removeChild(downloadLink);
-                    }, (index * 500) + 1000); // Delay download by 1 second after opening tab
-                });
-            }).catch(error => console.error('Error:', error)); // Log errors to the console
-        });
-    });
-</script>
+<script th:src="@{/assets/admin/js/print.js}"></script>
+
+<script th:src="@{/assets/admin/js/cinema.js}"> </script>
 <script src="https://unpkg.com/html5-qrcode"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -372,6 +479,7 @@
             html5QrcodeScanner = new Html5QrcodeScanner("reader", config, /* verbose= */ false);
             html5QrcodeScanner.render(onScanSuccess, onScanFailure);
         }
+
         async function onScanSuccess(decodedText, decodedResult) {
             console.log('Scanned text:', decodedText);
             console.log('Scanned type:', typeof decodedText);
@@ -450,6 +558,7 @@
                 }
             }
         }
+
         // Helper function to create a new table row from booking data
         function createBookingRow(booking) {
             const row = document.createElement('tr');
@@ -458,15 +567,16 @@
             row.innerHTML = `
 
 
-        <td>${booking.id}</td>
-        <td>${booking.customerName}</td>
-        <td>${booking.date}</td>
-        <td>${booking.time}</td>
-        <td>${booking.status}</td>
-        <td>
-            <button class="btn btn-primary btn-sm" onclick="editBooking(${booking.id})">Edit</button>
-            <button class="btn btn-danger btn-sm" onclick="deleteBooking(${booking.id})">Delete</button>
-        </td>
+
+				<td>${booking.id}</td>
+				<td>${booking.customerName}</td>
+				<td>${booking.date}</td>
+				<td>${booking.time}</td>
+				<td>${booking.status}</td>
+				<td>
+					<button class="btn btn-primary btn-sm" onclick="editBooking(${booking.id})">Edit</button>
+					<button class="btn btn-danger btn-sm" onclick="deleteBooking(${booking.id})">Delete</button>
+				</td>
     `;
             return row;
         }
@@ -485,6 +595,7 @@
                 resetBtn.remove();
             }
         }
+
         // Close scanner when clicking outside the modal
         document.getElementById('scanner-overlay').addEventListener('click', function (e) {
             if (e.target === this) {
@@ -503,5 +614,4 @@
     });
 </script>
 </body>
-
 </html>

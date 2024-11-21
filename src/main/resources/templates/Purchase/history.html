@@ -16,6 +16,48 @@
             justify-content: space-between;
             align-items: center;
         }
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+        .toast {
+            background: #28a745;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .toast.error {
+            background: #dc3545;
+        }
+
+
+        @keyframes slideInLeft{
+            from{
+                opacity: 0;
+                transform: translateX(calc(100% + 32px));
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @keyframes fadeOut{
+            to{
+                opacity: 0;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -30,7 +72,7 @@
         </div>
     </div>
     <!-- ========== End Preloader ========== -->
-
+    <div id="toast-container" class="toast-container"></div>
     <!-- ========== Banner Section ========== -->
     <section class="banner-section">
         <div class="banner-bg bg_img bg-fixed" data-background="/assets/img/history/history-bg.jpg" style="background-image: url(&quot;./assets/img/history/history-bg.jpg&quot;);"></div>
@@ -160,5 +202,25 @@
 </section>
 
 <script th:src="@{/assets/user/js/qrcode.js}"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const toastMessage = /*[[${toastMessage}]]*/ null;
+
+    if (toastMessage) {
+        // Hiển thị Toast Message
+        const toastContainer = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = toastMessage;
+
+        toastContainer.appendChild(toast);
+
+        // Tự động xóa toast sau 4 giây
+        setTimeout(() => {
+            toast.remove();
+        }, 4000);
+    }
+    /*]]>*/
+</script>
 </body>
 </html>
