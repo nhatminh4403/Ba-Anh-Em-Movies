@@ -8,8 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -58,5 +57,38 @@ public class CategoryService {
     public List<Category> getCategoriesByIds(List<Category> categories) {
         List<Long> ids = categories.stream().map(Category::getId).toList();
         return categoryRepository.findAllById(ids);
+    }
+
+
+    public String getSuggestedCategories() {
+        List<Category> categories = categoryRepository.findAll();
+        if (categories.isEmpty()) {
+            return "Hiện tại không có thể loại nào trong danh sách.";
+        }
+
+        // Tạo Random object
+        Random random = new Random();
+
+        // Chọn ngẫu nhiên số lượng thể loại (1 hoặc 2)
+        int numberOfCategories = random.nextInt(2) + 1; // Random từ 1-2
+
+        // Xáo trộn danh sách và lấy số lượng cần thiết
+        Collections.shuffle(categories);
+        List<Category> selectedCategories = categories.subList(0,
+                Math.min(numberOfCategories, categories.size()));
+
+        // Tạo câu trả lời
+        StringBuilder response = new StringBuilder();
+        if (selectedCategories.size() == 1) {
+            response.append("Bạn có thể xem thể loại: ")
+                    .append(selectedCategories.get(0).getName());
+        } else {
+            response.append("Bạn có thể xem các thể loại: ")
+                    .append(selectedCategories.get(0).getName())
+                    .append(" hoặc ")
+                    .append(selectedCategories.get(1).getName());
+        }
+
+        return response.append(".").toString();
     }
 }

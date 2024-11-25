@@ -59,7 +59,7 @@ public class SecurityConfig {
                                 "/films/film-details/**", "/schedules/**",
                                 "/cart", "/cart/**", "blog/details",
                                 "/popcorn", "/movie/details", "/movie/seat-plan","/films/search",
-                                "/feedback", "/blog", "/blog/blog-details", "/about","/films/by-category/**",
+                                "/feedback", "/blog", "/blog/blog-details", "/about","/films/by-category/**","dialogflow/webhook",
                                 "/blog/blog-details/{id}/comment")
                         .permitAll() // Cho phép truy cập không cần xác thực.
                         .requestMatchers("admin/movie/edit/**", "/admin/movie/add","/admin/bookings/detail/**",

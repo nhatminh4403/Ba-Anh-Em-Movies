@@ -1,137 +1,35 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{admin/layout}"
->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{admin/layout}">
 <head>
     <meta charset="UTF-8">
     <title th:text="${title} +' '+${id}">Title</title>
 
-   <style>
-       /* General Styling */
-       /* Seat Section Container */
-       .seat-section {
-           padding: 20px;
-       }
+    <style>
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
 
-       .seat-section__container {
-           margin-bottom: 40px;
-           padding: 20px;
-           background-color:#101013de;
-           border: 1px solid #ddd;
-           border-radius: 8px;
-           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-       }
+        .back-button:hover {
+            background-color: rgba(47, 128, 237, 0.1);
+        }
 
-       .seat-section__title {
-           font-size: 1.5em;
-           margin-bottom: 20px;
-           color: white;
-           text-transform: uppercase;
-           border-bottom: 2px solid #007bff;
-           padding-bottom: 10px;
-       }
+        .back-button svg {
+            width: 20px;
+            height: 20px;
+            transform: rotate(180deg); /* Xoay mũi tên sang trái */
+        }
 
-       /* Seat Item Styling */
-       .seat-section__items {
-           display: flex;
-           flex-wrap: wrap;
-           gap: 15px; /* Khoảng cách giữa các ghế */
-           justify-content: center; /* Căn đều giữa các ghế */
-       }
-
-       .seat-item {
-           width: calc(16.666% - 15px); /* Chia đều thành 6 ghế mỗi hàng */
-           background-color: #f8f9fa;
-           border: 1px solid #ddd;
-           border-radius: 8px;
-           padding: 15px;
-           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-           transition: transform 0.2s ease, box-shadow 0.2s ease;
-           text-align: center; /* Căn giữa nội dung bên trong */
-       }
-
-       .seat-item:hover {
-           transform: translateY(-5px);
-           box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-       }
-
-       .seat-item__info p {
-           margin: 5px 0;
-           font-size: 0.9em;
-       }
-
-       .seat-item__image {
-           max-width: 100%;
-           height: auto;
-           margin: 10px 0;
-           border-radius: 4px;
-           border: 1px solid #ddd;
-       }
-
-       /* Seat Item Actions */
-       .seat-item__actions {
-           display: flex;
-           gap: 10px;
-           margin-top: 10px;
-           justify-content: center; /* Căn giữa các nút */
-       }
-
-       .seat-item__actions .btn {
-           padding: 8px 12px;
-           font-size: 0.9em;
-           border: none;
-           border-radius: 4px;
-           cursor: pointer;
-           transition: background-color 0.3s ease;
-       }
-
-       .seat-item__actions .btn-primary {
-           background-color: #007bff;
-           color: #fff;
-       }
-
-       .seat-item__actions .btn-primary:hover {
-           background-color: #0056b3;
-       }
-
-       .seat-item__actions .btn-danger {
-           background-color: #dc3545;
-           color: #fff;
-       }
-
-       .seat-item__actions .btn-danger:hover {
-           background-color: #b02a37;
-       }
-       .main__table-btn--delete{
-           background-color: #2b2b31;
-           text-decoration: none;
-       }
-       /* Responsive Design */
-       @media (max-width: 992px) {
-           .seat-item {
-               width: calc(25% - 15px); /* 4 ghế mỗi hàng trên màn hình nhỏ hơn */
-           }
-       }
-
-       @media (max-width: 768px) {
-           .seat-item {
-               width: calc(33.333% - 15px); /* 3 ghế mỗi hàng trên tablet */
-           }
-       }
-
-       @media (max-width: 576px) {
-           .seat-item {
-               width: calc(50% - 15px); /* 2 ghế mỗi hàng trên mobile */
-           }
-       }
-
-       @media (max-width: 360px) {
-           .seat-item {
-               width: 100%; /* 1 ghế mỗi hàng trên màn hình rất nhỏ */
-           }
-       }
-
-   </style>
+        .back-button span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body>
 <section layout:fragment="content">
@@ -142,11 +40,35 @@
                 <div class="col-12">
                     <div class="main__title">
                         <h2 th:text="${title} +' '+ ${id}"></h2>
+                        <a th:href="@{/admin/cinemas}" class="main__title-link back-button" style="margin-left: 15px">
+                            <svg width="24" height="24" viewBox="0 0 489.394 489.394" fill="currentColor">
+                                <path d="M375.789,92.867H166.864l17.507-42.795c3.724-9.132,1-19.574-6.691-25.744c-7.701-6.166-18.538-6.508-26.639-0.879
+            L9.574,121.71c-6.197,4.304-9.795,11.457-9.563,18.995c0.231,7.533,4.261,14.446,10.71,18.359l147.925,89.823
+            c8.417,5.108,19.18,4.093,26.481-2.499c7.312-6.591,9.427-17.312,5.219-26.202l-19.443-41.132h204.886
+            c15.119,0,27.418,12.536,27.418,27.654v149.852c0,15.118-12.299,27.19-27.418,27.19h-226.74c-20.226,0-36.623,16.396-36.623,36.622
+            v12.942c0,20.228,16.397,36.624,36.623,36.624h226.74c62.642,0,113.604-50.732,113.604-113.379V206.709
+            C489.395,144.062,438.431,92.867,375.789,92.867z"/>
+                            </svg>
+                            <span>Trở về</span>
+                        </a>
+
                         <a th:href="@{/admin/seats/add}" class="main__title-link">Thêm mới</a>
                     </div>
                 </div>
-
-
+                <div class="col-12">
+                    <div class="schedule-selector">
+                        <form method="get" th:action="@{/admin/rooms/{id}(id=${room.id})}">
+                            <label for="schedule">Chọn lịch chiếu:</label>
+                            <select name="scheduleId" id="schedule">
+                                <option value="">-- Tất cả --</option>
+                                <option th:each="schedule : ${schedules}" th:value="${schedule.id}"
+                                        th:selected="${schedule.id} == selectedScheduleId"
+                                        th:text="${schedule.startTime}"></option>
+                            </select>
+                            <button type="submit" class="btn btn-primary">Lọc</button>
+                        </form>
+                    </div>
+                </div>
                 <!-- end main title -->
                 <!-- users -->
                 <div class="seat-section">
@@ -154,66 +76,88 @@
                     <div class="seat-section__container">
                         <h4 class="seat-section__title">Ghế Thường</h4>
                         <div class="seat-section__items">
-                            <div class="seat-item" th:each="item : ${seats}" th:if="${item.seattype.type} == 'regular'">
+                            <div class="seat-item" th:each="item : ${seats}" th:if="${item.seatType} == 'regular'" th:data-status="${item.status}">
                                 <div class="seat-item__info">
-                                    <p><strong>Số ghế:</strong> <span th:text="${item.symbol}">A1</span></p>
-                                    <p><strong>Giá ghế:</strong> <span th:text="${item.seattype.price}">100000</span></p>
+                                    <p>
+                                        <strong>Số ghế:</strong>
+                                        <span th:text="${item.symbol}">A1</span>
+                                    </p>
+                                    <p>
+                                        <strong>Giá ghế:</strong>
+                                        <span th:text="${item.price}">100000</span>
+                                    </p>
                                     <img th:src="${item.image}" alt="Seat Image" class="seat-item__image" />
-                                    <p><strong>Trạng thái:</strong> <span th:text="${item.status}">Available</span></p>
-                                    <p><strong>Phòng:</strong> <span th:text="${item.room.name}">Phòng 1</span></p>
+                                    <p>
+                                        <strong>Trạng thái:</strong>
+                                        <span th:text="${item.status} ? 'Booked' : 'Empty'">Available</span>
+                                    </p>
+                                    <p><span th:text="${item.roomName}">Phòng 1</span></p>
+
                                 </div>
                                 <div class="seat-item__actions">
-                                    <a href="#modal-delete" th:onclick="'setDeleteItem(' + ${item.id} + ')'"
-                                       class="main__table-btn main__table-btn--delete open-modal">
-                                        Xóa</a>
+                                    <a href="#modal-delete" th:onclick="'setDeleteItem(' + ${item.id} + ')'" class="main__table-btn main__table-btn--delete open-modal"> Xóa</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <!-- VIP Seats -->
                     <div class="seat-section__container">
                         <h4 class="seat-section__title">Ghế VIP</h4>
                         <div class="seat-section__items">
-                            <div class="seat-item" th:each="item : ${seats}" th:if="${item.seattype.type} == 'VIP'">
+                            <div class="seat-item" th:each="item : ${seats}" th:if="${item.seatType} == 'VIP'" th:data-status="${item.status}">
                                 <div class="seat-item__info">
-                                    <p><strong>Số ghế:</strong> <span th:text="${item.symbol}">A1</span></p>
-                                    <p><strong>Giá ghế:</strong> <span th:text="${item.seattype.price}">100000</span></p>
+                                    <p>
+                                        <strong>Số ghế:</strong>
+                                        <span th:text="${item.symbol}">A1</span>
+                                    </p>
+                                    <p>
+                                        <strong>Giá ghế:</strong>
+                                        <span th:text="${item.price}">100000</span>
+                                    </p>
                                     <img th:src="${item.image}" alt="Seat Image" class="seat-item__image" />
-                                    <p><strong>Trạng thái:</strong> <span th:text="${item.status}">Available</span></p>
-                                    <p><strong>Phòng:</strong> <span th:text="${item.room.name}">Phòng 1</span></p>
+                                    <p>
+                                        <strong>Trạng thái:</strong>
+                                        <span th:text="${item.status} ? 'Booked' : 'Empty'">Available</span>
+                                    </p>
+                                    <p><span th:text="${item.roomName}">Phòng 1</span></p>
+
                                 </div>
                                 <div class="seat-item__actions">
-                                    <a href="#modal-delete" th:onclick="'setDeleteItem(' + ${item.id} + ')'"
-                                       class="main__table-btn main__table-btn--delete open-modal">
-                                        Xóa</a>
+                                    <a href="#modal-delete" th:onclick="'setDeleteItem(' + ${item.id} + ')'" class="main__table-btn main__table-btn--delete open-modal"> Xóa</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <!-- Couple Seats -->
                     <div class="seat-section__container">
                         <h4 class="seat-section__title">Ghế Couple</h4>
                         <div class="seat-section__items">
-                            <div class="seat-item" th:each="item : ${seats}" th:if="${item.seattype.type} == 'couple'">
+                            <div class="seat-item" th:each="item : ${seats}" th:if="${item.seatType} == 'couple'" th:data-status="${item.status}">
                                 <div class="seat-item__info">
-                                    <p><strong>Số ghế:</strong> <span th:text="${item.symbol}">A1</span></p>
-                                    <p><strong>Giá ghế:</strong> <span th:text="${item.seattype.price}">100000</span></p>
+                                    <p>
+                                        <strong>Số ghế:</strong>
+                                        <span th:text="${item.symbol}">A1</span>
+                                    </p>
+                                    <p>
+                                        <strong>Giá ghế:</strong>
+                                        <span th:text="${item.price}">100000</span>
+                                    </p>
                                     <img th:src="${item.image}" alt="Seat Image" class="seat-item__image" />
-                                    <p><strong>Trạng thái:</strong> <span th:text="${item.status}">Available</span></p>
-                                    <p><strong>Phòng:</strong> <span th:text="${item.room.name}">Phòng 1</span></p>
+                                    <p>
+                                        <strong>Trạng thái:</strong>
+                                        <span th:text="${item.status} ? 'Booked' : 'Empty'">Available</span>
+                                    </p>
+
+                                    <p><span th:text="${item.roomName}">Phòng 1</span></p>
+
                                 </div>
                                 <div class="seat-item__actions">
-                                    <a href="#modal-delete" th:onclick="'setDeleteItem(' + ${item.id} + ')'"
-                                       class="main__table-btn main__table-btn--delete open-modal">
-                                        Xóa</a>
+                                    <a href="#modal-delete" th:onclick="'setDeleteItem(' + ${item.id} + ')'" class="main__table-btn main__table-btn--delete open-modal"> Xóa</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </main>
@@ -221,10 +165,7 @@
         <h6 class="modal__title">Thông báo</h6>
         <p class="modal__text">Bạn có muốn xoá dữ liệu này không? Không thể xoá dữ liệu đã có liên kết.</p>
         <div class="modal__btns">
-            <button class="modal__btn modal__btn--apply" type="button"
-                    th:onclick="'deleteItem(\'/admin/countries/delete/\' + ' + item_id + ', \'/admin/countries\')'">
-                Xoá
-            </button>
+            <button class="modal__btn modal__btn--apply" type="button" th:onclick="'deleteItem(\'/admin/countries/delete/\' + ' + item_id + ', \'/admin/countries\')'"> Xoá </button>
             <button class="modal__btn modal__btn--dismiss" type="button">Đóng</button>
         </div>
     </div>

@@ -12,7 +12,7 @@ public class TesseractConfig {
         Tesseract tesseract = new Tesseract();
         // Đặt đường dẫn tới thư mục chứa file ngôn ngữ
         tesseract.setDatapath("src/main/resources/tessdata/");
-        tesseract.setLanguage("eng"); // Ngôn ngữ là tiếng Anh
+        tesseract.setLanguage("vie"); // Ngôn ngữ là tiếng Anh
         return tesseract;
     }
 }

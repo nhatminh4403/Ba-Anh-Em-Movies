@@ -69,10 +69,10 @@ public class SeatController {
 
             // Đánh dấu ghế đã được đặt cho suất chiếu hiện tại
             for (Seat seat : seats) {
-                seat.setStatus("empty"); // Đặt mặc định là 'available'
+                seat.setStatus(false); // Đặt mặc định là 'available'
                 for (BookingDetail bookingDetail : bookingDetails) {
                     if (bookingDetail.getSeat().getId().equals(seat.getId())) {
-                        seat.setStatus("booked"); // Đánh dấu là 'booked' nếu có trong BookingDetail của suất chiếu hiện
+                        seat.setStatus(true); // Đánh dấu là 'booked' nếu có trong BookingDetail của suất chiếu hiện
                                                   // tại
                         break;
                     }

@@ -93,7 +93,7 @@
                                         <li class="single-seat seat-free" th:each="seat : ${seatsByType['regular']}">
                                             <img class="seat-img" alt="seat"
                                                  th:attr="src=${seat.image}, data-src2='/assets/img/seat/regularchoose.png', data-src=${seat.image}, data-id=${seat.id}, data-symbol=${seat.symbol}, data-price=${seat.seattype.price}"
-                                                 th:classappend="${seat.status == 'booked'} ? ' disabled' : ''"
+                                                 th:classappend="${seat.status == true} ? ' disabled' : ''"
 
                                             >
                                             <span class="sit-num" th:text="${seat.symbol}"></span>
@@ -114,7 +114,7 @@
                                         <li class="single-seat seat-free" th:each="seat : ${seatsByType['VIP']}">
                                             <img class="seat-img" alt="seat"
                                                  th:attr="src=${seat.image}, data-src2='/assets/img/seat/VIPchoose.png', data-src=${seat.image}, data-id=${seat.id}, data-symbol=${seat.symbol}, data-price=${seat.seattype.price}"
-                                                 th:classappend="${seat.status == 'booked'} ? ' disabled' : ''"
+                                                 th:classappend="${seat.status == true} ? ' disabled' : ''"
 
                                             >
                                             <span class="sit-num" th:text="${seat.symbol}"></span>
@@ -135,7 +135,7 @@
                                         <li class="single-seat seat-free-two" th:each="seat : ${seatsByType['couple']}">
                                             <img class="seat-img" alt="seat"
                                                  th:attr="src=${seat.image}, data-src2='/assets/img/seat/couplechoose.png', data-src=${seat.image}, data-id=${seat.id}, data-symbol=${seat.symbol}, data-price=${seat.seattype.price}"
-                                                 th:classappend="${seat.status == 'booked'} ? ' disabled' : ''"
+                                                 th:classappend="${seat.status == true} ? ' disabled' : ''"
 
                                             >
                                             <span class="sit-num" th:text="${seat.symbol}"></span>

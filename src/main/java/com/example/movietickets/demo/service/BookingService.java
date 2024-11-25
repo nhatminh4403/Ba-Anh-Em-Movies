@@ -133,7 +133,7 @@ public class BookingService {
         }
         //cập nhật trạng thái ghé đã đặt
         for (Seat seat : seats) {
-            seat.setStatus("booked");
+            seat.setStatus(true);
             seatRepository.save(seat);
         }
     }

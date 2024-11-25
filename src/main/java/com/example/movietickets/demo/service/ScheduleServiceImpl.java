@@ -43,6 +43,9 @@ public class ScheduleServiceImpl {
         return scheduleRepository.findByFilmId(filmId);
     }
 
+    public List<Schedule> getByRoomId(Long roomId) {
+        return scheduleRepository.findByRoomId(roomId);
+    }
 
     public Schedule findScheduleByFilmId(Long filmId) {
         return scheduleRepository.findByFilmId(filmId)
