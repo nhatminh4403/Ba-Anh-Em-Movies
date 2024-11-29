@@ -20,7 +20,7 @@
     <link rel="stylesheet" th:fragment="link-css" th:href="@{/assets/css/jquery.animatedheadline.css}"/>
     <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/contact.css}"/>
     <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/main.css}"/>
-
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/userprofile.css}">
     <link rel="shortcut icon" type="image/x-icon" href="/assets/img/movie/cake2.png"/>
     <!--    "D:\Web_VS\Ba-Anh-Em\src\main\resources\static\assets\img\movie\cake2.png"-->
     <!--    th:replace="~{::title}"-->
@@ -130,8 +130,13 @@
                 </li>
 
                 <li class="header-button pr-0" sec:authorize="!isAuthenticated()">
-                    <form th:action="@{/logout}" method="post">
+                    <form th:action="@{/login}" method="post">
                         <a th:href="@{/login}">Đăng nhập</a>
+                    </form>
+                </li>
+                <li class="header-button pr-0" sec:authorize="!isAuthenticated()">
+                    <form th:action="@{/register}" method="post">
+                        <a th:href="@{/register}">Đăng ký</a>
                     </form>
                 </li>
             </ul>
@@ -375,8 +380,14 @@
 <script type="text/javascript" th:src="@{https://cdn.jsdelivr.net/npm/toastify-js}"></script>
 <script th:src="@{/assets/js/app.js}"></script>
 <script th:src="@{/assets/js/main.js}"></script>
-<!--    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>-->
 <script th:src="@{/assets/user/js/qrcode.js}"></script>
+<script th:src="@{/assets/js/ocr.js}"></script>
+<script>
+    document.getElementById('fullname').addEventListener('input', function(e) {
+        e.target.value = e.target.value.toUpperCase();
+    });
+</script>
+
 <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
 <df-messenger
         intent="WELCOME"
