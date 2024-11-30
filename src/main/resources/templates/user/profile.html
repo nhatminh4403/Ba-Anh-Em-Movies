@@ -117,6 +117,9 @@
             background: #dc3545;
             color: #fff;
         }
+        .banner-content{
+            max-width: 936px;
+        }
     </style>
 </head>
 <body>
@@ -137,11 +140,6 @@
             <div class="banner-content">
                 <h1 class="title cd-headline clip">
                     <span class="d-block" th:text="${title}"></span>
-                    <span class="color-theme cd-words-wrapper p-0 m-0">
-                        <b class="is-hidden pb-3">Rõ ràng</b>
-                        <b class="is-hidden pb-3">Nhanh chóng</b>
-                        <b class="is-visible pb-3">Tối ưu</b>
-                    </span>
                 </h1>
                 <p>Cám ơn bạn đã đồng hành cùng Ba Anh Em. Chúc bạn xem phim vui vẻ!</p>
             </div>
@@ -168,10 +166,21 @@
                     <div class="info-item">
                         <div class="info-label">Số điện thoại</div>
                         <div class="info-value" th:text="${user.phone != null ? user.phone : 'Chưa cập nhật'}">
-                            0123456789
+
                         </div>
                     </div>
+                    <div class="info-item">
+                        <div class="info-label">Ngày sinh</div>
+                        <div class="info-value" th:text="${user.birthday != null ? user.birthday : 'Chưa cập nhật'}">
 
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Tuổi</div>
+                        <div class="info-value" th:text="${user.age != null ? user.age : 'Chưa cập nhật'}">
+
+                        </div>
+                    </div>
 <!--                    <div class="info-item">-->
 <!--                        <div class="info-label">Địa chỉ</div>-->
 <!--                        <div class="info-value" th:text="${user.address != null ? user.address : 'Chưa cập nhật'}">-->

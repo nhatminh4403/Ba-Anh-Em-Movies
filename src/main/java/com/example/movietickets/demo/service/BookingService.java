@@ -2,11 +2,8 @@ package com.example.movietickets.demo.service;
 
 import com.example.movietickets.demo.model.*;
 import com.example.movietickets.demo.repository.*;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,12 +12,9 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.SessionScope;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.annotation.SessionScope;
 
-import java.io.ByteArrayOutputStream;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +40,9 @@ public class BookingService {
         this.comboFoodRepository = comboFoodRepository;
         this.userRepository = userRepository;
     }
-
+    public Booking saveBooking(Booking booking){
+        return bookingRepository.save(booking);
+    }
     public List<Booking> getAll() {
         return bookingRepository.findAll();
     }
@@ -137,7 +133,7 @@ public class BookingService {
         }
         //cập nhật trạng thái ghé đã đặt
         for (Seat seat : seats) {
-            seat.setStatus("booked");
+            seat.setStatus(true);
             seatRepository.save(seat);
         }
     }

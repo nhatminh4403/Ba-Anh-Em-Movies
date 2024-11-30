@@ -15,8 +15,10 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.FileSystemNotFoundException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @AllArgsConstructor
 @Service
@@ -93,5 +95,46 @@ public class FilmService {
     public List<Film> getFilmsByCategoryId(Long categoryId) {
         return filmRepository.findFilmsByCategoryId(categoryId);
     }
+    public String getSuggestedMovies() {
+        // Lấy danh sách phim từ database
+        List<Film> movies = filmRepository.findAll();
+        if (movies.isEmpty()) {
+            return "Hiện tại không có phim nào trong danh sách.";
+        }
 
+        // Chọn ngẫu nhiên 1 phim
+        Random random = new Random();
+        Film selectedMovie = movies.get(random.nextInt(movies.size()));
+
+        // Tạo câu trả lời với thông tin chi tiết về phim
+        StringBuilder response = new StringBuilder();
+        response.append("Tôi gợi ý bạn xem phim ")
+                .append(selectedMovie.getName())
+                .append(". ");
+
+        // Thêm thông tin về thể loại nếu có
+        if (selectedMovie.getCategories() != null && !selectedMovie.getCategories().isEmpty()) {
+            response.append("Thể loại: ");
+            selectedMovie.getCategories().forEach(category ->
+                    response.append(category.getName()).append(", "));
+            // Xóa dấu phẩy cuối cùng
+            response.setLength(response.length() - 2);
+            response.append(". ");
+        }
+
+        // Thêm thông tin về thời lượng nếu có
+        if (selectedMovie.getDuration() > 0) {
+            response.append("Thời lượng: ")
+                    .append(selectedMovie.getDuration())
+                    .append(" phút. ");
+        }
+
+        // Thêm mô tả ngắn nếu có
+        if (selectedMovie.getDescription() != null && !selectedMovie.getDescription().isEmpty()) {
+            response.append("Tóm tắt: ")
+                    .append(selectedMovie.getDescription());
+        }
+
+        return response.toString();
+    }
 }

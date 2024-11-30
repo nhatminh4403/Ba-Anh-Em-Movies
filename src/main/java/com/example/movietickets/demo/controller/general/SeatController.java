@@ -52,7 +52,7 @@ public class SeatController {
         model.addAttribute("seats", seats);
         model.addAttribute("rooms", roomService.getAllRooms());
         model.addAttribute("selectedRoomId", roomId);
-        return "/seat/seat-list";
+        return "Seat/seat-list";
     }
 
     @GetMapping("/schedules/{scheduleId}")
@@ -69,10 +69,10 @@ public class SeatController {
 
             // Đánh dấu ghế đã được đặt cho suất chiếu hiện tại
             for (Seat seat : seats) {
-                seat.setStatus("empty"); // Đặt mặc định là 'available'
+                seat.setStatus(false); // Đặt mặc định là 'available'
                 for (BookingDetail bookingDetail : bookingDetails) {
                     if (bookingDetail.getSeat().getId().equals(seat.getId())) {
-                        seat.setStatus("booked"); // Đánh dấu là 'booked' nếu có trong BookingDetail của suất chiếu hiện
+                        seat.setStatus(true); // Đánh dấu là 'booked' nếu có trong BookingDetail của suất chiếu hiện
                                                   // tại
                         break;
                     }
@@ -103,7 +103,7 @@ public class SeatController {
             model.addAttribute("cinemaAddress", cinemaAddress);
             model.addAttribute("roomName", roomName);
 
-            return "/seat/seat-choose"; // chuyển đến trang chọn ghế
+            return "Seat/seat-choose"; // chuyển đến trang chọn ghế
         } else {
             return "redirect:/404"; // Redirect nếu không tìm thấy lịch chiếu
         }

@@ -5,10 +5,13 @@ import com.example.movietickets.demo.repository.RoomRepository;
 import com.example.movietickets.demo.repository.SeatRepository;
 import com.example.movietickets.demo.repository.UserRepository;
 import com.example.movietickets.demo.service.*;
+import com.example.movietickets.demo.service.PaymentServices.ExchangeCurrencyService;
+import com.example.movietickets.demo.service.PaymentServices.PaypalService;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -24,9 +27,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 @Controller
 @RequiredArgsConstructor
@@ -63,7 +71,9 @@ public class PurchaseController {
     private final PaypalService paypalService;
     @Autowired
     private ExchangeCurrencyService exchangeCurrencyService;
-
+//
+//    @Autowired
+//    private  MoMoService momoService;
 
     @GetMapping
     public String showPurchase(Model model, @RequestParam(required = false) Long scheduleId) {
@@ -100,7 +110,6 @@ public class PurchaseController {
     }
 
 
-
     @GetMapping("/clear")
     public String clearPurchase() {
         purchaseService.clearPurchase();
@@ -130,11 +139,27 @@ public class PurchaseController {
     }
 
     @GetMapping("/history")
-    public String showPurchaseHistory(Model model) {
+    public String showPurchaseHistory(Model model, @RequestParam(required = false) String status,
+                                      @RequestParam(required = false) String message) {
         List<Booking> bookings = bookingService.getBookingsByCurrentUser(); // phương thức này để lấy các booking của người dùng hiện tại
         List<Category> categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
         model.addAttribute("bookings", bookings);
+        if (status != null) {
+            switch (status) {
+                case "success": case "Successful":
+                    model.addAttribute("message", "Thanh toán thành công!");
+                    break;
+                case "failed":
+                    model.addAttribute("message",
+                            message != null ? "Thanh toán thất bại: " + message : "Thanh toán thất bại!");
+                    break;
+                case "error":
+                    model.addAttribute("message",
+                            message != null ? message : "Có lỗi xảy ra trong quá trình xử lý!");
+                    break;
+            }
+        }
 
         return "Purchase/history";
     }
@@ -142,10 +167,11 @@ public class PurchaseController {
     @PostMapping("/checkout")
     public String checkout(
             @RequestParam("payment") String payment,
-            @RequestParam String comboId, //nhận String từ form purrchase
+            @RequestParam String comboId, //nhận String từ form purchase
             @RequestParam Long scheduleId,
             RedirectAttributes redirectAttributes,
-            Model model
+            Model model, HttpSession session
+
     ) throws PayPalRESTException {
         if (purchaseService.IsExist()) {
             Purchase purchase = purchaseService.Get();
@@ -179,24 +205,29 @@ public class PurchaseController {
             booking.setSeatName(purchase.getSeats());
             booking.setRoomName(purchase.getRoomName());
             booking.setPayment(payment);
-            booking.setStatus(true); // Hoặc giá trị khác tùy vào logic của bạn
+            booking.setStatus(false); // Hoặc giá trị khác tùy vào logic của bạn
             booking.setCreateAt(new Date());
-            booking.setPrice(purchase.getTotalPrice()+ comboPrice); //cộng thêm giá từ food
+            booking.setPrice(purchase.getTotalPrice() + comboPrice); //cộng thêm giá từ food
 
             if (comboFoodId != null) {
                 ComboFood comboFood = comboFoodService.getComboFoodById(comboFoodId).orElseThrow(() -> new EntityNotFoundException("Combo not found"));
                 booking.setComboFood(comboFood);
             }
 
+            if ("Trả tiền tại quầy".equalsIgnoreCase(payment)) {
+
+                booking.setPayment("Thanh toán tại quầy");
+            }
+
             // Kiểm tra phương thức thanh toán
             if ("vnpay".equalsIgnoreCase(payment)) {
                 //return "redirect:/api/payment/create_payment?amount=" + purchase.getTotalPrice();
-                return "redirect:/api/payment/create_payment?scheduleId=" + scheduleId + "&amount="  + booking.getPrice() + "&comboId="  + comboId ;
+                return "redirect:/api/payment/create_payment?scheduleId=" + scheduleId + "&amount=" + booking.getPrice() + "&comboId=" + comboId;
             }
-            Long comboPricePaypal = (long) getComboPrice(comboId);
-            BigDecimal totalPriceUSD = exchangeCurrencyService.convertVNDToUSD(purchase.getTotalPrice() + comboPricePaypal);
+            Long comboPriceInLong = (long) getComboPrice(comboId);
+            BigDecimal totalPriceUSD = exchangeCurrencyService.convertVNDToUSD(purchase.getTotalPrice() + comboPriceInLong);
 
-            if("paypal".equalsIgnoreCase(payment)){
+            if ("paypal".equalsIgnoreCase(payment)) {
                 try {
                     String cancelUrl = "http://localhost:8080/purchase/cancel";
                     String successUrl = "http://localhost:8080/purchase/success?scheduleId=" + scheduleId;
@@ -221,8 +252,9 @@ public class PurchaseController {
                     return "redirect:/purchase/history";
                 }
             }
-
-
+            if ("momo".equalsIgnoreCase(payment)) {
+                return "redirect:/api/payment/momo/create_momo?scheduleId=" + scheduleId + "&amount=" + purchase.getTotalPrice() + "&comboId=" + comboId;
+            }
             // Lấy thông tin người dùng hiện tại
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             User user = getUserFromAuthentication(authentication);
@@ -230,14 +262,6 @@ public class PurchaseController {
 
             bookingService.saveBooking(booking, seats, schedule);
 
-//            try {
-//                String qrContent = "Booking ID: " + booking.getId() + ", Film: " + booking.getFilmName() +
-//                        ", Start Time: " + booking.getStartTime();
-//                byte[] qrCodeImage = qrCodeService.generateQRCode(qrContent, 200, 200);
-//                model.addAttribute("qrCodeImage", qrCodeImage);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
 
             redirectAttributes.addFlashAttribute("message", "Đặt vé thành công!");
         } else {
@@ -259,7 +283,6 @@ public class PurchaseController {
         throw new UsernameNotFoundException("User not found");
     }
 
-
     private Date parseDate(String dateStr) {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -277,10 +300,11 @@ public class PurchaseController {
         }
         return 0;
     }
+
     @GetMapping("/success")
     public String success(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId,
                           @RequestParam("scheduleId") Long scheduleId,
-                          Model model,RedirectAttributes redirectAttributes) {
+                          Model model, RedirectAttributes redirectAttributes) {
         try {
             Payment payment = paypalService.executePayment(paymentId, payerId);
             if ("approved".equals(payment.getState())) {
@@ -315,7 +339,7 @@ public class PurchaseController {
                     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                     User user = getUserFromAuthentication(authentication);
                     booking.setUser(user);
-                    System.out.println("Schedule: "+schedule.getId() +" " + schedule.getStartTime());
+                    System.out.println("Schedule: " + schedule.getId() + " " + schedule.getStartTime());
                     bookingService.saveBooking(booking, seats, schedule);
 
                     // Optionally clear the purchase after successful booking
@@ -327,7 +351,7 @@ public class PurchaseController {
                 model.addAttribute("message", "Payment successful!");
                 System.out.println("Payment successful!");
                 System.out.println();
-                return "redirect:/purchase/history";
+                return "redirect:/purchase/history?status=success";
             }
         } catch (PayPalRESTException e) {
             e.printStackTrace();
@@ -341,7 +365,6 @@ public class PurchaseController {
         model.addAttribute("message", "Payment cancelled!");
         System.out.println("Payment failed to proceed!");
         System.out.println();
-        return "redirect:/purchase/history";
+        return "redirect:/purchase/history?status=failed&message=" + URLEncoder.encode("Failed", StandardCharsets.UTF_8);
     }
-
 }

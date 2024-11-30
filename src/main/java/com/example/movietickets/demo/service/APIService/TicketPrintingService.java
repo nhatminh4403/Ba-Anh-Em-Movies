@@ -4,6 +4,7 @@ package com.example.movietickets.demo.service.APIService;
 import com.example.movietickets.demo.model.Booking;
 import com.example.movietickets.demo.model.BookingDetail;
 import com.example.movietickets.demo.ultillity.BarcodeGenerator;
+import com.example.movietickets.demo.ultillity.CheckingNumber;
 import com.example.movietickets.demo.ultillity.RemoveDiacritics;
 import com.google.zxing.WriterException;
 import org.apache.pdfbox.Loader;
@@ -24,10 +25,7 @@ import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -86,12 +84,68 @@ public class TicketPrintingService {
         return String.format("%s-%s-%s", timeComponent, seatComponent, randomComponent);
     }
 
-    public byte[] fillPDF(PDDocument template, Booking booking, BookingDetail detail) throws IOException, WriterException {
-        PDDocument document = null;
-        try {
+    private PDType0Font tryLoadFallbackFonts(PDDocument document) throws IOException {
+        // Try different fallback fonts in order
+        String[] fallbackFonts = {
+                "src/main/resources/static/assets/admin/fonts/RobotoSlab/static/RobotoSlab-Regular.ttf"
+        };
 
-            document = cloneDocument(template);
+        for (String fontPath : fallbackFonts) {
+            try (InputStream fontStream = getClass().getResourceAsStream(fontPath)) {
+                if (fontStream != null) {
+                    return PDType0Font.load(document, fontStream);
+                }
+            } catch (IOException e) {
+                continue;
+            }
+        }
+        //        "/static/assets/admin/fonts/RobotoSlab/static/RobotoSlab-Regular.ttf"
+//        PDType1Font pdType1Font = new PDType1Font(Standard14Fonts.FontName.COURIER);
+        // Last resort: use built-in Helvetica
+        return PDType0Font.load(document,
+                new File("src/main/resources/static/assets/admin/fonts/Times New Roman/times new roman.ttf"));
+    }
+
+    private void setupFontResources(PDAcroForm acroForm, PDType0Font font) {
+        if (acroForm.getDefaultResources() == null) {
+            acroForm.setDefaultResources(new PDResources());
+        }
+
+        String fontName = "CustomFont";
+        acroForm.getDefaultResources().put(COSName.getPDFName(fontName), font);
+        String defaultAppearanceString = "/" + fontName + " 12 Tf 0 g";
+
+        for (PDField field : acroForm.getFields()) {
+            if (field instanceof PDVariableText textField) {
+                textField.setDefaultAppearance(defaultAppearanceString);
+                field.getCOSObject().removeItem(COSName.AP);
+            }
+        }
+    }
+    public byte[] fillPDF(PDDocument template, Booking booking, BookingDetail detail) throws IOException, WriterException {
+        try (PDDocument document = cloneDocument(template)) {
+
             PDAcroForm acroForm = document.getDocumentCatalog().getAcroForm();
+
+            PDType0Font customFont;
+            try {
+                // Try loading Montserrat
+                try (InputStream fontStream = getClass().getResourceAsStream("/static/assets/admin/fonts/Montserrat/Montserrat-Regular.otf")) {
+                    if (fontStream != null) {
+                        System.out.println("Montserrat font found");
+                        customFont = PDType0Font.load(document, fontStream);
+                    } else {
+                        System.out.println("Montserrat font not found");
+                        throw new IOException("Montserrat font not found");
+                    }
+                }
+            } catch (IOException e) {
+                // Fallback fonts in order of preference
+                customFont = tryLoadFallbackFonts(document);
+            }
+
+            // Set up resources and appearance
+            setupFontResources(acroForm, customFont);
 
             // Generate and add barcode
             BarcodeGenerator barcodeGenerator = new BarcodeGenerator();
@@ -129,41 +183,14 @@ public class TicketPrintingService {
                     contentStream.endText();
                 }
             }
-            PDType0Font customFont = PDType0Font.load(document,
-                    new File("src/main/resources/static/assets/admin/fonts/Montserrat/static/Montserrat-Regular.ttf"));
 
-            // Set default resources if null
-            if (acroForm.getDefaultResources() == null) {
-                acroForm.setDefaultResources(new PDResources());
-            }
-
-            // Add font to resources with a specific name
-            String fontName = "Montserrat"; // Choose a name for your font
-            acroForm.getDefaultResources().put(COSName.getPDFName(fontName), customFont);
-
-            // Set default appearance string with the correct font name
-            String defaultAppearanceString = "/" + fontName + " 12 Tf 0 g"; // 0 g sets black color
-
-            // Apply the appearance to each field individually
-            for (PDField field : acroForm.getFields()) {
-                PDVariableText textField = (PDVariableText) field;
-                textField.setDefaultAppearance(defaultAppearanceString);
-                // Force the field to update its appearance
-                field.getCOSObject().removeItem(COSName.AP);
-            }
             // Fill form fields
-            if (acroForm != null) {
-                fillFormFields(acroForm, booking, detail);
-            }
+            fillFormFields(acroForm, booking, detail);
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             document.save(outputStream);
             return outputStream.toByteArray();
 
-        } finally {
-            if (document != null) {
-                document.close();
-            }
         }
     }
 
@@ -182,8 +209,22 @@ public class TicketPrintingService {
             setField(acroForm, "ticket_id1", detail.getId().toString());
             setField(acroForm, "ticket_id2", detail.getId().toString());
 
-            setField(acroForm, "room1", separateRoomName(booking.getRoomName()));
-            setField(acroForm, "room2", separateRoomName(booking.getRoomName()));
+            String[] firstPartOfName = booking.getRoomName().split("-");
+            String[] getRoomNumber = firstPartOfName[0].split(" ");
+
+            if(getRoomNumber.length >= 2){
+                for(String number : getRoomNumber){
+                    if(CheckingNumber.isNumeric(number)){
+                        setField(acroForm, "room1", number);
+                        setField(acroForm, "room2", number);
+                    }
+                }
+            }
+            else{
+                setField(acroForm, "room1", RemoveDiacritics.removeDiacritics(separateRoomName(booking.getRoomName())));
+                setField(acroForm, "room2",  RemoveDiacritics.removeDiacritics(separateRoomName(booking.getRoomName())));
+            }
+
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
             String formattedDate = sdf.format(booking.getStartTime());

@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class ScheduleServiceImpl implements ScheduleService {
+public class ScheduleServiceImpl {
     private final ScheduleRepository scheduleRepository;
 
     public List<Schedule> getAllSchedules() {
@@ -38,12 +38,15 @@ public class ScheduleServiceImpl implements ScheduleService {
         scheduleRepository.deleteByFilmId(filmId);
     }
 
-    @Override
+
     public List<Schedule> getSchedulesByFilmId(Long filmId) {
         return scheduleRepository.findByFilmId(filmId);
     }
 
-    @Override
+    public List<Schedule> getByRoomId(Long roomId) {
+        return scheduleRepository.findByRoomId(roomId);
+    }
+
     public Schedule findScheduleByFilmId(Long filmId) {
         return scheduleRepository.findByFilmId(filmId)
                 .stream()

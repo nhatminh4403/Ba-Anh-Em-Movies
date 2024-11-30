@@ -1,7 +1,11 @@
 package com.example.movietickets.demo.service;
 
+import com.example.movietickets.demo.DTO.SeatDto;
+import com.example.movietickets.demo.model.BookingDetail;
 import com.example.movietickets.demo.model.Room;
 import com.example.movietickets.demo.model.Seat;
+import com.example.movietickets.demo.model.SeatType;
+import com.example.movietickets.demo.repository.BookingDetailRepository;
 import com.example.movietickets.demo.repository.ScheduleRepository;
 import com.example.movietickets.demo.repository.SeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SeatService {
@@ -17,6 +22,10 @@ public class SeatService {
     @Autowired
     private SeatRepository seatRepository;
 
+    @Autowired
+    private BookingDetailRepository bookingDetailRepository;
+    @Autowired
+    private SeatTypeService seatTypeService;
 
     public List<Seat> getSeatsByRoomId(Long roomId) {
         return seatRepository.findByRoomId(roomId);
@@ -57,9 +66,29 @@ public class SeatService {
         seatRepository.deleteById(seatId);
     }
 
+    public List<Seat> getSeatListByRoomId(Long roomId) {
+        return seatRepository.findByRoomId(roomId);
+    }
 
 
+    public List<SeatDto> getSeatsByScheduleAndRoom(Long roomId, Long scheduleId) {
+        List<Seat> seats = seatRepository.findSeatsByRoomAndSchedule(roomId, scheduleId);
+//        List<SeatType> seatTypes= seatTypeService.
 
+        return seats.stream()
+                .map(this::mapToDto) // Chuyển đổi sang SeatDto
+                .collect(Collectors.toList());
+    }
 
+    public SeatDto mapToDto(Seat seat) {
+        SeatDto seatDto = new SeatDto();
+        seatDto.setId(seat.getId());
+        seatDto.setSymbol(seat.getSymbol());
+        seatDto.setSeatType(seat.getSeattype().getType()); // Lấy tên loại ghế
+        seatDto.setPrice(seat.getSeattype().getPrice());
+        seatDto.setImage(seat.getImage());
+        seatDto.setStatus(seat.getStatus());
+        return seatDto;
+    }
 }
 

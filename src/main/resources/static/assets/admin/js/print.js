@@ -1,28 +1,33 @@
-$(document).ready(function() {
-        $('.main__table-btn--edit').on('click', function() {
-            // Lấy bookingId từ data attribute
-            var bookingId = $(this).data('booking-id');
-
-            // Gửi yêu cầu AJAX tới API
-            $.ajax({
-                url: '/api/admin/ticket/generate-pdfs/' + bookingId,
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    // Xử lý phản hồi và tạo các file PDF
-                    response.forEach(function(pdfBase64, index) {
-                        var link = document.createElement('a');
-                        link.href = 'data:application/pdf;base64,' + pdfBase64;
-                        link.download = 'ticket_' + bookingId + '_' + index + '.pdf';
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error generating PDFs:', error);
-                    alert('Có lỗi xảy ra khi tạo PDF. Vui lòng thử lại.');
-                }
+document.querySelectorAll('.main__table-btn--edit').forEach(button => {
+    button.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent default link behavior
+        const bookingId = this.getAttribute('data-booking-id'); // Get the booking ID from the button
+        fetch(`/api/admin/ticket/generate-pdfs/${bookingId}`).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Parse the JSON response
+        }).then(urls => {
+            if (!Array.isArray(urls)) {
+                throw new Error('Response is not an array');
+            }
+            // Open each PDF for viewing and trigger download separately
+            urls.forEach((url, index) => {
+                // Open the PDF in a new tab
+                setTimeout(() => {
+                    const viewUrl = url.replace('/download/', '/view/');
+                    window.open(viewUrl, '_blank');
+                }, index * 500); // Delay each tab opening by 500ms
+                // Trigger download after a short delay
+                setTimeout(() => {
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = url;
+                    downloadLink.download = ''; // Trigger download without needing to specify filename
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                    document.body.removeChild(downloadLink);
+                }, (index * 500) + 1000); // Delay download by 1 second after opening tab
             });
-        });
+        }).catch(error => console.error('Error:', error)); // Log errors to the console
     });
+});

@@ -21,7 +21,10 @@ public interface SeatRepository extends JpaRepository<Seat, Long> {
     @Query("SELECT DISTINCT s FROM Seat s WHERE s.room.id = :roomId")
     List<Seat> findDistinctSeatsByRoomId(@Param("roomId") Long roomId);
 
+    List<Seat> getSeatByRoomId(Long roomId);
 
-    // List<Seat> findBySeatTypeId(Long seattypeId);
-    // List<Seat> findByRoomIdAndScheduleId(Long roomId, Long scheduleId);
+    @Query("SELECT s FROM Seat s " +
+            "LEFT JOIN BookingDetail bd ON s.id = bd.seat.id " +
+            "WHERE s.room.id = :roomId AND (bd.schedule.id = :scheduleId OR :scheduleId IS NULL)")
+    List<Seat> findSeatsByRoomAndSchedule(@Param("roomId") Long roomId, @Param("scheduleId") Long scheduleId);
 }

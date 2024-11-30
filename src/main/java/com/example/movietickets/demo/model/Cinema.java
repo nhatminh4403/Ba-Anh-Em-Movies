@@ -1,5 +1,6 @@
 package com.example.movietickets.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
@@ -27,7 +28,7 @@ public class Cinema {
     @Column(name = "MAP", nullable = true)
     private String map;
 
-
+    @JsonBackReference
     @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Room> rooms;
 

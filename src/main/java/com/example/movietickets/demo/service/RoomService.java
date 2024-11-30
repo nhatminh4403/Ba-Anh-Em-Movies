@@ -17,12 +17,13 @@ public class RoomService {
     private final RoomRepository roomRepository;
 
     public List<Room> getAllRooms() {
-        return roomRepository.findAllByOrderByIdDesc();
+        return roomRepository.findAllByOrderById();
     }
 
     public Optional<Room> getRoomById(Long id) {
         return roomRepository.findById(id);
     }
+
 
 
     public void addRoom(Room room) {

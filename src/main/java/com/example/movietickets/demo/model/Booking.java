@@ -47,7 +47,10 @@ public class Booking {
     private String payment;
 
     @Column(name = "STATUS")
-    private boolean status;
+    private Boolean status;
+
+    @Column(name = "ORDER_ID")
+    private String orderId;
 
     @ManyToOne
     @JsonBackReference

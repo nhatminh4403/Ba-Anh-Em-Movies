@@ -21,7 +21,7 @@ public class Seat {
     private String image; // Thêm trường hình ảnh
 
     @Column(name = "STATUS")
-    private String status;
+    private Boolean status;
 
     @ManyToOne
     @JoinColumn(name = "ROOM_ID")

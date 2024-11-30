@@ -1,17 +1,20 @@
 package com.example.movietickets.demo.controller.general;
 
-import com.example.movietickets.demo.model.*;
+import com.example.movietickets.demo.model.Category;
+import com.example.movietickets.demo.model.Country;
+import com.example.movietickets.demo.model.Film;
+import com.example.movietickets.demo.model.Rating;
 import com.example.movietickets.demo.service.*;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -26,7 +29,7 @@ public class FilmController {
     @Autowired
     private final CategoryService categoryService;
     @Autowired
-    private final ScheduleService scheduleService;
+    private final ScheduleServiceImpl scheduleService;
     @Autowired
     private final RatingService ratingService;
 

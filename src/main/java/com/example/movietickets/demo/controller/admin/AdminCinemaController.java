@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,9 +21,15 @@ public class AdminCinemaController {
 
     // Hiển thị danh sách danh mục
     @GetMapping("/cinemas")
-    public String listCinemas(Model model) {
-        List<Cinema> cinemas = cinemaService.getAllCinemas();
+    public String listCinemas(Model model,@RequestParam(required = false) Long selectedCinemaId) {
+        List<Cinema> cinemas = cinemaService.findAllWithRooms();
         model.addAttribute("cinemas", cinemas);
+
+        Cinema selectedCinema = selectedCinemaId != null
+                ? cinemaService.findCinemaById(selectedCinemaId)
+                : (cinemas.isEmpty() ? null : cinemas.get(0));
+        model.addAttribute("selectedCinema", selectedCinema);
+
         model.addAttribute("title", "Danh sách rạp chiếu phim");
         return "/admin/cinema/cinema-list";
     }

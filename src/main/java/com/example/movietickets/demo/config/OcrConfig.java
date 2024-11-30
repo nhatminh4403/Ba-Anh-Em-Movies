@@ -5,14 +5,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class TesseractConfig {
+public class OcrConfig {
 
     @Bean
     public Tesseract tesseract() {
         Tesseract tesseract = new Tesseract();
-        // Đặt đường dẫn tới thư mục chứa file ngôn ngữ
-        tesseract.setDatapath("src/main/resources/tessdata/");
-        tesseract.setLanguage("eng"); // Ngôn ngữ là tiếng Anh
+        tesseract.setDatapath("C:/Users/ADmin/AppData/Local/Programs/Tesseract-OCR/tessdata");
+        tesseract.setLanguage("vie");
+        tesseract.setTessVariable("user_defined_dpi", "300");
         return tesseract;
     }
 }

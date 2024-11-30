@@ -46,18 +46,6 @@ public class AdminSeatController {
     @Autowired
     private SeatTypeService seatTypeService;
 
-    //  private static final Logger logger = LoggerFactory.getLogger(AdminSeatController.class);
-
-    //    @GetMapping
-//    public String getAllSeats(
-//            Model model) {
-//       // List<Room> rooms = roomService.getAllRooms();
-//        List<Seat> seats = seatService.getAllSeats();
-//        model.addAttribute("seats", seats);
-//        model.addAttribute("title", "Danh sách ghế");
-//       // model.addAttribute("rooms", rooms); // load rooms
-//        return "/admin/seat/seat-list";
-//    }
 
     @GetMapping("/seats")
     public String getAllSeats(@RequestParam(value = "roomId", required = false) Long roomId, Model model) {
@@ -88,7 +76,8 @@ public class AdminSeatController {
 
     //gọi phương thức mapp tới form add
     @PostMapping("/seats/add")
-    public String addSeat(@Valid @ModelAttribute Seat seat, BindingResult result, @RequestParam("image") MultipartFile image, Model model) throws IOException {
+    public String addSeat(@Valid @ModelAttribute Seat seat, BindingResult result,
+                          @RequestParam("image") MultipartFile image, Model model) throws IOException {
         if (!image.isEmpty()) {
             try {
                 String imageName = saveImageStatic(image);

@@ -339,7 +339,7 @@ ul {
   display: block;
   font-family: 'Open Sans', sans-serif;
   color: rgba(255,255,255,0.5);
-  font-size: 10px;
+  font-size: 14px;
 }
 .sidebar__user-btn {
   display: flex;
@@ -369,8 +369,42 @@ ul {
   position: relative;
   padding: 30px;
   width: 100%;
+  overflow-y: auto; /* Tự động hiển thị thanh cuộn khi cần */
+  max-height: calc(100vh - 60px); /* Giới hạn chiều cao để luôn vừa với viewport */
 }
+
+/* Tùy chỉnh thanh cuộn */
+.sidebar__nav::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar__nav::-webkit-scrollbar-thumb {
+  background: white;
+  border-radius: 10px;
+}
+
+.sidebar__nav::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* Responsive để kiểm tra tình trạng zoom */
+@media (min-resolution: 192dpi), (min-width: 1024px) {
+  .sidebar__nav {
+    overflow-y: scroll; /* Bắt buộc hiển thị thanh cuộn trên màn hình lớn hoặc DPI cao */
+  }
+}
+
+/* Optional: Nếu muốn thay đổi trên các kích thước cụ thể */
+@media (max-width: 768px) {
+  .sidebar__nav {
+    max-height: calc(100vh - 50px); /* Điều chỉnh thêm cho các thiết bị nhỏ */
+  }
+}
+
+
+
 .sidebar__nav-link {
+  text-decoration: none;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -402,10 +436,7 @@ ul {
 }
 .sidebar__nav-item {
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
+
   margin-bottom: 20px;
   position: relative;
 }
@@ -471,9 +502,10 @@ ul {
 }
 .sidebar__copyright {
   margin-top: auto;
-  padding: 0 30px 20px;
+  padding: 20px 30px;
   color: rgba(255,255,255,0.5);
   font-size: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 .sidebar__copyright a {
   color: rgba(255,255,255,0.5);
@@ -491,7 +523,7 @@ ul {
     box-shadow: 0 5px 25px 0 rgba(0,0,0,0.3);
   }
   .sidebar__logo {
-    height: 80px;
+    height: 60px;
   }
   .sidebar__logo img {
     max-width: 175px;
@@ -584,6 +616,7 @@ ul {
   fill: #ff55a5;
 }
 .main__title-link {
+  text-decoration: none;
   display: flex;
   justify-content: center;
   align-items: center;

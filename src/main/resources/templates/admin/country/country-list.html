@@ -5,7 +5,7 @@
       layout:decorate="~{admin/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="${title}"></title>
 </head>
 <body>
 <section layout:fragment="content">
@@ -66,7 +66,7 @@
     </main>
     <!-- end main content -->
 
-    modal delete
+<!--    modal delete-->
     <div id="modal-delete" class="zoom-anim-dialog mfp-hide modal">
         <h6 class="modal__title">Thông báo</h6>
         <p class="modal__text">Bạn có muốn xoá dữ liệu này không? Không thể xoá dữ liệu đã có liên kết.</p>

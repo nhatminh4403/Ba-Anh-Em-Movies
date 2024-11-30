@@ -118,7 +118,8 @@ public User getCurrentUser() {
         existingUser.setFullname(user.getFullname());
         existingUser.setEmail(user.getEmail());
         existingUser.setPhone(user.getPhone());
-
+        existingUser.setAge(user.getAge());
+        existingUser.setBirthday(user.getBirthday());
         return userRepository.save(existingUser);
     }
     public void saveOauthUser(String email, String username, String provider) {
