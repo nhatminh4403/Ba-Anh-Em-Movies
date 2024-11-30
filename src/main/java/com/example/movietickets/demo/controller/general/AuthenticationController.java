@@ -21,13 +21,13 @@ public class AuthenticationController {
 
     @GetMapping("/login")
     public String login() {
-        return "/authentication/sign-in";
+        return "/Authentication/sign-in";
     }
 
     @GetMapping("/register")
     public String register(@NotNull Model model) {
         model.addAttribute("user", new User()); // Thêm một đối tượng User mới vào model
-        return "/authentication/sign-up";
+        return "/Authentication/sign-up";
     }
 
     @PostMapping("/register")
@@ -53,7 +53,7 @@ public class AuthenticationController {
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
                     .toArray(String[]::new);
             model.addAttribute("errors", errors);
-            return "/authentication/sign-up"; // Trả về lại view "register" nếu có lỗi
+            return "/Authentication/sign-up"; // Trả về lại view "register" nếu có lỗi
         }
 
         userService.save(user); // Lưu người dùng vào cơ sở dữ liệu
@@ -63,6 +63,6 @@ public class AuthenticationController {
 
     @GetMapping("/404")
     public String error() {
-        return "/error/404";
+        return "/Error/404";
     }
 }

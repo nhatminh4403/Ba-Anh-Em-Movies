@@ -43,18 +43,17 @@ public class UserController {
         return "redirect:/login";
     }
     @GetMapping("/profile/chinh-sua")
-    public String showUpdateForm( Model model, Principal principal) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username =authentication.getName();
-        Optional<User> user = userService.findByUsername(username);
-        model.addAttribute("user", user.get());
+    public String showUpdateForm(Model model) {
+
+        User user = userService.getCurrentUser();
+        model.addAttribute("user", user);
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("title", "Chỉnh sửa tài khoản");
         return "user/edit";
     }
 
     @PostMapping("/profile/chinh-sua")
-    public String updateUserInfo(@Valid @ModelAttribute("user") User userForm,
+    public String updateUserInfo(@Valid @ModelAttribute("user") User user,
                                  BindingResult result,
                                  Model model,
                                  Principal principal) {
@@ -71,11 +70,17 @@ public class UserController {
         }
 
         User currentUser = userService.getCurrentUser();
-        currentUser.setFullname(userForm.getFullname());
-        currentUser.setPhone(userForm.getPhone());
-        currentUser.setEmail(userForm.getEmail());
 
-        userService.save(currentUser);
+        user.setId(currentUser.getId());
+        user.setUsername(currentUser.getUsername());
+        user.setPassword(currentUser.getPassword());
+        user.setRoles(currentUser.getRoles());
+        user.setProvider(currentUser.getProvider());
+//        currentUser.setFullname(user.getFullname());
+//        currentUser.setPhone(user.getPhone());
+//        currentUser.setEmail(user.getEmail());
+
+        userService.updateUser(user);
 
         model.addAttribute("success", "Cập nhật thông tin thành công");
         return "redirect:/user/profile";
