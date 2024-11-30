@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,8 +46,10 @@ public class DialogflowController {
             switch (intentName.toLowerCase()) {
                 case "suggest category":
                     try {
-                        String responseText = categoryService.getSuggestedCategories();
-                        return createSuccessResponse(responseText);
+//                        String responseText = categoryService.getSuggestedCategories();
+                        Map<String, Object> responseText = categoryService.getSuggestedCategories();
+
+                        return ResponseEntity.ok(responseText);
                     } catch (Exception e) {
                         return createErrorResponse("Error while getting category suggestions: " + e.getMessage());
                     }
@@ -58,23 +61,31 @@ public class DialogflowController {
                         return createErrorResponse("Error while getting movie suggestions: " + e.getMessage());
                     }
                 default:
-                    return createSuccessResponse("Xin lỗi, tôi không hiểu câu hỏi.");
+                    return createErrorResponse("Xin lỗi, tôi không hiểu câu hỏi.");
             }
 
         } catch (Exception e) {
             return createErrorResponse("Internal server error: " + e.getMessage());
         }
     }
-
     private ResponseEntity<Map<String, Object>> createSuccessResponse(String message) {
         Map<String, Object> response = new HashMap<>();
         response.put("fulfillmentText", message);
         return ResponseEntity.ok(response);
     }
 
+
     private ResponseEntity<Map<String, Object>> createErrorResponse(String errorMessage) {
         Map<String, Object> response = new HashMap<>();
         response.put("fulfillmentText", "Đã xảy ra lỗi: " + errorMessage);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    //                        Map<String, Object> response = categoryService.getSuggestedCategories();
+
+    private ResponseEntity<Map<String, Object>> createSuccessResponse(Map<String, Object> responsePayload) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("fulfillmentMessages", Collections.singletonList(responsePayload));
+        return ResponseEntity.ok(response);
     }
 }

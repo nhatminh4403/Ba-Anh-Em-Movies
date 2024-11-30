@@ -10,9 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
-import java.util.List;
-import java.util.Optional;
-
 
 @Transactional
 @Service
@@ -58,38 +55,84 @@ public class CategoryService {
         List<Long> ids = categories.stream().map(Category::getId).toList();
         return categoryRepository.findAllById(ids);
     }
+    public Map<String, Object> getSuggestedCategories() {
+        // Lấy danh sách tất cả các thể loại từ cơ sở dữ liệu
+        List<Category> getCategories = categoryRepository.findAll();
 
-
-    public String getSuggestedCategories() {
-        List<Category> categories = categoryRepository.findAll();
-        if (categories.isEmpty()) {
-            return "Hiện tại không có thể loại nào trong danh sách.";
+        // Kiểm tra nếu không có thể loại nào
+        if (getCategories.isEmpty()) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("fulfillmentMessages", List.of(
+                    new HashMap<String, Object>() {{
+                        put("text", new HashMap<String, Object>() {{
+                            put("text", List.of("Hiện tại không có thể loại nào trong danh sách."));
+                        }});
+                    }}
+            ));
+            return response;
         }
 
-        // Tạo Random object
+        // Tạo đối tượng Random
         Random random = new Random();
 
-        // Chọn ngẫu nhiên số lượng thể loại (1 hoặc 2)
+        // Chọn số lượng thể loại ngẫu nhiên (1 hoặc 2)
         int numberOfCategories = random.nextInt(2) + 1; // Random từ 1-2
 
-        // Xáo trộn danh sách và lấy số lượng cần thiết
-        Collections.shuffle(categories);
+        // Xáo trộn danh sách thể loại và lấy số lượng cần thiết
+        Collections.shuffle(getCategories);
+        List<Category> selectedCategories = getCategories.subList(0, Math.min(numberOfCategories, getCategories.size()));
 
-        List<Category> selectedCategories = categories.subList(0,
-                Math.min(numberOfCategories, categories.size()));
-
-        // Tạo câu trả lời
-        StringBuilder response = new StringBuilder();
-        if (selectedCategories.size() == 1) {
-            response.append("Bạn có thể xem thể loại: ")
-                    .append(selectedCategories.get(0).getName());
-        } else {
-            response.append("Bạn có thể xem các thể loại: ")
-                    .append(selectedCategories.get(0).getName())
-                    .append(" hoặc ")
-                    .append(selectedCategories.get(1).getName());
+        // Kiểm tra nếu có thể loại đã chọn
+        if (selectedCategories.isEmpty()) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("fulfillmentMessages", List.of(
+                    new HashMap<String, Object>() {{
+                        put("text", new HashMap<String, Object>() {{
+                            put("text", List.of("Không có thể loại phù hợp."));
+                        }});
+                    }}
+            ));
+            return response;
         }
 
-        return response.append(".").toString();
+        // Tạo JSON phản hồi cho Dialogflow Messenger
+        Map<String, Object> response = new HashMap<>();
+        List<Map<String, Object>> fulfillmentMessages = new ArrayList<>();
+
+        // Thêm phần text "Bạn có thể xem thể loại:"
+        fulfillmentMessages.add(new HashMap<String, Object>() {{
+            put("text", new HashMap<String, Object>() {{
+                put("text", Arrays.asList("Bạn có thể xem thể loại:"));
+            }});
+        }});
+
+        // Tạo phần button cho các thể loại được chọn
+        List<Map<String, Object>> buttons = new ArrayList<>();
+
+        for (Category category : selectedCategories) {
+            Map<String, Object> richContent = new HashMap<>();
+            richContent.put("type", "button");
+            richContent.put("icon", new HashMap<String, Object>() {{
+                put("type", "arrow_right");
+                put("color", "#ff0000");
+            }});
+            richContent.put("text", category.getName());
+            richContent.put("link", "http://localhost:8080/films/by-category/" + category.getId()); // This link opens in the same window by default
+
+            buttons.add(richContent);
+        }
+
+        // Thêm buttons vào fulfillmentMessages
+        fulfillmentMessages.add(new HashMap<String, Object>() {{
+            put("payload", new HashMap<String, Object>() {{
+                put("richContent", Arrays.asList(buttons));
+            }});
+        }});
+
+        response.put("fulfillmentMessages", fulfillmentMessages);
+
+        return response;
     }
+
+
 }
