@@ -3,6 +3,7 @@ package com.example.movietickets.demo.controller.ApiController.general;
 
 import com.example.movietickets.demo.model.User;
 import com.example.movietickets.demo.service.OCRService;
+import com.example.movietickets.demo.ultillity.RemoveDiacritics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 @RestController
@@ -28,13 +30,13 @@ public class OcrController {
     @PostMapping("/scan")
     public ResponseEntity<?> scanStudentCard(@RequestParam("image") MultipartFile file) {
         try {
-            User studentInfo = ocrService.extractCardInfo(file);
+            User user = ocrService.extractCardInfo(file);
             Map<String, Object> response = new HashMap<>();
-            response.put("fullName", studentInfo.getFullname());
-            response.put("birthday", studentInfo.getBirthday());
-            response.put("age", calculateAge(studentInfo.getBirthday()));
-//            response.put("nienKhoa", studentInfo.getNienKhoa());
-//            response.put("fullText", studentInfo.getFullText());
+            response.put("fullName", RemoveDiacritics.removeDiacritics( user.getFullname()).toUpperCase());
+            response.put("birthday", user.getBirthday());
+            response.put("age", calculateAge(user.getBirthday()));
+//            response.put("nienKhoa", user.getNienKhoa());
+//            response.put("fullText", user.getFullText());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();

@@ -95,15 +95,18 @@ public class FilmService {
     public List<Film> getFilmsByCategoryId(Long categoryId) {
         return filmRepository.findFilmsByCategoryId(categoryId);
     }
+
     public String getSuggestedMovies() {
         // Lấy danh sách phim từ database
         List<Film> movies = filmRepository.findAll();
+
         if (movies.isEmpty()) {
             return "Hiện tại không có phim nào trong danh sách.";
         }
 
         // Chọn ngẫu nhiên 1 phim
         Random random = new Random();
+
         Film selectedMovie = movies.get(random.nextInt(movies.size()));
 
         // Tạo câu trả lời với thông tin chi tiết về phim

@@ -74,6 +74,7 @@ public class CategoryService {
 
         // Xáo trộn danh sách và lấy số lượng cần thiết
         Collections.shuffle(categories);
+
         List<Category> selectedCategories = categories.subList(0,
                 Math.min(numberOfCategories, categories.size()));
 
