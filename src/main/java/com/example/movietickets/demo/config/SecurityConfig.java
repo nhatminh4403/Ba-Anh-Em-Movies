@@ -19,6 +19,7 @@ import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 @Configuration // Đánh dấu lớp này là một lớp cấu hình cho Spring Context.
 @EnableWebSecurity // Kích hoạt tính năng bảo mật web của Spring Security.
@@ -47,6 +48,12 @@ public class SecurityConfig {
         return auth;
     }
     @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
+        handler.setUseReferer(true);
+        return handler;
+    }
+    @Bean
     public AuthenticationSuccessHandler customLoginSuccessHandler () {
         return new CustomLoginSuccessHandler();
     }
@@ -59,7 +66,7 @@ public class SecurityConfig {
                                 "/films/film-details/**", "/schedules/**",
                                 "/cart", "/cart/**", "blog/details",
                                 "/popcorn", "/movie/details", "/movie/seat-plan","/films/search",
-                                "/feedback", "/blog", "/blog/blog-details", "/about","/films/by-category/**","dialogflow/webhook",
+                                "/feedback", "/blog", "/blog/blog-details", "/about","/films/by-category/**","/dialogflow/webhook",
                                 "/blog/blog-details/{id}/comment")
                         .permitAll() // Cho phép truy cập không cần xác thực.
                         .requestMatchers("admin/movie/edit/**", "/admin/movie/add","/admin/bookings/detail/**",
