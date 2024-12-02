@@ -58,6 +58,20 @@
         }
 
 
+        df-messenger {
+            --df-messenger-bot-message: #878fac;
+            --df-messenger-button-titlebar-color: -webkit-linear-gradient(169deg, #5560ff 17%, #aa52a1 63%, #ff4343 100%);
+            --df-messenger-chat-background-color: #fafafa;
+            --df-messenger-font-color: white;
+            --df-messenger-send-icon: #878fac;
+            --df-messenger-user-message: #5560ff;
+            --df-messenger-message-feedback-icon-background-hover: rgba(255, 255, 255, 0.2);
+            --df-messenger-message-bot-border: 1px solid black;
+            --df-messenger-message-border: 1px solid black;
+            --df-messenger-chat-bubble-background: black;
+            --df-messenger-chat-bubble-icon-color: white;
+        }
+
     </style>
 </head>
 
@@ -383,19 +397,60 @@
 <script th:src="@{/assets/user/js/qrcode.js}"></script>
 <script th:src="@{/assets/js/ocr.js}"></script>
 <script>
-    document.getElementById('fullname').addEventListener('input', function(e) {
+    document.getElementById('fullname').addEventListener('input', function (e) {
         e.target.value = e.target.value.toUpperCase();
     });
 </script>
-
 <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+
 <df-messenger
         intent="WELCOME"
         chat-icon="https://cdn-icons-png.flaticon.com/512/785/785581.png"
-        chat-title="movie"
+        chat-title="Ba Anh Em bot"
         agent-id="6e08a620-4272-4ba0-be06-c4f3b7366ddf"
         language-code="vi"
 ></df-messenger>
+<script >
+
+    window.addEventListener('df-messenger-loaded',  () => {
+        document.querySelector('df-messenger').
+            shadowRoot.querySelector('.df-messenger-wrapper').querySelector('df-messenger-chat').
+            shadowRoot.querySelector('.chat-wrapper').querySelector('df-messenger-titlebar').
+            shadowRoot.querySelector('.title-wrapper').style.background =  " -webkit-linear-gradient(169deg, #5560ff 17%, #aa52a1 63%, #ff4343 100%)";
+    });
+
+    // Access the shadow DOM structure step by step, targeting the accordion element.
+    const accordionList =  window.document.querySelector('df-messenger')
+        .shadowRoot.querySelector('.df-messenger-wrapper')
+        .querySelector('df-messenger-chat')
+        .shadowRoot.querySelector('.chat-wrapper')
+        .querySelector('df-message-list').shadowRoot.querySelector('.message-list-wrapper').querySelector('.messageList')
+        .querySelector('df-card.bot-animation');
+
+
+    accordionList.style.backgroundColor = 'green';
+    const  accordionListItem=  accordionList.shadowRoot.querySelectorAll('df-accordion');
+
+    // Check if any accordion elements are found
+    if (accordionListItem.length > 0) {
+        // Loop through each accordion and apply the style
+        accordionListItem.forEach(accordion => {
+            // Example: Changing background color of the accordion element
+            // accordion.style.backgroundColor = 'green';
+            // You can also modify other styles, for example:
+            // accordion.style.border = '1px solid red';
+            // accordion.style.padding = '10px';
+            const AccordionWrapper = accordion.shadowRoot.querySelector('div#dfAccordionWrapper');
+            if(AccordionWrapper) {
+                AccordionWrapper.style.background= 'green';
+            }
+        });
+    }
+
+
+    // AccordionWrapper.addEventListener('mouseenter', () => { AccordionWrapper.style.backgroundColor = '#00000033' });
+        // AccordionWrapper.addEventListener("mouseleave", () => { AccordionWrapper.style.backgroundColor = '' });
+</script>
 </body>
 
 </html>
