@@ -11,6 +11,7 @@ public class OcrConfig {
     public Tesseract tesseract() {
         Tesseract tesseract = new Tesseract();
         tesseract.setDatapath("C:/Users/ADmin/AppData/Local/Programs/Tesseract-OCR/tessdata");
+//        tesseract.setDatapath("C:/Program Files/Tesseract-OCR/tessdata");
         tesseract.setLanguage("vie");
         tesseract.setTessVariable("user_defined_dpi", "300");
         return tesseract;

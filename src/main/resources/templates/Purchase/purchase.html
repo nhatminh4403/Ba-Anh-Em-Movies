@@ -60,6 +60,7 @@
                             </div>
                         </form>
                     </div>
+
                     <div class="checkout-widget checkout-card mb-2">
                         <h5 class="title">Đa dạng phương thức</h5>
                         <ul class="payment-option">
@@ -167,8 +168,19 @@
                                 <span class="info"><span>Ghế thường</span><span>80.000</span></span>
                                 <span class="info"><span>Ghế VIP</span><span>100.000</span></span>
                                 <span class="info"><span>SweetBox</span><span>120.000</span></span>
+                                <span class="info" th:if="${promoCode != null}">
+                                   <span>
+                                       Mã giảm giá áp dụng:
+                                   </span>  <span th:text="${promoCode}"></span>
+                                </span>
                             </li>
                         </ul>
+
+<!--                        <div >-->
+<!--                            <p class="info">-->
+<!--                                Mã giảm giá áp dụng: <span th:text="${promoCode}"></span>-->
+<!--                            </p>-->
+<!--                        </div>-->
                     </div>
                     <div class="proceed-area text-center">
                         <h6 class="subtitle">
