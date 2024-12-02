@@ -33,13 +33,7 @@ public class CommentController {
     public String addComment(@PathVariable Long id, @Valid @ModelAttribute Comment comment,
                              BindingResult result, Model model, RedirectAttributes redirectAttributes) {
 
-        // Kiểm tra lỗi binding
-        /*if (result.hasErrors()) {
-            Blog blog = blogService.findBlogWithId(id);
-            model.addAttribute("blog", blog);
-            model.addAttribute("categories", commentService.getAllCommentsByPostId(id));
-            return "blog/blog-detail";
-        }*/
+
 
         // Lấy thông tin blog từ id
         Blog blog = blogService.findBlogWithId(id);

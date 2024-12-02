@@ -23,12 +23,12 @@ import java.util.regex.Pattern;
 @Slf4j
 public class OCRService {
 
-    private final Tesseract tesseract;
+        private final Tesseract tesseract;
 
     public OCRService() {
         tesseract = new Tesseract();
-        tesseract.setDatapath("C:/Users/ADmin/AppData/Local/Programs/Tesseract-OCR/tessdata");
-        tesseract.setLanguage("vie+eng");
+        tesseract.setDatapath("C:/Program Files/Tesseract-OCR/tessdata");
+        tesseract.setLanguage("vie");
         tesseract.setTessVariable("user_defined_dpi", "300");
         tesseract.setPageSegMode(1); // Automatic page segmentation with OSD
         tesseract.setOcrEngineMode(1); // Neural nets LSTM engine

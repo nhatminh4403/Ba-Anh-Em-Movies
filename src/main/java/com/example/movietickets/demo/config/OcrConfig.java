@@ -10,7 +10,7 @@ public class OcrConfig {
     @Bean
     public Tesseract tesseract() {
         Tesseract tesseract = new Tesseract();
-        tesseract.setDatapath("scr/main/resources/static/assets/tessdata");
+        tesseract.setDatapath("C:/Program Files/Tesseract-OCR/tessdata");
         tesseract.setLanguage("vie");
         tesseract.setTessVariable("user_defined_dpi", "300");
         return tesseract;

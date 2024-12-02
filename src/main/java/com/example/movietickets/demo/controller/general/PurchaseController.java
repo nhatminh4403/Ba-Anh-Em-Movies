@@ -89,10 +89,32 @@ public class PurchaseController {
             model.addAttribute("startTime", purchase.getStartTime());
             model.addAttribute("roomName", purchase.getRoomName());
             model.addAttribute("poster", purchase.getPoster());
+
+            // Logic xử lý mã giảm giá
+            String appliedPromoCode = "";
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User user = getUserFromAuthentication(authentication);
+            int age = user.getAge(); // Trường age đã lưu sẵn tuổi
+            long priceVoucher = 0;
+
+
+            if (age < 12) {
+                appliedPromoCode ="voucherTreEm";
+                priceVoucher = 30000;
+
+            } else if (age >= 12 && age <= 22) {
+                appliedPromoCode ="voucherHSSV";
+                priceVoucher = 20000;
+
+
+            }
+            model.addAttribute("promoCode", appliedPromoCode);
             //format Currency VND
             NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-            String formattedTotalPrice = currencyFormat.format(purchase.getTotalPrice());
+            String formattedTotalPrice = currencyFormat.format(purchase.getTotalPrice() - priceVoucher);
             model.addAttribute("totalPrice", formattedTotalPrice);
+
+
 
             List<ComboFood> comboFoods = comboFoodService.getAllComboFood();
             Room room = roomRepository.findByName(purchase.getRoomName());
@@ -207,7 +229,23 @@ public class PurchaseController {
             booking.setPayment(payment);
             booking.setStatus(false); // Hoặc giá trị khác tùy vào logic của bạn
             booking.setCreateAt(new Date());
-            booking.setPrice(purchase.getTotalPrice() + comboPrice); //cộng thêm giá từ food
+
+            // Lấy thông tin người dùng hiện tại
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User user = getUserFromAuthentication(authentication);
+
+            // Kiểm tra tuổi từ trường age
+            int age = user.getAge(); // Trường age đã lưu sẵn tuổi
+            long discount = 0;
+
+            if (age < 12) {
+                discount = 30000; // Trẻ em giảm 30k
+            } else if (age >= 12 && age <= 22) {
+                discount = 20000; // Học sinh, sinh viên giảm 20k
+            }
+
+            // Áp dụng giảm giá vào tổng giá
+            booking.setPrice(purchase.getTotalPrice() + comboPrice - discount);//cộng thêm giá từ food và trừ discount
 
             if (comboFoodId != null) {
                 ComboFood comboFood = comboFoodService.getComboFoodById(comboFoodId).orElseThrow(() -> new EntityNotFoundException("Combo not found"));
@@ -225,7 +263,7 @@ public class PurchaseController {
                 return "redirect:/api/payment/create_payment?scheduleId=" + scheduleId + "&amount=" + booking.getPrice() + "&comboId=" + comboId;
             }
             Long comboPriceInLong = (long) getComboPrice(comboId);
-            BigDecimal totalPriceUSD = exchangeCurrencyService.convertVNDToUSD(purchase.getTotalPrice() + comboPriceInLong);
+            BigDecimal totalPriceUSD = exchangeCurrencyService.convertVNDToUSD(purchase.getTotalPrice() + comboPriceInLong - discount);
 
             if ("paypal".equalsIgnoreCase(payment)) {
                 try {
@@ -256,8 +294,7 @@ public class PurchaseController {
                 return "redirect:/api/payment/momo/create_momo?scheduleId=" + scheduleId + "&amount=" + purchase.getTotalPrice() + "&comboId=" + comboId;
             }
             // Lấy thông tin người dùng hiện tại
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            User user = getUserFromAuthentication(authentication);
+
             booking.setUser(user);
 
             bookingService.saveBooking(booking, seats, schedule);
