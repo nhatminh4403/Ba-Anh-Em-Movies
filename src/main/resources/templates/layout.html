@@ -143,6 +143,9 @@
                         <li>
                             <a th:href="@{/about}">Về chúng tôi</a>
                         </li>
+                        <li>
+                            <a th:href="@{/promotions}">Khuyến mãi</a>
+                        </li>
                     </ul>
                 </li>
                 <li sec:authorize="isAuthenticated()">
@@ -423,7 +426,6 @@
         e.target.value = e.target.value.toUpperCase();
     });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -482,6 +484,40 @@
             this.appendChild(promotionInput);
         }
     });
+</script>
+<script>
+    function redeemPromotion(promotionId) {
+        // Gửi yêu cầu đến server qua AJAX
+        fetch(`/api/promotion/redeem/${promotionId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Tìm phần tử liên quan đến promotionId
+                    const promotionElement = document.querySelector(`#promotion-${promotionId}`);
+                    if (promotionElement) {
+                        // Cập nhật giao diện: ví dụ ẩn nút hoặc hiển thị trạng thái "Đã quy đổi"
+                        const actionButton = promotionElement.querySelector('.btn-primary');
+                        if (actionButton) {
+                            actionButton.textContent = 'Đã quy đổi';
+                            actionButton.disabled = true; // Vô hiệu hóa nút
+                            actionButton.classList.add('disabled'); // Thêm style cho nút
+                        }
+                    }
+                    alert("Quy đổi thành công!");
+                } else {
+                    alert("Quy đổi thất bại! Vui lòng thử lại.");
+                }
+            })
+            .catch(error => {
+                console.error('Lỗi:', error);
+                alert("Đã xảy ra lỗi! Vui lòng thử lại.");
+            });
+    }
+
 </script>
 
 <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>

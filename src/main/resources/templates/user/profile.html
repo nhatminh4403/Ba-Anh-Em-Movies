@@ -6,7 +6,148 @@
     <meta charset="UTF-8">
     <title th:text="${title}"></title>
     <style>
+        .profile-content {
+            display: flex;
+            flex-wrap: wrap; /* Đảm bảo không bị tràn trên màn hình nhỏ */
+            gap: 20px; /* Khoảng cách giữa các container */
+        }
 
+        .profile-info {
+            flex: 1; /* Chiếm 50% nếu có đủ không gian */
+            min-width: 300px; /* Đảm bảo không bị thu nhỏ quá mức */
+        }
+
+        .scroll-container {
+            flex: 1.4; overflow-x: auto; white-space: nowrap;
+            padding: 16px;
+            position: relative;
+        }
+
+        .scroll-container::before {
+            content:"";
+            position: absolute;
+            inset : 0;
+            border-radius: 10px;
+            padding: 2px;
+            background: linear-gradient(310deg, #5560ff 17%, #aa52a1 63%, #ff4343 100%) ;
+            -webkit-mask:
+                    linear-gradient(#fff 0 0) content-box,
+                    linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .promotion-item {
+            flex: 0 0 auto;
+            color: black;
+            width: calc(100% /2);
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-align: center;
+        }
+
+        .promotion-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .promotion-item__info p {
+            margin: 5px 0;
+            font-size: 0.9em;
+            text-align: left;
+        }
+
+        .promotion-item__image {
+            max-width: 50%;
+            height: auto;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .promotion-section__container {
+            display: flex;
+            gap: 10px; /* Khoảng cách giữa các phần tử */
+            align-items: center;
+            overflow-x:scroll; ;
+            padding: 10px 0;
+        }
+
+        .promotion-item__actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            justify-content: center;
+        }
+
+        .promotion-item__actions .btn {
+            padding: 8px 12px;
+            font-size: 0.9em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .promotion-item__actions .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .promotion-item__actions .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .promotion-item__actions .btn-danger {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .promotion-item__actions .btn-danger:hover {
+            background-color: #b02a37;
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .promotion-item {
+                width: calc(25% - 15px);
+                /* 4 ghế mỗi hàng trên màn hình nhỏ hơn */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .promotion-item {
+                width: calc(33.333% - 15px);
+                /* 3 ghế mỗi hàng trên tablet */
+            }
+        }
+
+        @media (max-width: 576px) {
+            .promotion-item {
+                width: calc(50% - 15px);
+                /* 2 ghế mỗi hàng trên mobile */
+            }
+        }
+
+        @media (max-width: 360px) {
+            .promotion-item {
+                width: 100%;
+                /* 1 ghế mỗi hàng trên màn hình rất nhỏ */
+            }
+        }
+        @media (max-width: 768px) {
+            .profile-content {
+                flex-direction: column; /* Xếp chồng các container */
+            }
+            .promotion-item {
+                width: 200px; /* Giảm kích thước trên màn hình nhỏ */
+            }
+        }
     </style>
 </head>
 <body>
@@ -22,9 +163,10 @@
         </div>
     </div>
     <section class="banner-section">
-        <div class="banner-bg bg_img bg-fixed" data-background="/assets/img/history/history-bg.jpg" style="background-image: url(&quot;./assets/img/history/history-bg.jpg&quot;);"></div>
+        <div class="banner-bg bg_img bg-fixed" data-background="/assets/img/history/history-bg.jpg"
+             style="background-image: url(&quot;./assets/img/history/history-bg.jpg&quot;);"></div>
         <div class="container">
-            <div class="banner-content">
+            <div class="banner-content" style="max-width:none;">
                 <h1 class="title cd-headline clip">
                     <span class="d-block" th:text="${title}"></span>
                 </h1>
@@ -42,53 +184,64 @@
                     </div>
                     <div class="profile-header-point">
                         <p class="text-white" style="margin-bottom: 20px">Điểm tích lũy:</p>
-                        <h2 class="text-white" th:text="${#numbers.formatDecimal(user.pointSaving != null ? user.pointSaving : 0, 0, 'POINT')}"></h2>
+                        <h2 class="text-white" th:text="${user.pointSaving != null ? user.pointSaving : 0}"></h2>
                     </div>
                 </div>
+                <div class="profile-content" style="display: flex; gap: 20px;">
+                    <div class="profile-info" style="flex: 0.6;">
+                        <div class="info-item">
+                            <div class="info-label"></div>
+                            <div class="info-value" th:text="${user.username}"></div>
+                        </div>
 
-                <div class="profile-info">
-                    <div class="info-item">
-                        <div class="info-label">  </div>
-                        <div class="info-value" th:text="${user.username}"></div>
-                    </div>
+                        <div class="info-item">
+                            <div class="info-label">Số điện thoại</div>
+                            <div class="info-value" th:text="${user.phone != null ? user.phone : 'Chưa cập nhật'}">
 
-                    <div class="info-item">
-                        <div class="info-label">Số điện thoại</div>
-                        <div class="info-value" th:text="${user.phone != null ? user.phone : 'Chưa cập nhật'}">
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Ngày sinh</div>
+                            <div class="info-value"
+                                 th:text="${user.birthday != null ? user.birthday : 'Chưa cập nhật'}">
 
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Tuổi</div>
+                            <div class="info-value" th:text="${user.age != null ? user.age : 'Chưa cập nhật'}">
+
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <a th:href="@{/user/profile/chinh-sua}" class="edit-button">
+                                Chỉnh sửa thông tin
+                            </a>
                         </div>
                     </div>
-                    <div class="info-item">
-                        <div class="info-label">Ngày sinh</div>
-                        <div class="info-value" th:text="${user.birthday != null ? user.birthday : 'Chưa cập nhật'}">
-
+                    <div class="scroll-container" style="">
+                        <div th:if="${#lists.isEmpty(user.promotions)}">
+                            <h2>Hiện tại chưa có khuyến mãi</h2>
                         </div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Tuổi</div>
-                        <div class="info-value" th:text="${user.age != null ? user.age : 'Chưa cập nhật'}">
 
+                        <div th:if="${not #lists.isEmpty(user.promotions)}">
+                            <div class="promotion-section__container">
+                                <div class="promotion-item" th:each="promotion : ${user.promotions}">
+                                    <div class="promotion-item__info">
+                                        <img th:src="@{/assets/img/Percentage.png}" alt=" % Image" class="promotion-item__image" />
+                                        <p><strong>Mã khuyến mãi:</strong> <span th:text="${promotion.promotionCode}"></span></p>
+                                        <p><strong>Mô tả:</strong> <span th:text="${promotion.promotionDescription}"></span></p>
+                                        <p><strong>Giá trị khuyến mãi:</strong>
+                                            <span th:text="${#numbers.formatDecimal(promotion.promotionDiscountRate * 100, 0, 'POINT', 0, 'POINT')} + '%'"></span>
+                                        </p>
+                                        <p><strong>Điểm để đổi:</strong> <span th:text="${promotion.pointToRedeem}"></span></p>
+                                        <p><strong>Thời gian khuyến mãi:</strong> <br>
+                                            <span th:text="${#dates.format(promotion.promotionStartDate, 'dd/MM/yyyy')} + ' - ' + ${#dates.format(promotion.promotionEndDate, 'dd/MM/yyyy')}"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-<!--                    <div class="info-item">-->
-<!--                        <div class="info-label">Địa chỉ</div>-->
-<!--                        <div class="info-value" th:text="${user.address != null ? user.address : 'Chưa cập nhật'}">-->
-<!--                            Địa chỉ người dùng-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <div class="info-item">-->
-<!--                        <div class="info-label">Ngày tham gia</div>-->
-<!--                        <div class="info-value"-->
-<!--                             th:text="${#dates.format(user.createdAt, 'dd/MM/yyyy')}">-->
-<!--                            01/01/2024-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-                    <div class="text-center">
-                        <a th:href="@{/user/profile/chinh-sua}" class="edit-button">
-                            Chỉnh sửa thông tin
-                        </a>
                     </div>
                 </div>
             </div>

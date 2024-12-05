@@ -64,7 +64,7 @@ public class SecurityConfig {
                         .requestMatchers("/assets/**", "/css/**", "/js/**", "/", "/oauth/**",
                                 "/register", "/error", "/purchase", "/films",
                                 "/films/film-details/**", "/schedules/**",
-                                "/cart", "/cart/**", "blog/details",
+                                "/cart", "/cart/**", "blog/details","/promotions",
                                 "/popcorn", "/movie/details", "/movie/seat-plan","/films/search",
                                 "/feedback", "/blog", "/blog/blog-details", "/about","/films/by-category/**","/dialogflow/webhook",
                                 "/blog/blog-details/{id}/comment")
@@ -91,7 +91,7 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers("/api/admin/**","/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/api/ocr/**","/api/ocr/scan").hasAnyAuthority("ADMIN","USER")
-                        .requestMatchers("/user/**","/user/profile/chinh-sua").hasAuthority("USER")
+                        .requestMatchers("/user/**","/user/profile/chinh-sua","/api/promotion/redeem/**").hasAuthority("USER")
                         .anyRequest().authenticated())
                 .logout(logout -> logout
                         .logoutUrl("/logout")
@@ -143,8 +143,8 @@ public class SecurityConfig {
                         .rememberMeCookieName("3anhem")
                         .tokenValiditySeconds(24 * 60 * 60)
                         .userDetailsService(userDetailsService()))
-//                .exceptionHandling(exceptionHandling -> exceptionHandling
-//                        .accessDeniedPage("/404"))
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .accessDeniedPage("/404"))
                 .sessionManagement(sessionManagement -> sessionManagement
                         .maximumSessions(1)
                         .expiredUrl("/login"))

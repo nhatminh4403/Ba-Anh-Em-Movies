@@ -1,14 +1,14 @@
 package com.example.movietickets.demo.service;
 
-import com.example.movietickets.demo.model.Film;
 import com.example.movietickets.demo.model.Promotion;
 import com.example.movietickets.demo.repository.PromotionRepository;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.FileSystemNotFoundException;
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PromotionService {
@@ -43,8 +43,26 @@ public class PromotionService {
             existingPromotion.setPromotionStartDate(updatedPromotion.getPromotionStartDate());
             existingPromotion.setPromotionEndDate(updatedPromotion.getPromotionEndDate());
             existingPromotion.setPromotionDescription(updatedPromotion.getPromotionDescription());
+            existingPromotion.setPointToRedeem(updatedPromotion.getPointToRedeem());
             return promotionRepository.save(existingPromotion);
         }).orElseThrow(() -> new RuntimeException("Promotion not found"));
+    }
+
+    public void editPromotion(@NotNull Promotion promotion){
+        Promotion editPromotion = promotionRepository.findById(promotion.getId()).orElseThrow(() -> new RuntimeException("Promotion not found"));
+
+        editPromotion.setPromotionDescription(promotion.getPromotionDescription());
+        editPromotion.setPromotionDiscountRate(promotion.getPromotionDiscountRate());
+        editPromotion.setPromotionStartDate(promotion.getPromotionStartDate());
+        editPromotion.setPromotionEndDate(promotion.getPromotionEndDate());
+        editPromotion.setPromotionCode(promotion.getPromotionCode());
+        editPromotion.setPointToRedeem(promotion.getPointToRedeem());
+
+        promotionRepository.save(editPromotion);
+    }
+
+    public Promotion getPromotionById(Long id) {
+        return promotionRepository.findById(id).orElseThrow(() -> new RuntimeException("Promotion not found"));
     }
 
     public void deletePromotion(Long id) {
@@ -56,5 +74,11 @@ public class PromotionService {
     public Promotion getPromotionByCode(String code) {
         System.out.println("Searching for promotion with code: " + code);
         return promotionRepository.findPromotionByPromotionCode(code).orElseThrow(() -> new IllegalArgumentException("Promotion not found"));
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?") // Runs every day at midnight
+    public void deleteExpiredPromotions() {
+        Date currentDate = new Date(); // Get current date and time
+        promotionRepository.deletePromotionByPromotionEndDateBefore(currentDate); // Delete expired promotions
     }
 }

@@ -52,4 +52,27 @@ public class AdminPromotionController {
         promotionService.deletePromotion(id);
         return "redirect:/admin/promotions";
     }
+
+
+    @GetMapping("/edit/{id}")
+    public String showEditPromotionForm(Model model,@PathVariable Long id) {
+        var promotion = promotionService.getPromotionById(id);
+        model.addAttribute("promotion", promotion);
+        model.addAttribute("title","Chỉnh sửa khuyến mãi");
+        return "admin/promotion/promotion-edit";
+    }
+
+    @PostMapping("/edit")
+    public String editPromotion( @Valid @ModelAttribute("promotion") Promotion promotion, BindingResult result,Model model) {
+        if (result.hasErrors()) {
+            var errors = result.getAllErrors()
+                    .stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .toArray(String[]::new);
+            model.addAttribute("errors", errors);
+            return "admin/promotion/promotion-edit";
+        }
+        promotionService.editPromotion(promotion);
+        return "redirect:/admin/promotions";
+    }
 }

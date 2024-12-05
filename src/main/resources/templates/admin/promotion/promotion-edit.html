@@ -28,11 +28,12 @@
 
                 <!--normal form -->
                 <div class="col-12">
-                    <form th:action="@{/admin/promotions/add}" th:object="${promotion}" enctype="multipart/form-data"
+                    <form th:action="@{/admin/promotions/edit}" th:object="${promotion}" enctype="multipart/form-data"
                           method="POST" class="form">
                         <div class="row">
                             <div class="col-12 form__content">
                                 <div class="row">
+                                    <input type="hidden" th:field="*{id}" name="id"/>
                                     <div class="col-12">
                                         <label for="promotionCode" class="text-white">Mã giảm giá</label>
                                         <input type="text" class="form__input" placeholder="Mã giảm giá"
@@ -69,6 +70,7 @@
                                                th:field="*{pointToRedeem}" id="pointToRedeem"
                                                name="pointToRedeem" required/>
                                     </div>
+
                                 </div>
                             </div>
                             <div class="col-12">

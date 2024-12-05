@@ -70,7 +70,6 @@
                 name = "user_promotion",
                 joinColumns = @JoinColumn(name = "user_id"),
                 inverseJoinColumns = @JoinColumn(name = "promotion_id")
-
         )
         @JsonManagedReference
         private List<Promotion> promotions;

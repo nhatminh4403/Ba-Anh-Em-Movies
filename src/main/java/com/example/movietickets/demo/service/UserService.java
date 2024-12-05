@@ -155,4 +155,9 @@ public User getCurrentUser() {
 
         return promotionRepository.getPromotionByUserId(user.map(User::getId).orElse(null));
     }
+
+    public User getUserByUsername(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        return user.orElseThrow(() -> new RuntimeException("User not found"));
+    }
 }
