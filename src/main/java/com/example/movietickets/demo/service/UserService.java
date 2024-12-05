@@ -1,9 +1,11 @@
 package com.example.movietickets.demo.service;
 
 import com.example.movietickets.demo.Enum.Role;
+import com.example.movietickets.demo.model.Promotion;
 import com.example.movietickets.demo.model.User;
 import com.example.movietickets.demo.repository.IRoleRepository;
 import com.example.movietickets.demo.repository.IUserRepository;
+import com.example.movietickets.demo.repository.PromotionRepository;
 import com.example.movietickets.demo.repository.UserRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +34,9 @@ public class UserService implements UserDetailsService {
     private IRoleRepository roleRepository;
     @Autowired
     private UserRepository user_Repository;
+
+    @Autowired
+    private PromotionRepository promotionRepository;
 
     public List<User> getAllUsers() {
         return userRepository.findAllByOrderByIdDesc();
@@ -145,5 +150,9 @@ public User getCurrentUser() {
     // user.getRoles().add(roleRepository.findRoleById(Role.USER.value));
     // userRepository.save(user);
     // }
+    public List<Promotion> getPromotionsByUsername(String username){
+        Optional<User> user = userRepository.findByUsername(username);
 
+        return promotionRepository.getPromotionByUserId(user.map(User::getId).orElse(null));
+    }
 }

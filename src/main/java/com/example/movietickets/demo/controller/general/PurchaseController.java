@@ -71,9 +71,10 @@ public class PurchaseController {
     private final PaypalService paypalService;
     @Autowired
     private ExchangeCurrencyService exchangeCurrencyService;
-//
-//    @Autowired
-//    private  MoMoService momoService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private PromotionService promotionService;
 
     @GetMapping
     public String showPurchase(Model model, @RequestParam(required = false) Long scheduleId) {
@@ -95,23 +96,22 @@ public class PurchaseController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             User user = getUserFromAuthentication(authentication);
             int age = user.getAge(); // Trường age đã lưu sẵn tuổi
-            long priceVoucher = 0;
-
-
-            if (age < 12) {
-                appliedPromoCode ="voucherTreEm";
-                priceVoucher = 30000;
-
-            } else if (age >= 12 && age <= 22) {
-                appliedPromoCode ="voucherHSSV";
-                priceVoucher = 20000;
-
-
-            }
+//            long priceVoucher = 0;
+            List<Promotion> promotions = userService.getPromotionsByUsername(user.getUsername());
+            model.addAttribute("promotions", promotions);
+//            if (age < 12) {
+//                appliedPromoCode ="voucherTreEm";
+//                priceVoucher = 30000;
+//
+//            } else if (age >= 12 && age <= 22) {
+//                appliedPromoCode ="voucherHSSV";
+//                priceVoucher = 20000;
+//            }
             model.addAttribute("promoCode", appliedPromoCode);
             //format Currency VND
             NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-            String formattedTotalPrice = currencyFormat.format(purchase.getTotalPrice() - priceVoucher);
+//            String formattedTotalPrice = currencyFormat.format(purchase.getTotalPrice() - priceVoucher);
+            String formattedTotalPrice = currencyFormat.format(purchase.getTotalPrice());
             model.addAttribute("totalPrice", formattedTotalPrice);
 
 
@@ -185,15 +185,27 @@ public class PurchaseController {
 
         return "Purchase/history";
     }
-
+    private long calculatePoints(List<Seat> seats) {
+        // Giả sử mỗi ghế có 10 điểm
+        Long totalPoint = 0L;
+        for(Seat seat : seats) {
+            if(seat.getSeattype().getType().equalsIgnoreCase("regular"))
+                totalPoint += seat.getSeattype().getPointGiving();
+            if(seat.getSeattype().getType().equalsIgnoreCase("VIP"))
+                totalPoint += seat.getSeattype().getPointGiving();
+            if (seat.getSeattype().getType().equalsIgnoreCase("couple"))
+                totalPoint += seat.getSeattype().getPointGiving();
+        }
+        return totalPoint;
+    }
     @PostMapping("/checkout")
     public String checkout(
             @RequestParam("payment") String payment,
             @RequestParam String comboId, //nhận String từ form purchase
             @RequestParam Long scheduleId,
+            @RequestParam ("promotionCode") String promotionCode,
             RedirectAttributes redirectAttributes,
             Model model, HttpSession session
-
     ) throws PayPalRESTException {
         if (purchaseService.IsExist()) {
             Purchase purchase = purchaseService.Get();
@@ -201,7 +213,6 @@ public class PurchaseController {
             for (Purchase.Seat2 seat : purchase.getSeatsList()) {
                 seatSymbols.add(seat.getSymbol());
             }
-
 
             Room room = roomRepository.findByName(purchase.getRoomName());
             List<Seat> seats = bookingService.getSeatsFromSymbolsAndRoom(seatSymbols, room);
@@ -233,27 +244,35 @@ public class PurchaseController {
             // Lấy thông tin người dùng hiện tại
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             User user = getUserFromAuthentication(authentication);
+            long getPoints= calculatePoints(seats);
 
             // Kiểm tra tuổi từ trường age
-            int age = user.getAge(); // Trường age đã lưu sẵn tuổi
-            long discount = 0;
-
-            if (age < 12) {
-                discount = 30000; // Trẻ em giảm 30k
-            } else if (age >= 12 && age <= 22) {
-                discount = 20000; // Học sinh, sinh viên giảm 20k
-            }
+//            int age = user.getAge(); // Trường age đã lưu sẵn tuổi
+//            long discount = 0;
+//
+//            if (age < 12) {
+//                discount = 30000; // Trẻ em giảm 30k
+//            } else if (age >= 12 && age <= 22) {
+//                discount = 20000; // Học sinh, sinh viên giảm 20k
+//            }
 
             // Áp dụng giảm giá vào tổng giá
-            booking.setPrice(purchase.getTotalPrice() + comboPrice - discount);//cộng thêm giá từ food và trừ discount
+//            booking.setPrice(purchase.getTotalPrice() + comboPrice - discount);//cộng thêm giá từ food và trừ discount
+            double discount =0;
+            if(!promotionCode.equals("0-0,0-0")){
+                String[] extract = promotionCode.split(",");
+                Promotion promotion = promotionService.getPromotionByCode(extract[0]);
+
+                discount = promotion.getPromotionDiscountRate();
+            }
+            booking.setPrice((long) (purchase.getTotalPrice() - purchase.getTotalPrice()*discount + comboPrice));//cộng thêm giá từ food và trừ discount
 
             if (comboFoodId != null) {
                 ComboFood comboFood = comboFoodService.getComboFoodById(comboFoodId).orElseThrow(() -> new EntityNotFoundException("Combo not found"));
                 booking.setComboFood(comboFood);
             }
 
-            if ("Trả tiền tại quầy".equalsIgnoreCase(payment)) {
-
+            if ("cash".equalsIgnoreCase(payment)) {
                 booking.setPayment("Thanh toán tại quầy");
             }
 
@@ -263,7 +282,8 @@ public class PurchaseController {
                 return "redirect:/api/payment/create_payment?scheduleId=" + scheduleId + "&amount=" + booking.getPrice() + "&comboId=" + comboId;
             }
             Long comboPriceInLong = (long) getComboPrice(comboId);
-            BigDecimal totalPriceUSD = exchangeCurrencyService.convertVNDToUSD(purchase.getTotalPrice() + comboPriceInLong - discount);
+//            BigDecimal totalPriceUSD = exchangeCurrencyService.convertVNDToUSD(purchase.getTotalPrice() + comboPriceInLong - discount);
+            BigDecimal totalPriceUSD = exchangeCurrencyService.convertVNDToUSD(booking.getPrice() + comboPriceInLong);
 
             if ("paypal".equalsIgnoreCase(payment)) {
                 try {
@@ -294,9 +314,9 @@ public class PurchaseController {
                 return "redirect:/api/payment/momo/create_momo?scheduleId=" + scheduleId + "&amount=" + purchase.getTotalPrice() + "&comboId=" + comboId;
             }
             // Lấy thông tin người dùng hiện tại
-
+            user.setPointSaving(getPoints);
+            userService.updateUser(user);
             booking.setUser(user);
-
             bookingService.saveBooking(booking, seats, schedule);
 
 

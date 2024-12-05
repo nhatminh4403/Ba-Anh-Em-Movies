@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title th:title="${title}"></title>
+
+    <style>
+        .form__label {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<section layout:fragment="content">
+    <main class="main">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- main title -->
+                <div class="col-12">
+                    <div class="main__title">
+                        <h2 th:text="${title}"></h2>
+                    </div>
+                </div>
+                <!-- end main title -->
+
+                <!--normal form -->
+                <div class="col-12">
+                    <form th:action="@{/admin/promotions/add}" th:object="${promotion}" enctype="multipart/form-data"
+                          method="POST" class="form">
+                        <div class="row">
+                            <div class="col-12 form__content">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="promotionCode" class="text-white">Mã giảm giá</label>
+                                        <input type="text" class="form__input" placeholder="Mã giảm giá"
+                                               th:field="*{promotionCode}" id="promotionCode"
+                                               name="promotionCode" required/>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="promotionDescription" class="text-white">Mô tả</label>
+                                        <input type="text" class="form__input" placeholder="Mô tả"
+                                               th:field="*{promotionDescription}" id="promotionDescription"
+                                               name="promotionCode" required/>
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <label for="promotionStartDate" class="text-white">Ngày bắt đầu</label>
+                                        <input type="datetime-local" class="form__input" placeholder="Ngày bắt đầu"
+                                               title="Ngày phát hành" th:field="*{promotionStartDate}" name="promotionStartDate" id="promotionStartDate"
+                                               required/>
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <label for="promotionEndDate" class="text-white">Ngày kết thúc</label>
+                                        <input type="datetime-local" class="form__input" placeholder="Ngày kết thúc"
+                                               title="Ngày phát hành" th:field="*{promotionEndDate}" name="promotionEndDate" id="promotionEndDate"
+                                               required/>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="promotionDiscountRate" class="text-white">Mức giảm</label>
+                                        <input type="text" class="form__input" placeholder="Mức giảm"
+                                               th:field="*{promotionDiscountRate}" id="promotionDiscountRate"
+                                               name="promotionDiscountRate" required/>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="form__btn">Thực hiện</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</section>
+
+</body>
+</html>

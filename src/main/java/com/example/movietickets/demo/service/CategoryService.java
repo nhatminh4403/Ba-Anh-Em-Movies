@@ -2,6 +2,7 @@ package com.example.movietickets.demo.service;
 
 
 import com.example.movietickets.demo.model.Category;
+import com.example.movietickets.demo.model.Film;
 import com.example.movietickets.demo.repository.CategoryRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +50,20 @@ public class CategoryService {
             throw new IllegalStateException("Category with ID " + id + " does not exist.");
         }
         categoryRepository.deleteById(id);
+    }
+    public void removeCategory(Long id) {
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new IllegalStateException("Category with ID " + id + " does not exist."));
+
+        categoryRepository.delete(category);
+
+    }
+    public void deleteCategory(Long id) {
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new IllegalStateException("Category with ID " + id + " does not exist."));
+
+        for(Film film : category.getFilms()) {
+            film.getCategories().remove(category);
+        }
+        categoryRepository.delete(category);
     }
 
     public List<Category> getCategoriesByIds(List<Category> categories) {
@@ -134,7 +149,7 @@ public class CategoryService {
 //    }
 
 
- /*   public Map<String, Object> getSuggestedCategories() {
+/*   public Map<String, Object> getSuggestedCategories() {
         // Lấy danh sách tất cả các thể loại từ cơ sở dữ liệu
         List<Category> getCategories = categoryRepository.findAll();
 
@@ -189,6 +204,7 @@ public class CategoryService {
         List<Map<String, Object>> buttons = new ArrayList<>();
 
         for (Category category : selectedCategories) {
+            String link = "/films/by-category/" + category.getId();
             Map<String, Object> richContent = new HashMap<>();
             richContent.put("type", "button");
             richContent.put("icon", new HashMap<String, Object>() {{
@@ -196,9 +212,13 @@ public class CategoryService {
                 put("color", "#ff0000");
             }});
             richContent.put("text", category.getName());
-            richContent.put("link", "/films/by-category/" + category.getId()); // This link opens in the same window by default
+//            richContent.put("anchor",new HashMap<String, Object>() {{
+//                put("href","/films/by-category/" + category.getId());
+//                put("target","_self");
+//            }});
+richContent.put("link",link ); // This link opens in the same window by default
             //      richContent.put("onclick", "navigateToCategory('" + category.getId() + "')");
-            richContent.put("event","EventInput");
+//            richContent.put("event","EventInput");
             buttons.add(richContent);
         }
 
@@ -255,9 +275,9 @@ public class CategoryService {
         List<Map<String, Object>> accordions = new ArrayList<>();
         for (Category category : selectedCategories) {
 
-            String title  = "<a style= 'text-decoration: none;' target='_self' href='http://localhost:8080/films/by-category/"+category.getId()+"'>"+category.getName()+"</a>";
+            String title = "<a  style='text-decoration: none; color: red; flex-grow: 1;width:150px;padding-right: 190px; height: 100%; display: block;' target='_self' href='/films/by-category/" + category.getId() + "'>"+ category.getName() + "</a>";
 
-            String customTitle = "<span >" + "Thể loại: " + title + "</span>"; // Add a CSS class here
+            String customTitle = "<div style='width: 100%; padding-right:100%; display: flex; align-items: center;'>" + "<span style='width: 72px; padding-right: 10px;'>Thể loại: </span> " + title + "</div>"; // Add a CSS class here
 
             Map<String, Object> accordion = new HashMap<>();
             accordion.put("type", "accordion");
@@ -268,8 +288,8 @@ public class CategoryService {
             Map<String, Object> button = new HashMap<>();
             button.put("type", "button");
             button.put("icon", new HashMap<String, Object>() {{
-                put("type", "arrow_right");
-                put("color", "#ff0000");
+                put("type", "");
+                put("color", "");
             }});
             button.put("text", "Xem thể loại");
             button.put("link", title);

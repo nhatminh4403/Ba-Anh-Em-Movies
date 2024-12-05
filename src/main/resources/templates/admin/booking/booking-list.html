@@ -148,7 +148,6 @@
                                 <th>NGÀY ĐẶT</th>
                                 <th>RẠP</th>
                                 <th>PHÒNG</th>
-                                <th>GHẾ</th>
                                 <th>GIÁ</th>
                             </tr>
                             </thead>
@@ -175,9 +174,7 @@
                                 <td>
                                     <div class="main__table-text" th:text="${item.roomName}"></div>
                                 </td>
-                                <td>
-                                    <div class="main__table-text" th:text="${item.seatName}"></div>
-                                </td>
+
                                 <td>
                                     <div class="main__table-text"
                                          th:text="${#numbers.formatDecimal(item.price, 0, 'POINT', 0, 'POINT')}"></div>

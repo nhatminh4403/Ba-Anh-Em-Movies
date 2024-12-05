@@ -24,6 +24,8 @@
     <link rel="shortcut icon" type="image/x-icon" href="/assets/img/movie/cake2.png"/>
     <!--    "D:\Web_VS\Ba-Anh-Em\src\main\resources\static\assets\img\movie\cake2.png"-->
     <!--    th:replace="~{::title}"-->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     <title>Ba Anh Em - Đặt vé xem phim online</title>
 
     <link rel="shortcut icon" th:src="@{/assets/img/favicon.png}" type="image/x-icon"/>
@@ -71,6 +73,26 @@
             --df-messenger-chat-bubble-background: black;
             --df-messenger-chat-bubble-icon-color: white;
         }
+        .test {
+            background-color: black;
+        }
+        df-accordion {
+            background-color: #f4f4f4;
+            color: #444;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            transition: 0.4s;
+            margin: 2px 0;
+        }
+
+        df-accordion:hover {
+            background-color: #ddd;
+        }
 
     </style>
 </head>
@@ -78,7 +100,7 @@
 <body>
 <!-- ==========Overlay========== -->
 <div class="overlay"></div>
-<a href="#0" class="scrollToTop ">
+<a href="#0" class="scrollToTop " style="z-index: 1">
     <i class="fas fa-angle-up"></i>
 </a>
 <!-- ==========Overlay========== -->
@@ -401,8 +423,68 @@
         e.target.value = e.target.value.toUpperCase();
     });
 </script>
-<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const promotionSelect = document.getElementById('promotionSelect');
+        const totalPriceElement = document.querySelector('.totalCheckout');
+        const originalPriceElement = document.getElementById('originalPrice');
+        const discountInfoElement = document.getElementById('discountInfo');
+        const discountAmountElement = document.getElementById('discountAmount');
+        const comboFoodSelect = document.getElementById('comboFoodSelect');
+        console.log(originalPriceElement.textContent);
+
+
+        let originalPrice = parseFloat(originalPriceElement.textContent.replace('.', ''));
+
+        function updateTotalPrice() {
+            let currentPrice = originalPrice;
+
+            // Tính giá combo food nếu có
+            if (comboFoodSelect.value !== '0-0') {
+                const comboPrice = parseFloat(comboFoodSelect.value.split('-')[1]);
+                currentPrice += comboPrice;
+            }
+
+            // Tính giảm giá nếu có chọn promotion
+            if (promotionSelect.value) {
+                const selectedOption = promotionSelect.options[promotionSelect.selectedIndex];
+                const discountPercent = selectedOption.getAttribute('data-percent');
+                const discountAmount = (currentPrice * discountPercent);
+                currentPrice -= discountAmount;
+                console.log(currentPrice)
+                console.log(discountAmount)
+                console.log(discountPercent)
+                // Hiển thị thông tin giảm giá
+                discountInfoElement.style.display = 'block';
+                discountAmountElement.textContent = Math.round(discountAmount).toLocaleString();
+            } else {
+                discountInfoElement.style.display = 'none';
+            }
+
+            totalPriceElement.textContent = Math.round(currentPrice).toLocaleString() + ' VND';
+        }
+        promotionSelect.addEventListener('change', updateTotalPrice);
+        comboFoodSelect.addEventListener('change', updateTotalPrice);
+
+    });
+
+    // Cập nhật form submit để bao gồm mã khuyến mãi
+    const checkoutForm = document.querySelector('form[action*="/purchase/checkout"]');
+    checkoutForm.addEventListener('submit', function(e) {
+        const promotionSelect = document.getElementById('promotionSelect');
+        if (promotionSelect.value) {
+            const promotionInput = document.createElement('input');
+            promotionInput.type = 'hidden';
+            promotionInput.name = 'promotionCode';
+            promotionInput.value = promotionSelect.value;
+            this.appendChild(promotionInput);
+        }
+    });
+</script>
+
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
 <df-messenger
         intent="WELCOME"
         chat-icon="https://cdn-icons-png.flaticon.com/512/785/785581.png"
@@ -410,46 +492,69 @@
         agent-id="6e08a620-4272-4ba0-be06-c4f3b7366ddf"
         language-code="vi"
 ></df-messenger>
-<script >
-
+<script>
     window.addEventListener('df-messenger-loaded',  () => {
         document.querySelector('df-messenger').
             shadowRoot.querySelector('.df-messenger-wrapper').querySelector('df-messenger-chat').
             shadowRoot.querySelector('.chat-wrapper').querySelector('df-messenger-titlebar').
             shadowRoot.querySelector('.title-wrapper').style.background =  " -webkit-linear-gradient(169deg, #5560ff 17%, #aa52a1 63%, #ff4343 100%)";
     });
+    //
+    // window.addEventListener('df-chat-open-changed', (event) => {
+    //     console.log(`Chat is ${event.detail.isOpen ? 'open' : 'closed'}`);
+    //
+    //     // Access all `df-card` elements with the `bot-animation` class
+    //     const accordianList = document.querySelector('df-messenger')
+    //         .shadowRoot.querySelector('.df-messenger-wrapper')
+    //         .querySelector('df-messenger-chat')
+    //         .shadowRoot.querySelector('df-message-list')
+    //         .shadowRoot.querySelector('.message-list-wrapper')
+    //         .querySelector('#messegeList');
+    //
+    //     // // Check if the list contains any elements
+    //     // if (accordianList.length > 0) {
+    //     //     console.log('Found df-card.bot-animation elements:', accordianList);
+    //     //
+    //     //     const accordianElement = document.querySelectorAll('df-card.bot-animation').shadowRoot.querySelectorAll('df-accordion').querySelector('#dfAccordionWrapper');
+    //     //     accordianElement.classList.add('dfAccordionWrapper');
+    //     // } else {
+    //     //     console.log('No df-card.bot-animation elements found');
+    //     // }
+    // });
+    const dfMessenger = document.querySelector('df-messenger');
 
-    // Access the shadow DOM structure step by step, targeting the accordion element.
-    const accordionList =  window.document.querySelector('df-messenger')
-        .shadowRoot.querySelector('.df-messenger-wrapper')
-        .querySelector('df-messenger-chat')
-        .shadowRoot.querySelector('.chat-wrapper')
-        .querySelector('df-message-list').shadowRoot.querySelector('.message-list-wrapper').querySelector('.messageList')
-        .querySelector('df-card.bot-animation');
+    dfMessenger.addEventListener('df-accordion-clicked', function (event) {
+        console.log('Accordion was clicked')
+    });
 
 
-    accordionList.style.backgroundColor = 'green';
-    const  accordionListItem=  accordionList.shadowRoot.querySelectorAll('df-accordion');
+    dfMessenger.addEventListener('df-button-clicked', function (event) {
+        // Handle event
+        console.log('Button was clicked!');
+        event.stopPropagation();
+        event.preventDefault();
+    });
 
-    // Check if any accordion elements are found
-    if (accordionListItem.length > 0) {
-        // Loop through each accordion and apply the style
-        accordionListItem.forEach(accordion => {
-            // Example: Changing background color of the accordion element
-            // accordion.style.backgroundColor = 'green';
-            // You can also modify other styles, for example:
-            // accordion.style.border = '1px solid red';
-            // accordion.style.padding = '10px';
-            const AccordionWrapper = accordion.shadowRoot.querySelector('div#dfAccordionWrapper');
-            if(AccordionWrapper) {
-                AccordionWrapper.style.background= 'green';
+    window.addEventListener('df-messenger-loaded', () => {
+        const messenger = document.querySelector('df-messenger');
+        const observer = new MutationObserver(() => {
+            const dfCard = messenger.shadowRoot
+                ?.querySelector('.df-messenger-wrapper')
+                ?.querySelector('df-messenger-chat')
+                ?.shadowRoot.querySelector('.chat-wrapper')
+                ?.querySelector('df-messenger-list')
+                ?.shadowRoot.querySelector('.messenger-list-wrapper')
+                ?.querySelector('df-card');
+
+            if (dfCard) {
+                const accordions = dfCard.shadowRoot.querySelectorAll('df-accordion');
+                accordions.forEach(accordion => console.log(accordion.classList));
             }
         });
-    }
 
+        observer.observe(messenger.shadowRoot, { childList: true, subtree: true });
+    });
 
-    // AccordionWrapper.addEventListener('mouseenter', () => { AccordionWrapper.style.backgroundColor = '#00000033' });
-        // AccordionWrapper.addEventListener("mouseleave", () => { AccordionWrapper.style.backgroundColor = '' });
 </script>
 </body>
 

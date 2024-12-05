@@ -84,7 +84,7 @@ public class SecurityConfig {
                                 "/admin/users", "/admin/users/detail",
                                 "/admin/seatPrice", "/admin/seatPrice/add",
                                 "/admin/seatPrice/edit", "/admin/seatPrice/delete",
-                                "/admin/bookings", "/admin/bookings/detail",
+                                "/admin/bookings", "/admin/bookings/detail","/admin/promotions/","/admin/promotions/delete/**",
                                 "blog/blog-details/{id}/delete")
                         .hasAnyAuthority("ADMIN") // Chỉ cho phép ADMIN truy cập.
                         .requestMatchers("/api/**")

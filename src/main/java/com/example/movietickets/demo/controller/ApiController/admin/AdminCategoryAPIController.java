@@ -3,6 +3,8 @@ package com.example.movietickets.demo.controller.ApiController.admin;
 
 import com.example.movietickets.demo.model.Category;
 import com.example.movietickets.demo.service.APIService.*;
+import com.example.movietickets.demo.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,9 @@ import java.util.Optional;
 @RequestMapping("/api/admin")
 public class AdminCategoryAPIController {
     private final AdminApiService adminApiService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     public AdminCategoryAPIController(AdminApiService adminApiService) {
         this.adminApiService= adminApiService;
@@ -64,11 +69,11 @@ public class AdminCategoryAPIController {
         }
     }
     @DeleteMapping("/categories/{id}")
-    public ResponseEntity<Map<String, String>> deleteCategory(@PathVariable Long id) {
+    public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
         // Kiểm tra xem thể loại có tồn tại trước khi xóa
-        Optional<Category> existingCategory = adminApiService.getCategoryById(id);
+        Optional<Category> existingCategory = categoryService.getCategoryById(id);
         if (existingCategory.isPresent()) {
-            adminApiService.deleteCategory(id);
+            categoryService.deleteCategory(id);
             return ResponseEntity.ok(Collections.singletonMap("message", "Xóa thể loại thành công"));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

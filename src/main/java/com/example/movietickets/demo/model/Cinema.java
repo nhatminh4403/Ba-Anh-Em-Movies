@@ -32,7 +32,4 @@ public class Cinema {
     @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Room> rooms;
 
-//    @OneToMany(mappedBy = "room")
-//    private List<Seat> seats;
-
 }

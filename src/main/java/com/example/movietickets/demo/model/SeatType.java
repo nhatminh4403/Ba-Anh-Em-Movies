@@ -21,6 +21,9 @@ public class SeatType {
     @Column(name = "PRICE")
     private Long price;
 
+    @Column(name = "pointGiving", nullable = false)
+    private Long pointGiving;
+
     @OneToMany(mappedBy = "seattype", cascade = CascadeType.ALL, orphanRemoval = true) //cascade=all cho phép khi Update tat cả bảng con tham chiếu den SeatType,orphanRemoval=true cho phep khi xoa seatType thi tat ca bang con cx bi xoa theo
     private List<Seat> seats;
 }

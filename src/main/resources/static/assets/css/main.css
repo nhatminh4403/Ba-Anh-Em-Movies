@@ -1725,6 +1725,7 @@ input[type="submit"] {
     animation-duration: 1s;
     -webkit-animation-duration: 1s;
     -moz-animation-duration: 1s;
+    z-index: 100001;
 }
 
 .header-bar {
@@ -1918,7 +1919,6 @@ input[type="submit"] {
 /*Details-Banner Section Starts Here*/
 .details-banner {
     padding-top: 235px;
-    padding-bottom: 20px;
     position: relative;
 }
 
@@ -2235,7 +2235,6 @@ input[type="submit"] {
 
 .details-banner.hero-area {
     padding-top: 212px;
-    padding-bottom: 112px;
 }
 
 .details-banner.hero-area .details-banner-wrapper .details-banner-content {

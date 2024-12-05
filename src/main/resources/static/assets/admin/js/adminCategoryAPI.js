@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    fetch('http://localhost:8080/api/admin/categories')
+    fetch('/api/admin/categories')
         .then(response => response.json())
         .then(data => {
             const tbody = document.getElementById('category_body');
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                                 </svg>`;
                 deleteButton.onclick = function () {
                     if (confirm('Bạn có chắc chắn muốn xóa danh mục này?')) {
-                        fetch(`http://localhost:8080/api/admin/categories/${category.id}`, {
+                        fetch(`/api/admin/categories/${category.id}`, {
                             method: 'DELETE'
                         })
                             .then(response => {
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault(); // Prevent traditional form submission
 
         const formData = new FormData(form);
-        fetch('http://localhost:8080/api/admin/categories', {
+        fetch('/api/admin/categories', {
             method: 'POST',
             body: formData
         })
