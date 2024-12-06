@@ -72,7 +72,7 @@
                 inverseJoinColumns = @JoinColumn(name = "promotion_id")
         )
         @JsonManagedReference
-        private List<Promotion> promotions;
+        private Set<Promotion> promotions;
         @Column(name = "point")
         private Long pointSaving =0L;
 

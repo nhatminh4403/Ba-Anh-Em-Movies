@@ -27,7 +27,8 @@ public class OCRService {
 
     public OCRService() {
         tesseract = new Tesseract();
-        tesseract.setDatapath("C:/Program Files/Tesseract-OCR/tessdata");
+        tesseract.setDatapath("C:/Users/ADmin/AppData/Local/Programs/Tesseract-OCR/tessdata");
+//        tesseract.setDatapath("C:/Program Files/Tesseract-OCR/tessdata");
         tesseract.setLanguage("vie");
         tesseract.setTessVariable("user_defined_dpi", "300");
         tesseract.setPageSegMode(1); // Automatic page segmentation with OSD

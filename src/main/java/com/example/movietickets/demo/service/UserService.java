@@ -56,6 +56,10 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
+    public void saveWithoutEncodingPassword(@NotNull User user) {
+        userRepository.save(user);
+    }
+
     public void setDefaultRole(String username) {
         userRepository.findByUsername(username).ifPresentOrElse(
                 user -> {
