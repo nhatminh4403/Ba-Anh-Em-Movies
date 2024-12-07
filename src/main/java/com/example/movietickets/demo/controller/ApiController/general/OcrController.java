@@ -36,7 +36,7 @@ public class OcrController {
             response.put("birthday", user.getBirthday());
             response.put("age", calculateAge(user.getBirthday()));
 //            response.put("nienKhoa", user.getNienKhoa());
-//            response.put("fullText", user.getFullText());
+//            response.put("fullInfo", user.getFullInfo());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();

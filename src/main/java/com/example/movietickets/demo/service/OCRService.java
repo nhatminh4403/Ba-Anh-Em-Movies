@@ -76,14 +76,14 @@ public class OCRService {
 
     private User parseUserInfo(String text) {
         User info = new User();
-//        info.setFullText(text);
+//        info.setFullInfo(text);
 
         // Pattern matching để trích xuất thông tin
         Pattern mssv = Pattern.compile("\\b\\d{10}\\b");
 
         // Sử dụng nhóm захват (capturing group) để chỉ lấy phần thông tin cần thiết
-        Pattern name = Pattern.compile("(?:Họ tên:|Họ ten:|Ho ten:|Ho tên:)\\s*(.+)");  // nhóm (.+) sẽ bắt phần tên
-        Pattern birthday = Pattern.compile("(?:Ngày sinh:|Ngay sinh:)\\s*(\\d{2}/\\d{2}/\\d{4})"); // nhóm (\\d{2}/\\d{2}/\\d{4}) sẽ bắt ngày tháng
+        Pattern name = Pattern.compile("(?:Họ tên:|Họ ten:|Ho ten:|Ho tên:)\\s*(.+)(?=\\s|$)");  // nhóm (.+) sẽ bắt phần tên
+        Pattern birthday = Pattern.compile("(?:Ngày sinh:|Ngay sinh:|Ngey sinh:|Ngèy sinh:|Ngoy sinh:|Ngòy sinh:)\\s*(\\d{2}/\\d{2}/\\d{4})(?=\\s|$)"); // nhóm (\\d{2}/\\d{2}/\\d{4}) sẽ bắt ngày tháng
 //        Pattern nienKhoa = Pattern.compile("(?:Khóa:|Khoa:)\\s*(\\d{4}\\s*-\\s*\\d{4})");
 
         Matcher mssvMatcher = mssv.matcher(text);

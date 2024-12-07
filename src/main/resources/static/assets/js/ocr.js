@@ -38,13 +38,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
             if (response.ok) {
                 // Điền thông tin vào các trường
-                // document.getElementById('studentId').value = data.studentId || '';
                 document.getElementById('fullname').value = data.fullName || '';
                 document.getElementById('birthday').value = data.birthday || '';
-                // document.getElementById('class').value = data.class || '';
-                // document.getElementById('major').value = data.major || '';
-                // document.getElementById('nienKhoa').value = data.nienKhoa || '';
-                // document.getElementById('fullText').value = data.fullText || '';
                 document.getElementById('age').value = data.age || '';
             } else {
                 alert('Có lỗi xảy ra: ' + data.error);

@@ -206,6 +206,9 @@
         .banner-content{
             max-width: 950px;
         }
+        div.form-label {
+            user-select: none;
+        }
     </style>
 </head>
 <body>
@@ -263,7 +266,7 @@
                     <input type="hidden" th:field="*{password}"/>
                     <input type="hidden" th:field="*{provider}"/>
                     <div class="form-group">
-                        <label for="imageInput">Chọn ảnh thẻ sinh viên:</label>
+                        <label for="imageInput" style="user-select: none">Chọn ảnh thẻ sinh viên:</label>
                         <input type="file" id="imageInput" accept="image/*">
                     </div>
                     <div class="preview-container">
