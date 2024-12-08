@@ -200,7 +200,7 @@
         }
         #imagePreview {
             max-width: 100%;
-            max-height: 300px;
+            max-height: 500px;
             display: none;
         }
         .banner-content{
@@ -209,11 +209,83 @@
         div.form-label {
             user-select: none;
         }
+
+        .edit-profile-wrapper {
+            background: #032055;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+            max-width: 1200px; /* Tăng max-width để chứa 2 cột */
+            margin: 0 auto;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Chia làm 2 cột bằng nhau */
+            gap: 40px;
+            align-items: start;
+        }
+
+        .profile-info {
+            padding-right: 20px;
+        }
+
+        .scan-section {
+            padding-left: 20px;
+            border-left: 1px solid rgba(49, 215, 169, 0.2);
+        }
+
+        .scan-title {
+            color: #31d7a9;
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .preview-container {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .preview-wrapper {
+            border: 3px solid #31d7a9;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .scan-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .scan-section {
+                border-left: none;
+                border-top: 1px solid rgba(49, 215, 169, 0.2);
+                padding-left: 0;
+                padding-top: 30px;
+            }
+
+            .profile-info {
+                padding-right: 0;
+            }
+        }
+
     </style>
 </head>
 <body>
 <section layout:fragment="content">
-
     <!-- ==========Preloader========== -->
     <div class="preloader">
         <div class="preloader-inner">
@@ -246,100 +318,81 @@
                 <div th:if="${errors}" class="alert alert-danger">
                     <span th:text="${errors}"></span>
                 </div>
-                <!--                <div class="avatar-upload">
-                                   <div class="avatar-edit">
-                                        <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
-                                        <label for="imageUpload">
-                                           <i class="fas fa-pencil-alt" style="color: #fff;"></i>
-                                       </label>
-                                    </div>
-                                    <div class="avatar-preview">
-                                        <div id="imagePreview"
-                                             th:style="'background-image: url(' + ${user.avatar != null ? user.avatar : '/assets/images/default-avatar.png'} + ');'">
-                                        </div>
-                                    </div>
-                                </div>-->
-                <form th:action="@{/user/profile/chinh-sua}" th:object="${user}" method="post"
-                      enctype="multipart/form-data">
-                    <input type="hidden" th:field="*{id}">
-                    <input type="hidden" th:field="*{username}"/>
-                    <input type="hidden" th:field="*{password}"/>
-                    <input type="hidden" th:field="*{provider}"/>
-                    <div class="form-group">
-                        <label for="imageInput" style="user-select: none">Chọn ảnh thẻ sinh viên:</label>
-                        <input type="file" id="imageInput" accept="image/*">
-                    </div>
-                    <div class="preview-container">
-                        <label for="imageInput">Xem ảnh đã chọn:</label>
-                        <img id="imagePreview" alt="Preview" src="">
-                    </div>
-                    <div class="loading" id="loadingIndicator" style="display: none;">
-                        Đang xử lý... Vui lòng đợi.
-                    </div>
 
-                    <button class="btn btn--primary" id="scanButton" disabled>Quét Thẻ</button>
+                <form th:action="@{/user/profile/chinh-sua}" th:object="${user}" method="post" enctype="multipart/form-data">
+                    <div class="profile-grid">
+                        <!-- Cột bên trái - Thông tin -->
+                        <div class="profile-info">
+                            <input type="hidden" th:field="*{id}">
+                            <input type="hidden" th:field="*{username}"/>
+                            <input type="hidden" th:field="*{password}"/>
+                            <input type="hidden" th:field="*{provider}"/>
 
-                    <div class="form-group">
-                        <label class="form-label" for="fullname">Họ và tên</label>
-                        <input type="text" th:field="*{fullname}" id="fullname" class="form-control"
-                               placeholder="Nhập họ và tên"/>
-                        <span class="error-message" th:if="${#fields.hasErrors('fullname')}"
-                              th:errors="*{fullname}"></span>
-                    </div>
+                            <div class="form-group">
+                                <label class="form-label" for="fullname">Họ và tên</label>
+                                <input type="text" th:field="*{fullname}" id="fullname" class="form-control" placeholder="Nhập họ và tên"/>
+                                <span class="error-message" th:if="${#fields.hasErrors('fullname')}" th:errors="*{fullname}"></span>
+                            </div>
 
-                    <div class="form-group">
-                        <label class="form-label" for="email">Email</label>
-                        <input type="email" th:field="*{email}" id="email" class="form-control"
-                               placeholder="Nhập email"/>
-                        <span class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-                        <!--                        <span class="error-message" th:if="${emailError}" th:text="${emailError}"></span>-->
-                    </div>
+                            <div class="form-group">
+                                <label class="form-label" for="email">Email</label>
+                                <input type="email" th:field="*{email}" id="email" class="form-control" placeholder="Nhập email"/>
+                                <span class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                            </div>
 
-                    <div class="form-group">
-                        <label class="form-label" for="phone">Số điện thoại</label>
-                        <input type="text" th:field="*{phone}" id="phone" class="form-control"
-                               placeholder="Nhập số điện thoại"/>
-                        <span class="error-message" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
-                        <!--                        <span class="error-message" th:if="${phoneError}" th:text="${phoneError}"></span>-->
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="age">Tuổi</label>
-                        <input type="text" id="age" th:field="*{age}" class="form-control"
-                               placeholder="Nhập số điện thoại"/>
-                        <span class="error-message" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></span>
-                        <!--                        <span class="error-message" th:if="${phoneError}" th:text="${phoneError}"></span>-->
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="birthday">Ngày sinh</label>
-                        <input type="text" id="birthday" th:field="*{birthday}" class="form-control"
-                               placeholder="Nhập số điện thoại"/>
-                        <span class="error-message" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}"></span>
-                        <!--                        <span class="error-message" th:if="${phoneError}" th:text="${phoneError}"></span>-->
-                    </div>
-                    <div class="btn-group">
-                        <button type="submit" class="btn btn--primary">Lưu thay đổi</button>
-                        <a th:href="@{/user/profile}" class="btn btn-secondary">Hủy</a>
+                            <div class="form-group">
+                                <label class="form-label" for="phone">Số điện thoại</label>
+                                <input type="text" th:field="*{phone}" id="phone" class="form-control" placeholder="Nhập số điện thoại"/>
+                                <span class="error-message" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="age">Tuổi</label>
+                                <input type="text" id="age" th:field="*{age}" class="form-control" placeholder="Nhập tuổi"/>
+                                <span class="error-message" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="birthday">Ngày sinh</label>
+                                <input type="text" id="birthday" th:field="*{birthday}" class="form-control" placeholder="Nhập ngày sinh"/>
+                                <span class="error-message" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}"></span>
+                            </div>
+
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn--primary">Lưu thay đổi</button>
+                                <a th:href="@{/user/profile}" class="btn btn-secondary">Hủy</a>
+                            </div>
+                        </div>
+
+                        <!-- Cột bên phải - Quét thẻ -->
+                        <div class="scan-section">
+                            <h3 class="scan-title">Quét thẻ sinh viên</h3>
+                            <div class="form-group">
+                                <label for="imageInput">Chọn ảnh thẻ sinh viên:</label>
+                                <input type="file" id="imageInput" accept="image/*" class="form-control">
+                            </div>
+
+                            <div class="preview-container">
+                                <div class="preview-wrapper">
+                                    <img id="imagePreview" alt="Preview" src="">
+                                </div>
+                                <div class="preview-message"></div>
+                            </div>
+
+                            <div class="scan-controls">
+                                <div class="loading" id="loadingIndicator" style="display: none;">
+                                    Đang xử lý... Vui lòng đợi.
+                                </div>
+                                <button type="button" class="btn btn--primary" id="scanButton" disabled>Quét Thẻ</button>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
+
         </div>
     </div>
 </section>
-<!--<script>
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                $('#imagePreview').css('background-image', 'url('+e.target.result +')');
-                $('#imagePreview').hide();
-                $('#imagePreview').fadeIn(650);
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    $("#imageUpload").change(function() {
-        readURL(this);
-    });
-</script>-->
+
 </body>
 </html>

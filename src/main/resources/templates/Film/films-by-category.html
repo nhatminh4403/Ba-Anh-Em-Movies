@@ -7,41 +7,41 @@
     <title>Lọc phim theo loại</title>
 
     <style>
-        .search-nothing{
-            padding:30px;
+        .search-nothing {
+            padding: 30px;
         }
 
-        .flex-form{
+        .flex-form {
             display: flex;
-            justify-content: start;
+            justify-content: space-around;
             align-items: center;
             gap: 50px;
         }
 
-        .flex-center{
+        .flex-center {
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 0;
-            gap:5px;
+            gap: 5px;
 
         }
 
-        .type-country{
-           margin-right: 20px;
-           color: #31d7a9;
-           z-index: 1;
+        .type-country {
+            margin-right: 20px;
+            color: #31d7a9;
+            z-index: 1;
         }
 
-        .list{
-            color:black;
+        .list {
+            color: black;
         }
 
-        .current{
-            color:black;
+        .current {
+            color: black;
         }
 
-        .thumb-country{
+        .thumb-country {
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -49,11 +49,11 @@
             margin-right: 10px;
             -webkit-box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
             box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
-             z-index:1;
+            z-index: 1;
         }
 
         .thumb-country img {
-            width:100%;
+            width: 100%;
 
         }
     </style>
@@ -78,7 +78,6 @@
                 <h1 class="title bold">
                     Săn <span class="color-theme">vé xem phim</span> ngay
                 </h1>
-
             </div>
         </div>
     </section>
@@ -90,40 +89,19 @@
                 <div class="row align-items-center mb--20">
                     <div class="col-lg-6 mb-20">
                         <div class="search-ticket-header">
-                            <h6 class="category">welcome to ba anh em</h6>
-                            <h3 class="title">Bạn đang tìm kiếm phim gì nè?</h3>
+                            <h6 class="category">welcome to Ba Anh Em</h6>
+                            <h3 class="title">Bạn đang tìm phim gì nè?</h3>
                         </div>
-                    </div>
-                    <div class="col-lg-6 mb-20">
-                        <ul class="tab-menu ticket-tab-menu">
-                            <li class="active">
-                                <div class="tab-thumb">
-                                    <img src="/assets/img/ticket/ticket-tab01.png" alt="ticket">
-                                </div>
-                                <span>movie</span>
-                            </li>
-                            <li>
-                                <div class="tab-thumb">
-                                    <img src="/assets/img/ticket/ticket-tab02.png" alt="ticket">
-                                </div>
-                                <span>events</span>
-                            </li>
-                            <li>
-                                <div class="tab-thumb">
-                                    <img src="/assets/img/ticket/ticket-tab03.png" alt="ticket">
-                                </div>
-                                <span>sports</span>
-                            </li>
-                        </ul>
                     </div>
                 </div>
                 <div class="tab-area">
                     <div class="tab-item active">
                         <div class="flex-form">
-                            <form class="ticket-search-form"  th:action="@{/films/search}" method="get">
+                            <form class="ticket-search-form" th:action="@{/films/search}" method="get">
                                 <div class="form-group large">
                                     <div th:action="@{/films/search}" method="get">
-                                        <input type="text" name="keyword" th:value="${keyword}" placeholder="Tìm kiếm phim" required="">
+                                        <input type="text" name="keyword" th:value="${keyword}"
+                                               placeholder="Tìm kiếm phim" required="">
                                         <button type="submit">
                                             <i class="fas fa-search"></i>
                                         </button>
@@ -133,12 +111,13 @@
                             <form>
                                 <div class="form-group flex-center">
                                     <div class="thumb-country">
-                                        <img src="/assets/img/ticket/city.png" alt="ticket" />
+                                        <img src="/assets/img/ticket/city.png" alt="ticket"/>
                                     </div>
                                     <span class="type type-country">Quốc gia: </span>
                                     <select class="select-bar" onchange="handleCountryChange(this)">
                                         <option value="" disabled selected>Chọn quốc gia</option>
-                                        <option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.name}"></option>
+                                        <option th:each="country : ${countries}" th:value="${country.id}"
+                                                th:text="${country.name}"></option>
                                     </select>
                                 </div>
                             </form>
@@ -148,8 +127,15 @@
             </div>
         </div>
     </section>
-
-    <section class="movie-section padding-top padding-bottom">
+    <div class="container" th:if="${not #lists.isEmpty(films)}">
+        <div class="text-center" style="margin-top: 40px">
+            <h4 class="title" style="color: #31d7a9;">
+                Phim thuộc thể loại
+                <span th:text="${category.getName()}" style="color: #31d7a9; font-weight: bold;"></span>
+            </h4>
+        </div>
+    </div>
+    <section class="movie-section padding-bottom" style="margin-top: 60px">
         <div class="container">
             <div class="row flex-wrap-reverse justify-content-center">
                 <div class="col-lg-12 mb-50 mb-lg-0">
@@ -176,7 +162,7 @@
                         <!--list film-->
                         <div class="tab-area">
                             <div class="tab-item active">
-                                <div class="row mb-10 justify-content-center" th:if="${not #lists.isEmpty(films)}" >
+                                <div class="row mb-10 justify-content-center" th:if="${not #lists.isEmpty(films)}">
                                     <div class="col-sm-6 col-lg-4" th:each="film : ${films}">
                                         <div class="movie-grid">
                                             <div class="movie-thumb c-thumb">
@@ -186,7 +172,8 @@
                                             </div>
                                             <div class="movie-content bg-one">
                                                 <h5 class="title m-0">
-                                                    <a th:href="@{/films/film-details/{id}(id=${film.id})}" th:text="${film.name}" ></a>
+                                                    <a th:href="@{/films/film-details/{id}(id=${film.id})}"
+                                                       th:text="${film.name}"></a>
                                                 </h5>
                                                 <ul class="movie-rating-percent">
                                                     <li>
@@ -207,14 +194,15 @@
                                     </div>
                                 </div>
 
-                                <div class="row mb-10 justify-content-center search-nothing" th:if="${#lists.isEmpty(films)}" >
-                                    <h2>Phim bạn đang tìm kiếm không có</h2>
+                                <div class="row mb-10 justify-content-center search-nothing"
+                                     th:if="${#lists.isEmpty(films)}">
+                                    <h2 th:text="'Không có phim thuộc thể loại '+${category.getName()}"></h2>
                                 </div>
 
 
                             </div>
                             <div class="tab-item">
-                                <div class="movie-area mb-10"  th:each="film : ${films}">
+                                <div class="movie-area mb-10" th:each="film : ${films}">
                                     <div class="movie-list">
                                         <div class="movie-thumb c-thumb">
                                             <a
@@ -240,13 +228,15 @@
 
                                             </p>
 
-                                            <div class="movie-tags" th:if="${film.categories != null}" th:each="category : ${film.categories}">
+                                            <div class="movie-tags" th:if="${film.categories != null}"
+                                                 th:each="category : ${film.categories}">
                                                 <a th:href="@{/films/by-category/{id}(id=${category.id})}"
                                                    th:text="${category.name}"></a>
                                             </div>
                                             <div class="release">
                                                 <span>Ngày khởi chiếu : </span>
-                                                <a href="#0" th:text="@{${film.openingday != null ? #dates.format(film.openingday,'dd/MM/yyyy') : 'Chưa có ngày chiếu'}}">
+                                                <a href="#0"
+                                                   th:text="@{${film.openingday != null ? #dates.format(film.openingday,'dd/MM/yyyy') : 'Chưa có ngày chiếu'}}">
                                                 </a
                                                 >
                                             </div>

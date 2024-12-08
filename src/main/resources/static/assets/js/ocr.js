@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('fullname').value = data.fullName || '';
                 document.getElementById('birthday').value = data.birthday || '';
                 document.getElementById('age').value = data.age || '';
+                // document.getElementById('fullInfo').value = data.fullInfo;
             } else {
                 alert('Có lỗi xảy ra: ' + data.error);
             }

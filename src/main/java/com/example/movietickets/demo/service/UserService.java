@@ -144,16 +144,18 @@ public User getCurrentUser() {
         userRepository.save(user);
     }
 
-    // public void saveOauthUser(String email, String username) {
-    // if (userRepository.findByUsername(username).isPresent()) return;
-    // var user = new User();
-    // user.setUsername(username);
-    // user.setEmail(email);
-    // user.setPassword(new BCryptPasswordEncoder().encode(username));
-    // user.setProvider(Provider.GOOGLE.value);
-    // user.getRoles().add(roleRepository.findRoleById(Role.USER.value));
-    // userRepository.save(user);
-    // }
+    public void removePromotionsFromUser(Long id,String username) throws Exception {
+        Optional<User> user = userRepository.findByUsername(username);
+        Promotion promotion = promotionRepository.findById(id).orElse(null);
+
+        if(promotion !=null){
+            user.get().getPromotions().remove(promotion);
+        }
+        else
+            throw new Exception("Lỗi");
+    }
+
+
     public List<Promotion> getPromotionsByUsername(String username){
         Optional<User> user = userRepository.findByUsername(username);
 

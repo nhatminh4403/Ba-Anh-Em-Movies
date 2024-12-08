@@ -13,7 +13,7 @@
 
         .flex-form{
             display: flex;
-            justify-content: start;
+            justify-content: space-around;
             align-items: center;
             gap: 50px;
         }
@@ -74,14 +74,10 @@
         <div class="banner-bg bg_img bg-fixed" data-background="/assets/img/banner/banner02.jpg"
              style="background-image: url(&quot;/assets/img/banner/banner02.jpg&quot;);"></div>
         <div class="container">
-            <div class="banner-content">
+            <div class="banner-content" style="max-width: none">
                 <h1 class="title bold">
                     Săn <span class="color-theme">vé xem phim</span> ngay
                 </h1>
-                <p>
-                    Đặt trước vé tiện lợi, tìm suất chiếu phù hợp,
-                    trailers, xem đánh giá và hơn thế nữa
-                </p>
             </div>
         </div>
     </section>
@@ -93,40 +89,19 @@
                 <div class="row align-items-center mb--20">
                     <div class="col-lg-6 mb-20">
                         <div class="search-ticket-header">
-                            <h6 class="category">welcome to ba anh em</h6>
-                            <h3 class="title">Bạn đang tìm kiếm phim gì nè?</h3>
+                            <h6 class="category">welcome to Ba Anh Em</h6>
+                            <h3 class="title">Bạn đang tìm phim gì nè?</h3>
                         </div>
-                    </div>
-                    <div class="col-lg-6 mb-20">
-                        <ul class="tab-menu ticket-tab-menu">
-                            <li class="active">
-                                <div class="tab-thumb">
-                                    <img src="/assets/img/ticket/ticket-tab01.png" alt="ticket">
-                                </div>
-                                <span>movie</span>
-                            </li>
-                            <li>
-                                <div class="tab-thumb">
-                                    <img src="/assets/img/ticket/ticket-tab02.png" alt="ticket">
-                                </div>
-                                <span>events</span>
-                            </li>
-                            <li>
-                                <div class="tab-thumb">
-                                    <img src="/assets/img/ticket/ticket-tab03.png" alt="ticket">
-                                </div>
-                                <span>sports</span>
-                            </li>
-                        </ul>
                     </div>
                 </div>
                 <div class="tab-area">
                     <div class="tab-item active">
                         <div class="flex-form">
-                            <form class="ticket-search-form"  th:action="@{/films/search}" method="get">
+                            <form class="ticket-search-form" th:action="@{/films/search}" method="get">
                                 <div class="form-group large">
                                     <div th:action="@{/films/search}" method="get">
-                                        <input type="text" name="keyword" th:value="${keyword}" placeholder="Tìm kiếm phim" required="">
+                                        <input type="text" name="keyword" th:value="${keyword}"
+                                               placeholder="Tìm kiếm phim" required="">
                                         <button type="submit">
                                             <i class="fas fa-search"></i>
                                         </button>
@@ -136,12 +111,13 @@
                             <form>
                                 <div class="form-group flex-center">
                                     <div class="thumb-country">
-                                        <img src="/assets/img/ticket/city.png" alt="ticket" />
+                                        <img src="/assets/img/ticket/city.png" alt="ticket"/>
                                     </div>
                                     <span class="type type-country">Quốc gia: </span>
                                     <select class="select-bar" onchange="handleCountryChange(this)">
                                         <option value="" disabled selected>Chọn quốc gia</option>
-                                        <option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.name}"></option>
+                                        <option th:each="country : ${countries}" th:value="${country.id}"
+                                                th:text="${country.name}"></option>
                                     </select>
                                 </div>
                             </form>
@@ -152,110 +128,19 @@
         </div>
     </section>
 
-    <section class="movie-section padding-top padding-bottom">
+    <div class="container" th:if="${not #lists.isEmpty(films)}">
+        <div class="text-center" style="margin-top: 40px">
+            <h4 class="title" style="color: #31d7a9;">
+                Phim thuộc quốc gia
+                <span th:text="${country.getName()}" style="color: #31d7a9; font-weight: bold;"></span>
+            </h4>
+        </div>
+
+    </div>
+    <section class="movie-section padding-bottom"  style="margin-top: 60px">
         <div class="container">
             <div class="row flex-wrap-reverse justify-content-center">
-                <div class="col-sm-10 col-md-8 col-lg-3">
-                    <div class="widget-1 widget-banner">
-                        <div class="widget-1-body">
-                            <a href="#0">
-                                <img src="/assets/img/sidebar/banner/banner01.jpg" alt="banner">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="widget-1 widget-check">
-                        <div class="widget-header">
-                            <h5 class="m-title">Ba Anh Em có</h5>
-                            <a href="#0" class="clear-check">Everything</a>
-                        </div>
-                        <div class="widget-1-body">
-                            <h6 class="subtitle">Đa dạng ngôn ngữ </h6>
-                            <div class="check-area">
-                                <div class="form-group">
-                                    <label >English</label>
-                                </div>
-                                <div class="form-group">
-                                    <label >VietNames</label>
-                                </div>
-                                <div class="form-group">
-                                    <label >Korean</label>
-                                </div>
-                                <div class="form-group">
-                                    <label >Chinese</label>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="widget-1 widget-check">
-                        <div class="widget-1-body">
-                            <h6 class="subtitle">Trải nghiệm </h6>
-                            <div class="check-area">
-                                <div class="form-group">
-                                    <label
-                                    >2d</label>
-                                </div>
-                                <div class="form-group">
-                                    <label
-                                    >3d</label>
-                                </div>
-                            </div>
-                            <div class="add-check-area">
-                                <a href="#0">view more <i class="plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="widget-1 widget-check">
-                        <div class="widget-1-body">
-                            <h6 class="subtitle"> Đa dạng thể loại </h6>
-                            <div class="check-area">
-                                <div class="form-group">
-                                    <label >Kinh
-                                        dị</label>
-                                </div>
-                                <div class="form-group">
-                                    <label >Khoa
-                                        học viễn tưởng </label>
-                                </div>
-                                <div class="form-group">
-                                    <label >Chính
-                                        kịch</label>
-                                </div>
-                                <div class="form-group">
-                                    <label >Tình
-                                        cảm, lãng mạn</label>
-                                </div>
-                                <div class="form-group">
-                                    <label >Hành
-                                        động</label>
-                                </div>
-                                <div class="form-group">
-                                    <label >Hài
-                                        hước</label>
-                                </div>
-                                <div class="form-group">
-                                    <label >Phiêu
-                                        lưu</label>
-                                </div>
-                                <div class="form-group">
-                                    <label
-                                    >Hoạt hình</label>
-                                </div>
-                            </div>
-                            <div class="add-check-area">
-                                <a href="#0">view more <i class="plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="widget-1 widget-banner">
-                        <div class="widget-1-body">
-                            <a href="#0">
-                                <img src="/assets/img/sidebar/banner/banner02.jpg" alt="banner">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-9 mb-50 mb-lg-0">
+                <div class="col-lg-12 mb-50 mb-lg-0">
                     <div class="filter-tab tab">
 
                         <!--filter-->
@@ -313,7 +198,7 @@
                                 </div>
 
                                 <div class="row mb-10 justify-content-center search-nothing" th:if="${#lists.isEmpty(films)}" >
-                                    <h2>Phim bạn đang tìm kiếm không có</h2>
+                                    <h2 th:text="'Không có phim thuộc quốc gia' + ${country.name}"></h2>
                                 </div>
 
 
@@ -345,8 +230,9 @@
 
                                             </p>
 
-                                            <div class="movie-tags">
-                                                <a href="#0" th:text="${film.category.name}"></a>
+                                            <div class="movie-tags" th:if="${film.categories != null}" th:each="category : ${film.categories}">
+                                                <a th:href="@{/films/by-category/{id}(id=${category.id})}"
+                                                   th:text="${category.name}"></a>
                                             </div>
                                             <div class="release">
                                                 <span>Ngày khởi chiếu : </span>

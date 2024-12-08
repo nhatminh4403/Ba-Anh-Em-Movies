@@ -10,12 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/promotion")
@@ -49,13 +48,17 @@ public class PromotionApiController {
         user.setPointSaving(user.getPointSaving() - promotion.getPointToRedeem());
         user.getPromotions().add(promotion);
         userService.saveWithoutEncodingPassword(user);
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        User updatedUser = userService.getUserByUsername(user.getUsername());
-//        UsernamePasswordAuthenticationToken newAuth = new UsernamePasswordAuthenticationToken(
-//                updatedUser, authentication.getCredentials(), authentication.getAuthorities());
-//        SecurityContextHolder.getContext().setAuthentication(newAuth);
 
         return ResponseEntity.ok("Quy đổi thành công");
     }
-
+    @GetMapping("/redeemCode/{code}")
+    public ResponseEntity<?> redeemPromotion(@PathVariable String code) {
+        Promotion promotion = promotionService.getPromotionByCode(code);
+        if (promotion != null) {
+            return ResponseEntity.ok(promotion);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Code not found");
+        }
+    }
 }

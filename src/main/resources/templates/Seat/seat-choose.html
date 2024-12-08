@@ -21,7 +21,12 @@
             pointer-events: none;
             color: orange;
         }
-
+        #clock {
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 1);
+        }
     </style>
 </head>
 <body>
@@ -69,8 +74,7 @@
 
                 <!--                Count Down time for customer to choose seat-->
                 <div class="item">
-                    <h5 th:text="${currentTime}"></h5>
-                    <p class="mt-2">Hiện tại</p>
+                    <div id="clock"></div>
                 </div>
             </div>
         </div>

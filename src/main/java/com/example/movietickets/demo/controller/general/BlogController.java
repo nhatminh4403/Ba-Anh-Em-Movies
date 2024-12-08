@@ -39,6 +39,7 @@ public class BlogController {
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("blog", blog);
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "/blog/blog-list";
     }
 
@@ -62,6 +63,7 @@ public class BlogController {
         List<Blog> blogs = blogService.searchBlogsByTitle(keyword);
         model.addAttribute("blogs", blogs);
         model.addAttribute("keyword", keyword);
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "blog/blog-search";
     }
 }

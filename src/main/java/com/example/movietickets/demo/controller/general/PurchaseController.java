@@ -95,7 +95,7 @@ public class PurchaseController {
             String appliedPromoCode = "";
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             User user = getUserFromAuthentication(authentication);
-            int age = user.getAge(); // Trường age đã lưu sẵn tuổi
+//            int age = user.getAge(); // Trường age đã lưu sẵn tuổi
 //            long priceVoucher = 0;
             List<Promotion> promotions = userService.getPromotionsByUsername(user.getUsername());
             model.addAttribute("promotions", promotions);
@@ -162,27 +162,26 @@ public class PurchaseController {
 
     @GetMapping("/history")
     public String showPurchaseHistory(Model model, @RequestParam(required = false) String status,
-                                      @RequestParam(required = false) String message) {
+                                      @RequestParam(required = false) String message,RedirectAttributes redirectAttributes) {
         List<Booking> bookings = bookingService.getBookingsByCurrentUser(); // phương thức này để lấy các booking của người dùng hiện tại
         List<Category> categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
         model.addAttribute("bookings", bookings);
+        String s = "Successful";
+//        boolean b = status.toLowerCase().contains(s.toLowerCase());
         if (status != null) {
             switch (status) {
-                case "success": case "Successful":
-                    model.addAttribute("message", "Thanh toán thành công!");
+                case "success": case "Successful": case "Successful.":
+                    redirectAttributes.addFlashAttribute("message", "Thanh toán thành công!");
+                    message = "Thanh toán thành công!";
                     break;
                 case "failed":
-                    model.addAttribute("message",
-                            message != null ? "Thanh toán thất bại: " + message : "Thanh toán thất bại!");
+                    redirectAttributes.addFlashAttribute("message",  message != null ? "Thanh toán thất bại: " + message : "Thanh toán thất bại!");
                     break;
-                case "error":
-                    model.addAttribute("message",
-                            message != null ? message : "Có lỗi xảy ra trong quá trình xử lý!");
-                    break;
+
             }
         }
-
+        System.out.println(status + "\n" + message);
         return "Purchase/history";
     }
     private long calculatePoints(List<Seat> seats) {
@@ -206,7 +205,7 @@ public class PurchaseController {
             @RequestParam ("promotionCode") String promotionCode,
             RedirectAttributes redirectAttributes,
             Model model, HttpSession session
-    ) throws PayPalRESTException {
+    ) throws Exception {
         if (purchaseService.IsExist()) {
             Purchase purchase = purchaseService.Get();
             List<String> seatSymbols = new ArrayList<>();
@@ -259,21 +258,20 @@ public class PurchaseController {
             // Áp dụng giảm giá vào tổng giá
 //            booking.setPrice(purchase.getTotalPrice() + comboPrice - discount);//cộng thêm giá từ food và trừ discount
             double discount =0;
+            Promotion getPromotion = null;
             if(!promotionCode.equals("0-0,0-0")){
                 String[] extract = promotionCode.split(",");
-                Promotion promotion = promotionService.getPromotionByCode(extract[0]);
+                getPromotion = promotionService.getPromotionByCode(extract[0]);
 
-                discount = promotion.getPromotionDiscountRate();
+                if (getPromotion != null) {
+                    discount = getPromotion.getPromotionDiscountRate();
+                }
             }
             booking.setPrice((long) (purchase.getTotalPrice() - purchase.getTotalPrice()*discount + comboPrice));//cộng thêm giá từ food và trừ discount
 
             if (comboFoodId != null) {
                 ComboFood comboFood = comboFoodService.getComboFoodById(comboFoodId).orElseThrow(() -> new EntityNotFoundException("Combo not found"));
                 booking.setComboFood(comboFood);
-            }
-
-            if ("cash".equalsIgnoreCase(payment)) {
-                booking.setPayment("Thanh toán tại quầy");
             }
 
             // Kiểm tra phương thức thanh toán
@@ -315,10 +313,12 @@ public class PurchaseController {
             }
             // Lấy thông tin người dùng hiện tại
             user.setPointSaving(getPoints);
+            if(getPromotion != null)
+                userService.removePromotionsFromUser(getPromotion.getId(),user.getUsername());
+
             userService.updateUser(user);
             booking.setUser(user);
             bookingService.saveBooking(booking, seats, schedule);
-
 
             redirectAttributes.addFlashAttribute("message", "Đặt vé thành công!");
         } else {

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @AllArgsConstructor
@@ -95,7 +96,8 @@ public class FilmController {
         List<Country> countries = countryService.getAllCountries();
         List<Category> categories = categoryService.getAllCategories();
 
-
+        Optional<Country> country = countryService.getCountryById(countryId);
+        model.addAttribute("country",country.get());
         model.addAttribute("categories", categories);
         model.addAttribute("films", films);
         model.addAttribute("countries", countries);
@@ -110,7 +112,8 @@ public class FilmController {
         List<Category> categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
 
-
+        Optional<Category> category = categoryService.getCategoryById(categoryId);
+        model.addAttribute("category", category.get());
         model.addAttribute("films", films);
         model.addAttribute("countries", countries);
         return "Film/films-by-category";  // Tên template view để hiển thị danh sách phim theo category
