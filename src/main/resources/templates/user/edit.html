@@ -281,7 +281,33 @@
                 padding-right: 0;
             }
         }
+        .custom-checkbox {
+            appearance: none;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 2px solid #31d7a9;
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
 
+        .custom-checkbox:checked {
+            background-color: #31d7a9;
+        }
+
+        .custom-checkbox:checked::before {
+            content: '✓';
+            position: absolute;
+            color: #fff;
+            font-size: 14px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .custom-checkbox:hover {
+            border-color: #28c498;
+        }
     </style>
 </head>
 <body>
@@ -351,11 +377,26 @@
                                 <input type="text" id="age" th:field="*{age}" class="form-control" placeholder="Nhập tuổi"/>
                                 <span class="error-message" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></span>
                             </div>
-
+                            <!-- kiểm thử dữ liệu -->
+<!--                            <div class="form-group">-->
+<!--                                <label class="form-label" for="studentId">MSSV:</label>-->
+<!--                                <input type="text" id="studentId" th:field="*{studentId}" class="form-control" placeholder="Nhập tuổi"/>-->
+<!--                                <span class="error-message" th:if="${#fields.hasErrors('studentId')}" th:errors="*{studentId}"></span>-->
+<!--                            </div>
                             <div class="form-group">
-                                <label class="form-label" for="birthday">Ngày sinh</label>
-                                <input type="text" id="birthday" th:field="*{birthday}" class="form-control" placeholder="Nhập ngày sinh"/>
-                                <span class="error-message" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}"></span>
+                                <label for="fullInfo">Toàn bộ thông tin:</label>
+                                <textarea id="fullInfo" readonly></textarea>
+                            </div>-->
+                            <div class="form-group" style="display: flex; align-items: center; gap: 15px;">
+                                <div style="flex: 1;">
+                                    <label class="form-label" for="birthday">Ngày sinh</label>
+                                    <input type="text" id="birthday" th:field="*{birthday}" class="form-control" placeholder="Nhập ngày sinh"/>
+                                    <span class="error-message" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}"></span>
+                                </div>
+                                <div style="display: flex; align-items: center; margin-top: 25px;">
+                                    <label for="isStudent" style="color: #31d7a9; margin-left: 8px; user-select: none;">Bạn là sinh viên?</label>
+                                    <input type="checkbox" disabled id="isStudent" th:field="*{isStudent}" class="custom-checkbox" style="width: 20px; height: 20px;"/>
+                                </div>
                             </div>
 
                             <div class="btn-group">

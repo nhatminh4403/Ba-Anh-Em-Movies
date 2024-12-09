@@ -32,11 +32,12 @@ public class OcrController {
         try {
             User user = ocrService.extractCardInfo(file);
             Map<String, Object> response = new HashMap<>();
-            response.put("fullName", RemoveDiacritics.removeDiacritics( user.getFullname()).toUpperCase());
+            response.put("fullName", RemoveDiacritics.removeDiacritics(user.getFullname()).toUpperCase());
             response.put("birthday", user.getBirthday());
             response.put("age", calculateAge(user.getBirthday()));
 //            response.put("nienKhoa", user.getNienKhoa());
-//            response.put("fullInfo", user.getFullInfo());
+            response.put("fullInfo", user.getFullInfo());
+            response.put("studentId",user.getStudentId());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();

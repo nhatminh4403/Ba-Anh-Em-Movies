@@ -83,16 +83,19 @@ public class OCRService {
 
 
         // Pattern matching để trích xuất thông tin
-        Pattern mssv = Pattern.compile("\\b\\d{10}\\b");
-
+        Pattern mssv = Pattern.compile("(?:MSSV:|Mã SV:|Ma SV:|Student ID:)\\s*(\\d{8,12})(?=\\s|$)");
         // Sử dụng nhóm захват (capturing group) để chỉ lấy phần thông tin cần thiết
-        Pattern name = Pattern.compile("(?:Họ tên:|Họ ten:|Ho ten:|Ho tên:)\\s*(.+)(?=\\s|$)");  // nhóm (.+) sẽ bắt phần tên
+        Pattern name = Pattern.compile("(?:Họ tên:|Họ ten:|Ho ten:|Ho tên:|Ho va ten:|Họ va ten:|Ho và ten:|Ho va tên:|Họ và ten:|Họ va tên:|Ho và tên:|Họ và tên:|Ho fen:)\\s*(.+)(?=\\s|$)");
         Pattern birthday = Pattern.compile("(?:Ngày sinh:|Ngay sinh:|Ngey sinh:|Ngèy sinh:|Ngoy sinh:|Ngòy sinh:)\\s*(\\d{2}/\\d{2}/\\d{4})(?=\\s|$)"); // nhóm (\\d{2}/\\d{2}/\\d{4}) sẽ bắt ngày tháng
 
         Matcher mssvMatcher = mssv.matcher(text);
         Matcher nameMatcher = name.matcher(text);
         Matcher birthdayMatcher = birthday.matcher(text);
 
+        if(mssvMatcher.find())
+        {
+            info.setStudentId(mssvMatcher.group(1).trim());
+        }
         if (nameMatcher.find()) {
             info.setFullname(nameMatcher.group(1).trim()); // group(1) sẽ chỉ lấy phần tên
         }

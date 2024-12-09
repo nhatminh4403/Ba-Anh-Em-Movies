@@ -75,9 +75,18 @@
         private Set<Promotion> promotions;
         @Column(name = "point")
         private Long pointSaving =0L;
+        @Column(name = "isStudent")
+        private Boolean isStudent;
+
+        //this line is for testing ocr
+        @Transient
+        private String fullInfo;
+
+
+        @Transient
+        private String studentId;
 
         // Getters and setters for all fields
-        //this line is for testing ocr //private String fullInfo;
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
             Set<Role> userRoles = this.getRoles();

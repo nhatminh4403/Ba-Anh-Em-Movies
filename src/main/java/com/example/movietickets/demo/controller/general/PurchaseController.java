@@ -203,6 +203,8 @@ public class PurchaseController {
             @RequestParam String comboId, //nhận String từ form purchase
             @RequestParam Long scheduleId,
             @RequestParam ("promotionCode") String promotionCode,
+            @RequestParam("appliedPromoCode") String appliedPromoCode,
+            @RequestParam("appliedDiscountRate") double appliedDiscountRate,
             RedirectAttributes redirectAttributes,
             Model model, HttpSession session
     ) throws Exception {
@@ -257,17 +259,24 @@ public class PurchaseController {
 
             // Áp dụng giảm giá vào tổng giá
 //            booking.setPrice(purchase.getTotalPrice() + comboPrice - discount);//cộng thêm giá từ food và trừ discount
-            double discount =0;
+            double discount =0,discountWithCode = 0;
             Promotion getPromotion = null;
-            if(!promotionCode.equals("0-0,0-0")){
-                String[] extract = promotionCode.split(",");
-                getPromotion = promotionService.getPromotionByCode(extract[0]);
+            if(!promotionCode.equals("0-0")){
+                getPromotion = promotionService.getPromotionByCode(promotionCode);
 
                 if (getPromotion != null) {
                     discount = getPromotion.getPromotionDiscountRate();
                 }
             }
-            booking.setPrice((long) (purchase.getTotalPrice() - purchase.getTotalPrice()*discount + comboPrice));//cộng thêm giá từ food và trừ discount
+            System.out.println(appliedPromoCode);
+            if(!appliedPromoCode.isEmpty()){
+                Promotion promotion = promotionService.getPromotionByCode(appliedPromoCode);
+
+                if(promotion != null){
+                    discountWithCode = promotion.getPromotionDiscountRate();
+                }
+            }
+            booking.setPrice((long)( purchase.getTotalPrice() - purchase.getTotalPrice()*discount - purchase.getTotalPrice()*discountWithCode + comboPrice));//cộng thêm giá từ food và trừ discount
 
             if (comboFoodId != null) {
                 ComboFood comboFood = comboFoodService.getComboFoodById(comboFoodId).orElseThrow(() -> new EntityNotFoundException("Combo not found"));

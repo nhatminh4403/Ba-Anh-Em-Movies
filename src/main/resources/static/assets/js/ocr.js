@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const imagePreview = document.getElementById('imagePreview');
     const scanButton = document.getElementById('scanButton');
     const loadingIndicator = document.getElementById('loadingIndicator');
-
+    const isStudentCheckbox = document.getElementById('isStudent');
     // Preview ảnh
     imageInput.addEventListener('change', function(e) {
         const file = e.target.files[0];
@@ -41,7 +41,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('fullname').value = data.fullName || '';
                 document.getElementById('birthday').value = data.birthday || '';
                 document.getElementById('age').value = data.age || '';
+                //kiem thu du lieu
                 // document.getElementById('fullInfo').value = data.fullInfo;
+                // document.getElementById('studentId').value = data.studentId ;
+                if(data.studentId){
+                    isStudentCheckbox.checked = true;
+                }
+                else {
+                    isStudentCheckbox.checked = false;
+                }
+
             } else {
                 alert('Có lỗi xảy ra: ' + data.error);
             }

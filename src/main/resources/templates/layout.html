@@ -452,7 +452,12 @@
         const promoCodeInput = document.getElementById('promoCodeInput');
         const checkoutForm = document.querySelector('form[action*="/purchase/checkout"]');
 
+        // Thêm references cho input hidden
+        const appliedPromoCodeInput = document.getElementById('appliedPromoCode');
+        const appliedDiscountRateInput = document.getElementById('appliedDiscountRate');
+
         let originalPrice = parseFloat(originalPriceElement.textContent.replace('.', ''));
+        let currentDiscountRate = 0;
 
         function updateTotalPrice(discountRate = 0) {
             let currentPrice = originalPrice;
@@ -464,20 +469,30 @@
             }
 
             // Apply promotion discount (dropdown)
-            if (promotionSelect.value) {
+            if (promotionSelect.value !== '0-0') {
                 const selectedOption = promotionSelect.options[promotionSelect.selectedIndex];
                 const discountPercent = parseFloat(selectedOption.getAttribute('data-percent')) || 0;
                 currentPrice -= currentPrice * discountPercent;
-            }
 
-            // Apply promo code discount (API)
-            if (discountRate > 0) {
+                // Cập nhật hidden inputs cho dropdown
+                appliedPromoCodeInput.value = promotionSelect.value;
+                appliedDiscountRateInput.value = discountPercent;
+            } else if (discountRate > 0) {
+                // Apply promo code discount (từ input text)
                 currentPrice -= currentPrice * discountRate;
+
+                // Cập nhật hidden inputs cho promo code
+                appliedPromoCodeInput.value = promoCodeInput.value.trim();
+                appliedDiscountRateInput.value = discountRate;
+            } else {
+                // Reset hidden inputs nếu không có giảm giá
+                appliedPromoCodeInput.value = '';
+                appliedDiscountRateInput.value = '0';
             }
 
             // Update UI
             totalPriceElement.textContent = Math.round(currentPrice).toLocaleString() + ' VND';
-            discountInfoElement.style.display = discountRate > 0 || promotionSelect.value ? 'block' : 'none';
+            discountInfoElement.style.display = (discountRate > 0 || promotionSelect.value !== '0-0') ? 'block' : 'none';
             discountAmountElement.textContent = Math.round(originalPrice - currentPrice).toLocaleString();
         }
 
@@ -488,6 +503,9 @@
                 return;
             }
 
+            // Reset dropdown selection
+            promotionSelect.value = '0-0';
+
             fetch(`/api/promotion/redeemCode/${promotionCode}`)
                 .then(response => {
                     if (!response.ok) throw new Error(`API error: ${response.statusText}`);
@@ -495,122 +513,44 @@
                 })
                 .then(data => {
                     if (data && data.promotionDiscountRate) {
-                        updateTotalPrice(data.promotionDiscountRate);
+                        currentDiscountRate = data.promotionDiscountRate;
+                        updateTotalPrice(currentDiscountRate);
                     } else {
                         alert(data.message || "Mã giảm giá không hợp lệ.");
+                        appliedPromoCodeInput.value = '';
+                        appliedDiscountRateInput.value = '0';
                     }
                 })
                 .catch(error => {
                     console.error('Error fetching promotion:', error);
                     alert("Có lỗi xảy ra khi kiểm tra mã giảm giá.");
+                    appliedPromoCodeInput.value = '';
+                    appliedDiscountRateInput.value = '0';
                 });
         });
 
         // Update price on dropdown change
-        promotionSelect.addEventListener('change', () => updateTotalPrice());
-        comboFoodSelect.addEventListener('change', () => updateTotalPrice());
+        promotionSelect.addEventListener('change', () => {
+            promoCodeInput.value = ''; // Reset promo code input
+            updateTotalPrice();
+        });
 
-        // Add hidden promotion code to form on submit
-        checkoutForm.addEventListener('submit', function (e) {
-            const promotionInput = document.createElement('input');
-            promotionInput.type = 'hidden';
-            promotionInput.name = 'promotionCode';
-            promotionInput.value = promotionSelect.value || promoCodeInput.value.trim();
-            this.appendChild(promotionInput);
+        comboFoodSelect.addEventListener('change', () => {
+            updateTotalPrice(currentDiscountRate);
+        });
+
+        // Form submission
+        checkoutForm.addEventListener('submit', function(e) {
+            // Validate if either dropdown or promo code is selected
+            if (promotionSelect.value === '0-0' && !appliedPromoCodeInput.value) {
+                // Không có mã giảm giá nào được áp dụng
+                appliedPromoCodeInput.value = '';
+                appliedDiscountRateInput.value = '0';
+            }
         });
     });
-
 </script>
-<!--price after adding promotion-->
-<!--<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const promotionSelect = document.getElementById('promotionSelect');
-        const totalPriceElement = document.querySelector('.totalCheckout');
-        const originalPriceElement = document.getElementById('originalPrice');
-        const discountInfoElement = document.getElementById('discountInfo');
-        const discountAmountElement = document.getElementById('discountAmount');
-        const comboFoodSelect = document.getElementById('comboFoodSelect');
-        const promotionCode =document.getElementById('promoCodeInput').value;
-        const promoCodeBtn = document.getElementById('checkPromoBtn');
-        console.log(originalPriceElement.textContent);
 
-        let originalPrice = parseFloat(originalPriceElement.textContent.replace('.', ''));
-
-        function updateTotalPrice() {
-            let currentPrice = originalPrice;
-
-            // Tính giá combo food nếu có
-            if (comboFoodSelect.value !== '0-0') {
-                const comboPrice = parseFloat(comboFoodSelect.value.split('-')[1]);
-                currentPrice += comboPrice;
-            }
-
-            if (!promotionCode) {
-                alert("Vui lòng nhập mã giảm giá!");
-                return;
-            }
-            promoCodeBtn.addEventListener('click', function () {
-                console.log("promo code btn exists");
-                fetch(`/api/promotion/redeemCode/${promotionCode}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            alert("Lỗi api");
-                            throw new Error(`Lỗi API: ${response}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data) {
-                            const discountAmount = currentPrice * data.promotionDiscountRate;
-                            currentPrice -= discountAmount;
-                            console.log(data.promotionDiscountRate);
-                            discountInfoElement.style.display = 'block';
-                            discountAmountElement.textContent = Math.round(discountAmount).toLocaleString();
-
-                        } else {
-                            alert(data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching promotion:', error);
-                    });
-            });
-            // Tính giảm giá nếu có chọn promotion
-            if (promotionSelect.value) {
-                const selectedOption = promotionSelect.options[promotionSelect.selectedIndex];
-                const discountPercent = selectedOption.getAttribute('data-percent');
-                const discountAmount = (currentPrice * discountPercent);
-                currentPrice -= discountAmount;
-                console.log(currentPrice)
-                console.log(discountAmount)
-                console.log(discountPercent)
-                // Hiển thị thông tin giảm giá
-                discountInfoElement.style.display = 'block';
-                discountAmountElement.textContent = Math.round(discountAmount).toLocaleString();
-            } else {
-                discountInfoElement.style.display = 'none';
-            }
-
-            totalPriceElement.textContent = Math.round(currentPrice).toLocaleString() + ' VND';
-        }
-        promotionSelect.addEventListener('change', updateTotalPrice);
-        comboFoodSelect.addEventListener('change', updateTotalPrice);
-
-    });
-
-    // Cập nhật form submit để bao gồm mã khuyến mãi
-    const checkoutForm = document.querySelector('form[action*="/purchase/checkout"]');
-    checkoutForm.addEventListener('submit', function(e) {
-        const promotionSelect = document.getElementById('promotionSelect');
-        if (promotionSelect.value) {
-            const promotionInput = document.createElement('input');
-            promotionInput.type = 'hidden';
-            promotionInput.name = 'promotionCode';
-            promotionInput.value = promotionSelect.value;
-            this.appendChild(promotionInput);
-        }
-    });
-</script>-->
 <!--redeem promotion-->
 <script>
     function redeemPromotion(promotionId) {
@@ -646,7 +586,7 @@
     }
 
 </script>
-
+<!--chat bot-->
 <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
 <df-messenger
         intent="WELCOME"

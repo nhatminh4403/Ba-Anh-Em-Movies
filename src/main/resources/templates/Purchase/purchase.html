@@ -104,6 +104,9 @@
                 <div class="col-lg-7">
                     <div th:if="${selectedSeats}">
                         <form action="#" th:action="@{/purchase/checkout}" method="post">
+                            <!--Nhập mã giảm giá -->
+                            <input type="hidden" id="appliedPromoCode" name="appliedPromoCode" value="" />
+                            <input type="hidden" id="appliedDiscountRate" name="appliedDiscountRate" value="0" />
                             <div class="checkout-widget checkout-contact">
                                 <h5 class="title">Mã giảm giá</h5>
                                 <div class="form-group">
