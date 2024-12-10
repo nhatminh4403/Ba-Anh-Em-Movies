@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const scanButton = document.getElementById('scanButton');
     const loadingIndicator = document.getElementById('loadingIndicator');
     const isStudentCheckbox = document.getElementById('isStudent');
+    const isStudentHidden = document.createElement('input');
     // Preview ảnh
     imageInput.addEventListener('change', function(e) {
         const file = e.target.files[0];
@@ -46,9 +47,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 // document.getElementById('studentId').value = data.studentId ;
                 if(data.studentId){
                     isStudentCheckbox.checked = true;
+                    isStudentCheckbox.dispatchEvent(new Event('change'));                    // Trigger change event
+                    // const event = new Event('change', {
+                    //     bubbles: true,
+                    //     cancelable: true,
+                    // });
+                    // isStudentCheckbox.dispatchEvent(event);
                 }
                 else {
                     isStudentCheckbox.checked = false;
+                    isStudentCheckbox.dispatchEvent(new Event('change'));
                 }
 
             } else {

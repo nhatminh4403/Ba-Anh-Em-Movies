@@ -41,7 +41,7 @@ public class Promotion {
     @Column(nullable = false,name = "promotion_discount_rate")
     private Double promotionDiscountRate;
 
-    @Column(nullable = false,name = "point_to_redeem")
+    @Column(name = "point_to_redeem")
     private Long pointToRedeem = 0L;
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "promotions", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JsonBackReference

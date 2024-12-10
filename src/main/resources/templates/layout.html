@@ -440,6 +440,19 @@
         backgroundColor: status==="Successful." ? "linear-gradient(to right, #00b09b, #96c93d)" : "white" // Màu nền thông báo
     }).showToast();
 </script>
+<script  type="text/javascript">
+    const status = /*[[${status}]]*/ "Successful.";
+    const message = /*[[${success}]]*/ "";
+
+    Toastify({
+        text: message, // Hiển thị thông báo từ server
+        duration: 30000, // Thời gian hiển thị thông báo (3 giây)
+        close: true, // Hiển thị nút đóng
+        gravity: "top", // Vị trí thông báo (top hoặc bottom)
+        position: "right", // Vị trí thông báo (left, center hoặc right)
+        backgroundColor:"linear-gradient(to right, #00b09b, #96c93d)"  // Màu nền thông báo
+    }).showToast();
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const promotionSelect = document.getElementById('promotionSelect');

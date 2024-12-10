@@ -395,7 +395,11 @@
                                 </div>
                                 <div style="display: flex; align-items: center; margin-top: 25px;">
                                     <label for="isStudent" style="color: #31d7a9; margin-left: 8px; user-select: none;">Bạn là sinh viên?</label>
-                                    <input type="checkbox" disabled id="isStudent" th:field="*{isStudent}" class="custom-checkbox" style="width: 20px; height: 20px;"/>
+                                    <input type="checkbox" readonly id="isStudent" th:field="*{isStudent}" class="custom-checkbox"
+                                           style="width: 20px; height: 20px;"
+                                           onclick="return false;"
+                                           onkeydown="return false;"/>
+                                    />
                                 </div>
                             </div>
 

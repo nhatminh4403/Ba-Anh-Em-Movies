@@ -76,7 +76,7 @@
         @Column(name = "point")
         private Long pointSaving =0L;
         @Column(name = "isStudent")
-        private Boolean isStudent;
+        private Boolean isStudent = false;
 
         //this line is for testing ocr
         @Transient

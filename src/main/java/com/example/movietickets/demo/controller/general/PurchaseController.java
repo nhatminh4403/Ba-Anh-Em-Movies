@@ -246,17 +246,8 @@ public class PurchaseController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             User user = getUserFromAuthentication(authentication);
             long getPoints= calculatePoints(seats);
-
+            user.setPointSaving(getPoints);
             // Kiểm tra tuổi từ trường age
-//            int age = user.getAge(); // Trường age đã lưu sẵn tuổi
-//            long discount = 0;
-//
-//            if (age < 12) {
-//                discount = 30000; // Trẻ em giảm 30k
-//            } else if (age >= 12 && age <= 22) {
-//                discount = 20000; // Học sinh, sinh viên giảm 20k
-//            }
-
             // Áp dụng giảm giá vào tổng giá
 //            booking.setPrice(purchase.getTotalPrice() + comboPrice - discount);//cộng thêm giá từ food và trừ discount
             double discount =0,discountWithCode = 0;
@@ -321,7 +312,7 @@ public class PurchaseController {
                 return "redirect:/api/payment/momo/create_momo?scheduleId=" + scheduleId + "&amount=" + purchase.getTotalPrice() + "&comboId=" + comboId;
             }
             // Lấy thông tin người dùng hiện tại
-            user.setPointSaving(getPoints);
+
             if(getPromotion != null)
                 userService.removePromotionsFromUser(getPromotion.getId(),user.getUsername());
 
