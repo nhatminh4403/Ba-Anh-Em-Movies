@@ -378,12 +378,12 @@
                                 <span class="error-message" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></span>
                             </div>
                             <!-- kiểm thử dữ liệu -->
-<!--                            <div class="form-group">-->
-<!--                                <label class="form-label" for="studentId">MSSV:</label>-->
-<!--                                <input type="text" id="studentId" th:field="*{studentId}" class="form-control" placeholder="Nhập tuổi"/>-->
-<!--                                <span class="error-message" th:if="${#fields.hasErrors('studentId')}" th:errors="*{studentId}"></span>-->
-<!--                            </div>
-                            <div class="form-group">
+<!--                            <div class="form-group">
+                                <label class="form-label" for="studentId">MSSV:</label>
+                                <input type="text" id="studentId" th:field="*{studentId}" class="form-control" placeholder="Nhập tuổi"/>
+                                <span class="error-message" th:if="${#fields.hasErrors('studentId')}" th:errors="*{studentId}"></span>
+                            </div>-->
+<!--                            <div class="form-group">
                                 <label for="fullInfo">Toàn bộ thông tin:</label>
                                 <textarea id="fullInfo" readonly></textarea>
                             </div>-->
@@ -393,13 +393,13 @@
                                     <input type="text" id="birthday" th:field="*{birthday}" class="form-control" placeholder="Nhập ngày sinh"/>
                                     <span class="error-message" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}"></span>
                                 </div>
-                                <div style="display: flex; align-items: center; margin-top: 25px;">
+                                <div style="display: flex; flex-direction: column; align-items: center; margin-top: 25px;">
                                     <label for="isStudent" style="color: #31d7a9; margin-left: 8px; user-select: none;">Bạn là sinh viên?</label>
                                     <input type="checkbox" readonly id="isStudent" th:field="*{isStudent}" class="custom-checkbox"
-                                           style="width: 20px; height: 20px;"
+                                           style="width: 20px; height: 20px;cursor: pointer;"
                                            onclick="return false;"
                                            onkeydown="return false;"/>
-                                    />
+
                                 </div>
                             </div>
 

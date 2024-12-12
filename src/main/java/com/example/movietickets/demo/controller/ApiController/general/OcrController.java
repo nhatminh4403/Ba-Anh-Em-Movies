@@ -36,7 +36,7 @@ public class OcrController {
             response.put("birthday", user.getBirthday());
             response.put("age", calculateAge(user.getBirthday()));
 //            response.put("nienKhoa", user.getNienKhoa());
-            response.put("fullInfo", user.getFullInfo());
+//            response.put("fullInfo", user.getFullInfo());
             response.put("studentId",user.getStudentId());
             return ResponseEntity.ok(response);
         } catch (Exception e) {

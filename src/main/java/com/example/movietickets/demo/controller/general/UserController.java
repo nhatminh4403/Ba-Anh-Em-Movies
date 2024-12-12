@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.*;
@@ -59,7 +60,7 @@ public class UserController {
     @PostMapping("/profile/chinh-sua")
     public String updateUserInfo(@Valid @ModelAttribute("user") User user,
                                  BindingResult result,
-                                 Model model,
+                                 Model model, RedirectAttributes redirectAttributes,
                                  Principal principal) {
         model.addAttribute("title", "Chỉnh sửa tài khoản");
         model.addAttribute("categories", categoryService.getAllCategories());
@@ -111,7 +112,7 @@ public class UserController {
         }
         userService.updateUser(user);
 
-        model.addAttribute("success", "Cập nhật thông tin thành công");
+        redirectAttributes.addFlashAttribute("success", "Cập nhật thông tin thành công");
         return "redirect:/user/profile";
     }
 

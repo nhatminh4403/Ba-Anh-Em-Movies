@@ -426,32 +426,81 @@
     });
 </script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<!--/*[[${message}]]*/   /*[[${status}]]*/  /*[[${success}]]*/-->
+<script th:if="${status != null or success != null}" th:inline="javascript">
+    const statusAfterPurchase = /*[[${status}]]*/ 'Successful.';
+    const purchaseMessage = /*[[${message}]]*/ '';
+    const editProfileSuccess =  /*[[${success}]]*/ '';
+    const toastifyConfig = {
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        style: {
+            fontSize: '16px',
+            fontFamily: 'Arial, sans-serif',
+            padding: '12px 24px',
+            marginTop: '20px',
+        },
+        className: 'custom-toast'
+    };
 
-<script  type="text/javascript">
-    const status = /*[[${status}]]*/ "Successful.";
-    const message = /*[[${message}]]*/ "";
+    // Thêm CSS cho custom toast
+    const style = document.createElement('style');
+    style.textContent = `
+        .custom-toast {
+            min-width: 300px;
+        }
+        button.toast-close {
+            width :unset !important;
+            margin-left:10px;
+        }
+        .toast-close:hover {
+            opacity: 1 !important;
+        }
+    `;
+    document.head.appendChild(style);
+    // Toast cho thanh toán
+    if (statusAfterPurchase  != null && purchaseMessage!= null) {
+        Toastify({
+            text: purchaseMessage,
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            backgroundColor: statusAfterPurchase=== "Successful."
+                ? "linear-gradient(to right, #00b09b, #96c93d)"
+                : "linear-gradient(to right, #ff5f6d, #ffc371)",
+            style: {
+                fontSize: '16px',
+                fontFamily: 'Arial, sans-serif'
 
-    Toastify({
-        text: message, // Hiển thị thông báo từ server
-        duration: 30000, // Thời gian hiển thị thông báo (3 giây)
-        close: true, // Hiển thị nút đóng
-        gravity: "top", // Vị trí thông báo (top hoặc bottom)
-        position: "right", // Vị trí thông báo (left, center hoặc right)
-        backgroundColor: status==="Successful." ? "linear-gradient(to right, #00b09b, #96c93d)" : "white" // Màu nền thông báo
-    }).showToast();
-</script>
-<script  type="text/javascript">
-    const status = /*[[${status}]]*/ "Successful.";
-    const message = /*[[${success}]]*/ "";
+            },
+            offset: {
+                y:110,
+            },
+        }).showToast();
+    }
 
-    Toastify({
-        text: message, // Hiển thị thông báo từ server
-        duration: 30000, // Thời gian hiển thị thông báo (3 giây)
-        close: true, // Hiển thị nút đóng
-        gravity: "top", // Vị trí thông báo (top hoặc bottom)
-        position: "right", // Vị trí thông báo (left, center hoặc right)
-        backgroundColor:"linear-gradient(to right, #00b09b, #96c93d)"  // Màu nền thông báo
-    }).showToast();
+    // Toast cho cập nhật thông tin
+    if ( editProfileSuccess != null) {
+        Toastify({
+            text:  editProfileSuccess,
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+            style: {
+                fontSize: '16px',
+                fontFamily: 'Arial, sans-serif'
+
+            },
+            offset: {
+                y:110,
+            },
+        }).showToast();
+    }
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -603,7 +652,7 @@
 <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
 <df-messenger
         intent="WELCOME"
-        chat-icon="https://cdn-icons-png.flaticon.com/512/785/785581.png"
+        chat-icon="https://cdn-icons-png.flaticon.com/512/4954/4954813.png"
         chat-title="Ba Anh Em bot"
         agent-id="6e08a620-4272-4ba0-be06-c4f3b7366ddf"
         language-code="vi"

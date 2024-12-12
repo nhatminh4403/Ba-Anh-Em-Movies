@@ -79,11 +79,11 @@ public class OCRService {
     private User parseUserInfo(String text) {
         User info = new User();
         //line below is for testing
-//        info.setFullInfo(text);
+        info.setFullInfo(text);
 
 
         // Pattern matching để trích xuất thông tin
-        Pattern mssv = Pattern.compile("(?:MSSV:|Mã SV:|Ma SV:|Student ID:)\\s*(\\d{8,12})(?=\\s|$)");
+        Pattern mssv = Pattern.compile("(?:MSSV:|Mã SV:|Ma SV:|Student ID:|“ MãSV: - ' |)\\s*(\\d{8,12})(?=\\s|$)");
         // Sử dụng nhóm захват (capturing group) để chỉ lấy phần thông tin cần thiết
         Pattern name = Pattern.compile("(?:Họ tên:|Họ ten:|Ho ten:|Ho tên:|Ho va ten:|Họ va ten:|Ho và ten:|Ho va tên:|Họ và ten:|Họ va tên:|Ho và tên:|Họ và tên:|Ho fen:)\\s*(.+)(?=\\s|$)");
         Pattern birthday = Pattern.compile("(?:Ngày sinh:|Ngay sinh:|Ngey sinh:|Ngèy sinh:|Ngoy sinh:|Ngòy sinh:)\\s*(\\d{2}/\\d{2}/\\d{4})(?=\\s|$)"); // nhóm (\\d{2}/\\d{2}/\\d{4}) sẽ bắt ngày tháng
