@@ -2,17 +2,15 @@ package com.example.movietickets.demo.service;
 
 import com.example.movietickets.demo.DTO.SeatDto;
 import com.example.movietickets.demo.model.BookingDetail;
-import com.example.movietickets.demo.model.Room;
 import com.example.movietickets.demo.model.Seat;
-import com.example.movietickets.demo.model.SeatType;
 import com.example.movietickets.demo.repository.BookingDetailRepository;
-import com.example.movietickets.demo.repository.ScheduleRepository;
 import com.example.movietickets.demo.repository.SeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -89,6 +87,32 @@ public class SeatService {
         seatDto.setImage(seat.getImage());
         seatDto.setStatus(seat.getStatus());
         return seatDto;
+    }
+
+    public List<Seat> getSeatsByScheduleId(Long scheduleId) {
+        return seatRepository.findSeatsByScheduleId(scheduleId);
+    }
+
+    public List<SeatDto> getSeatsByRoomAndSchedule(Long roomId, Long scheduleId) {
+        // Lấy danh sách ghế theo phòng
+        List<Seat> seats = getSeatListByRoomId(roomId);
+        List<BookingDetail> bookedSeats = bookingDetailRepository.findByScheduleId(scheduleId);
+        // Lấy trạng thái ghế theo lịch chiếu
+        Set<Long> bookedSeatIds = bookedSeats.stream()
+                .map(detail -> detail.getSeat().getId())
+                .collect(Collectors.toSet());
+        // Map trạng thái ghế vào danh sách ghế
+        return seats.stream().map(seat -> {
+            SeatDto dto = new SeatDto();
+            dto.setId(seat.getId());
+            dto.setSymbol(seat.getSymbol());
+            dto.setSeatType(seat.getSeattype().getType());
+            dto.setRoomName(seat.getRoom().getName());
+            dto.setPrice(seat.getSeattype().getPrice());
+            dto.setImage(seat.getImage());
+            dto.setStatus(bookedSeatIds.contains(seat.getId()));
+            return dto;
+        }).collect(Collectors.toList());
     }
 }
 

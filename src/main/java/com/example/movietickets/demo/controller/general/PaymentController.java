@@ -283,7 +283,7 @@ public class PaymentController {
 
             String orderId = ipnData.get("orderId").getAsString();
             String requestId = ipnData.get("requestId").getAsString();
-            long amount = ipnData.get("amount").getAsLong();
+            Long amount = ipnData.get("amount").getAsLong();
             Long transId = ipnData.get("transId").getAsLong();
             Integer resultCode = ipnData.get("resultCode").getAsInt();
             String payType = ipnData.get("payType").getAsString();
@@ -361,7 +361,15 @@ public class PaymentController {
 
                 bookingService.saveBooking(booking, seats, schedule);
             }
-
+            else {
+                // Check the result code and handle errors accordingly
+                if ("1001".equals(resultCode)) {
+                    // Code 1001 typically indicates insufficient funds
+                    return ResponseEntity.badRequest().body("{\"message\": \"Transaction failed due to insufficient funds\"}");
+                }
+                // Handle other error codes here
+                return ResponseEntity.badRequest().body("{\"message\": \"Transaction failed. Error code: " + resultCode + "\"}");
+            }
             // Trả về response cho MoMo
             JsonObject response = new JsonObject();
             response.addProperty("partnerCode", MoMoRequestService.partnerCode);

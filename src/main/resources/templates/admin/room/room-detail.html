@@ -29,6 +29,9 @@
             font-size: 14px;
             font-weight: 500;
         }
+        .couple__seat {
+            width: calc(50% / 2 - 15px) !important;
+        }
     </style>
 </head>
 <body>
@@ -60,7 +63,7 @@
                         <form method="get" th:action="@{/admin/rooms/{id}(id=${room.id})}">
                             <label for="schedule">Chọn lịch chiếu:</label>
                             <select name="scheduleId" id="schedule">
-                                <option value="">-- Tất cả --</option>
+                                <option value="-1">-- Tất cả --</option>
                                 <option th:each="schedule : ${schedules}" th:value="${schedule.id}"
                                         th:selected="${schedule.id} == selectedScheduleId"
                                         th:text="${schedule.startTime}"></option>
@@ -132,7 +135,7 @@
                     <div class="seat-section__container">
                         <h4 class="seat-section__title">Ghế Couple</h4>
                         <div class="seat-section__items">
-                            <div class="seat-item" th:each="item : ${seats}" th:if="${item.seatType} == 'couple'" th:data-status="${item.status}">
+                            <div class="seat-item couple__seat" th:each="item : ${seats}" th:if="${item.seatType} == 'couple'" th:data-status="${item.status}">
                                 <div class="seat-item__info">
                                     <p>
                                         <strong>Số ghế:</strong>

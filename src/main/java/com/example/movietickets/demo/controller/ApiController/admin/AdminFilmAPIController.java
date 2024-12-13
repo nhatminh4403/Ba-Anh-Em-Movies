@@ -4,8 +4,10 @@ package com.example.movietickets.demo.controller.ApiController.admin;
 import com.example.movietickets.demo.model.Category;
 import com.example.movietickets.demo.model.Country;
 import com.example.movietickets.demo.model.Film;
+import com.example.movietickets.demo.model.Seat;
 import com.example.movietickets.demo.service.APIService.AdminApiService;
 import com.example.movietickets.demo.service.CountryService;
+import com.example.movietickets.demo.service.SeatService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +28,19 @@ import java.util.*;
 public class AdminFilmAPIController {
     private final CountryService countryService;
     private final AdminApiService adminApiService;
+    private final SeatService seatService;
 
-    public AdminFilmAPIController(CountryService countryService, AdminApiService adminApiService){
+    public AdminFilmAPIController(CountryService countryService, AdminApiService adminApiService, SeatService seatService){
         this.countryService = countryService;
         this.adminApiService= adminApiService;
+        this.seatService = seatService;
     }
-
-
+//
+//    @GetMapping("/schedule/{scheduleId}")
+//    public ResponseEntity<Object> getSeatsBySchedule(@PathVariable Long scheduleId) {
+//        Object seats = seatService.getSeatsByScheduleId(scheduleId);
+//        return ResponseEntity.ok(seats);
+//    }
     @GetMapping("/films")
     public List<Film> getAllFilms(){
         return adminApiService.getAllFilm();

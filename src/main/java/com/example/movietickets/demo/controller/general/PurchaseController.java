@@ -250,9 +250,10 @@ public class PurchaseController {
             // Kiểm tra tuổi từ trường age
             // Áp dụng giảm giá vào tổng giá
 //            booking.setPrice(purchase.getTotalPrice() + comboPrice - discount);//cộng thêm giá từ food và trừ discount
-            double discount =0,discountWithCode = 0;
-            Promotion getPromotion = null;
+            double discount =0;
+            Promotion getPromotion =null;
             if(!promotionCode.equals("0-0")){
+
                 getPromotion = promotionService.getPromotionByCode(promotionCode);
 
                 if (getPromotion != null) {
@@ -264,23 +265,22 @@ public class PurchaseController {
                 Promotion promotion = promotionService.getPromotionByCode(appliedPromoCode);
 
                 if(promotion != null){
-                    discountWithCode = promotion.getPromotionDiscountRate();
+                    discount = promotion.getPromotionDiscountRate();
                 }
             }
-            booking.setPrice((long)( purchase.getTotalPrice() - purchase.getTotalPrice()*discount - purchase.getTotalPrice()*discountWithCode + comboPrice));//cộng thêm giá từ food và trừ discount
+            booking.setPrice((long) (purchase.getTotalPrice() - purchase.getTotalPrice()*discount + comboPrice));//cộng thêm giá từ food và trừ discount
 
             if (comboFoodId != null) {
                 ComboFood comboFood = comboFoodService.getComboFoodById(comboFoodId).orElseThrow(() -> new EntityNotFoundException("Combo not found"));
                 booking.setComboFood(comboFood);
             }
-
+            System.out.println(booking.getPrice());
             // Kiểm tra phương thức thanh toán
             if ("vnpay".equalsIgnoreCase(payment)) {
                 //return "redirect:/api/payment/create_payment?amount=" + purchase.getTotalPrice();
                 return "redirect:/api/payment/create_payment?scheduleId=" + scheduleId + "&amount=" + booking.getPrice() + "&comboId=" + comboId;
             }
             Long comboPriceInLong = (long) getComboPrice(comboId);
-//            BigDecimal totalPriceUSD = exchangeCurrencyService.convertVNDToUSD(purchase.getTotalPrice() + comboPriceInLong - discount);
             BigDecimal totalPriceUSD = exchangeCurrencyService.convertVNDToUSD(booking.getPrice() + comboPriceInLong);
 
             if ("paypal".equalsIgnoreCase(payment)) {
@@ -309,7 +309,7 @@ public class PurchaseController {
                 }
             }
             if ("momo".equalsIgnoreCase(payment)) {
-                return "redirect:/api/payment/momo/create_momo?scheduleId=" + scheduleId + "&amount=" + purchase.getTotalPrice() + "&comboId=" + comboId;
+                return "redirect:/api/payment/momo/create_momo?scheduleId=" + scheduleId + "&amount=" + booking.getPrice() + "&comboId=" + comboId;
             }
             // Lấy thông tin người dùng hiện tại
 
