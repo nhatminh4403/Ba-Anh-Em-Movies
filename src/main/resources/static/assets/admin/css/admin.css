@@ -410,7 +410,6 @@ ul {
   justify-content: flex-start;
   align-items: center;
   font-size: 14px;
-  font-weight: 300;
   text-transform: uppercase;
   color: rgba(255,255,255,0.75);
 }
@@ -546,12 +545,12 @@ ul {
   align-items: center;
   flex-wrap: wrap;
   margin-bottom: 5px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid white;
   padding-bottom: 25px;
 }
 .main__title h2 {
-  color: #fff;
-  font-weight: 300;
+  color: #e5b6ff;
+  font-weight: bold;
   font-size: 30px;
   line-height: 100%;
   margin-bottom: 0;
