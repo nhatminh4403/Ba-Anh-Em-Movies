@@ -95,10 +95,24 @@ public class PurchaseController {
             String appliedPromoCode = "";
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             User user = getUserFromAuthentication(authentication);
-            int age = user.getAge(); // Trường age đã lưu sẵn tuổi
+
+            // Kiểm tra nếu tuổi không tồn tại
+            Integer age = user.getAge();
 //            long priceVoucher = 0;
-            List<Promotion> promotions = userService.getPromotionsByUsername(user.getUsername());
-            model.addAttribute("promotions", promotions);
+            if (age != null) {
+                List<Promotion> promotions = userService.getPromotionsByUsername(user.getUsername());
+                model.addAttribute("promotions", promotions);
+
+                // Điều kiện áp dụng voucher (nếu cần)
+                if (age < 12) {
+                    appliedPromoCode = "voucherTreEm";
+                } else if (age >= 12 && age <= 22) {
+                    appliedPromoCode = "voucherHSSV";
+                }
+            } else {
+                // Nếu tuổi chưa cập nhật, không áp dụng mã khuyến mãi
+                model.addAttribute("promotions", null);
+            }
 //            if (age < 12) {
 //                appliedPromoCode ="voucherTreEm";
 //                priceVoucher = 30000;

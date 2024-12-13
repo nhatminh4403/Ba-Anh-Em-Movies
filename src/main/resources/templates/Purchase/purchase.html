@@ -102,15 +102,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-7">
-                    <div class="checkout-widget checkout-contact">
-                        <h5 class="title"> Mã giảm giá </h5>
+                    <div class="checkout-widget checkout-contact" style="padding-left:60px">
+                        <h5 class="title"> Cập nhật thông tin </h5>
                         <form class="checkout-contact-form">
                             <div class="form-group">
-                                <input type="text" placeholder="Enter promo code">
+                                <span>Cập nhật thông tin để nhận được mã giảm giá</span>
                             </div>
-                            <div class="form-group">
-                                <input type="submit" value="Xác nhận" class="custom-button">
-                            </div>
+                            <a href="/user/profile" class="form-group">
+                                <span>Trang cá nhân</span>
+                            </a>
                         </form>
                     </div>
                     <div th:if="${selectedSeats}">
@@ -239,11 +239,7 @@
                                 <span class="info"><span>Ghế thường</span><span>80.000</span></span>
                                 <span class="info"><span>Ghế VIP</span><span>100.000</span></span>
                                 <span class="info"><span>SweetBox</span><span>120.000</span></span>
-                                <span class="info" th:if="${promoCode != null}">
-                                   <span>
-                                       Mã giảm giá áp dụng:
-                                   </span>  <span th:text="${promoCode}"></span>
-                                </span>
+
                             </li>
                         </ul>
 
