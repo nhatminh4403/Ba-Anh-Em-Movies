@@ -91,7 +91,7 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers("/api/admin/**","/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/api/ocr/**","/api/ocr/scan").hasAnyAuthority("ADMIN","USER")
-                        .requestMatchers("/user/**","/user/profile/chinh-sua","/api/promotion/redeem/**").hasAuthority("USER")
+                        .requestMatchers("/user/**","/user/profile/chinh-sua","/api/promotion/redeem/**","/api/payment/**").hasAuthority("USER")
                         .anyRequest().authenticated())
                 .logout(logout -> logout
                         .logoutUrl("/logout")

@@ -176,27 +176,26 @@ public class PurchaseController {
 
     @GetMapping("/history")
     public String showPurchaseHistory(Model model, @RequestParam(required = false) String status,
-                                      @RequestParam(required = false) String message) {
+                                      @RequestParam(required = false) String message,RedirectAttributes redirectAttributes) {
         List<Booking> bookings = bookingService.getBookingsByCurrentUser(); // phương thức này để lấy các booking của người dùng hiện tại
         List<Category> categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
         model.addAttribute("bookings", bookings);
+        String s = "Successful";
+//        boolean b = status.toLowerCase().contains(s.toLowerCase());
         if (status != null) {
             switch (status) {
-                case "success": case "Successful":
-                    model.addAttribute("message", "Thanh toán thành công!");
+                case "success": case "Successful": case "Successful.":
+                    redirectAttributes.addFlashAttribute("message", "Thanh toán thành công!");
+                    message = "Thanh toán thành công!";
                     break;
                 case "failed":
-                    model.addAttribute("message",
-                            message != null ? "Thanh toán thất bại: " + message : "Thanh toán thất bại!");
+                    redirectAttributes.addFlashAttribute("message",  message != null ? "Thanh toán thất bại: " + message : "Thanh toán thất bại!");
                     break;
-                case "error":
-                    model.addAttribute("message",
-                            message != null ? message : "Có lỗi xảy ra trong quá trình xử lý!");
-                    break;
+
             }
         }
-
+        System.out.println(status + "\n" + message);
         return "Purchase/history";
     }
     private long calculatePoints(List<Seat> seats) {
@@ -218,9 +217,11 @@ public class PurchaseController {
             @RequestParam String comboId, //nhận String từ form purchase
             @RequestParam Long scheduleId,
             @RequestParam ("promotionCode") String promotionCode,
+            @RequestParam("appliedPromoCode") String appliedPromoCode,
+            @RequestParam("appliedDiscountRate") double appliedDiscountRate,
             RedirectAttributes redirectAttributes,
             Model model, HttpSession session
-    ) throws PayPalRESTException {
+    ) throws Exception {
         if (purchaseService.IsExist()) {
             Purchase purchase = purchaseService.Get();
             List<String> seatSymbols = new ArrayList<>();
@@ -259,25 +260,27 @@ public class PurchaseController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             User user = getUserFromAuthentication(authentication);
             long getPoints= calculatePoints(seats);
-
+            user.setPointSaving(getPoints);
             // Kiểm tra tuổi từ trường age
-//            int age = user.getAge(); // Trường age đã lưu sẵn tuổi
-//            long discount = 0;
-//
-//            if (age < 12) {
-//                discount = 30000; // Trẻ em giảm 30k
-//            } else if (age >= 12 && age <= 22) {
-//                discount = 20000; // Học sinh, sinh viên giảm 20k
-//            }
-
             // Áp dụng giảm giá vào tổng giá
 //            booking.setPrice(purchase.getTotalPrice() + comboPrice - discount);//cộng thêm giá từ food và trừ discount
             double discount =0;
-            if(!promotionCode.equals("0-0,0-0")){
-                String[] extract = promotionCode.split(",");
-                Promotion promotion = promotionService.getPromotionByCode(extract[0]);
+            Promotion getPromotion =null;
+            if(!promotionCode.equals("0-0")){
 
-                discount = promotion.getPromotionDiscountRate();
+                getPromotion = promotionService.getPromotionByCode(promotionCode);
+
+                if (getPromotion != null) {
+                    discount = getPromotion.getPromotionDiscountRate();
+                }
+            }
+            System.out.println(appliedPromoCode);
+            if(!appliedPromoCode.isEmpty()){
+                Promotion promotion = promotionService.getPromotionByCode(appliedPromoCode);
+
+                if(promotion != null){
+                    discount = promotion.getPromotionDiscountRate();
+                }
             }
             booking.setPrice((long) (purchase.getTotalPrice() - purchase.getTotalPrice()*discount + comboPrice));//cộng thêm giá từ food và trừ discount
 
@@ -285,18 +288,13 @@ public class PurchaseController {
                 ComboFood comboFood = comboFoodService.getComboFoodById(comboFoodId).orElseThrow(() -> new EntityNotFoundException("Combo not found"));
                 booking.setComboFood(comboFood);
             }
-
-            if ("cash".equalsIgnoreCase(payment)) {
-                booking.setPayment("Thanh toán tại quầy");
-            }
-
+            System.out.println(booking.getPrice());
             // Kiểm tra phương thức thanh toán
             if ("vnpay".equalsIgnoreCase(payment)) {
                 //return "redirect:/api/payment/create_payment?amount=" + purchase.getTotalPrice();
                 return "redirect:/api/payment/create_payment?scheduleId=" + scheduleId + "&amount=" + booking.getPrice() + "&comboId=" + comboId;
             }
             Long comboPriceInLong = (long) getComboPrice(comboId);
-//            BigDecimal totalPriceUSD = exchangeCurrencyService.convertVNDToUSD(purchase.getTotalPrice() + comboPriceInLong - discount);
             BigDecimal totalPriceUSD = exchangeCurrencyService.convertVNDToUSD(booking.getPrice() + comboPriceInLong);
 
             if ("paypal".equalsIgnoreCase(payment)) {
@@ -325,14 +323,16 @@ public class PurchaseController {
                 }
             }
             if ("momo".equalsIgnoreCase(payment)) {
-                return "redirect:/api/payment/momo/create_momo?scheduleId=" + scheduleId + "&amount=" + purchase.getTotalPrice() + "&comboId=" + comboId;
+                return "redirect:/api/payment/momo/create_momo?scheduleId=" + scheduleId + "&amount=" + booking.getPrice() + "&comboId=" + comboId;
             }
             // Lấy thông tin người dùng hiện tại
-            user.setPointSaving(getPoints);
+
+            if(getPromotion != null)
+                userService.removePromotionsFromUser(getPromotion.getId(),user.getUsername());
+
             userService.updateUser(user);
             booking.setUser(user);
             bookingService.saveBooking(booking, seats, schedule);
-
 
             redirectAttributes.addFlashAttribute("message", "Đặt vé thành công!");
         } else {

@@ -32,7 +32,7 @@ public class AdminComboFoodController {
     public String listComboFood(Model model) {
         List<ComboFood> comboFood = comboFoodService.getAllComboFood();
         model.addAttribute("comboFoods", comboFood);
-        model.addAttribute("title", "Danh sách thức ăn nhanh ");
+        model.addAttribute("title", "Danh sách thức ăn nhanh");
         return "/admin/combofood/food-list";
     }
 

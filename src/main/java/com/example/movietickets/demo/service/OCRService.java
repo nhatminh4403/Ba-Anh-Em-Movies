@@ -2,6 +2,7 @@ package com.example.movietickets.demo.service;
 
 import com.example.movietickets.demo.model.User;
 import lombok.extern.slf4j.Slf4j;
+import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +24,14 @@ import java.util.regex.Pattern;
 @Slf4j
 public class OCRService {
 
-        private final Tesseract tesseract;
+    private final ITesseract tesseract;
 
     public OCRService() {
         tesseract = new Tesseract();
         tesseract.setDatapath("C:/Users/ADmin/AppData/Local/Programs/Tesseract-OCR/tessdata");
+
 //        tesseract.setDatapath("C:/Program Files/Tesseract-OCR/tessdata");
-        tesseract.setLanguage("vie");
+        tesseract.setLanguage("vie+eng");
         tesseract.setTessVariable("user_defined_dpi", "300");
         tesseract.setPageSegMode(1); // Automatic page segmentation with OSD
         tesseract.setOcrEngineMode(1); // Neural nets LSTM engine
@@ -49,7 +51,7 @@ public class OCRService {
         g.dispose();
 
         // Tăng độ tương phản
-        RescaleOp rescaleOp = new RescaleOp(1.2f, 15, null);
+        RescaleOp rescaleOp = new RescaleOp(1.5f, 15, null);
         rescaleOp.filter(grayImage, grayImage);
 
         return grayImage;
@@ -76,25 +78,24 @@ public class OCRService {
 
     private User parseUserInfo(String text) {
         User info = new User();
-//        info.setFullInfo(text);
+        //line below is for testing
+        info.setFullInfo(text);
+
 
         // Pattern matching để trích xuất thông tin
-        Pattern mssv = Pattern.compile("\\b\\d{10}\\b");
-
+        Pattern mssv = Pattern.compile("(?:MSSV:|Mã SV:|Ma SV:|Student ID:|“ MãSV: - ' |)\\s*(\\d{8,12})(?=\\s|$)");
         // Sử dụng nhóm захват (capturing group) để chỉ lấy phần thông tin cần thiết
-        Pattern name = Pattern.compile("(?:Họ tên:|Họ ten:|Ho ten:|Ho tên:)\\s*(.+)(?=\\s|$)");  // nhóm (.+) sẽ bắt phần tên
+        Pattern name = Pattern.compile("(?:Họ tên:|Họ ten:|Ho ten:|Ho tên:|Ho va ten:|Họ va ten:|Ho và ten:|Ho va tên:|Họ và ten:|Họ va tên:|Ho và tên:|Họ và tên:|Ho fen:)\\s*(.+)(?=\\s|$)");
         Pattern birthday = Pattern.compile("(?:Ngày sinh:|Ngay sinh:|Ngey sinh:|Ngèy sinh:|Ngoy sinh:|Ngòy sinh:)\\s*(\\d{2}/\\d{2}/\\d{4})(?=\\s|$)"); // nhóm (\\d{2}/\\d{2}/\\d{4}) sẽ bắt ngày tháng
-//        Pattern nienKhoa = Pattern.compile("(?:Khóa:|Khoa:)\\s*(\\d{4}\\s*-\\s*\\d{4})");
 
         Matcher mssvMatcher = mssv.matcher(text);
         Matcher nameMatcher = name.matcher(text);
         Matcher birthdayMatcher = birthday.matcher(text);
-//        Matcher nienKhoaMatcher = nienKhoa.matcher(text);
 
-//        if (mssvMatcher.find()) {
-//            info.setStudentId(mssvMatcher.group()); // MSSV không cần xử lý đặc biệt
-//        }
-//
+        if(mssvMatcher.find())
+        {
+            info.setStudentId(mssvMatcher.group(1).trim());
+        }
         if (nameMatcher.find()) {
             info.setFullname(nameMatcher.group(1).trim()); // group(1) sẽ chỉ lấy phần tên
         }
@@ -102,10 +103,6 @@ public class OCRService {
         if (birthdayMatcher.find()) {
             info.setBirthday(birthdayMatcher.group(1).trim()); // group(1) sẽ chỉ lấy phần ngày tháng
         }
-//
-//        if (nienKhoaMatcher.find()) {
-//            info.setNienKhoa(nienKhoaMatcher.group(1).trim()); // group(1) sẽ chỉ lấy phần niên khóa
-//        }
 
         return info;
     }

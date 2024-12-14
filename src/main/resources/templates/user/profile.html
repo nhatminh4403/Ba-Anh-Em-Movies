@@ -49,6 +49,7 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             text-align: center;
+            min-height: 400px;
         }
 
         .promotion-item:hover {
@@ -209,8 +210,11 @@
                                         <p><strong>Giá trị khuyến mãi:</strong>
                                             <span th:text="${#numbers.formatDecimal(promotion.promotionDiscountRate * 100, 0, 'POINT', 0, 'POINT')} + '%'"></span>
                                         </p>
-                                        <p><strong>Điểm để đổi:</strong> <span th:text="${promotion.pointToRedeem}"></span></p>
-                                        <p><strong>Thời gian khuyến mãi:</strong> <br>
+                                        <p th:if="${promotion.pointToRedeem != null}">
+                                            <strong>Điểm để đổi:</strong> <span th:text="${promotion.pointToRedeem}"></span>
+                                        </p>
+                                        <p th:if="${promotion.pointToRedeem != null}">
+                                            <strong>Thời gian khuyến mãi:</strong> <br>
                                             <span th:text="${#dates.format(promotion.promotionStartDate, 'dd/MM/yyyy')} + ' - ' + ${#dates.format(promotion.promotionEndDate, 'dd/MM/yyyy')}"></span>
                                         </p>
                                     </div>

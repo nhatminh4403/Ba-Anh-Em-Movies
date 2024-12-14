@@ -56,8 +56,8 @@ public class DialogflowController {
                     }
                 case "suggest movie":
                     try {
-                        String responseText = filmService.getSuggestedMovies();
-                        return createSuccessResponse(responseText);
+                        Map<String, Object> responseText = filmService.getSuggestedMovies();
+                        return new ResponseEntity<>(responseText, HttpStatus.OK);
                     } catch (Exception e) {
                         return createErrorResponse("Error while getting movie suggestions: " + e.getMessage());
                     }
@@ -82,13 +82,5 @@ public class DialogflowController {
         Map<String, Object> response = new HashMap<>();
         response.put("fulfillmentText", "Đã xảy ra lỗi: " + errorMessage);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-    }
-
-    //                        Map<String, Object> response = categoryService.getSuggestedCategories();
-
-    private ResponseEntity<Map<String, Object>> createSuccessResponse(Map<String, Object> responsePayload) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("fulfillmentMessages", Collections.singletonList(responsePayload));
-        return ResponseEntity.ok(response);
     }
 }

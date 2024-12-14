@@ -5,7 +5,37 @@
       layout:decorate="~{admin/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="${title}"></title>
+    <style >
+        .promotion__list {
+            color: #ffffff; /* Màu chữ để dễ nhìn */
+            padding: 20px; /* Khoảng cách bên trong */
+            border-radius: 8px; /* Bo tròn góc */
+        }
+
+        .promotion__list table {
+            width: 100%; /* Đảm bảo bảng chiếm toàn bộ chiều rộng */
+            border-collapse: collapse; /* Gộp các đường viền */
+        }
+
+        .promotion__list th, .promotion__list td {
+            padding: 10px; /* Khoảng cách trong ô */
+            text-align: left; /* Căn lề trái */
+            border-bottom: 1px solid #444; /* Đường viền ngăn cách */
+            background-color: #2b2b31;
+            color: #fff;
+        }
+
+        .promotion__list th {
+            font-weight: bold; /* Chữ đậm cho tiêu đề */
+            background-color: #3d3d45; /* Màu nền tiêu đề bảng */
+        }
+
+        .promotion__list tr:hover {
+            background-color: #414147; /* Hiệu ứng hover */
+        }
+
+    </style>
 </head>
 <body>
 <section layout:fragment="content">
@@ -48,11 +78,67 @@
                                                disabled/>
                                     </div>
                                 </div>
+                                <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                    <div class="profile__group">
+                                        <label class="profile__label" for="age">Tuổi</label>
+                                        <input id="age" type="email" class="profile__input" th:field="*{age}"
+                                               disabled/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                    <div class="profile__group">
+                                        <label class="profile__label" for="birthday">Ngày sinh</label>
+                                        <input id="birthday" type="email" class="profile__input" th:field="*{birthday}"
+                                               disabled/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                    <div class="profile__group">
+                                        <label class="profile__label" for="pointSaving">Số điểm tích lũy</label>
+                                        <input id="pointSaving" type="email" class="profile__input" th:field="*{pointSaving}"
+                                               disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4 class="profile__title">Khuyến mãi hiện có</h4>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="promotion__list">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Mã khuyến mãi</th>
+                                                    <th>Mô tả</th>
+                                                    <th>Ngày bắt đầu</th>
+                                                    <th>Ngày kết thúc</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:each="promotion, stat : ${user.promotions}">
+                                                    <td th:text="${stat.count}"></td>
+                                                    <td th:text="${promotion.promotionCode}"></td>
+                                                    <td th:text="${promotion.promotionDescription}"></td>
+                                                    <td th:text="${#dates.format(promotion.promotionStartDate, 'dd-MM-yyyy')}"></td>
+                                                    <td th:text="${#dates.format(promotion.promotionEndDate, 'dd-MM-yyyy')}"></td>
+                                                </tr>
+                                                <tr th:if="${#lists.isEmpty(user.promotions)}">
+                                                    <td colspan="5" class="text-center">Không có khuyến mãi nào</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
                 </div>
                 <!-- end form -->
+
             </div>
         </div>
     </main>

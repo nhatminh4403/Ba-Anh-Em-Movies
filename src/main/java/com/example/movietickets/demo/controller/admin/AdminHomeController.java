@@ -26,6 +26,7 @@ public class AdminHomeController {
             getTotalPrice = (long)0;
             model.addAttribute("totalPrice",getTotalPrice);
         }
+        model.addAttribute("title","Trang quản trị");
         model.addAttribute("userCount", getUserCount);
         model.addAttribute("bookingCount", getBookingCount);
         model.addAttribute("totalPrice", getTotalPrice);

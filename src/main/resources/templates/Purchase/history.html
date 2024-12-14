@@ -41,7 +41,9 @@
             background: #dc3545;
         }
 
-
+        .banner-section {
+            padding: 150px 0 50px;
+        }
         @keyframes slideInLeft{
             from{
                 opacity: 0;
@@ -119,7 +121,7 @@
                                         </h5>
                                         <p class="duration" th:text="${'Ngày đặt: ' + booking.createAt}"></p>
                                         <div class="movie-tags">
-                                            <a href="#0" th:text="${'Tên khách hàng: ' + booking.user.fullname}"></a>
+                                            <a href="#0" th:text="'Tên khách hàng: ' + ${booking.user?.fullname} ? null : ' '"></a>
                                         </div>
                                         <div class="release">
                                             <a href="#0" th:text="${'Suất chiếu: ' + booking.startTime}"></a>
@@ -201,26 +203,5 @@
     <!-- ========== End Movie History Section ========== -->
 </section>
 
-<script th:src="@{/assets/user/js/qrcode.js}"></script>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    const toastMessage = /*[[${toastMessage}]]*/ null;
-
-    if (toastMessage) {
-        // Hiển thị Toast Message
-        const toastContainer = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.textContent = toastMessage;
-
-        toastContainer.appendChild(toast);
-
-        // Tự động xóa toast sau 4 giây
-        setTimeout(() => {
-            toast.remove();
-        }, 4000);
-    }
-    /*]]>*/
-</script>
 </body>
 </html>

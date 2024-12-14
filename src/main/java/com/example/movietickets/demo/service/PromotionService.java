@@ -76,6 +76,11 @@ public class PromotionService {
         return promotionRepository.findPromotionByPromotionCode(code).orElseThrow(() -> new IllegalArgumentException("Promotion not found"));
     }
 
+    public void removePromotionByCode(String code) {
+        Promotion promotion = getPromotionByCode(code);
+        promotionRepository.delete(promotion);
+    }
+
     @Scheduled(cron = "0 0 0 * * ?") // Runs every day at midnight
     public void deleteExpiredPromotions() {
         Date currentDate = new Date(); // Get current date and time

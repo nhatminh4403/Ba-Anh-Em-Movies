@@ -1,5 +1,7 @@
 package com.example.movietickets.demo.config;
 
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -15,9 +17,11 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 
 public class VnPayConfig {
-
+    public static String getUrl() {
+        return ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+    }
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_ReturnUrl = "http://localhost:8080/purchase/history";
+    public static String vnp_ReturnUrl = "/purchase/history";
     public static String vnp_TmnCode = "BAJBKYGS";
 
     public static String vnp_Version = "2.1.0";

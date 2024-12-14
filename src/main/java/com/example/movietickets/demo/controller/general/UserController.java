@@ -1,23 +1,22 @@
 package com.example.movietickets.demo.controller.general;
 
+import com.example.movietickets.demo.model.Promotion;
 import com.example.movietickets.demo.model.User;
 import com.example.movietickets.demo.service.CategoryService;
+import com.example.movietickets.demo.service.PromotionService;
 import com.example.movietickets.demo.service.UserService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -29,6 +28,9 @@ public class UserController {
     private final UserService userService;
     @Autowired
     private final CategoryService categoryService;
+    @Autowired
+    private final PromotionService promotionService;
+
 
     @GetMapping("/profile")
     public String showProfile(Model model, Principal principal){
@@ -46,6 +48,9 @@ public class UserController {
     public String showUpdateForm(Model model) {
 
         User user = userService.getCurrentUser();
+        if (user.getIsStudent() == null) {
+            user.setIsStudent(false); // Set giá trị mặc định nếu null
+        }
         model.addAttribute("user", user);
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("title", "Chỉnh sửa tài khoản");
@@ -55,7 +60,7 @@ public class UserController {
     @PostMapping("/profile/chinh-sua")
     public String updateUserInfo(@Valid @ModelAttribute("user") User user,
                                  BindingResult result,
-                                 Model model,
+                                 Model model, RedirectAttributes redirectAttributes,
                                  Principal principal) {
         model.addAttribute("title", "Chỉnh sửa tài khoản");
         model.addAttribute("categories", categoryService.getAllCategories());
@@ -76,13 +81,38 @@ public class UserController {
         user.setPassword(currentUser.getPassword());
         user.setRoles(currentUser.getRoles());
         user.setProvider(currentUser.getProvider());
-//        currentUser.setFullname(user.getFullname());
-//        currentUser.setPhone(user.getPhone());
-//        currentUser.setEmail(user.getEmail());
 
+        if (currentUser.getPromotions() != null) {
+            user.setPromotions(new HashSet<>(currentUser.getPromotions()));
+        } else {
+            user.setPromotions(new HashSet<>());
+        }
+
+        if (Boolean.TRUE.equals(user.getIsStudent())) {  // Sử dụng Boolean.TRUE.equals để tránh NullPointerException
+            Promotion uniStudentPromotion = promotionService.getPromotionByCode("SVD20");
+            if (uniStudentPromotion != null && !user.getPromotions().stream().
+                    anyMatch(promotion -> Objects.equals(promotion.getId(), uniStudentPromotion.getId()))) {
+                user.getPromotions().add(uniStudentPromotion);
+            }
+        }
+
+        if(user.getAge() <18)  {
+            Promotion highSchoolPromotion = promotionService.getPromotionByCode("HSD10");
+            if (highSchoolPromotion != null && !user.getPromotions().stream().
+                    anyMatch(promotion -> Objects.equals(promotion.getId(), highSchoolPromotion.getId()))) {
+                user.getPromotions().add(highSchoolPromotion);
+            }
+        }
+        if(user.getAge() >50)  {
+            Promotion oldHagPromotion= promotionService.getPromotionByCode("HSD10");
+            if (oldHagPromotion != null && !user.getPromotions().stream().
+                    anyMatch(promotion -> Objects.equals(promotion.getId(), oldHagPromotion.getId()))) {
+                user.getPromotions().add(oldHagPromotion);
+            }
+        }
         userService.updateUser(user);
 
-        model.addAttribute("success", "Cập nhật thông tin thành công");
+        redirectAttributes.addFlashAttribute("success", "Cập nhật thông tin thành công");
         return "redirect:/user/profile";
     }
 

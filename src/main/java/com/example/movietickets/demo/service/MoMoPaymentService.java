@@ -13,9 +13,9 @@ public class MoMoPaymentService {
 
     private final MoMoPaymentRepository paymentRepository;
 
-    public MoMoPaymentDto savePayment(MoMoPaymentDto moMoPaymentDto)
+    public void savePayment(MoMoPaymentDto moMoPaymentDto)
     {
-        return paymentRepository.save(moMoPaymentDto);
+        paymentRepository.save(moMoPaymentDto);
     }
     public Optional<MoMoPaymentDto> getPaymentById(String orderId) {
         return paymentRepository.findByOrderId(orderId);

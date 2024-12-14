@@ -43,14 +43,18 @@
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
-            /* Khoảng cách giữa các ghế */
             justify-content: center;
-            /* Căn đều giữa các ghế */
+            align-items: stretch; /* Căn chỉnh chiều cao các phần tử con */
         }
 
         .promotion-item {
+            display: flex;
             color: black;
+            flex-direction: column; /* Sắp xếp nội dung theo chiều dọc */
+            justify-content: space-between; /* Đảm bảo các phần chính cách đều nhau */
+            align-items: center;
             width: calc(100% / 3);
+            min-height: 250px; /* Đặt chiều cao tối thiểu để đồng đều */
             background-color: #f8f9fa;
             border: 1px solid #ddd;
             border-radius: 8px;
@@ -58,19 +62,24 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             text-align: center;
-            /* Căn giữa nội dung bên trong */
         }
 
-        .promotion-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        .promotion-item__info {
+            flex-grow: 1; /* Tự động mở rộng phần mô tả */
+            text-align: left;
         }
 
         .promotion-item__info p {
             margin: 5px 0;
             font-size: 0.9em;
-            text-align: left;
+            word-break: break-word; /* Chia từ khi nội dung quá dài */
         }
+
+        .promotion-item__actions {
+            margin-top: 10px;
+            text-align: center;
+        }
+
 
         .promotion-item__image {
             max-width: 50%;
@@ -80,13 +89,6 @@
             border: 1px solid #ddd;
         }
 
-
-        .promotion-item__actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-            justify-content: center;
-        }
 
         .promotion-item__actions .btn {
             padding: 8px 12px;
@@ -182,10 +184,11 @@
                             <div class="promotion-item" th:each="promotion : ${promotions}">
                                 <div class="promotion-item__info">
                                     <img th:src="@{/assets/img/Percentage.png}" alt=" % Image" class="promotion-item__image" />
-                                    <p>
+                                    <p> <!--th:if="${promotion.promotionCode != null and !promotion.promotionCode.contains('SV')}" >-->
                                         <strong>Mã khuyến mãi:</strong>
                                         <span th:text="${promotion.promotionCode}"></span>
                                     </p>
+
                                     <p>
                                         <strong>Mô tả:</strong>
                                         <span th:text="${promotion.promotionDescription}"></span>
@@ -194,7 +197,7 @@
                                         <strong>Giá trị khuyến mãi:</strong>
                                         <span th:text="${#numbers.formatDecimal(promotion.promotionDiscountRate *100, 0, 'POINT', 0, 'POINT')} + '%'"></span>
                                     </p>
-                                    <p>
+                                    <p th:if="${promotion.pointToRedeem != null}">
                                         <strong>Điểm để đổi:</strong>
                                         <span th:text="${promotion.pointToRedeem}"></span>
                                     </p>

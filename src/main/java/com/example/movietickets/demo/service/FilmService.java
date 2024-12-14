@@ -15,10 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.FileSystemNotFoundException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -95,7 +93,7 @@ public class FilmService {
     public List<Film> getFilmsByCategoryId(Long categoryId) {
         return filmRepository.findFilmsByCategoryId(categoryId);
     }
-
+/*
     public String getSuggestedMovies() {
         // Lấy danh sách phim từ database
         List<Film> movies = filmRepository.findAll();
@@ -139,5 +137,90 @@ public class FilmService {
         }
 
         return response.toString();
+    }*/
+
+
+    public Map<String, Object> getSuggestedMovies() {
+        List<Film> movies = filmRepository.findAll();
+        if (movies.isEmpty()) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("fulfillmentMessages", Arrays.asList(
+                    new HashMap<String, Object>() {{
+                        put("text", new HashMap<String, Object>() {{
+                            put("text", Arrays.asList("Hiện tại không có thể loại nào trong danh sách."));
+                        }});
+                    }}
+            ));
+            return response;
+        }
+
+        Random random = new Random();
+        int numberOfMovies = random.nextInt(1) + 1;
+        Collections.shuffle(movies);
+        List<Film> selectedMovies = movies.subList(0, Math.min(numberOfMovies, movies.size()));
+
+        Map<String, Object> response = new HashMap<>();
+        List<Map<String, Object>> fulfillmentMessages = new ArrayList<>();
+
+        // Thêm text giới thiệu
+        fulfillmentMessages.add(new HashMap<String, Object>() {{
+            put("text", new HashMap<String, Object>() {{
+                put("text", Arrays.asList("Dưới đây là phim bạn có thể tham khảo:"));
+            }});
+        }});
+
+        // Tạo rich content cho mỗi phim
+        List<List<Map<String, Object>>> richContentList = new ArrayList<>();
+
+        for (Film film : selectedMovies) {
+            List<Map<String, Object>> richContent = new ArrayList<>();
+
+            // Thêm thông tin phim dưới dạng text
+            Map<String, Object> infoCard = new HashMap<>();
+            infoCard.put("type", "info");
+
+            StringBuilder info = new StringBuilder();
+            info.append("🎬 *").append(film.getName()).append("*\n");
+
+            if (film.getCategories() != null && !film.getCategories().isEmpty()) {
+                info.append("🎭 *Thể loại:* ");
+                String categories = film.getCategories().stream()
+                        .map(Category::getName)
+                        .collect(Collectors.joining(", "));
+                info.append(categories).append("\n");
+            }
+
+            if (film.getDuration() > 0) {
+                info.append("⏱️ *Thời lượng:* ").append(film.getDuration()).append(" phút\n");
+            }
+
+            if (film.getDescription() != null && !film.getDescription().isEmpty()) {
+                info.append("📝 *Tóm tắt:* ").append(film.getDescription()).append("\n");
+            }
+
+            infoCard.put("title", info.toString());
+            richContent.add(infoCard);
+
+            // Thêm poster
+            if (film.getPoster() != null && !film.getPoster().isEmpty()) {
+                Map<String, Object> imageCard = new HashMap<>();
+                imageCard.put("type", "image");
+                imageCard.put("rawUrl", film.getPoster());
+                imageCard.put("accessibilityText", film.getName() + " poster");
+                richContent.add(imageCard);
+            }
+
+            richContentList.add(richContent);
+        }
+
+        // Thêm rich content vào fulfillmentMessages
+        fulfillmentMessages.add(new HashMap<>() {{
+            put("payload", new HashMap<String, Object>() {{
+                put("richContent", richContentList);
+            }});
+        }});
+
+        response.put("fulfillmentMessages", fulfillmentMessages);
+        return response;
     }
 }

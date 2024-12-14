@@ -69,6 +69,9 @@
             font-size: 12px;
             margin-left: 10px;
         }
+        .custom-button {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -114,27 +117,41 @@
                         </form>
                     </div>
                     <div th:if="${selectedSeats}">
-                        <!-- Các thông tin khác -->
-                        <div class="checkout-widget checkout-card mb-2">
-                            <form action="#" th:action="@{/purchase/checkout}" method="post">
-                                <div class="checkout-widget checkout-contact">
-                                    <h5 class="title">Khuyến mãi của bạn</h5>
-                                    <div class="available-promotions">
-                                        <div class="form-group">
-                                            <div class="custom-select-wrapper">
-                                                <select name="promotionCode" id="promotionSelect" class="form-control promotion-select">
-                                                    <option value="0-0">Chọn khuyến mãi
-                                                    </option>
-                                                    <option th:each="promo : ${promotions}"
-                                                            th:value="${promo.promotionCode}"
-                                                            th:data-percent="${promo.promotionDiscountRate}"
-                                                            th:text="${promo.promotionCode + ' - Giảm ' + promo.promotionDiscountRate*100 + '%'}">
-                                                    </option>
-                                                </select>
-                                            </div>
+                        <form action="#" th:action="@{/purchase/checkout}" method="post">
+                            <!--Nhập mã giảm giá -->
+                            <input type="hidden" id="appliedPromoCode" name="appliedPromoCode" value="" />
+                            <input type="hidden" id="appliedDiscountRate" name="appliedDiscountRate" value="0" />
+                            <div class="checkout-widget checkout-contact">
+                                <h5 class="title">Mã giảm giá</h5>
+                                <div class="form-group">
+                                    <input type="text" id="promoCodeInput" style="text-transform: capitalize" name="promoCodeInput" placeholder="Nhập mã giảm giá" class="form-control">
+                                    <button type="button" id="checkPromoBtn" class="custom-button">Kiểm tra mã</button>
+                                </div>
+                            </div>
+
+                            <div class="checkout-widget checkout-contact">
+                                <h5 class="title">Khuyến mãi của bạn</h5>
+                                <div class="available-promotions">
+                                    <div class="form-group">
+                                        <div class="custom-select-wrapper">
+                                            <select name="promotionCode" id="promotionSelect"
+                                                    class="form-control promotion-select">
+                                                <option value="0-0">Chọn khuyến mãi
+                                                </option>
+                                                <option th:each="promo : ${promotions}"
+                                                        th:value="${promo.promotionCode}"
+                                                        th:data-percent="${promo.promotionDiscountRate}"
+                                                        th:text="${promo.promotionCode + ' - Giảm ' + promo.promotionDiscountRate*100 + '%'}">
+                                                </option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <!-- Các thông tin khác -->
+                            <div class="checkout-widget checkout-card mb-2">
+
                                 <div class="checkout-widget checkout-card mb-2">
                                     <h5 class="title">Đa dạng phương thức</h5>
                                     <ul class="payment-option">
@@ -193,13 +210,13 @@
                                 </select>
 
                                 <button type="submit" class="custom-button mt-5">Thanh toán</button>
-                            </form>
-                        </div>
-                        <div th:if="${message}" class="mt-5">
-                            <p th:text="${message}" class="text-danger fw-bold"></p>
-                        </div>
+                        </form>
+                    </div>
+                    <div th:if="${message}" class="mt-5">
+                        <p th:text="${message}" class="text-danger fw-bold"></p>
                     </div>
                 </div>
+            </div>
 
 
                 <div class="col-lg-5">
@@ -266,9 +283,32 @@
                         </div>
                     </div>
 
+                    <!--                        <div >-->
+                    <!--                            <p class="info">-->
+                    <!--                                Mã giảm giá áp dụng: <span th:text="${promoCode}"></span>-->
+                    <!--                            </p>-->
+                    <!--                        </div>-->
                 </div>
+                <!--                    <div class="proceed-area text-center">-->
+                <!--                        <h6 class="subtitle">-->
+                <!--                            <span>Tổng Cộng</span><span class="totalCheckout" th:text="${totalPrice}"></span>-->
+                <!--                        </h6>-->
+                <!--&lt;!&ndash;                        <a href="#0" class="custom-button back-button">Thanh toán</a>&ndash;&gt;-->
+                <!--                    </div>-->
+                <div class="proceed-area text-center">
+                    <h6 class="subtitle">
+                        <span>Tổng Cộng</span>
+                        <span id="originalPrice" style="display: none;" th:text="${totalPrice}"></span>
+                        <span class="totalCheckout" th:text="${totalPrice}"></span>
+                    </h6>
+                    <div id="discountInfo" style="display: none;">
+                        <p class="text-success">Giảm giá: <span id="discountAmount">0</span> VND</p>
+                    </div>
+                </div>
+
             </div>
         </div>
+    </div>
     </div>
 </section>
 </body>

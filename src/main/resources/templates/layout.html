@@ -1,37 +1,31 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security5"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security5" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-
-    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}"/>
-    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/all.min.css}"/>
-    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/animate.css}"/>
-    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/flaticon.css}"/>
-    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/magnific-popup.css}"/>
-    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/odometer.css}"/>
-    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/owl.carousel.min.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css}"/>
-    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/owl.theme.default.min.css}"/>
-    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/nice-select.css}"/>
-    <link rel="stylesheet" th:fragment="link-css" th:href="@{/assets/css/jquery.animatedheadline.css}"/>
-    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/contact.css}"/>
-    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/main.css}"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}" />
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/all.min.css}" />
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/animate.css}" />
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/flaticon.css}" />
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/magnific-popup.css}" />
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/odometer.css}" />
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/owl.carousel.min.css}" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/owl.theme.default.min.css}" />
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/nice-select.css}" />
+    <link rel="stylesheet" th:fragment="link-css" th:href="@{/assets/css/jquery.animatedheadline.css}" />
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/contact.css}" />
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/main.css}" />
     <link th:fragment="link-css" rel="stylesheet" th:href="@{/assets/css/userprofile.css}">
-    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/movie/cake2.png"/>
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/movie/cake2.png" />
     <!--    "D:\Web_VS\Ba-Anh-Em\src\main\resources\static\assets\img\movie\cake2.png"-->
     <!--    th:replace="~{::title}"-->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
     <title>Ba Anh Em - Đặt vé xem phim online</title>
-
-    <link rel="shortcut icon" th:src="@{/assets/img/favicon.png}" type="image/x-icon"/>
+    <link rel="shortcut icon" th:src="@{/assets/img/favicon.png}" type="image/x-icon" />
     <!--    th:replace="~{::title}"-->
     <title>Ba Anh Em - Online Ticket Booking Website</title>
-
     <style>
         .btn__logout {
             background-image: -webkit-linear-gradient(169deg,
@@ -59,7 +53,6 @@
             margin-top: 50px;
         }
 
-
         df-messenger {
             --df-messenger-bot-message: #878fac;
             --df-messenger-button-titlebar-color: -webkit-linear-gradient(169deg, #5560ff 17%, #aa52a1 63%, #ff4343 100%);
@@ -73,9 +66,11 @@
             --df-messenger-chat-bubble-background: black;
             --df-messenger-chat-bubble-icon-color: white;
         }
+
         .test {
             background-color: black;
         }
+
         df-accordion {
             background-color: #f4f4f4;
             color: #444;
@@ -93,10 +88,8 @@
         df-accordion:hover {
             background-color: #ddd;
         }
-
     </style>
 </head>
-
 <body>
 <!-- ==========Overlay========== -->
 <div class="overlay"></div>
@@ -109,7 +102,7 @@
         <div class="header-wrapper">
             <div class="logo">
                 <a th:href="@{/}">
-                    <img th:src="@{/assets/img/logo/logo1.png}" alt="logo"/>
+                    <img th:src="@{/assets/img/logo/logo1.png}" alt="logo" />
                 </a>
             </div>
             <ul class="menu">
@@ -119,7 +112,6 @@
                 <li>
                     <a href="/films" class="on_item" id="2">Phim</a>
                 </li>
-
                 <li class="menu-item-has-children">
                     <a href="#0" class="on_item" id="3">Thể loại</a>
                     <ul class="submenu">
@@ -128,11 +120,8 @@
                         </li>
                     </ul>
                 </li>
-
                 <li class="menu-item-has-children">
-                    <a href="#0" class="on_item" id="4">
-                        Trang
-                    </a>
+                    <a href="#0" class="on_item" id="4"> Trang </a>
                     <ul class="submenu">
                         <li>
                             <a th:href="@{/blog}">bài viết</a>
@@ -149,9 +138,7 @@
                     </ul>
                 </li>
                 <li sec:authorize="isAuthenticated()">
-                    <a href="#0" class="on_item" id="5">
-                        Tài khoản
-                    </a>
+                    <a href="#0" class="on_item" id="5"> Tài khoản </a>
                     <ul class="submenu">
                         <li>
                             <a th:href="@{/purchase/history}">Vé Đã đặt</a>
@@ -161,13 +148,11 @@
                         </li>
                     </ul>
                 </li>
-
                 <li class="header-button pr-0" sec:authorize="isAuthenticated()">
                     <form th:action="@{/logout}" method="post">
                         <button class="btn__logout" type="submit">Đăng xuất</button>
                     </form>
                 </li>
-
                 <li class="header-button pr-0" sec:authorize="!isAuthenticated()">
                     <form th:action="@{/login}" method="post">
                         <a th:href="@{/login}">Đăng nhập</a>
@@ -197,13 +182,10 @@
                 <h5 class="cate">Đăng kí Ba Anh Em</h5>
                 <h3 class="title">Nhận ngay nhiều voucher hấp dẫn đừng bỏ lỡ!</h3>
                 <form class="newslater-form">
-                    <input type="text" placeholder="Địa chỉ email của bạn"/>
+                    <input type="text" placeholder="Địa chỉ email của bạn" />
                     <button type="submit">Đăng kí</button>
                 </form>
-                <p>
-                    Chúng tôi rất tôn trọng quyền riêng tư của bạn,
-                    chúng tôi sẽ không bao giờ chia sẻ thông tin của bạn
-                </p>
+                <p> Chúng tôi rất tôn trọng quyền riêng tư của bạn, chúng tôi sẽ không bao giờ chia sẻ thông tin của bạn </p>
             </div>
         </div>
     </div>
@@ -212,7 +194,7 @@
         <div class="footer-top">
             <div class="logo">
                 <a href="index-1.html">
-                    <img src="/assets/img/logo/logo1.png" width="185px" alt="footer"/>
+                    <img src="/assets/img/logo/logo1.png" width="185px" alt="footer" />
                 </a>
             </div>
             <ul class="social-icons">
@@ -246,14 +228,12 @@
         <div class="footer-bottom">
             <div class="footer-bottom-area">
                 <div class="left">
-                    <p>
-                        Copyright © 2024.All Rights Reserved By
-                        <a href="#0">Ba Anh Em </a>
+                    <p> Copyright © 2024.All Rights Reserved By <a href="#0">Ba Anh Em </a>
                     </p>
                 </div>
                 <ul class="links">
                     <li>
-                        <a href="#0">Về chúng tôi </a>
+                        <a th:href="@{/about}">Về chúng tôi </a>
                     </li>
                     <li>
                         <a href="#0">Terms Of Use</a>
@@ -283,8 +263,7 @@
                     <div class="phone-vr-circle-fill"></div>
                     <div class="phone-vr-img-circle">
                         <a target="_blank" href="https://www.facebook.com/profile.php?id=61561613647441">
-                            <img
-                                    src="https://th.bing.com/th/id/R.e790c25db5e52838040686612b1a732c?rik=uVuLX4sResGMKA&riu=http%3a%2f%2fpngimg.com%2fuploads%2ffacebook_logos%2ffacebook_logos_PNG19757.png&ehk=JL234rPBfx%2bf3tobhEVbPdNgJiWOhk251WyRwRAg940%3d&risl=&pid=ImgRaw&r=0"/>
+                            <img src="https://th.bing.com/th/id/R.e790c25db5e52838040686612b1a732c?rik=uVuLX4sResGMKA&riu=http%3a%2f%2fpngimg.com%2fuploads%2ffacebook_logos%2ffacebook_logos_PNG19757.png&ehk=JL234rPBfx%2bf3tobhEVbPdNgJiWOhk251WyRwRAg940%3d&risl=&pid=ImgRaw&r=0" />
                         </a>
                     </div>
                     <div class="fb-bar fb-bar-n">
@@ -303,7 +282,7 @@
                     <div class="phone-vr-circle-fill"></div>
                     <div class="phone-vr-img-circle">
                         <a target="_blank" href="https://zalo.me/0931034852">
-                            <img src="https://tourngay.vn/wp-content/plugins/button-contact-vr-master/img/zalo.png"/>
+                            <img src="https://tourngay.vn/wp-content/plugins/button-contact-vr-master/img/zalo.png" />
                         </a>
                     </div>
                     <div class="zalo-bar zalo-bar-n">
@@ -320,7 +299,7 @@
                     <div class="phone-vr-circle-fill"></div>
                     <div class="phone-vr-img-circle">
                         <a href="tel:0931034852">
-                            <img src="https://tourngay.vn/wp-content/plugins/button-contact-vr-master/img/phone.png"/>
+                            <img src="https://tourngay.vn/wp-content/plugins/button-contact-vr-master/img/phone.png" />
                         </a>
                     </div>
                     <div class="phone-bar phone-bar-n">
@@ -328,46 +307,42 @@
                             <span class="text-phone">093.1034.852(a Phát)</span>
                         </a>
                     </div>
-
                 </div>
             </div>
             <!-- end phone -->
-        </div><!-- end v3 class gom-all-in-one -->
-
+        </div>
+        <!-- end v3 class gom-all-in-one -->
     </div>
 </div>
-<script>!function (s, u, b, i, z) {
-    var o, t, r, y;
-    s[i] || (s._sbzaccid = z, s[i] = function () {
-        s[i].q.push(arguments)
-    }, s[i].q = [], s[i]("setAccount", z), r = ["widget.subiz.net", "storage.googleapis" + (t = ".com"), "app.sbz.workers.dev", i + "a" + (o = function (k, t) {
-        var n = t <= 6 ? 5 : o(k, t - 1) + o(k, t - 3);
-        return k !== t ? n : n.toString(32)
-    })(20, 20) + t, i + "b" + o(30, 30) + t, i + "c" + o(40, 40) + t], (y = function (k) {
-        var t, n;
-        s._subiz_init_2094850928430 || r[k] && (t = u.createElement(b), n = u.getElementsByTagName(b)[0], t.async = 1, t.src = "https://" + r[k] + "/sbz/app.js?accid=" + z, n.parentNode.insertBefore(t, n), setTimeout(y, 2e3, k + 1))
-    })(0))
-}(window, document, "script", "subiz", "acsadgnruqpvzqeqzezv")</script>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    ! function(s, u, b, i, z) {
+        var o, t, r, y;
+        s[i] || (s._sbzaccid = z, s[i] = function() {
+            s[i].q.push(arguments)
+        }, s[i].q = [], s[i]("setAccount", z), r = ["widget.subiz.net", "storage.googleapis" + (t = ".com"), "app.sbz.workers.dev", i + "a" + (o = function(k, t) {
+            var n = t <= 6 ? 5 : o(k, t - 1) + o(k, t - 3);
+            return k !== t ? n : n.toString(32)
+        })(20, 20) + t, i + "b" + o(30, 30) + t, i + "c" + o(40, 40) + t], (y = function(k) {
+            var t, n;
+            s._subiz_init_2094850928430 || r[k] && (t = u.createElement(b), n = u.getElementsByTagName(b)[0], t.async = 1, t.src = "https://" + r[k] + "/sbz/app.js?accid=" + z, n.parentNode.insertBefore(t, n), setTimeout(y, 2e3, k + 1))
+        })(0))
+    }(window, document, "script", "subiz", "acsadgnruqpvzqeqzezv")
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
         const comboFoodSelect = document.getElementById('comboFoodSelect');
         const totalCheckoutSpan = document.querySelector('.totalCheckout');
         let initialTotalPrice = parseFloat(totalCheckoutSpan.textContent.replace(/\D/g, ''));
         let currentComboPrice = 0; // Giá của combo hiện tại (ban đầu là 0)
-
-        comboFoodSelect.addEventListener('change', function () {
+        comboFoodSelect.addEventListener('change', function() {
             const selectedOption = comboFoodSelect.options[comboFoodSelect.selectedIndex];
             const comboDetails = selectedOption.value.split('-');
             const comboPrice = parseFloat(comboDetails[1]) || 0;
-
             // Tính lại tổng giá trị
             const newTotalPrice = initialTotalPrice - currentComboPrice + comboPrice;
-
             // Cập nhật giá trị tổng và giá combo hiện tại
             initialTotalPrice = newTotalPrice;
             currentComboPrice = comboPrice;
-
             // Cập nhật tổng giá trị hiển thị
             totalCheckoutSpan.textContent = newTotalPrice.toLocaleString('vi-VN') + ' VND';
         });
@@ -379,17 +354,14 @@
         const toast = document.createElement('div');
         toast.className = `toast ${type}`;
         toast.innerText = message;
-
         container.appendChild(toast);
         setTimeout(() => toast.classList.add('show'), 100);
-
         // Tự động xóa sau 5 giây
         setTimeout(() => {
             toast.classList.remove('show');
             setTimeout(() => container.removeChild(toast), 300);
         }, 5000);
     }
-
     // Hiển thị toast khi cần
     const urlParams = new URLSearchParams(window.location.search);
     const status = urlParams.get('status');
@@ -400,8 +372,6 @@
         showToast(decodeURIComponent(message), 'error');
     }
 </script>
-
-
 <script th:src="@{/assets/js/jquery-3.3.1.min.js}"></script>
 <script th:src="@{/assets/js/modernizr-3.6.0.min.js}"></script>
 <script th:src="@{/assets/js/plugins.js}"></script>
@@ -416,17 +386,86 @@
 <script th:src="@{/assets/js/viewport.jquery.js}"></script>
 <script th:src="@{/assets/js/nice-select.js}"></script>
 <script th:src="@{/assets/js/seat.js}"></script>
-<script type="text/javascript" th:src="@{https://cdn.jsdelivr.net/npm/toastify-js}"></script>
 <script th:src="@{/assets/js/app.js}"></script>
 <script th:src="@{/assets/js/main.js}"></script>
 <script th:src="@{/assets/user/js/qrcode.js}"></script>
 <script th:src="@{/assets/js/ocr.js}"></script>
 <script>
-    document.getElementById('fullname').addEventListener('input', function (e) {
+    document.getElementById('fullname').addEventListener('input', function(e) {
         e.target.value = e.target.value.toUpperCase();
     });
 </script>
-
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<!--/*[[${message}]]*/   /*[[${status}]]*/  /*[[${success}]]*/-->
+<script th:if="${status != null or success != null}" th:inline="javascript">
+    const statusAfterPurchase = /*[[${status}]]*/ 'Successful.';
+    const purchaseMessage = /*[[${message}]]*/ '';
+    const editProfileSuccess = /*[[${success}]]*/ '';
+    const toastifyConfig = {
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        style: {
+            fontSize: '16px',
+            fontFamily: 'Arial, sans-serif',
+            padding: '12px 24px',
+            marginTop: '20px',
+        },
+        className: 'custom-toast'
+    };
+    // Thêm CSS cho custom toast
+    const style = document.createElement('style');
+    style.textContent = `
+        .custom-toast {
+            min-width: 300px;
+        }
+        button.toast-close {
+            width :unset !important;
+            margin-left:10px;
+        }
+        .toast-close:hover {
+            opacity: 1 !important;
+        }
+    `;
+    document.head.appendChild(style);
+    // Toast cho thanh toán
+    if (statusAfterPurchase != null && purchaseMessage != null) {
+        Toastify({
+            text: purchaseMessage,
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            backgroundColor: statusAfterPurchase === "Successful." ? "linear-gradient(to right, #00b09b, #96c93d)" : "linear-gradient(to right, #ff5f6d, #ffc371)",
+            style: {
+                fontSize: '16px',
+                fontFamily: 'Arial, sans-serif'
+            },
+            offset: {
+                y: 110,
+            },
+        }).showToast();
+    }
+    // Toast cho cập nhật thông tin
+    if (editProfileSuccess != null) {
+        Toastify({
+            text: editProfileSuccess,
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+            style: {
+                fontSize: '16px',
+                fontFamily: 'Arial, sans-serif'
+            },
+            offset: {
+                y: 110,
+            },
+        }).showToast();
+    }
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const promotionSelect = document.getElementById('promotionSelect');
@@ -435,56 +474,93 @@
         const discountInfoElement = document.getElementById('discountInfo');
         const discountAmountElement = document.getElementById('discountAmount');
         const comboFoodSelect = document.getElementById('comboFoodSelect');
-        console.log(originalPriceElement.textContent);
+        const promoCodeBtn = document.getElementById('checkPromoBtn');
+        const promoCodeInput = document.getElementById('promoCodeInput');
+        const checkoutForm = document.querySelector('form[action*="/purchase/checkout"]');
 
-
+        const appliedPromoCodeInput = document.getElementById('appliedPromoCode');
+        const appliedDiscountRateInput = document.getElementById('appliedDiscountRate');
         let originalPrice = parseFloat(originalPriceElement.textContent.replace('.', ''));
+        let currentDiscountRate = 0;
 
-        function updateTotalPrice() {
+        function updateTotalPrice(discountRate = 0) {
             let currentPrice = originalPrice;
 
-            // Tính giá combo food nếu có
             if (comboFoodSelect.value !== '0-0') {
                 const comboPrice = parseFloat(comboFoodSelect.value.split('-')[1]);
                 currentPrice += comboPrice;
             }
 
-            // Tính giảm giá nếu có chọn promotion
-            if (promotionSelect.value) {
+            if (promotionSelect.value !== '0-0') {
                 const selectedOption = promotionSelect.options[promotionSelect.selectedIndex];
-                const discountPercent = selectedOption.getAttribute('data-percent');
-                const discountAmount = (currentPrice * discountPercent);
-                currentPrice -= discountAmount;
-                console.log(currentPrice)
-                console.log(discountAmount)
-                console.log(discountPercent)
-                // Hiển thị thông tin giảm giá
-                discountInfoElement.style.display = 'block';
-                discountAmountElement.textContent = Math.round(discountAmount).toLocaleString();
+                const discountPercent = parseFloat(selectedOption.getAttribute('data-percent')) || 0;
+                currentPrice -= currentPrice * discountPercent;
+                appliedPromoCodeInput.value = promotionSelect.value;
+                appliedDiscountRateInput.value = discountPercent;
+            } else if (discountRate > 0) {
+                currentPrice -= currentPrice * discountRate;
+                appliedPromoCodeInput.value = promoCodeInput.value.trim();
+                appliedDiscountRateInput.value = discountRate;
             } else {
-                discountInfoElement.style.display = 'none';
+                appliedPromoCodeInput.value = '';
+                appliedDiscountRateInput.value = '0';
             }
 
             totalPriceElement.textContent = Math.round(currentPrice).toLocaleString() + ' VND';
+            discountInfoElement.style.display = (discountRate > 0 || promotionSelect.value !== '0-0') ? 'block' : 'none';
+            discountAmountElement.textContent = Math.round(originalPrice - currentPrice).toLocaleString();
         }
-        promotionSelect.addEventListener('change', updateTotalPrice);
-        comboFoodSelect.addEventListener('change', updateTotalPrice);
 
-    });
+        promoCodeBtn.addEventListener('click', function() {
+            const promotionCode = promoCodeInput.value.trim();
+            if (!promotionCode) {
+                alert("Vui lòng nhập mã giảm giá!");
+                return;
+            }
+            promotionSelect.value = '0-0';
+            fetch(`/api/promotion/redeemCode/${promotionCode}`).then(response => {
+                if (!response.ok) throw new Error(`API error: ${response.statusText}`);
+                return response.json();
+            }).then(data => {
+                if (data && data.promotionDiscountRate) {
+                    currentDiscountRate = data.promotionDiscountRate;
+                    updateTotalPrice(currentDiscountRate);
+                } else {
+                    alert(data.message || "Mã giảm giá không hợp lệ.");
+                    appliedPromoCodeInput.value = '';
+                    appliedDiscountRateInput.value = '0';
+                }
+            }).catch(error => {
+                console.error('Error fetching promotion:', error);
+                alert("Có lỗi xảy ra khi kiểm tra mã giảm giá.");
+                appliedPromoCodeInput.value = '';
+                appliedDiscountRateInput.value = '0';
+            });
+        });
 
-    // Cập nhật form submit để bao gồm mã khuyến mãi
-    const checkoutForm = document.querySelector('form[action*="/purchase/checkout"]');
-    checkoutForm.addEventListener('submit', function(e) {
-        const promotionSelect = document.getElementById('promotionSelect');
-        if (promotionSelect.value) {
-            const promotionInput = document.createElement('input');
-            promotionInput.type = 'hidden';
-            promotionInput.name = 'promotionCode';
-            promotionInput.value = promotionSelect.value;
-            this.appendChild(promotionInput);
-        }
-    });
+        promotionSelect.addEventListener('change', () => {
+            promoCodeInput.value = ''; // Reset promo code input
+            updateTotalPrice();
+        });
+
+        promoCodeInput.addEventListener('focus', () => {
+            promotionSelect.value = '0-0'; // Reset promotion select
+            updateTotalPrice();
+        });
+
+        comboFoodSelect.addEventListener('change', () => {
+            updateTotalPrice(currentDiscountRate);
+        });
+
+        checkoutForm.addEventListener('submit', function(e) {
+            if (promotionSelect.value === '0-0' && !appliedPromoCodeInput.value) {
+                appliedPromoCodeInput.value = '';
+                appliedDiscountRateInput.value = '0';
+            }
+        });
+    })
 </script>
+<!--redeem promotion-->
 <script>
     function redeemPromotion(promotionId) {
         // Gửi yêu cầu đến server qua AJAX
@@ -493,48 +569,35 @@
             headers: {
                 'Content-Type': 'application/json',
             },
-        })
-            .then(response => {
-                if (response.ok) {
-                    // Tìm phần tử liên quan đến promotionId
-                    const promotionElement = document.querySelector(`#promotion-${promotionId}`);
-                    if (promotionElement) {
-                        // Cập nhật giao diện: ví dụ ẩn nút hoặc hiển thị trạng thái "Đã quy đổi"
-                        const actionButton = promotionElement.querySelector('.btn-primary');
-                        if (actionButton) {
-                            actionButton.textContent = 'Đã quy đổi';
-                            actionButton.disabled = true; // Vô hiệu hóa nút
-                            actionButton.classList.add('disabled'); // Thêm style cho nút
-                        }
+        }).then(response => {
+            if (response.ok) {
+                // Tìm phần tử liên quan đến promotionId
+                const promotionElement = document.querySelector(`#promotion-${promotionId}`);
+                if (promotionElement) {
+                    // Cập nhật giao diện: ví dụ ẩn nút hoặc hiển thị trạng thái "Đã quy đổi"
+                    const actionButton = promotionElement.querySelector('.btn-primary');
+                    if (actionButton) {
+                        actionButton.textContent = 'Đã quy đổi';
+                        actionButton.disabled = true; // Vô hiệu hóa nút
+                        actionButton.classList.add('disabled'); // Thêm style cho nút
                     }
-                    alert("Quy đổi thành công!");
-                } else {
-                    alert("Quy đổi thất bại! Vui lòng thử lại.");
                 }
-            })
-            .catch(error => {
-                console.error('Lỗi:', error);
-                alert("Đã xảy ra lỗi! Vui lòng thử lại.");
-            });
+                alert("Quy đổi thành công!");
+            } else {
+                alert("Quy đổi thất bại! Vui lòng thử lại.");
+            }
+        }).catch(error => {
+            console.error('Lỗi:', error);
+            alert("Đã xảy ra lỗi! Vui lòng thử lại.");
+        });
     }
-
 </script>
-
+<!--chat bot-->
 <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
-<df-messenger
-        intent="WELCOME"
-        chat-icon="https://cdn-icons-png.flaticon.com/512/785/785581.png"
-        chat-title="Ba Anh Em bot"
-        agent-id="6e08a620-4272-4ba0-be06-c4f3b7366ddf"
-        language-code="vi"
-></df-messenger>
+<df-messenger intent="WELCOME" chat-icon="https://cdn-icons-png.flaticon.com/512/4954/4954813.png" chat-title="Ba Anh Em bot" agent-id="6e08a620-4272-4ba0-be06-c4f3b7366ddf" language-code="vi"></df-messenger>
 <script>
-    window.addEventListener('df-messenger-loaded',  () => {
-        document.querySelector('df-messenger').
-            shadowRoot.querySelector('.df-messenger-wrapper').querySelector('df-messenger-chat').
-            shadowRoot.querySelector('.chat-wrapper').querySelector('df-messenger-titlebar').
-            shadowRoot.querySelector('.title-wrapper').style.background =
-            " -webkit-linear-gradient(169deg, #5560ff 17%, #aa52a1 63%, #ff4343 100%)";
+    window.addEventListener('df-messenger-loaded', () => {
+        document.querySelector('df-messenger').shadowRoot.querySelector('.df-messenger-wrapper').querySelector('df-messenger-chat').shadowRoot.querySelector('.chat-wrapper').querySelector('df-messenger-titlebar').shadowRoot.querySelector('.title-wrapper').style.background = " -webkit-linear-gradient(169deg, #5560ff 17%, #aa52a1 63%, #ff4343 100%)";
     });
     //
     // window.addEventListener('df-chat-open-changed', (event) => {
@@ -559,40 +622,57 @@
     //     // }
     // });
     const dfMessenger = document.querySelector('df-messenger');
-
-    dfMessenger.addEventListener('df-accordion-clicked', function (event) {
+    dfMessenger.addEventListener('df-accordion-clicked', function(event) {
         console.log('Accordion was clicked')
     });
-
-
-    dfMessenger.addEventListener('df-button-clicked', function (event) {
+    dfMessenger.addEventListener('df-button-clicked', function(event) {
         // Handle event
         console.log('Button was clicked!');
         event.stopPropagation();
         event.preventDefault();
     });
-
     window.addEventListener('df-messenger-loaded', () => {
         const messenger = document.querySelector('df-messenger');
         const observer = new MutationObserver(() => {
-            const dfCard = messenger.shadowRoot
-                ?.querySelector('.df-messenger-wrapper')
-                ?.querySelector('df-messenger-chat')
-                ?.shadowRoot.querySelector('.chat-wrapper')
-                ?.querySelector('df-messenger-list')
-                ?.shadowRoot.querySelector('.messenger-list-wrapper')
-                ?.querySelector('df-card');
-
+            const dfCard = messenger.shadowRoot?.querySelector('.df-messenger-wrapper')?.querySelector('df-messenger-chat')?.shadowRoot.querySelector('.chat-wrapper')?.querySelector('df-messenger-list')?.shadowRoot.querySelector('.messenger-list-wrapper')?.querySelector('df-card');
             if (dfCard) {
                 const accordions = dfCard.shadowRoot.querySelectorAll('df-accordion');
                 accordions.forEach(accordion => console.log(accordion.classList));
             }
         });
-
-        observer.observe(messenger.shadowRoot, { childList: true, subtree: true });
+        observer.observe(messenger.shadowRoot, {
+            childList: true,
+            subtree: true
+        });
     });
-
+</script>
+<!--clock-->
+<script>
+    setInterval(showTime, 1000);
+    // Defining showTime funcion
+    function showTime() {
+        // Getting current time and date
+        let time = new Date();
+        let hour = time.getHours();
+        let min = time.getMinutes();
+        let sec = time.getSeconds();
+        am_pm = "AM";
+        // Setting time for 12 Hrs format
+        if (hour >= 12) {
+            if (hour > 12) hour -= 12;
+            am_pm = "PM";
+        } else if (hour == 0) {
+            hr = 12;
+            am_pm = "AM";
+        }
+        hour = hour < 10 ? "0" + hour : hour;
+        min = min < 10 ? "0" + min : min;
+        sec = sec < 10 ? "0" + sec : sec;
+        let currentTime = hour + ":" + min + ":" + sec + am_pm;
+        // Displaying the time
+        document.getElementById("clock").innerHTML = currentTime;
+    }
+    showTime();
 </script>
 </body>
-
 </html>

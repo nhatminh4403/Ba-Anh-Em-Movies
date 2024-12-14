@@ -65,7 +65,7 @@
         private List<Booking> bookings;
 
 
-        @ManyToMany
+        @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
         @JoinTable(
                 name = "user_promotion",
                 joinColumns = @JoinColumn(name = "user_id"),
@@ -75,9 +75,18 @@
         private Set<Promotion> promotions;
         @Column(name = "point")
         private Long pointSaving =0L;
+        @Column(name = "isStudent")
+        private Boolean isStudent = false;
+
+        //this line is for testing ocr
+        @Transient
+        private String fullInfo;
+
+
+        @Transient
+        private String studentId;
 
         // Getters and setters for all fields
-
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
             Set<Role> userRoles = this.getRoles();

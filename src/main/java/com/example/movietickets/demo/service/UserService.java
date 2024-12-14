@@ -99,7 +99,7 @@ public class UserService implements UserDetailsService {
         return userRepository.existsByPhone(phone);
     }
 
-//    public User getCurrentUser() {
+    //    public User getCurrentUser() {
 //        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //        if (principal instanceof UserDetails) {
 //            String username = ((UserDetails) principal).getUsername();
@@ -108,17 +108,18 @@ public class UserService implements UserDetailsService {
 //            return null;
 //        }
 //    }
-public User getCurrentUser() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (authentication == null || !authentication.isAuthenticated() ||
-            authentication instanceof AnonymousAuthenticationToken) {
-        return null;
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() ||
+                authentication instanceof AnonymousAuthenticationToken) {
+            return null;
+        }
+
+        String username = authentication.getName();
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 
-    String username = authentication.getName();
-    return userRepository.findByUsername(username)
-            .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
-}
     @Transactional
     public User updateUser(User user) {
         User existingUser = user_Repository.findById(user.getId())
@@ -129,8 +130,11 @@ public User getCurrentUser() {
         existingUser.setPhone(user.getPhone());
         existingUser.setAge(user.getAge());
         existingUser.setBirthday(user.getBirthday());
+        existingUser.setPromotions(user.getPromotions());
+        existingUser.setIsStudent(user.getIsStudent());
         return userRepository.save(existingUser);
     }
+
     public void saveOauthUser(String email, String username, String provider) {
         if (username == null || userRepository.findByUsername(username).isPresent())
             return;
@@ -144,17 +148,18 @@ public User getCurrentUser() {
         userRepository.save(user);
     }
 
-    // public void saveOauthUser(String email, String username) {
-    // if (userRepository.findByUsername(username).isPresent()) return;
-    // var user = new User();
-    // user.setUsername(username);
-    // user.setEmail(email);
-    // user.setPassword(new BCryptPasswordEncoder().encode(username));
-    // user.setProvider(Provider.GOOGLE.value);
-    // user.getRoles().add(roleRepository.findRoleById(Role.USER.value));
-    // userRepository.save(user);
-    // }
-    public List<Promotion> getPromotionsByUsername(String username){
+    public void removePromotionsFromUser(Long id, String username) throws Exception {
+        Optional<User> user = userRepository.findByUsername(username);
+        Promotion promotion = promotionRepository.findById(id).orElse(null);
+
+        if (promotion != null) {
+            user.get().getPromotions().remove(promotion);
+        } else
+            throw new Exception("Lỗi");
+    }
+
+
+    public List<Promotion> getPromotionsByUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
 
         return promotionRepository.getPromotionByUserId(user.map(User::getId).orElse(null));
