@@ -308,6 +308,15 @@
         .custom-checkbox:hover {
             border-color: #28c498;
         }
+
+        .form-control[readonly] {
+            background: rgba(255, 255, 255, 0.05);
+            cursor: not-allowed;
+        }
+
+        .preview-container {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -345,7 +354,8 @@
                     <span th:text="${errors}"></span>
                 </div>
 
-                <form th:action="@{/user/profile/chinh-sua}" th:object="${user}" method="post" enctype="multipart/form-data">
+                <form th:action="@{/user/profile/chinh-sua}" th:object="${user}" method="post"
+                      enctype="multipart/form-data">
                     <div class="profile-grid">
                         <!-- Cột bên trái - Thông tin -->
                         <div class="profile-info">
@@ -356,50 +366,61 @@
 
                             <div class="form-group">
                                 <label class="form-label" for="fullname">Họ và tên</label>
-                                <input type="text" th:field="*{fullname}" id="fullname" class="form-control" placeholder="Nhập họ và tên"/>
-                                <span class="error-message" th:if="${#fields.hasErrors('fullname')}" th:errors="*{fullname}"></span>
+                                <input type="text" th:field="*{fullname}" id="fullname" class="form-control"
+                                       placeholder="Nhập họ và tên"/>
+                                <span class="error-message" th:if="${#fields.hasErrors('fullname')}"
+                                      th:errors="*{fullname}"></span>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label" for="email">Email</label>
-                                <input type="email" th:field="*{email}" id="email" class="form-control" placeholder="Nhập email"/>
-                                <span class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                                <input type="email" th:field="*{email}" id="email" class="form-control"
+                                       placeholder="Nhập email"/>
+                                <span class="error-message" th:if="${#fields.hasErrors('email')}"
+                                      th:errors="*{email}"></span>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label" for="phone">Số điện thoại</label>
-                                <input type="text" th:field="*{phone}" id="phone" class="form-control" placeholder="Nhập số điện thoại"/>
-                                <span class="error-message" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+                                <input type="text" th:field="*{phone}" id="phone" class="form-control"
+                                       placeholder="Nhập số điện thoại"/>
+                                <span class="error-message" th:if="${#fields.hasErrors('phone')}"
+                                      th:errors="*{phone}"></span>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label" for="age">Tuổi</label>
-                                <input type="text" id="age" th:field="*{age}" class="form-control" placeholder="Nhập tuổi"/>
-                                <span class="error-message" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></span>
+                                <input type="text" id="age" th:field="*{age}" class="form-control"
+                                       placeholder="Nhập tuổi" readonly/>
+                                <span class="error-message" th:if="${#fields.hasErrors('age')}"
+                                      th:errors="*{age}"></span>
                             </div>
                             <!-- kiểm thử dữ liệu -->
-<!--                            <div class="form-group">
-                                <label class="form-label" for="studentId">MSSV:</label>
-                                <input type="text" id="studentId" th:field="*{studentId}" class="form-control" placeholder="Nhập tuổi"/>
-                                <span class="error-message" th:if="${#fields.hasErrors('studentId')}" th:errors="*{studentId}"></span>
-                            </div>-->
-<!--                            <div class="form-group">
-                                <label for="fullInfo">Toàn bộ thông tin:</label>
-                                <textarea id="fullInfo" readonly></textarea>
-                            </div>-->
+                            <!--                            <div class="form-group">
+                                                            <label class="form-label" for="studentId">MSSV:</label>
+                                                            <input type="text" id="studentId" th:field="*{studentId}" class="form-control" placeholder="Nhập tuổi"/>
+                                                            <span class="error-message" th:if="${#fields.hasErrors('studentId')}" th:errors="*{studentId}"></span>
+                                                        </div>-->
+                            <!--                            <div class="form-group">
+                                                            <label for="fullInfo">Toàn bộ thông tin:</label>
+                                                            <textarea id="fullInfo" readonly></textarea>
+                                                        </div>-->
                             <div class="form-group" style="display: flex; align-items: center; gap: 15px;">
                                 <div style="flex: 1;">
                                     <label class="form-label" for="birthday">Ngày sinh</label>
-                                    <input type="text" id="birthday" th:field="*{birthday}" class="form-control" placeholder="Nhập ngày sinh"/>
-                                    <span class="error-message" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}"></span>
+                                    <input type="text" id="birthday" th:field="*{birthday}" class="form-control"
+                                           placeholder="Nhập ngày sinh" readonly/>
+                                    <span class="error-message" th:if="${#fields.hasErrors('birthday')}"
+                                          th:errors="*{birthday}"></span>
                                 </div>
                                 <div style="display: flex; flex-direction: column; align-items: center; margin-top: 25px;">
-                                    <label for="isStudent" style="color: #31d7a9; margin-left: 8px; user-select: none;">Bạn là sinh viên?</label>
-                                    <input type="checkbox" readonly id="isStudent" th:field="*{isStudent}" class="custom-checkbox"
+                                    <label for="isStudent" style="color: #31d7a9; margin-left: 8px; user-select: none;">Bạn
+                                        là sinh viên?</label>
+                                    <input type="checkbox" readonly id="isStudent" th:field="*{isStudent}"
+                                           class="custom-checkbox"
                                            style="width: 20px; height: 20px;cursor: pointer;"
                                            onclick="return false;"
                                            onkeydown="return false;"/>
-
                                 </div>
                             </div>
 
@@ -414,7 +435,8 @@
                             <h3 class="scan-title">Quét thẻ sinh viên</h3>
                             <div class="form-group">
                                 <label for="imageInput">Chọn ảnh thẻ sinh viên:</label>
-                                <input type="file" id="imageInput" accept="image/*" class="form-control">
+                                <input type="file" id="imageInput" accept="image/*" class="form-control"
+                                       style="padding:3px 15px;">
                             </div>
 
                             <div class="preview-container">
@@ -428,7 +450,8 @@
                                 <div class="loading" id="loadingIndicator" style="display: none;">
                                     Đang xử lý... Vui lòng đợi.
                                 </div>
-                                <button type="button" class="btn btn--primary" id="scanButton" disabled>Quét Thẻ</button>
+                                <button type="button" class="btn btn--primary" id="scanButton" disabled>Quét Thẻ
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -441,3 +464,30 @@
 
 </body>
 </html>
+
+<script>
+    document.getElementById("imageInput").addEventListener("change", function (event) {
+        const fileInput = event.target;
+        const previewContainer = document.querySelector(".preview-container");
+        const imagePreview = document.getElementById("imagePreview");
+        const previewMessage = document.querySelector(".preview-message");
+
+        if (fileInput.files && fileInput.files[0]) {
+            // Hiển thị preview-container
+            previewContainer.style.display = "block";
+
+            // Hiển thị hình ảnh được chọn
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                imagePreview.src = e.target.result;
+                previewMessage.textContent = "Ảnh đã được tải lên.";
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        } else {
+            // Ẩn preview-container nếu không có ảnh
+            previewContainer.style.display = "none";
+            imagePreview.src = "";
+            previewMessage.textContent = "";
+        }
+    });
+</script>
