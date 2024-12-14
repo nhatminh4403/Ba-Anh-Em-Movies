@@ -413,14 +413,19 @@
                                     <span class="error-message" th:if="${#fields.hasErrors('birthday')}"
                                           th:errors="*{birthday}"></span>
                                 </div>
-                                <div style="display: flex; flex-direction: column; align-items: center; margin-top: 25px;">
-                                    <label for="isStudent" style="color: #31d7a9; margin-left: 8px; user-select: none;">Bạn
+
+                            </div>
+
+                            <div class="form-group" style="display: flex; align-items: center; gap: 15px;">
+                                <div style="display: flex; align-items: center; gap:10px;">
+                                    <label for="isStudent" style="color: #31d7a9; margin-left: 8px; user-select: none;margin-bottom: 0;">Bạn
                                         là sinh viên?</label>
                                     <input type="checkbox" readonly id="isStudent" th:field="*{isStudent}"
                                            class="custom-checkbox"
                                            style="width: 20px; height: 20px;cursor: pointer;"
                                            onclick="return false;"
-                                           onkeydown="return false;"/>
+                                           onkeydown="return false;" />
+
                                 </div>
                             </div>
 
