@@ -219,7 +219,6 @@ public class PaymentController {
             @RequestParam(value = "comboId") String comboId) throws Exception {
 
         String orderId = String.valueOf(System.currentTimeMillis());
-        String requestId = String.valueOf(System.currentTimeMillis());
 
         ObjectMapper objectMapper = new ObjectMapper();
         ScheduleComboDTO dto = new ScheduleComboDTO(scheduleId, comboId);
@@ -237,14 +236,14 @@ public class PaymentController {
                 MoMoRequestService.orderInfo,
                 MoMoRequestService.partnerCode,
                 MoMoRequestService.getUrl() + MoMoRequestService.redirectUrl,
-                requestId,
+                orderId,
                 MoMoRequestService.requestType);
 
         String signature = MoMoRequestService.HmacSHA256(rawSignature, MoMoRequestService.secretKey);
 
         JsonObject requestBody = new JsonObject();
         requestBody.addProperty("partnerCode", MoMoRequestService.partnerCode);
-        requestBody.addProperty("requestId", requestId);
+        requestBody.addProperty("requestId", orderId);
         requestBody.addProperty("amount", String.valueOf(amount));
         requestBody.addProperty("orderId", orderId);
         requestBody.addProperty("orderInfo", MoMoRequestService.orderInfo);
@@ -258,12 +257,21 @@ public class PaymentController {
 
         MoMoPaymentDto payment = new MoMoPaymentDto();
         payment.setOrderId(orderId);
-        payment.setRequestId(requestId);
+        payment.setRequestId(orderId);
         payment.setAmount(Long.parseLong(String.valueOf(amount)));
+        Booking booking = new Booking();
+        payment.setBooking(booking);
         payment.setPaymentTime(new Date());
         paymentService.savePayment(payment);
+
+        System.out.println(requestBody);
+
         String response = MoMoRequestService.sendToHTTPPost(MoMoRequestService.Endpoint, requestBody.toString());
+
+        System.out.println(response);
+
         JsonObject responseObject = new JsonParser().parse(response).getAsJsonObject();
+
 
         // Kiểm tra phản hồi của MoMo
         if (responseObject.has("payUrl")) {
@@ -310,7 +318,7 @@ public class PaymentController {
             Optional<MoMoPaymentDto> paymentDto = paymentService.getPaymentById(orderId);
 
             MoMoPaymentDto payment = paymentDto.get();
-            payment.setTransactionId(paymentDto.get().getTransactionId());
+            payment.setTransactionId(String.valueOf(transId));
             paymentService.savePayment(payment);
 
             System.out.println(resultCode);
@@ -434,7 +442,8 @@ public class PaymentController {
                         comboPrice = Long.parseLong(comboDetails[1]);
                     }
 
-                    Booking booking = new Booking();
+                    Optional<Booking> getBookingByOrderId = bookingService.getBookingId(payment.get().getBooking().getId());
+                    Booking booking = getBookingByOrderId.get();
                     booking.setFilmName(purchase.getFilmTitle());
                     booking.setPoster(purchase.getPoster());
                     booking.setCinemaName(purchase.getCinemaName());
