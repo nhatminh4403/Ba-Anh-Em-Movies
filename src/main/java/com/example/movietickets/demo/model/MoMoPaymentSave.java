@@ -3,7 +3,9 @@ package com.example.movietickets.demo.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -27,5 +29,7 @@ public class MoMoPaymentSave {
     private Date paymentTime;
     private String failureMessage;
 
+    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+    private LocalDateTime responseTime;
     // Getters and setters
 }

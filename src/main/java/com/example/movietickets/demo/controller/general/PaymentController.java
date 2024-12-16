@@ -30,6 +30,10 @@ import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @RestController
@@ -371,6 +375,7 @@ public class PaymentController {
             @RequestParam("payType") String payType,
             @RequestParam("transId") Long transId,
             @RequestParam("resultCode") String resultCode,
+            @RequestParam("responseTime") Long responseTime,
             @RequestParam("message") String message) {
 
         try {
@@ -440,6 +445,13 @@ public class PaymentController {
                 momo.setPaymentStatus("SUCCESS");
                 if(message.contains("Thất bại"))
                     momo.setFailureMessage(message);
+
+                LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(responseTime), ZoneId.systemDefault());
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                String formattedDate = dateTime.format(formatter);
+
+                momo.setResponseTime(LocalDateTime.parse(formattedDate));
+
                 paymentService.savePayment(momo);
                 // Luôn chuyển hướng đến trang thành công khi resultCode là 0
                 headers.setLocation(URI.create("/purchase/history?status=success"));
