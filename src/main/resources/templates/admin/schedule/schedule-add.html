@@ -32,12 +32,22 @@
                                 <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                     <div class="profile__group">
                                         <label class="profile__label" for="film_id">ID phim</label>
-                                        <input type="hidden" name="film_id" th:value="${id}"/>
-                                        <input id="film_id" type="text" class="profile__input" th:value="${id}"
-                                               disabled/>
+                                        <div th:if="${id != null}">
+                                            <!-- Trường hợp có ID -->
+                                            <input type="hidden" name="film_id" th:value="${id}" />
+                                            <input id="film_id" type="text" class="profile__input" th:value="${id}" disabled />
+                                        </div>
+                                        <div th:if="${id == null}">
+                                            <!-- Trường hợp không có ID -->
+                                            <select id="film_id" name="film_id" class="profile__input">
+                                                <option value="" disabled selected>Chọn phim</option>
+                                                <option th:each="film : ${films}" th:value="${film.id}" th:text="${film.name}"></option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+
+                                <div class="col-12 col-md-6 col-lg-12 col-xl-6" >
                                     <div class="profile__group">
                                         <label class="profile__label" for="cinema">Rạp</label>
                                         <select class="js-example-basic-single" id="cinema"

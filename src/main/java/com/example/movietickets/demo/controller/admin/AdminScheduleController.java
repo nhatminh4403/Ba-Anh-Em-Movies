@@ -1,5 +1,6 @@
 package com.example.movietickets.demo.controller.admin;
 
+import com.example.movietickets.demo.model.Film;
 import com.example.movietickets.demo.model.Schedule;
 import com.example.movietickets.demo.service.CinemaService;
 import com.example.movietickets.demo.service.FilmService;
@@ -36,9 +37,28 @@ public class AdminScheduleController {
         model.addAttribute("schedules", schedules);
         System.out.println(schedules);
         model.addAttribute("title", "Danh sách lịch chiếu");
+        List<Film> films = filmService.getAllFilms();
+        List<Film> getReleasedFilmsWithoutSchedules = filmService.getReleasedFilmsWithoutSchedules(films);
+        List<Film> getUpcomingFilms = filmService.getUpcomingFilms(films);
+
+        model.addAttribute("schedules", schedules);
+
+        model.addAttribute("getReleasedFilmsWithoutSchedules", getReleasedFilmsWithoutSchedules);
+        model.addAttribute("getUpcomingFilms", getUpcomingFilms);
         return "/admin/schedule/schedule-list";
     }
 
+    @GetMapping("/schedules/add")
+    public String showAddForm(Model model) {
+        Schedule schedule = new Schedule();
+        List<Film> films = filmService.getAllFilms();
+
+        model.addAttribute("title", "Thêm mới Lịch chiếu phim");
+        model.addAttribute("schedule", schedule);
+        model.addAttribute("films", films);
+        model.addAttribute("rooms", roomService.getAllRooms());
+        return "/admin/schedule/schedule-add";
+    }
     @GetMapping("/schedules/add/{id}")
     public String showAddForm(@PathVariable("id") Long id, Model model) {
         Schedule schedule = new Schedule();
@@ -51,7 +71,6 @@ public class AdminScheduleController {
         model.addAttribute("rooms", roomService.getAllRooms());
         return "/admin/schedule/schedule-add";
     }
-
     @PostMapping("/schedules/add")
     public String addSchedule(@Valid Schedule schedule, BindingResult result, @RequestParam("film_id") Long id, Model model) {
         if (result.hasErrors()) {

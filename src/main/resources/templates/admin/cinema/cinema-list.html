@@ -12,9 +12,7 @@
             margin-top: 20px;
             color:white;;
             border-radius: 10px;
-            display:flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 10px;
         }
 
         .cinema-info__container {
@@ -41,6 +39,7 @@
                 <div class="col-12">
                     <div class="main__title">
                         <h2 th:text="${title}"></h2>
+
                         <a th:href="@{/admin/cinemas/add}" class="main__title-link">Thêm mới</a>
                     </div>
                 </div>
@@ -73,6 +72,9 @@
                     <p class="cinema-info__detail" th:text="'Vị trí: ' + ${selectedCinema.map}">Vị trí: </p>
                 </div>
                 <div class="cinema-info__container">
+                    <a th:href="@{/admin/room/add/{id}(id=${selectedCinema.id})}" class="btn btn-primary">
+                        Thêm phòng mới
+                    </a>
                     <a th:href="@{/admin/cinemas/edit/{id}(id=${selectedCinema.id})}" class="btn btn-primary">
                         Chỉnh sửa thông tin rạp
                     </a>

@@ -37,11 +37,18 @@
 <section layout:fragment="content">
     <main class="main">
         <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="main__title">
+                        <h2 th:text="${title}"></h2>
+                        <a href="/admin/schedules/add" class="main__title-link">Thêm lịch chiếu</a>
+                    </div>
+                </div>
+            </div>
             <!-- Films with Schedules -->
             <div class="schedule-container">
                 <div class="schedule-header">
                     <h3>Phim đang chiếu có lịch</h3>
-                    <a href="/admin/schedules/add" class="main__title-link">Thêm lịch chiếu</a>
                 </div>
                 <div class="main__table-wrap">
                     <table class="main__table" th:if="${!#lists.isEmpty(schedules)}">
@@ -104,7 +111,7 @@
                     <a href="/admin/schedules/add" class="main__title-link">Tạo lịch chiếu</a>
                 </div>
                 <div class="main__table-wrap">
-                    <table class="main__table" th:if="${!#lists.isEmpty(unscheduledFilms)}">
+                    <table class="main__table" th:if="${!#lists.isEmpty(getReleasedFilmsWithoutSchedules)}">
                         <thead>
                         <tr>
                             <th>ID</th>
@@ -114,7 +121,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="film : ${unscheduledFilms}">
+                        <tr th:each="film : ${getReleasedFilmsWithoutSchedules}">
                             <td>
                                 <div class="main__table-text" th:text="${film.id}"></div>
                             </td>
@@ -137,7 +144,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <div class="empty-message" th:if="${#lists.isEmpty(unscheduledFilms)}">
+                    <div class="empty-message" th:if="${#lists.isEmpty(getReleasedFilmsWithoutSchedules)}">
                         Không có phim nào chưa có lịch chiếu
                     </div>
                 </div>
@@ -149,7 +156,7 @@
                     <h3>Phim sắp chiếu</h3>
                 </div>
                 <div class="main__table-wrap">
-                    <table class="main__table" th:if="${!#lists.isEmpty(upcomingFilms)}">
+                    <table class="main__table" th:if="${!#lists.isEmpty(getUpcomingFilms)}">
                         <thead>
                         <tr>
                             <th>ID</th>
@@ -159,7 +166,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="film : ${upcomingFilms}">
+                        <tr th:each="film : ${getUpcomingFilms}">
                             <td>
                                 <div class="main__table-text" th:text="${film.id}"></div>
                             </td>
@@ -176,7 +183,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <div class="empty-message" th:if="${#lists.isEmpty(upcomingFilms)}">
+                    <div class="empty-message" th:if="${#lists.isEmpty(getUpcomingFilms)}">
                         Không có phim sắp chiếu
                     </div>
                 </div>

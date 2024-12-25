@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.FileSystemNotFoundException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -22,7 +24,8 @@ import java.util.stream.Collectors;
 @Service
 public class FilmService {
     private final FilmRepository filmRepository;
-    private  final CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
+
     // Retrieve all film from the database
     public List<Film> getAllFilms() {
         return filmRepository.findAllByOrderByIdDesc();
@@ -43,7 +46,7 @@ public class FilmService {
                 .orElseThrow(() -> new RuntimeException("Film not found with id " + id));
     }
 
-    public Optional<Film> getFilmByName(String name){
+    public Optional<Film> getFilmByName(String name) {
         return Optional.ofNullable(filmRepository.findByName(name));
     }
 
@@ -93,53 +96,71 @@ public class FilmService {
     public List<Film> getFilmsByCategoryId(Long categoryId) {
         return filmRepository.findFilmsByCategoryId(categoryId);
     }
-/*
-    public String getSuggestedMovies() {
-        // Lấy danh sách phim từ database
-        List<Film> movies = filmRepository.findAll();
 
-        if (movies.isEmpty()) {
-            return "Hiện tại không có phim nào trong danh sách.";
-        }
+    /*
+        public String getSuggestedMovies() {
+            // Lấy danh sách phim từ database
+            List<Film> movies = filmRepository.findAll();
 
-        // Chọn ngẫu nhiên 1 phim
-        Random random = new Random();
+            if (movies.isEmpty()) {
+                return "Hiện tại không có phim nào trong danh sách.";
+            }
 
-        Film selectedMovie = movies.get(random.nextInt(movies.size()));
+            // Chọn ngẫu nhiên 1 phim
+            Random random = new Random();
 
-        // Tạo câu trả lời với thông tin chi tiết về phim
-        StringBuilder response = new StringBuilder();
-        response.append("Tôi gợi ý bạn xem phim ")
-                .append(selectedMovie.getName())
-                .append(". ");
+            Film selectedMovie = movies.get(random.nextInt(movies.size()));
 
-        // Thêm thông tin về thể loại nếu có
-        if (selectedMovie.getCategories() != null && !selectedMovie.getCategories().isEmpty()) {
-            response.append("Thể loại: ");
-            selectedMovie.getCategories().forEach(category ->
-                    response.append(category.getName()).append(", "));
-            // Xóa dấu phẩy cuối cùng
-            response.setLength(response.length() - 2);
-            response.append(". ");
-        }
+            // Tạo câu trả lời với thông tin chi tiết về phim
+            StringBuilder response = new StringBuilder();
+            response.append("Tôi gợi ý bạn xem phim ")
+                    .append(selectedMovie.getName())
+                    .append(". ");
 
-        // Thêm thông tin về thời lượng nếu có
-        if (selectedMovie.getDuration() > 0) {
-            response.append("Thời lượng: ")
-                    .append(selectedMovie.getDuration())
-                    .append(" phút. ");
-        }
+            // Thêm thông tin về thể loại nếu có
+            if (selectedMovie.getCategories() != null && !selectedMovie.getCategories().isEmpty()) {
+                response.append("Thể loại: ");
+                selectedMovie.getCategories().forEach(category ->
+                        response.append(category.getName()).append(", "));
+                // Xóa dấu phẩy cuối cùng
+                response.setLength(response.length() - 2);
+                response.append(". ");
+            }
 
-        // Thêm mô tả ngắn nếu có
-        if (selectedMovie.getDescription() != null && !selectedMovie.getDescription().isEmpty()) {
-            response.append("Tóm tắt: ")
-                    .append(selectedMovie.getDescription());
-        }
+            // Thêm thông tin về thời lượng nếu có
+            if (selectedMovie.getDuration() > 0) {
+                response.append("Thời lượng: ")
+                        .append(selectedMovie.getDuration())
+                        .append(" phút. ");
+            }
 
-        return response.toString();
-    }*/
+            // Thêm mô tả ngắn nếu có
+            if (selectedMovie.getDescription() != null && !selectedMovie.getDescription().isEmpty()) {
+                response.append("Tóm tắt: ")
+                        .append(selectedMovie.getDescription());
+            }
 
+            return response.toString();
+        }*/
+    public List<Film> getReleasedFilmsWithoutSchedules(List<Film> films) {
+        LocalDate today = LocalDate.now();
+        Date todayDate = Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
+        return films.stream()
+                .filter(film -> film.getOpeningday().before(todayDate) || film.getOpeningday().equals(todayDate)) // Đã đến ngày công chiếu (bao gồm cả ngày hiện tại)
+                .filter(film -> film.getSchedules() == null || film.getSchedules().isEmpty()) // Chưa có lịch chiếu
+                .collect(Collectors.toList());
+    }
+
+    // Lấy danh sách phim chưa công chiếu
+    public List<Film> getUpcomingFilms(List<Film> films) {
+        LocalDate today = LocalDate.now();
+        Date todayDate = Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        return films.stream()
+                .filter(film -> film.getOpeningday().after(todayDate)) // Ngày công chiếu sau ngày hiện tại
+                .collect(Collectors.toList());
+    }
     public Map<String, Object> getSuggestedMovies() {
         List<Film> movies = filmRepository.findAll();
         if (movies.isEmpty()) {

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{admin/layout}">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${title} +' '+${id}">Title</title>
+    <title th:text="${title} +' '+${room.name}">Title</title>
 
     <style>
         .back-button {
@@ -42,7 +42,7 @@
                 <!-- main title -->
                 <div class="col-12">
                     <div class="main__title">
-                        <h2 th:text="${title} +' '+ ${id}"></h2>
+                        <h2 th:text="${title} +' '+ ${room.name}"></h2>
                         <a th:href="@{/admin/cinemas}" class="main__title-link back-button" style="margin-left: auto">
                             <svg width="24" height="24" viewBox="0 0 489.394 489.394" fill="currentColor">
                                 <path d="M375.789,92.867H166.864l17.507-42.795c3.724-9.132,1-19.574-6.691-25.744c-7.701-6.166-18.538-6.508-26.639-0.879
@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <div class="schedule-selector">
+                    <div class="schedule-selector" th:if="${selectedScheduleId == null && hasNoSchedules ==true}">
                         <form method="get" th:action="@{/admin/rooms/{id}(id=${room.id})}">
                             <label for="schedule">Chọn lịch chiếu:</label>
                             <select name="scheduleId" id="schedule">

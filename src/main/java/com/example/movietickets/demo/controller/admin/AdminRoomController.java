@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -43,14 +44,26 @@ public class AdminRoomController {
     @GetMapping("/rooms/{id}")
     public String getRoom(@PathVariable Long id, Model model,
                           @RequestParam(value = "scheduleId", required = false) Long scheduleId) {
-        model.addAttribute("title", "Chi tiết phòng");
+        model.addAttribute("title", "Chi tiết ");
         Optional<Room> room = roomService.getRoomById(id);
 
+
+
         List<Schedule> schedules = scheduleService.getByRoomId(id);
+
+        if (schedules.isEmpty()) {
+            model.addAttribute("schedules", schedules);
+            model.addAttribute("seats", seatService.getAllSeatsByRoom(id));
+            model.addAttribute("room", room.get());
+            model.addAttribute("selectedScheduleId", null);
+            model.addAttribute("hasNoSchedules", true);
+            return "/admin/room/room-detail";
+        }
 
         // Nếu không có scheduleId, chọn mặc định lịch đầu tiên
         if (scheduleId == null && !schedules.isEmpty()) {
             scheduleId = schedules.get(0).getId();
+            model.addAttribute("selectedScheduleId", scheduleId);
         }
 
         List<SeatDto> seats;
@@ -70,20 +83,28 @@ public class AdminRoomController {
     }
 
     //gửi response ra view add
-    @GetMapping("/rooms/add")
-    public String showAddForm(Model model) {
-        model.addAttribute("room", new Room());
-        model.addAttribute("cinemas", cinemaService.getAllCinemas());
+//    @GetMapping("/rooms/add")
+//    public String showAddForm(Model model) {
+//        model.addAttribute("room", new Room());
+//        model.addAttribute("cinemas", cinemaService.getAllCinemas());
+//        return "/admin/room/room-add";
+//    }
+    @GetMapping("/room/add/{cinemaId}")
+    public String showAddForm(@PathVariable Long cinemaId, Model model) {
+        Cinema cinema = cinemaService.getCinemaById(cinemaId).orElseThrow(() -> new IllegalArgumentException("Can't find cinema with id: " +cinemaId));
+        Room room = new Room();
+        room.setCinema(cinema);
+
+        model.addAttribute("room", room);
+        model.addAttribute("cinema", cinema);
         return "/admin/room/room-add";
     }
 
-    //gọi phương thức mapp tới form add
     @PostMapping("/rooms/add")
     public String addRoom(@Valid Room room, BindingResult result) {
         roomService.addRoom(room);
-        return "redirect:/admin/rooms";
+        return "redirect:/admin/cinemas";
     }
-
     // GET request to show room edit form
     @GetMapping("/rooms/edit/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
