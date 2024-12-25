@@ -28,8 +28,8 @@ public class OCRService {
 
     public OCRService() {
         tesseract = new Tesseract();
-        tesseract.setDatapath("C:/Users/ADmin/AppData/Local/Programs/Tesseract-OCR/tessdata");
-
+//        tesseract.setDatapath("C:/Users/ADmin/AppData/Local/Programs/Tesseract-OCR/tessdata");
+        tesseract.setDatapath("src/main/resources/static/assets/tessdata");
 //        tesseract.setDatapath("C:/Program Files/Tesseract-OCR/tessdata");
         tesseract.setLanguage("vie+eng");
         tesseract.setTessVariable("user_defined_dpi", "300");
