@@ -30,7 +30,7 @@
         }
 
         .promotion-item {
-            width: 25%;
+            width: 24%;
             /* Chia đều thành 6 ghế mỗi hàng */
             background-color: #f8f9fa;
             border: 1px solid #ddd;
@@ -39,6 +39,8 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             text-align: center;
+            display: flex;
+            flex-direction: column;
             /* Căn giữa nội dung bên trong */
         }
 
@@ -65,7 +67,7 @@
         .promotion-item__actions {
             display: flex;
             gap: 10px;
-            margin-top: 10px;
+            margin-top: auto;
             justify-content: center;
             /* Căn giữa các nút */
         }
@@ -100,6 +102,7 @@
         .main__table-btn--delete {
             background-color: #2b2b31;
             text-decoration: none;
+            padding: 0 36px;
         }
 
         /* Responsive Design */
