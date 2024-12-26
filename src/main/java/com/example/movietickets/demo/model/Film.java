@@ -1,6 +1,7 @@
 package com.example.movietickets.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -59,6 +60,7 @@ public class Film {
 
     @ManyToOne
     @JoinColumn(name = "country_id")
+
     private Country country;
 
     @ManyToMany
@@ -74,6 +76,7 @@ public class Film {
     private List<Long> categoryIds = new ArrayList<>();
 
     @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Rating> ratings;
 
     @OneToMany(mappedBy = "film", cascade = CascadeType.ALL, orphanRemoval = true)

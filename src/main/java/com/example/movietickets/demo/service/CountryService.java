@@ -7,6 +7,7 @@ import com.example.movietickets.demo.repository.CountryRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,12 +31,12 @@ public class CountryService {
     public void addCountry(Country country) {
         countryRepository.save(country);
     }
-
+    @Transactional
     public void updateCountry(@NotNull Country country) {
-        Country existingCategory = countryRepository.findById(country.getId())
+        Country existingCountry = countryRepository.findById(country.getId())
                 .orElseThrow(() -> new IllegalStateException("Country with ID " + country.getId() + " does not exist."));
-        existingCategory.setName(country.getName());
-        countryRepository.save(existingCategory);
+        existingCountry.setName(country.getName());
+        countryRepository.save(existingCountry);
     }
 
     public void deleteCountry(Long id) {
@@ -43,6 +44,10 @@ public class CountryService {
             throw new IllegalStateException("Country with ID " + id + " does not exist.");
         }
         countryRepository.deleteById(id);
+    }
+
+    public boolean existsCountryByName(String name) {
+        return countryRepository.existsCountryByName(name.toLowerCase());
     }
 
 }

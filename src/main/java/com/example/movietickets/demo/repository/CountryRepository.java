@@ -13,4 +13,6 @@ import java.util.List;
 public interface CountryRepository extends JpaRepository<Country, Long> {
     @Query("SELECT cf FROM Country cf ORDER BY cf.id DESC")
     List<Country> findAllByOrderByIdDesc();
+
+    boolean existsCountryByName(String name);
 }

@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <div class="schedule-selector" th:if="${selectedScheduleId == null && hasNoSchedules ==true}">
+                    <div class="schedule-selector" th:if="${hasNoSchedules !=true}">
                         <form method="get" th:action="@{/admin/rooms/{id}(id=${room.id})}">
                             <label for="schedule">Chọn lịch chiếu:</label>
                             <select name="scheduleId" id="schedule">

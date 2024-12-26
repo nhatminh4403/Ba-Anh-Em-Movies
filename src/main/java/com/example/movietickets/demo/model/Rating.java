@@ -1,6 +1,8 @@
 package com.example.movietickets.demo.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -29,10 +31,13 @@ public class Rating {
 
     @ManyToOne
     @JoinColumn(name = "FILM_ID")
+    @JsonBackReference
+    @JsonIgnore
     private Film film;
 
     @ManyToOne
     @JoinColumn(name = "USER_ID", nullable = false)
+    @JsonIgnore
     private User user;
 
     public String getFormattedDate() {

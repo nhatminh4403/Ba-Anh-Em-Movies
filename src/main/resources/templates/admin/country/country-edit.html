@@ -26,11 +26,12 @@
                 </div>
                 <!-- form -->
                 <div class="col-12">
-                    <form th:action="@{/admin/countries/add}" th:object="${country}" method="POST" class="form">
+                    <form th:action="@{/admin/countries/edit}" th:object="${country}" method="POST" class="form">
                         <div class="row">
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-6">
+                                        <input type="hidden" th:field="*{id}" name="id"/>
                                         <input type="text" class="form__input" placeholder="Nhập tên quốc gia"
                                                th:field="*{name}" name="name" required/>
                                         <span class="text-danger" th:if="${#fields.hasErrors('name')}"

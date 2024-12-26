@@ -6,6 +6,7 @@ import com.example.movietickets.demo.service.CountryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,8 +43,14 @@ public class AdminCountryController {
 
     //gọi phương thức mapp tới form add
     @PostMapping("/countries/add")
-    public String addCountries(@Valid Country country, BindingResult result) {
+    public String addCountries(@Valid Country country, BindingResult result,Model model) {
         if (result.hasErrors()) {
+            var errors = result.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toArray(String[]::new);
+            model.addAttribute("errors", errors);
+            return "/admin/country/country-add";
+        }
+        if(countryService.existsCountryByName(country.getName())) {
+            model.addAttribute("errors","Quốc gia đã tồn tại");
             return "/admin/country/country-add";
         }
         countryService.addCountry(country);
@@ -57,15 +64,14 @@ public class AdminCountryController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid country Id:" + id));
         model.addAttribute("country", country);
         model.addAttribute("title", "Chỉnh sửa Quốc gia #" + country.getId());
-        return "/admin/country/country-add";
+        return "/admin/country/country-edit";
     }
 
     // POST request to update category
-    @PostMapping("/countries/edit/{id}")
-    public String updateCategory(@PathVariable("id") Long id, @Valid Country country, BindingResult result, Model model) {
+    @PostMapping("/countries/edit")
+    public String updateCategory(@Valid Country country, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            country.setId(id);
-            return "/admin/country/country-add";
+            return "/admin/country/country-edit";
         }
 
         countryService.updateCountry(country);
