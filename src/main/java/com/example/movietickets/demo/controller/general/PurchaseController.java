@@ -260,11 +260,9 @@ public class PurchaseController {
             // Lấy thông tin người dùng hiện tại
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             User user = getUserFromAuthentication(authentication);
-            long getPoints= calculatePoints(seats);
+            long getPoints = calculatePoints(seats);
             user.setPointSaving(getPoints);
-            // Kiểm tra tuổi từ trường age
-            // Áp dụng giảm giá vào tổng giá
-//            booking.setPrice(purchase.getTotalPrice() + comboPrice - discount);//cộng thêm giá từ food và trừ discount
+
             double discount =0;
             Promotion getPromotion =null;
             if(!promotionCode.equals("0-0")){
@@ -277,10 +275,10 @@ public class PurchaseController {
             }
             System.out.println(appliedPromoCode);
             if(!appliedPromoCode.isEmpty()){
-                Promotion promotion = promotionService.getPromotionByCode(appliedPromoCode);
+                getPromotion = promotionService.getPromotionByCode(appliedPromoCode);
 
-                if(promotion != null){
-                    discount = promotion.getPromotionDiscountRate();
+                if(getPromotion != null){
+                    discount = getPromotion.getPromotionDiscountRate();
                 }
             }
             booking.setPrice((long) (purchase.getTotalPrice() - purchase.getTotalPrice()*discount + comboPrice));//cộng thêm giá từ food và trừ discount
@@ -290,9 +288,7 @@ public class PurchaseController {
                 booking.setComboFood(comboFood);
             }
             System.out.println(booking.getPrice());
-            // Kiểm tra phương thức thanh toán
             if ("vnpay".equalsIgnoreCase(payment)) {
-                //return "redirect:/api/payment/create_payment?amount=" + purchase.getTotalPrice();
                 return "redirect:/api/payment/create_payment?scheduleId=" + scheduleId + "&amount=" + booking.getPrice() + "&comboId=" + comboId;
             }
             Long comboPriceInLong = (long) getComboPrice(comboId);
@@ -327,10 +323,14 @@ public class PurchaseController {
             if ("momo".equalsIgnoreCase(payment)) {
                 return "redirect:/api/payment/momo/create_momo?scheduleId=" + scheduleId + "&amount=" + booking.getPrice() + "&comboId=" + comboId;
             }
-            // Lấy thông tin người dùng hiện tại
-
-            if(getPromotion != null)
-                userService.removePromotionsFromUser(getPromotion.getId(),user.getUsername());
+            if (getPromotion != null) {
+                try {
+                    userService.removePromotionsFromUser(getPromotion.getId(), user.getUsername());
+                    System.out.println("Promotion removed successfully: " + getPromotion);
+                } catch (RuntimeException e) {
+                    System.err.println("Error removing promotion: " + e.getMessage());
+                }
+            }
 
             userService.updateUser(user);
             booking.setUser(user);

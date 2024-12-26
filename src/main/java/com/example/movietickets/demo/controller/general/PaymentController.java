@@ -434,9 +434,14 @@ public class PaymentController {
 
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                 User user = getUserFromAuthentication(authentication);
+                long getPoints = calculatePoints(seats);
+                System.out.println(" diem thuong "+getPoints);
+                System.out.println("dien cua user hien tai" + user.getPointSaving());
+                user.setPointSaving(user.getPointSaving()+getPoints);
+                System.out.println("dien cua user sau khi cập nhâật" + user.getPointSaving());
                 booking.setUser(user);
 
-
+                userService.updateUser(user);
                 bookingService.saveBooking(booking, seats, schedule);
                 momo.setBooking(booking);
                 momo.setPaymentMethod(payType);
@@ -450,7 +455,9 @@ public class PaymentController {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
                 String formattedDate = dateTime.format(formatter);
 
-                momo.setResponseTime(LocalDateTime.parse(formattedDate));
+// Chuyển đổi từ chuỗi đã định dạng ngược lại thành LocalDateTime nếu cần
+                LocalDateTime formattedDateTime = LocalDateTime.parse(formattedDate, formatter);
+                momo.setResponseTime(formattedDateTime);
 
                 paymentService.savePayment(momo);
                 // Luôn chuyển hướng đến trang thành công khi resultCode là 0
@@ -494,5 +501,17 @@ public class PaymentController {
         throw new UsernameNotFoundException("User not found");
     }
 
-
+    private long calculatePoints(List<Seat> seats) {
+        // Giả sử mỗi ghế có 10 điểm
+        Long totalPoint = 0L;
+        for(Seat seat : seats) {
+            if(seat.getSeattype().getType().equalsIgnoreCase("regular"))
+                totalPoint += seat.getSeattype().getPointGiving();
+            if(seat.getSeattype().getType().equalsIgnoreCase("VIP"))
+                totalPoint += seat.getSeattype().getPointGiving();
+            if (seat.getSeattype().getType().equalsIgnoreCase("couple"))
+                totalPoint += seat.getSeattype().getPointGiving();
+        }
+        return totalPoint;
+    }
 }

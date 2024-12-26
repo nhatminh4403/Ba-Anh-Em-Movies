@@ -43,7 +43,7 @@ public class Promotion {
 
     @Column(name = "point_to_redeem")
     private Long pointToRedeem = 0L;
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "promotions", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "promotions",  cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<User> user;
 }

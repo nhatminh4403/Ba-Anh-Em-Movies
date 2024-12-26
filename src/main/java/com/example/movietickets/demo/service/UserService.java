@@ -148,20 +148,33 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public void removePromotionsFromUser(Long id, String username) throws Exception {
-        Optional<User> user = userRepository.findByUsername(username);
-        Promotion promotion = promotionRepository.findById(id).orElse(null);
+    public void removePromotionsFromUser(Long id, String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (promotion != null) {
-            user.get().getPromotions().remove(promotion);
-        } else
-            throw new Exception("Lỗi");
+        Promotion promotion = promotionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Promotion not found"));
+
+        try {
+            if (user.getPromotions().contains(promotion)) {
+                // Remove the promotion from user's collection
+                user.getPromotions().remove(promotion);
+                // Remove the user from promotion's collection
+                promotion.getUser().remove(user);
+
+                // Save both entities
+                userRepository.save(user);
+                promotionRepository.save(promotion);
+            } else {
+                throw new RuntimeException("Promotion not found for this user");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error removing promotion: " + e.getMessage());
+        }
     }
-
 
     public List<Promotion> getPromotionsByUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
-
         return promotionRepository.getPromotionByUserId(user.map(User::getId).orElse(null));
     }
 
