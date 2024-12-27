@@ -137,7 +137,7 @@ public class AdminFilmController {
         existingFilm.setSubtitle(film.getSubtitle());
         existingFilm.setDuration(film.getDuration());
         existingFilm.setLimit_age(film.getLimit_age());
-        existingFilm.setQuanlity(film.getQuanlity());
+        existingFilm.setQuality(film.getQuality());
         existingFilm.setCountry(film.getCountry());
         List<Category> categories = categoryService.findAllById(film.getCategoryIds());
         existingFilm.setCategories(categories);

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +40,7 @@ public class FilmController {
     @GetMapping("/films")
     public String listFilms(Model model,
             @RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "9") Integer pageSize,
+            @RequestParam(defaultValue = "6") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortBy
 
     ) {

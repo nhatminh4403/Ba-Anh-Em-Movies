@@ -63,7 +63,7 @@ public class AdminFilmAPIController {
             @RequestParam("subtitle") String subtitle,
             @RequestParam("duration") Integer duration,
             @RequestParam("limit_age") String limit_age,
-            @RequestParam("quanlity") String quanlity,
+            @RequestParam("quality") String quality,
             @RequestParam("countryId") Long countryId,
             @RequestParam("categoryIds") List<Long> categoryIds,
             @RequestParam(value = "poster", required = false) MultipartFile poster,
@@ -71,7 +71,7 @@ public class AdminFilmAPIController {
     ) throws IOException {
         if (name == null || trailer == null || description == null || director == null ||
                 actor == null || openingday == null || subtitle == null || duration == null ||
-                limit_age == null || quanlity == null || countryId == null || categoryIds == null || categoryIds.isEmpty()) {
+                limit_age == null || quality == null || countryId == null || categoryIds == null || categoryIds.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("All fields are required and at least one category ID.");
         }
 
@@ -84,7 +84,7 @@ public class AdminFilmAPIController {
             film.setDirector(director);
             film.setActor(actor);
             film.setOpeningday(openingday);
-            film.setQuanlity(quanlity);
+            film.setQuality(quality);
             film.setSubtitle(subtitle);
             film.setLimit_age(limit_age);
 

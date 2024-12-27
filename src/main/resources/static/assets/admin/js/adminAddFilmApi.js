@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    fetch('http://localhost:8080/api/admin/countries')
+    fetch('/api/admin/countries')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => console.error('Error fetching countries:', error));
 });
 document.addEventListener('DOMContentLoaded', function () {
-    fetch('http://localhost:8080/api/admin/categories')
+    fetch('/api/admin/categories')
         .then(response => response.json())
         .then(categories => {
             const categorySelect = document.getElementById('category');
@@ -47,7 +47,7 @@ document.getElementById('addFilmForm').addEventListener('submit', function(event
 
     let formData = new FormData(this);
 
-    fetch('http://localhost:8080/api/admin/films', {
+    fetch('/api/admin/films', {
         method: 'POST',
         body: formData
     }).then(response => {

@@ -70,14 +70,7 @@
     <section class="banner-section">
         <div class="banner-bg bg_img bg-fixed" data-background="/assets/img/banner/banner02.jpg"
              style="background-image: url(&quot;/assets/img/banner/banner02.jpg&quot;);"></div>
-        <div class="container">
-            <div class="banner-content">
-                <h1 class="title bold">
-                    Săn <span class="color-theme">vé xem phim</span> ngay
-                </h1>
 
-            </div>
-        </div>
     </section>
 
     <section class="search-ticket-section padding-top pt-lg-0" th:object="${film}">
@@ -209,7 +202,7 @@
                                                 ></a
                                                 >
                                             </h5>
-                                            <p class="duration" th:text="${film.duration + ' phút | ' + film.quanlity}">
+                                            <p class="duration" th:text="${film.duration + ' phút | ' + film.quality}">
                                             </p>
 
                                             <div class="movie-tags" th:if="${film.categories != null}" th:each="category : ${film.categories}">
@@ -315,12 +308,12 @@
 
                         <div class="pagination-area text-center">
                             <a th:href="@{/films(pageNo=${currentPage - 1}, pageSize=${pageSize}, sortBy=${sortBy})}"
-                               th:if="${currentPage > 0}"><i class="fas fa-angle-double-left"></i><span>Prev</span></a>
+                               th:if="${currentPage > 0}"><i class="fas fa-angle-double-left"></i><span>Trang trứớc</span></a>
                             <a th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
                                th:href="@{/films(pageNo=${i}, pageSize=${pageSize}, sortBy=${sortBy})}"
                                th:text="${i + 1}" th:classappend="${currentPage == i} ? 'active'"></a>
                             <a th:href="@{/films(pageNo=${currentPage + 1}, pageSize=${pageSize}, sortBy=${sortBy})}"
-                               th:if="${currentPage < totalPages - 1}"><span>Next</span><i
+                               th:if="${currentPage < totalPages - 1}"><span>Trang sau</span><i
                                     class="fas fa-angle-double-right"></i></a>
                         </div>
 

@@ -23,7 +23,7 @@ public class Rating {
     @Column(name = "RATING_CONTENT")
     private String content;
 
-    @Column(name = "RATING_DAYCREAT")
+    @Column(name = "RATING_DAYCREATE")
     private LocalDateTime date;
 
     @Column(name = "RATING_STAR")

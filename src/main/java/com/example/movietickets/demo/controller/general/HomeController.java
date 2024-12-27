@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -31,7 +32,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model,@RequestParam(defaultValue = "0") Integer pageNo,
-                       @RequestParam(defaultValue = "9") Integer pageSize,
+                       @RequestParam(defaultValue = "6") Integer pageSize,
                        @RequestParam(defaultValue = "id") String sortBy) {
         List<Country> countries = countryService.getAllCountries();
         Page<Film> page = filmService.getAllFilmsForUser(pageNo, pageSize, sortBy);
@@ -40,7 +41,7 @@ public class HomeController {
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("countries", countries);
-        model.addAttribute("films", films);
+        model.addAttribute("films",films);
 
         // Add categories to session if they are not already there
         if (!model.containsAttribute("categories")) {

@@ -232,7 +232,7 @@
                                             <h5 class="title">
                                                 <a th:href="@{/films/film-details/{id}(id=${film.id})}" th:text="${film.name}"></a>
                                             </h5>
-                                            <p class="duration" th:text="${film.duration + ' phút | ' + film.quanlity}"></p>
+                                            <p class="duration" th:text="${film.duration + ' phút | ' + film.quality}"></p>
                                             <div class="movie-tags">
                                                 <div class="movie-tags" th:each="category : ${film.categories}">
                                                     <a th:href="@{/films/by-category/{id}(id=${category.id})}"

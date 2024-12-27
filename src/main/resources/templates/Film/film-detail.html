@@ -252,13 +252,12 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                     <div class="tab-item">
                                         <div sec:authorize="isAuthenticated()">
                                             <div th:if="${!hasRated}">
                                                 <div class="leave-comment">
-                                                    <h5 class="title">Leave a comment</h5>
+                                                    <h5 class="title">Để lại bình luận</h5>
                                                     <form class="rating-form" method="post"
                                                         th:action="@{/films/film-details/{id}/rating(id=${film.id})}"
                                                         th:object="${rating}" enctype="multipart/form-data">

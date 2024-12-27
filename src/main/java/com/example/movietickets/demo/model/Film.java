@@ -55,8 +55,8 @@ public class Film {
     @Column(name = "LIMIT_AGE")
     private String limit_age;
 
-    @Column(name = "QUANLITY")
-    private String quanlity;
+    @Column(name = "QUALITY")
+    private String quality;
 
     @ManyToOne
     @JoinColumn(name = "country_id")
