@@ -136,7 +136,8 @@ public class PurchaseController {
             List<Seat> seats = seatRepository.findByRoom(room);
             //add thêm trn header
             List<Category> categories = categoryService.getAllCategories();
-            model.addAttribute("categories", categories);
+            Film film =  filmService.getFilmByName(purchase.getFilmTitle()).get();
+            model.addAttribute("categories", film.getCategories());
             model.addAttribute("comboFoods", comboFoods);
             //lấy ra các seat booked
             model.addAttribute("purchase", purchase);

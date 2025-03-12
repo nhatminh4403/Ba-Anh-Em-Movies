@@ -97,7 +97,7 @@ public class FilmController {
         List<Country> countries = countryService.getAllCountries();
         List<Category> categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
-
+        model.addAttribute("country", countryService.getCountryById(countryId));
         model.addAttribute("films", films);
         model.addAttribute("countries", countries);
         model.addAttribute("countryId", countryId);
