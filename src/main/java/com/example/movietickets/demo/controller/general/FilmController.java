@@ -25,23 +25,23 @@ import java.util.Optional;
 @Controller("userFilmController")
 public class FilmController {
     @Autowired
-    private  final FilmService filmService;
+    private FilmService filmService;
     @Autowired
-    private  final CountryService countryService;
+    private CountryService countryService;
     @Autowired
-    private final CategoryService categoryService;
+    private CategoryService categoryService;
     @Autowired
-    private final ScheduleServiceImpl scheduleService;
+    private ScheduleServiceImpl scheduleService;
     @Autowired
-    private final RatingService ratingService;
+    private RatingService ratingService;
 
 
     // Hiển thị danh sách danh mục
     @GetMapping("/films")
     public String listFilms(Model model,
-            @RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "6") Integer pageSize,
-            @RequestParam(defaultValue = "id") String sortBy
+                            @RequestParam(defaultValue = "0") Integer pageNo,
+                            @RequestParam(defaultValue = "6") Integer pageSize,
+                            @RequestParam(defaultValue = "id") String sortBy
 
     ) {
         Page<Film> page = filmService.getAllFilmsForUser(pageNo, pageSize, sortBy);
@@ -55,7 +55,7 @@ public class FilmController {
         model.addAttribute("films", films);
         model.addAttribute("countries", countries);
         model.addAttribute("title", "Danh sách film");
-        return "Film/film-list";
+        return "film/film-list";
     }
 
     @GetMapping("/films/film-details/{id}")
@@ -88,7 +88,7 @@ public class FilmController {
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("countries", countryService.getAllCountries());
 
-        return "Film/film-detail";
+        return "film/film-detail";
     }
 
     @GetMapping("/films/by-country")
@@ -101,7 +101,7 @@ public class FilmController {
         model.addAttribute("films", films);
         model.addAttribute("countries", countries);
         model.addAttribute("countryId", countryId);
-        return "Film/films-by-country";
+        return "film/films-by-country";
     }
 
     @GetMapping("/films/by-category/{id}")
@@ -115,16 +115,17 @@ public class FilmController {
         model.addAttribute("category", category.get());
         model.addAttribute("films", films);
         model.addAttribute("countries", countries);
-        return "Film/films-by-category";  // Tên template view để hiển thị danh sách phim theo category
+        return "film/films-by-category";  // Tên template view để hiển thị danh sách phim theo category
     }
+
     @GetMapping("/films/search")
     public String searchFilm(@RequestParam("keyword") String keyword, Model model) {
         List<Film> filmsByName = filmService.searchFilmsByName(keyword);
-        model.addAttribute("keyword",keyword);
+        model.addAttribute("keyword", keyword);
         model.addAttribute("categories", categoryService.getAllCategories());
-        model.addAttribute("countries",countryService.getAllCountries());
+        model.addAttribute("countries", countryService.getAllCountries());
         model.addAttribute("filmsByName", filmsByName);
-        return "Film/film-search";
+        return "film/film-search";
     }
 }
 

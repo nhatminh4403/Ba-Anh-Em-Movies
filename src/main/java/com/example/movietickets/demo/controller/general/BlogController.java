@@ -40,7 +40,7 @@ public class BlogController {
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("blog", blog);
         model.addAttribute("categories", categoryService.getAllCategories());
-        return "/blog/blog-list";
+        return "blog/blog-list";
     }
 
     @GetMapping("/blog-details/{id}")

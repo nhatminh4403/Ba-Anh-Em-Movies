@@ -69,7 +69,7 @@ public class PurchaseController {
     private CategoryService categoryService;
 
     @Autowired
-    private final PaypalService paypalService;
+    private PaypalService paypalService;
     @Autowired
     private ExchangeCurrencyService exchangeCurrencyService;
     @Autowired
@@ -130,13 +130,12 @@ public class PurchaseController {
             model.addAttribute("totalPrice", formattedTotalPrice);
 
 
-
             List<ComboFood> comboFoods = comboFoodService.getAllComboFood();
             Room room = roomRepository.findByName(purchase.getRoomName());
             List<Seat> seats = seatRepository.findByRoom(room);
             //add thêm trn header
             List<Category> categories = categoryService.getAllCategories();
-            Film film =  filmService.getFilmByName(purchase.getFilmTitle()).get();
+            Film film = filmService.getFilmByName(purchase.getFilmTitle()).get();
             model.addAttribute("categories", film.getCategories());
             model.addAttribute("comboFoods", comboFoods);
             //lấy ra các seat booked
@@ -144,7 +143,7 @@ public class PurchaseController {
             model.addAttribute("seats", seats);
             model.addAttribute("scheduleId", scheduleId);
         }
-        return "Purchase/purchase";
+        return "purchase/purchase";
     }
 
 
@@ -178,7 +177,7 @@ public class PurchaseController {
 
     @GetMapping("/history")
     public String showPurchaseHistory(Model model, @RequestParam(required = false) String status,
-                                      @RequestParam(required = false) String message,RedirectAttributes redirectAttributes) {
+                                      @RequestParam(required = false) String message, RedirectAttributes redirectAttributes) {
         List<Booking> bookings = bookingService.getBookingsByCurrentUser(); // phương thức này để lấy các booking của người dùng hiện tại
         List<Category> categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
@@ -187,38 +186,42 @@ public class PurchaseController {
 //        boolean b = status.toLowerCase().contains(s.toLowerCase());
         if (status != null) {
             switch (status) {
-                case "success": case "Successful": case "Successful.":
+                case "success":
+                case "Successful":
+                case "Successful.":
                     redirectAttributes.addFlashAttribute("message", "Thanh toán thành công!");
                     message = "Thanh toán thành công!";
                     break;
                 case "failed":
-                    redirectAttributes.addFlashAttribute("message", "Thanh toán thất bại! Lỗi: " +message);
+                    redirectAttributes.addFlashAttribute("message", "Thanh toán thất bại! Lỗi: " + message);
                     break;
 
             }
         }
         System.out.println(status + "\n" + message);
-        return "Purchase/history";
+        return "purchase/history";
     }
+
     private long calculatePoints(List<Seat> seats) {
         // Giả sử mỗi ghế có 10 điểm
         Long totalPoint = 0L;
-        for(Seat seat : seats) {
-            if(seat.getSeattype().getType().equalsIgnoreCase("regular"))
+        for (Seat seat : seats) {
+            if (seat.getSeattype().getType().equalsIgnoreCase("regular"))
                 totalPoint += seat.getSeattype().getPointGiving();
-            if(seat.getSeattype().getType().equalsIgnoreCase("VIP"))
+            if (seat.getSeattype().getType().equalsIgnoreCase("VIP"))
                 totalPoint += seat.getSeattype().getPointGiving();
             if (seat.getSeattype().getType().equalsIgnoreCase("couple"))
                 totalPoint += seat.getSeattype().getPointGiving();
         }
         return totalPoint;
     }
+
     @PostMapping("/checkout")
     public String checkout(
             @RequestParam("payment") String payment,
             @RequestParam String comboId, //nhận String từ form purchase
             @RequestParam Long scheduleId,
-            @RequestParam ("promotionCode") String promotionCode,
+            @RequestParam("promotionCode") String promotionCode,
             @RequestParam("appliedPromoCode") String appliedPromoCode,
             @RequestParam("appliedDiscountRate") double appliedDiscountRate,
             RedirectAttributes redirectAttributes,
@@ -264,9 +267,9 @@ public class PurchaseController {
             long getPoints = calculatePoints(seats);
             user.setPointSaving(getPoints);
 
-            double discount =0;
-            Promotion getPromotion =null;
-            if(!promotionCode.equals("0-0")){
+            double discount = 0;
+            Promotion getPromotion = null;
+            if (!promotionCode.equals("0-0")) {
 
                 getPromotion = promotionService.getPromotionByCode(promotionCode);
 
@@ -275,14 +278,14 @@ public class PurchaseController {
                 }
             }
             System.out.println(appliedPromoCode);
-            if(!appliedPromoCode.isEmpty()){
+            if (!appliedPromoCode.isEmpty()) {
                 getPromotion = promotionService.getPromotionByCode(appliedPromoCode);
 
-                if(getPromotion != null){
+                if (getPromotion != null) {
                     discount = getPromotion.getPromotionDiscountRate();
                 }
             }
-            booking.setPrice((long) (purchase.getTotalPrice() - purchase.getTotalPrice()*discount + comboPrice));//cộng thêm giá từ food và trừ discount
+            booking.setPrice((long) (purchase.getTotalPrice() - purchase.getTotalPrice() * discount + comboPrice));//cộng thêm giá từ food và trừ discount
 
             if (comboFoodId != null) {
                 ComboFood comboFood = comboFoodService.getComboFoodById(comboFoodId).orElseThrow(() -> new EntityNotFoundException("Combo not found"));
@@ -298,8 +301,8 @@ public class PurchaseController {
             if ("paypal".equalsIgnoreCase(payment)) {
                 try {
                     String getCurrentURL = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-                    String cancelUrl = getCurrentURL+ "/purchase/cancel";
-                    String successUrl = getCurrentURL+ "/purchase/success?scheduleId=" + scheduleId;
+                    String cancelUrl = getCurrentURL + "/purchase/cancel";
+                    String successUrl = getCurrentURL + "/purchase/success?scheduleId=" + scheduleId;
 
                     Payment paypalPayment = paypalService.createPayment(totalPriceUSD.doubleValue(),
                             "USD",

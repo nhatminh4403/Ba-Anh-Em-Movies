@@ -52,7 +52,7 @@ public class SeatController {
         model.addAttribute("seats", seats);
         model.addAttribute("rooms", roomService.getAllRooms());
         model.addAttribute("selectedRoomId", roomId);
-        return "Seat/seat-list";
+        return "seat/seat-list";
     }
 
     @GetMapping("/schedules/{scheduleId}")
@@ -103,7 +103,7 @@ public class SeatController {
             model.addAttribute("cinemaAddress", cinemaAddress);
             model.addAttribute("roomName", roomName);
 
-            return "Seat/seat-choose"; // chuyển đến trang chọn ghế
+            return "seat/seat-choose"; // chuyển đến trang chọn ghế
         } else {
             return "redirect:/404"; // Redirect nếu không tìm thấy lịch chiếu
         }

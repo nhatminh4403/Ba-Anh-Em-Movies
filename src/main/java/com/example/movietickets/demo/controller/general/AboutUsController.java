@@ -22,6 +22,6 @@ public class AboutUsController {
 
         List<Category> categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories);
-        return "/about/about-us";
+        return "about/about-us";
     }
 }

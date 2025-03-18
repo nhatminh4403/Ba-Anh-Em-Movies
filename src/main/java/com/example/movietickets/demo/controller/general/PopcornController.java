@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PopcornController {
     @GetMapping()
     public String Popcorn() {
-        return "/popcorn/popcorn";
+        return "popcorn/popcorn";
     }
 }

@@ -22,16 +22,16 @@ import java.util.List;
 public class HomeController {
 
     @Autowired
-    private final CategoryService categoryService;
+    private CategoryService categoryService;
 
     @Autowired
-    private final FilmService filmService;
+    private FilmService filmService;
 
     @Autowired
-    private final CountryService countryService;
+    private CountryService countryService;
 
     @GetMapping("/")
-    public String home(Model model,@RequestParam(defaultValue = "0") Integer pageNo,
+    public String home(Model model, @RequestParam(defaultValue = "0") Integer pageNo,
                        @RequestParam(defaultValue = "6") Integer pageSize,
                        @RequestParam(defaultValue = "id") String sortBy) {
         List<Country> countries = countryService.getAllCountries();
@@ -41,13 +41,13 @@ public class HomeController {
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("countries", countries);
-        model.addAttribute("films",films);
+        model.addAttribute("films", films);
 
         // Add categories to session if they are not already there
         if (!model.containsAttribute("categories")) {
             model.addAttribute("categories", categoryService.getAllCategories());
         }
-        return "Home/index";
+        return "home/index";
     }
 
     /*@RequestParam(defaultValue = "0") Integer pageNo,

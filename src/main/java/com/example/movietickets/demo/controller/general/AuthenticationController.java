@@ -2,6 +2,7 @@ package com.example.movietickets.demo.controller.general;
 
 import com.example.movietickets.demo.model.User;
 import com.example.movietickets.demo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import jakarta.validation.Valid;
@@ -17,17 +18,18 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/login")
     public String login() {
-        return "/Authentication/sign-in";
+        return "authentication/sign-in";
     }
 
     @GetMapping("/register")
     public String register(@NotNull Model model) {
         model.addAttribute("user", new User()); // Thêm một đối tượng User mới vào model
-        return "/Authentication/sign-up";
+        return "authentication/sign-up";
     }
 
     @PostMapping("/register")
@@ -53,7 +55,7 @@ public class AuthenticationController {
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
                     .toArray(String[]::new);
             model.addAttribute("errors", errors);
-            return "/Authentication/sign-up"; // Trả về lại view "register" nếu có lỗi
+            return "authentication/sign-up"; // Trả về lại view "register" nếu có lỗi
         }
         String username = "User" + System.currentTimeMillis();
         user.setFullname(username);
@@ -64,6 +66,6 @@ public class AuthenticationController {
 
     @GetMapping("/404")
     public String error() {
-        return "/Error/404";
+        return "error/404";
     }
 }
