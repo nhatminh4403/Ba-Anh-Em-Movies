@@ -47,7 +47,7 @@ public class PromotionController {
             User user = userService.getUserByUsername(username);
             model.addAttribute("user", user);
         }
-            return "promotionRedemption/promotion-list";
+            return "promotion/promotion-list";
     }
 }
 
