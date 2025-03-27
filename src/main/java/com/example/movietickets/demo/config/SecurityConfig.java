@@ -5,6 +5,7 @@ import com.example.movietickets.demo.service.UserService;
 import com.example.movietickets.demo.ultillity.CustomLoginSuccessHandler;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -26,9 +27,10 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 @RequiredArgsConstructor // Lombok tự động tạo constructor có tham số cho tất cả các trường final.
 
 public class SecurityConfig {
-
-    private final UserService userService;
-    private final OauthService oauthService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private OauthService oauthService;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -66,7 +68,7 @@ public class SecurityConfig {
                                 "/films/film-details/**", "/schedules/**",
                                 "/cart", "/cart/**", "blog/details","/promotions",
                                 "/popcorn", "/movie/details", "/movie/seat-plan","/films/search",
-                                "/feedback", "/blog", "/blog/blog-details", "/about","/films/by-category/**","/dialogflow/webhook",
+                                "/feedback", "/blog", "/blog/blog-details","/blog/blog-details/**", "/about","/films/by-category/**","/dialogflow/webhook",
                                 "/blog/blog-details/{id}/comment")
                         .permitAll() // Cho phép truy cập không cần xác thực.
                         .requestMatchers("admin/movie/edit/**", "/admin/movie/add","/admin/bookings/detail/**",
