@@ -245,6 +245,21 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>com.microsoft.azure</groupId>
+                <artifactId>azure-webapp-maven-plugin</artifactId>
+                <version>1.1.0</version>
+                <configuration>
+                    <resourceGroup>your-resource-group</resourceGroup>
+                    <appName>your-app-name</appName>
+                    <region>your-desired-region</region>
+                    <runtime>
+                        <os>Linux</os> <!-- or Windows if you prefer -->
+                        <javaVersion>Java 8</javaVersion>
+                        <webContainer>JAVA</webContainer>
+                    </runtime>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
