@@ -254,8 +254,8 @@
                     <appName>your-app-name</appName>
                     <region>your-desired-region</region>
                     <runtime>
-                        <os>Linux</os> <!-- or Windows if you prefer -->
-                        <javaVersion>Java 8</javaVersion>
+                        <os>Window</os> <!-- or Windows if you prefer -->
+                        <javaVersion>Java 21</javaVersion>
                         <webContainer>JAVA</webContainer>
                     </runtime>
                 </configuration>
