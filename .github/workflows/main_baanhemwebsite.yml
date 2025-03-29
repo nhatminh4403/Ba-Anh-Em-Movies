@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'baanhemwebsite'
           slot-name: 'Production'
-          package: '*.jar'
+          package: 'target/*.jar'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9E3B4906845D4E2B8F99E3AA8D85805F }}
