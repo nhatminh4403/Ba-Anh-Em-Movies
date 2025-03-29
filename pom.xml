@@ -196,10 +196,6 @@
             <!-- Use the latest stable version -->
         </dependency>
         <!--END OCR-->
-      <dependency>
-        <groupId>org.flywaydb</groupId>
-        <artifactId>flyway-core</artifactId>
-      </dependency>
     </dependencies>
     <!--    <repositories>-->
     <!--        <repository>-->
